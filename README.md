@@ -1,6 +1,6 @@
-# GuardrailAnaphylaxis
+# Clanker-Repellent (Guardrail Anaphylaxis)
 
-GuardrailAnaphylaxis is a small, indexed payload-delivery tool for authorized repositories. Its
+Guardrail Anaphylaxis is a small, indexed payload-delivery tool for authorized repositories. Its
 core job is deliberately simple:
 
 ```text
