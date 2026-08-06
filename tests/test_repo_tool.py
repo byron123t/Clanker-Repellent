@@ -1,6 +1,7 @@
 import contextlib
 import io
 import json
+import os
 import tempfile
 import unittest
 from pathlib import Path
@@ -9,6 +10,30 @@ from llmddos.repo_tool import default_index_path, main
 
 
 class RepositoryToolTests(unittest.TestCase):
+    def test_zero_argument_add_uses_cwd_bundled_pool_and_replicated_default(self):
+        with tempfile.TemporaryDirectory() as directory:
+            repository = Path(directory) / "sample"
+            repository.mkdir()
+            source = repository / "app.py"
+            source.write_text("pass\n", encoding="utf-8")
+            previous = Path.cwd()
+            try:
+                os.chdir(repository)
+                with contextlib.redirect_stdout(io.StringIO()) as output:
+                    result = main(["add"])
+            finally:
+                os.chdir(previous)
+
+            document = json.loads(output.getvalue())
+            self.assertEqual(result, 0)
+            self.assertEqual(document["repository_root"], str(repository.resolve()))
+            self.assertEqual(document["strategy"], "replicated")
+            self.assertEqual(document["mode"], "dry-run")
+            self.assertEqual(document["payload_selection"], "bundled_conditions")
+            self.assertEqual(len(document["payload_pool"]), 3)
+            self.assertEqual(source.read_text(encoding="utf-8"), "pass\n")
+            self.assertFalse(default_index_path(repository).exists())
+
     def test_add_status_remove_and_guard_lifecycle(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
@@ -40,6 +65,7 @@ class RepositoryToolTests(unittest.TestCase):
             self.assertEqual(added, 0)
             self.assertTrue(index.is_file())
             self.assertEqual(add_result["index"], str(index))
+            self.assertEqual(add_result["payload_selection"], "explicit_files")
             self.assertIn("# first line", source.read_text(encoding="utf-8"))
             self.assertTrue((repository / "AGENTS.md").is_file())
 
@@ -128,6 +154,21 @@ class RepositoryToolTests(unittest.TestCase):
                     ]
                 )
 
+    def test_rejects_invalid_automatic_payload_count(self):
+        with tempfile.TemporaryDirectory() as directory:
+            repository = Path(directory) / "sample"
+            repository.mkdir()
+            (repository / "app.py").write_text("pass\n", encoding="utf-8")
+            with self.assertRaises(SystemExit), contextlib.redirect_stderr(io.StringIO()):
+                main(
+                    [
+                        "add",
+                        "--repo",
+                        str(repository),
+                        "--payload-count",
+                        "0",
+                    ]
+                )
 
 if __name__ == "__main__":
     unittest.main()

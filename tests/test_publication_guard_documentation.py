@@ -25,7 +25,7 @@ class PublicationGuardDocumentationTests(unittest.TestCase):
         for text in expected:
             with self.subTest(text=text):
                 self.assertIn(text, publication)
-        self.assertTrue(readme.startswith("# GuardrailAnaphylaxis\n"))
+        self.assertIn("Guardrail Anaphylaxis", readme.splitlines()[0])
         self.assertIn('name = "guardrail-anaphylaxis"', project)
         self.assertIn('guardrail-anaphylaxis = "llmddos.repo_tool:main"', project)
 

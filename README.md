@@ -14,37 +14,61 @@ paths, and exact insertion ranges so payloads can be removed without searching f
 
 ## Install
 
+Choose any of these environments. A virtual environment is recommended but not required.
+
+Standard `venv`:
+
 ```bash
 python3 -m venv .venv
 . .venv/bin/activate
-python3 -m pip install -e '.[dev]'
+python3 -m pip install -e .
 ```
 
-This installs the `guardrail-anaphylaxis` binary. From a source checkout, the equivalent entry
-point is `python3 scripts/guardrail.py`.
+Conda:
+
+```bash
+conda create -n guardrail-anaphylaxis python=3.11 pip
+conda activate guardrail-anaphylaxis
+python -m pip install -e .
+```
+
+No virtual environment—install into the current Python environment, or use its per-user package
+directory when you do not have system write access:
+
+```bash
+python3 -m pip install -e .
+# Alternatively:
+python3 -m pip install --user -e .
+```
+
+Each method installs the `guardrail-anaphylaxis` command. If a per-user scripts directory is not
+on `PATH`, run the source entry point directly:
+
+```bash
+python3 scripts/guardrail.py
+```
+
+Install development/test dependencies only when needed with `python3 -m pip install -e '.[dev]'`.
 
 ## The four commands
 
-Keep payload files outside the target repository. `add` is a dry run unless `--apply` is present.
+Run these inside the repository you want to process. `add` automatically selects three bundled
+payload mixtures, uses the `replicated` strategy, covers every eligible file, and performs only a
+dry run unless `--apply` is present.
 
 ```bash
-# 1. Preview comment delivery.
-guardrail-anaphylaxis add \
-  --repo /absolute/path/to/owned-repo \
-  --payload /absolute/path/to/payload.txt
+# 1. Preview comment delivery in the current repository.
+guardrail-anaphylaxis add
 
 # 2. Apply it and write the external index.
-guardrail-anaphylaxis add \
-  --repo /absolute/path/to/owned-repo \
-  --payload /absolute/path/to/payload.txt \
-  --apply
+guardrail-anaphylaxis add --apply
 
 # 3. Inspect or exactly remove the indexed payloads.
-guardrail-anaphylaxis status --repo /absolute/path/to/owned-repo
-guardrail-anaphylaxis remove --repo /absolute/path/to/owned-repo --apply
+guardrail-anaphylaxis status
+guardrail-anaphylaxis remove --apply
 
 # 4. Fail unless every indexed path is clean.
-guardrail-anaphylaxis guard --repo /absolute/path/to/owned-repo
+guardrail-anaphylaxis guard
 ```
 
 The default index is a hidden sibling of the target repository:
@@ -67,7 +91,10 @@ Choose a topology with `--strategy`:
 - `hub_spoke` line-chunks payloads in `LLMDDOS_EVAL_PAYLOAD.txt`; repository files receive only
   comments pointing to that carrier.
 
-Useful controls:
+Automatic selection is deterministic for the same `--seed`. Every selected mixture is rendered
+through `payloads/header.txt`. Use `--payload-count N` to change the automatic pool size. To
+override the bundled pool, keep custom payload files outside the target repository and pass them
+explicitly:
 
 ```bash
 guardrail-anaphylaxis add \
@@ -81,7 +108,9 @@ guardrail-anaphylaxis add \
   --apply
 ```
 
-- Repeat `--payload` for a deterministic multi-payload pool.
+- Repeat `--payload` for an explicit deterministic multi-payload pool.
+- `--repo /path/to/repo` overrides the current-directory default.
+- `--strategy` defaults to `replicated`.
 - `--positions` accepts `head`, `mid`, and `tail`; the default is `tail`.
 - `--instruction-files` adds `CLAUDE.md`, `AGENTS.md`, and `MEMORY.md`; pass a CSV subset to narrow
   it.

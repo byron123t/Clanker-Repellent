@@ -8,6 +8,7 @@ import json
 from pathlib import Path
 from typing import Dict, List, Optional, Sequence
 
+from .dataset import load_conditions
 from .payload_scatter import (
     DEFAULT_FILE_POSITIONS,
     DEFAULT_HUB_CHUNK_LINES,
@@ -65,6 +66,49 @@ def _payload_pool(repository: Path, paths: Sequence[Path]) -> List[Dict[str, str
     return payloads
 
 
+def _automatic_payload_pool(seed: int, payload_count: int) -> List[Dict[str, str]]:
+    """Select and render a deterministic pool from the bundled generated conditions."""
+
+    if payload_count < 1:
+        raise ValueError("--payload-count must be at least 1")
+    project_root = Path(__file__).resolve().parents[2]
+    conditions_path = project_root / "payloads/mixed_conditions.generated.jsonl"
+    template_path = project_root / "payloads/header.txt"
+    if not conditions_path.is_file() or not template_path.is_file():
+        raise ValueError(
+            "bundled payload pool is unavailable; use an editable source install "
+            "or pass --payload"
+        )
+    conditions = load_conditions(conditions_path)
+    candidates = [
+        row
+        for row in conditions
+        if row.get("placement") != "none" and bool(row.get("payload"))
+    ]
+    if payload_count > len(candidates):
+        raise ValueError(
+            f"--payload-count requests {payload_count}, but only "
+            f"{len(candidates)} bundled payloads are available"
+        )
+    ranked = sorted(
+        candidates,
+        key=lambda row: hashlib.sha256(
+            f"{seed}\x00{row['id']}".encode("utf-8")
+        ).hexdigest(),
+    )
+    # Reuse the evaluation renderer so every selected mixture receives header.txt.
+    from .cli import _build_scatter_payload_pool
+
+    return _build_scatter_payload_pool(
+        conditions,
+        ranked[0]["id"],
+        payload_count,
+        seed,
+        conditions_path,
+        template_path,
+    )
+
+
 def _summary(manifest: Dict) -> Dict:
     return {
         "mode": manifest["mode"],
@@ -85,16 +129,32 @@ def build_parser() -> argparse.ArgumentParser:
     subparsers = parser.add_subparsers(dest="command", required=True)
 
     add = subparsers.add_parser("add", help="comment-deliver payload files")
-    add.add_argument("--repo", type=Path, default=Path.cwd())
+    add.add_argument(
+        "--repo",
+        type=Path,
+        default=Path.cwd(),
+        help="target repository (default: current directory)",
+    )
     add.add_argument(
         "--payload",
         type=Path,
         action="append",
-        required=True,
-        help="UTF-8 payload file outside the target repo; repeat for a pool",
+        default=[],
+        help="override the automatic pool with a UTF-8 file; repeat for a pool",
+    )
+    add.add_argument(
+        "--payload-count",
+        type=int,
+        default=3,
+        help="number of automatically selected bundled payloads (default: 3)",
     )
     add.add_argument("--index", type=Path)
-    add.add_argument("--strategy", choices=STRATEGIES, default=STRATEGIES[0])
+    add.add_argument(
+        "--strategy",
+        choices=STRATEGIES,
+        default=STRATEGIES[0],
+        help="comment-delivery strategy (default: replicated)",
+    )
     add.add_argument("--positions", type=_csv, default=list(DEFAULT_FILE_POSITIONS))
     add.add_argument("--count", type=int)
     add.add_argument("--seed", type=int, default=20260805)
@@ -118,7 +178,12 @@ def build_parser() -> argparse.ArgumentParser:
         ("guard", "exit nonzero unless indexed paths are clean"),
     ):
         subparser = subparsers.add_parser(command, help=help_text)
-        subparser.add_argument("--repo", type=Path, default=Path.cwd())
+        subparser.add_argument(
+            "--repo",
+            type=Path,
+            default=Path.cwd(),
+            help="target repository (default: current directory)",
+        )
         subparser.add_argument("--index", type=Path)
         if command == "remove":
             subparser.add_argument(
@@ -138,7 +203,12 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
                 raise ValueError(
                     f"index already exists: {index_path}; remove or choose --index"
                 )
-            payloads = _payload_pool(repository, args.payload)
+            automatic = not args.payload
+            payloads = (
+                _automatic_payload_pool(args.seed, args.payload_count)
+                if automatic
+                else _payload_pool(repository, args.payload)
+            )
             manifest = scatter_payload(
                 repository,
                 payloads[0]["payload"],
@@ -168,6 +238,9 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
                 write_scatter_manifest(manifest, index_path)
             output = _summary(manifest)
             output["index"] = str(index_path)
+            output["payload_selection"] = (
+                "bundled_conditions" if automatic else "explicit_files"
+            )
             print(json.dumps(output, indent=2))
             return 0
 
