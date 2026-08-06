@@ -299,6 +299,11 @@ def build_parser() -> argparse.ArgumentParser:
         nargs="?",
         const=list(INSTRUCTION_FILES),
         type=_csv,
+        metavar="FILES",
+        help=(
+            "also target CLAUDE.md, AGENTS.md, and MEMORY.md; optionally pass "
+            "a comma-separated subset"
+        ),
     )
     add.add_argument(
         "--inline-source-lines", type=int, default=DEFAULT_INLINE_SOURCE_LINES

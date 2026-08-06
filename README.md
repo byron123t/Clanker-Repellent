@@ -121,8 +121,8 @@ anaphylaxis add --payload /private/a.txt --payload /private/b.txt --strategy fra
 - `--file path/to/file` targets one exact eligible file inside that root.
 - `--strategy` defaults to `replicated`.
 - `--positions` accepts `head`, `mid`, and `tail`; the repository tool defaults to `head,tail`.
-- `--instruction-files` adds `CLAUDE.md`, `AGENTS.md`, and `MEMORY.md`; pass a CSV subset to narrow
-  it.
+- `anaphylaxis add --instruction-files --apply` also targets `CLAUDE.md`, `AGENTS.md`, and
+  `MEMORY.md`; pass `--instruction-files AGENTS.md,CLAUDE.md` for a subset.
 - `--count N` selects a deterministic N-file sample; omitting it means every eligible file.
 - Fragmented inline density defaults to one chunk per 40 source lines and is configurable with
   `--inline-source-lines`.

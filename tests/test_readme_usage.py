@@ -30,6 +30,8 @@ class ReadmeUsageTests(unittest.TestCase):
             "anaphylaxis add --file src/app.py --apply",
             "`--file` and `--count` are mutually exclusive",
             "do not need `--file` again",
+            "anaphylaxis add --instruction-files --apply",
+            "--instruction-files AGENTS.md,CLAUDE.md",
             "Legacy sibling indexes",
             "`--strategy` defaults to `replicated`",
             "repository tool defaults to `head,tail`",

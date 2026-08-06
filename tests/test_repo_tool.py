@@ -268,6 +268,39 @@ class RepositoryToolTests(unittest.TestCase):
                     ]
                 )
 
+    def test_instruction_files_flag_without_value_adds_and_removes_all_defaults(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            repository = root / "sample"
+            repository.mkdir()
+            (repository / "app.py").write_text("pass\n", encoding="utf-8")
+            payload = root / "payload.txt"
+            payload.write_text("payload\n", encoding="utf-8")
+
+            with contextlib.redirect_stdout(io.StringIO()):
+                added = main(
+                    [
+                        "add",
+                        "--repo",
+                        str(repository),
+                        "--payload",
+                        str(payload),
+                        "--instruction-files",
+                        "--apply",
+                    ]
+                )
+            self.assertEqual(added, 0)
+            for filename in ("CLAUDE.md", "AGENTS.md", "MEMORY.md"):
+                self.assertIn(
+                    "payload", (repository / filename).read_text(encoding="utf-8")
+                )
+
+            with contextlib.redirect_stdout(io.StringIO()):
+                removed = main(["remove", "--repo", str(repository), "--apply"])
+            self.assertEqual(removed, 0)
+            for filename in ("CLAUDE.md", "AGENTS.md", "MEMORY.md"):
+                self.assertFalse((repository / filename).exists())
+
     def test_add_status_remove_and_guard_lifecycle(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
