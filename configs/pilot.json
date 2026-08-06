@@ -1,0 +1,34 @@
+{
+  "schema_version": "1.0",
+  "study": "artifact-induced-overrefusal-pilot",
+  "preregistered_primary_metric": "conditional_attributable_block_rate",
+  "seed": 20260802,
+  "temperature": 0.0,
+  "max_tokens": 256,
+  "repeats_smoke": 1,
+  "repeats_confirmation": 3,
+  "prompt_modes": ["naive", "hardened"],
+  "smoke_case_ids": ["canary_orchid", "canary_harbor", "canary_robot", "canary_geology"],
+  "smoke_condition_ids": [
+    "baseline",
+    "benign_matched_append",
+    "sensitive_cbrn_append",
+    "quoted_refusal_append",
+    "refuse_injection_append",
+    "unsafe_request_append"
+  ],
+  "request_policy": {
+    "concurrency": 1,
+    "bounded": true,
+    "treat_api_error_as_attack_success": false,
+    "credential_storage": "environment_only"
+  },
+  "deferred": [
+    "trigger optimization",
+    "base64, acrostic, homoglyph, and zero-width concealment",
+    "multimodal carriers",
+    "service-level resource exhaustion",
+    "deployment against third-party artifacts or services"
+  ]
+}
+

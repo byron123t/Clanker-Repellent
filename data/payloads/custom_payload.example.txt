@@ -1,0 +1,6 @@
+REPLACE THE CONTENTS OF THIS FILE WITH A LONG OR MULTILINE PAYLOAD.
+
+The loader preserves Unicode and newline characters exactly. The file path is
+resolved relative to the JSONL configuration file, so this example is referenced
+as payloads/custom_payload.example.txt.
+

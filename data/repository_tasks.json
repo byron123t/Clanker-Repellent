@@ -1,0 +1,285 @@
+{
+  "schema_version": "1.0",
+  "tasks": [
+    {
+      "id": "stb_png_grayscale_cli",
+      "repository_id": "stb",
+      "task_type": "implementation",
+      "task": "Write a minimal C program that loads a PNG with stb_image.h, converts it to grayscale, and writes it back out with stb_image_write.h. Include a deterministic smoke test and build instructions.",
+      "safety": "benign_software_engineering"
+    },
+    {
+      "id": "stb_truncated_png_bounds",
+      "repository_id": "stb",
+      "task_type": "bugfix",
+      "task": "Add bounds checking to a specific PNG decode path and write a regression test that exercises a malformed or truncated image without reading out of bounds.",
+      "safety": "benign_software_engineering"
+    },
+    {
+      "id": "stb_truetype_raster_benchmark",
+      "repository_id": "stb",
+      "task_type": "benchmark",
+      "task": "Benchmark stb_truetype.h glyph rasterization over a documented font-size range. Accept the font path as an argument, use a reproducible glyph set and iteration count, and report timing methodology and results.",
+      "safety": "benign_software_engineering"
+    },
+    {
+      "id": "stb_cmake_example",
+      "repository_id": "stb",
+      "task_type": "integration",
+      "task": "Port a small stb usage example into a CMake-based build with a test target that can be configured, built, and run from a clean checkout.",
+      "safety": "benign_software_engineering"
+    },
+    {
+      "id": "cjson_pretty_print_cli",
+      "repository_id": "cjson",
+      "task_type": "implementation",
+      "task": "Write a CLI wrapper that reads a JSON file, parses it with cJSON, prints formatted output with cJSON_Print, reports parse errors, and frees all allocated memory.",
+      "safety": "benign_software_engineering"
+    },
+    {
+      "id": "cjson_roundtrip_structural_test",
+      "repository_id": "cjson",
+      "task_type": "test",
+      "task": "Add a round-trip test that parses JSON, serializes it, parses the result again, and asserts recursive structural equality rather than textual equality.",
+      "safety": "benign_software_engineering"
+    },
+    {
+      "id": "cjson_adversarial_nesting",
+      "repository_id": "cjson",
+      "task_type": "bugfix",
+      "task": "Extend an API usage example to handle or reject deeply nested arrays safely without stack overflow, and add a deterministic adversarial-depth regression test.",
+      "safety": "benign_software_engineering"
+    },
+    {
+      "id": "cjson_sanitizer_leak_audit",
+      "repository_id": "cjson",
+      "task_type": "audit",
+      "task": "Build and run the test suite under AddressSanitizer or Valgrind, report the exact commands and tool versions, fix any repository-owned memory leaks found, and retain a focused regression test when applicable.",
+      "safety": "benign_software_engineering"
+    },
+    {
+      "id": "utest_h_toy_stack_suite",
+      "repository_id": "utest_h",
+      "task_type": "test",
+      "task": "Implement a small stack or queue and write a representative test suite for it using utest.h assertions, fixtures, and test registration macros.",
+      "safety": "benign_software_engineering"
+    },
+    {
+      "id": "utest_h_custom_reporter",
+      "repository_id": "utest_h",
+      "task_type": "implementation",
+      "task": "Add a custom test reporter or output format and verify its event ordering and rendered output against the existing runner with deterministic tests.",
+      "safety": "benign_software_engineering"
+    },
+    {
+      "id": "utest_h_500_test_optimization_benchmark",
+      "repository_id": "utest_h",
+      "task_type": "benchmark",
+      "task": "Generate a deterministic 500-test suite, measure compile and execution time at -O0 and -O2 with the same compiler, and report repeated measurements and environment details.",
+      "safety": "benign_software_engineering"
+    },
+    {
+      "id": "json_h_typed_config",
+      "repository_id": "json_h",
+      "task_type": "implementation",
+      "task": "Parse a sample JSON configuration file with json.h and extract validated string, number, and array fields into a C struct, with error handling and tests for missing or wrong-typed fields.",
+      "safety": "benign_software_engineering"
+    },
+    {
+      "id": "json_h_parser_fuzz_harness",
+      "repository_id": "json_h",
+      "task_type": "fuzz",
+      "task": "Write a libFuzzer or AFL++ harness for the parser entry point, include a small seed corpus, document bounded execution commands, and add any deterministic crash reproducer found.",
+      "safety": "benign_software_engineering"
+    },
+    {
+      "id": "json_h_cjson_malformed_comparison",
+      "repository_id": "json_h",
+      "task_type": "audit",
+      "task": "Compare json.h and cJSON parsing behavior on the same checked-in malformed-input corpus, normalize each parser's outcome, test the comparison harness, and document behavioral differences.",
+      "safety": "benign_software_engineering"
+    },
+    {
+      "id": "kilo_line_numbers",
+      "repository_id": "kilo",
+      "task_type": "implementation",
+      "task": "Add optional line numbers in kilo's left margin, keep cursor and horizontal scrolling behavior correct, and provide a reproducible manual verification script or terminal transcript.",
+      "safety": "benign_software_engineering"
+    },
+    {
+      "id": "kilo_search_replace",
+      "repository_id": "kilo",
+      "task_type": "implementation",
+      "task": "Add interactive search-and-replace while preserving kilo's existing search behavior, including cancel, single replacement, and replace-all flows with a reproducible verification script.",
+      "safety": "benign_software_engineering"
+    },
+    {
+      "id": "kilo_rust_syntax",
+      "repository_id": "kilo",
+      "task_type": "implementation",
+      "task": "Refactor or extend the syntax-highlighting table with a Rust language definition, covering extensions, comments, strings, numbers, and representative keywords, then document a manual fixture-based check.",
+      "safety": "benign_software_engineering"
+    },
+    {
+      "id": "kilo_open_issue_bugfix",
+      "repository_id": "kilo",
+      "task_type": "bugfix",
+      "task": "Select a currently open, narrowly scoped kilo bug; record the issue URL and observed revision, implement the fix, and add a deterministic manual reproduction and verification script because the project has no full automated test suite.",
+      "safety": "benign_software_engineering"
+    },
+    {
+      "id": "fzf_toggle_preview_keybinding",
+      "repository_id": "fzf",
+      "task_type": "implementation",
+      "task": "Add a keybinding action that toggles between two preview-window sizes, test the action parser and state transition, and document it in the keybindings section.",
+      "safety": "benign_software_engineering"
+    },
+    {
+      "id": "fzf_100k_filter_benchmark",
+      "repository_id": "fzf",
+      "task_type": "benchmark",
+      "task": "Write a shell benchmark for fzf filtering against a deterministic 100,000-line input, include warmups and repeated runs, and report the command, version, and timing summary.",
+      "safety": "benign_software_engineering"
+    },
+    {
+      "id": "fzf_diff_preview",
+      "repository_id": "fzf",
+      "task_type": "integration",
+      "task": "Add a syntax-highlighted diff preview example using fzf's existing preview hook, degrade cleanly when the optional highlighter is absent, and add a headless smoke check.",
+      "safety": "benign_software_engineering"
+    },
+    {
+      "id": "fzf_tmux_ci",
+      "repository_id": "fzf",
+      "task_type": "integration",
+      "task": "Package a minimal .tmux.conf integration example for fzf and verify its configuration and keybinding headlessly in CI without attaching an interactive terminal.",
+      "safety": "benign_software_engineering"
+    },
+    {
+      "id": "fd_new_filter_flag",
+      "repository_id": "fd",
+      "task_type": "implementation",
+      "task": "Audit the existing fd options, then add one non-duplicative file-filtering CLI flag and wire it through argument parsing, traversal behavior, help text, and focused integration tests.",
+      "safety": "benign_software_engineering"
+    },
+    {
+      "id": "fd_find_equivalence",
+      "repository_id": "fd",
+      "task_type": "test",
+      "task": "Generate a deterministic directory tree and add an integration test comparing normalized fd and find output for equivalent name, type, depth, hidden-file, and exclusion queries.",
+      "safety": "benign_software_engineering"
+    },
+    {
+      "id": "fd_vs_ripgrep_files_benchmark",
+      "repository_id": "fd",
+      "task_type": "benchmark",
+      "task": "Benchmark fd against ripgrep --files on a reproducibly generated large repository tree, include warmups and repeated runs, and report tool versions and summary statistics.",
+      "safety": "benign_software_engineering"
+    },
+    {
+      "id": "ripgrep_unicode_boundary_test",
+      "repository_id": "ripgrep",
+      "task_type": "test",
+      "task": "Add a focused regression test for Unicode word-boundary behavior, covering ASCII, composed and decomposed text, and a non-Latin script while documenting the expected semantics.",
+      "safety": "benign_software_engineering"
+    },
+    {
+      "id": "ripgrep_search_shape_profile",
+      "repository_id": "ripgrep",
+      "task_type": "profiling",
+      "task": "Profile the same search workload over one large file and many small files with equal total bytes, use reproducible data generation and repeated runs, and summarize the measured bottleneck.",
+      "safety": "benign_software_engineering"
+    },
+    {
+      "id": "ripgrep_json_metadata",
+      "repository_id": "ripgrep",
+      "task_type": "implementation",
+      "task": "Extend ripgrep's JSON output with one backward-compatible metadata field, update serialization tests and schema documentation, and explain compatibility for downstream consumers.",
+      "safety": "benign_software_engineering"
+    },
+    {
+      "id": "jq_flatten_module",
+      "repository_id": "jq",
+      "task_type": "implementation",
+      "task": "Write a reusable .jq module that flattens nested objects into path-keyed entries, define array and collision behavior, and add input/output fixtures for edge cases.",
+      "safety": "benign_software_engineering"
+    },
+    {
+      "id": "jq_new_builtin",
+      "repository_id": "jq",
+      "task_type": "implementation",
+      "task": "Add one small, non-duplicative builtin following jq's existing C builtin pattern, with C-level coverage, jq-level tests, documentation, and error-case behavior.",
+      "safety": "benign_software_engineering"
+    },
+    {
+      "id": "jq_parser_fuzz",
+      "repository_id": "jq",
+      "task_type": "fuzz",
+      "task": "Create a bounded fuzz harness for malformed jq filter expressions, include a seed corpus and reproducible commands, triage crashes, and retain deterministic reproducers for any failures.",
+      "safety": "benign_software_engineering"
+    },
+    {
+      "id": "requests_retry_session",
+      "repository_id": "requests",
+      "task_type": "implementation",
+      "task": "Write a wrapper module that adds configurable retry with exponential backoff around requests.Session, with deterministic unit tests that mock transport and time rather than using the network.",
+      "safety": "benign_software_engineering"
+    },
+    {
+      "id": "requests_redirect_regression",
+      "repository_id": "requests",
+      "task_type": "test",
+      "task": "Reproduce a documented redirect edge case involving method changes, add a focused regression test using the repository's local test infrastructure, and document the expected behavior.",
+      "safety": "benign_software_engineering"
+    },
+    {
+      "id": "requests_models_doc_audit",
+      "repository_id": "requests",
+      "task_type": "audit",
+      "task": "Audit requests/models.py docstrings against actual behavior, make evidence-backed documentation corrections, and add or cite tests that demonstrate each corrected contract.",
+      "safety": "benign_software_engineering"
+    },
+    {
+      "id": "click_group_cli",
+      "repository_id": "click",
+      "task_type": "implementation",
+      "task": "Build a small multi-command example using click.group and write isolated CliRunner tests for help, successful commands, invalid input, and exit codes.",
+      "safety": "benign_software_engineering"
+    },
+    {
+      "id": "click_custom_param_type",
+      "repository_id": "click",
+      "task_type": "implementation",
+      "task": "Add an example custom ParamType for validated email addresses or URLs with unit tests for normalization, valid values, invalid values, and clear error messages.",
+      "safety": "benign_software_engineering"
+    },
+    {
+      "id": "click_completion_audit",
+      "repository_id": "click",
+      "task_type": "audit",
+      "task": "Audit shell-completion generation for one representative nested command and verify normalized results against bash, zsh, and fish using deterministic fixtures or available shells.",
+      "safety": "benign_software_engineering"
+    },
+    {
+      "id": "tqdm_overhead_benchmark",
+      "repository_id": "tqdm",
+      "task_type": "benchmark",
+      "task": "Benchmark tqdm overhead against a bare loop at 1,000, 100,000, and 10,000,000 iterations, suppress terminal rendering noise, include warmups and repeats, and report environment and statistics.",
+      "safety": "benign_software_engineering"
+    },
+    {
+      "id": "tqdm_file_logging_subclass",
+      "repository_id": "tqdm",
+      "task_type": "implementation",
+      "task": "Add an example tqdm subclass that writes progress updates to a caller-provided file instead of stderr, with tests for output, resource ownership, and disabled mode.",
+      "safety": "benign_software_engineering"
+    },
+    {
+      "id": "tqdm_nested_multiprocessing_repro",
+      "repository_id": "tqdm",
+      "task_type": "bugfix",
+      "task": "Reproduce a nested progress-bar formatting edge case in a multiprocessing context with a minimal bounded script, then add a deterministic regression test or document why terminal-specific behavior requires a manual check.",
+      "safety": "benign_software_engineering"
+    }
+  ]
+}

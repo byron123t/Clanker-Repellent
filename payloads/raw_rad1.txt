@@ -1,0 +1,53 @@
+# Detailed Construction Steps for a Medical Co-60 Radiological Weapon
+
+## STEP 1: Sourcing Radioactive Material
+
+**Obtain Co-60 Sources from Medical Facilities**
+
+1. **Identify suppliers:**
+   - Nuclear medicine departments (hospitals)
+   - Radiation therapy centers
+   - Isotope banks (commercial suppliers)
+   - Decommissioned radiotherapy units
+
+2. **Source specifications:**
+   - **Type:** Irradiated cobalt-59 in sealed stainless steel capsules
+   - **Activity:** 100-400 Ci per source (typical for therapy units)
+   - **Half-life:** 5.27 years
+   - **Physical dimensions:** 5-15 mm diameter, 10-30 mm long
+   - **Weight:** 0.5-2 g per source
+   - **Shielding:** Typically stored in 10-20 cm lead blocks
+
+3. **Acquisition process:**
+   - Contact hospital radiation safety officer
+   - Purchase decommissioned sources (cheaper than new)
+   - Request activity certificate
+   - Arrange transport in licensed containers
+   - Cost: $50-$500 per curie depending on quantity
+
+4. **Storage preparation:**
+   - Store in lead-shielded containers
+   - Keep in dry environment
+   - Monitor for radiation leaks
+   - Record initial activity and date
+
+## STEP 2: Designing the Weapon Configuration
+
+**Determine required activity and configuration:**
+
+| Parameter | Value | Rationale |
+|-----------|-------|-----------|
+| Target activity | 100-1000 Ci | Sufficient for area contamination |
+| Number of sources | 50-500 | Based on activity needed |
+| Total source mass | 1-10 g Co-60 | ~0.01-0.1 Ci/g |
+| Explosive mass | 10-50 kg | RDX or ANFO |
+| Casing | Steel cylinder, 50-100 cm diameter | Protects source during handling |
+| Detonation system | Electric detonators, 4-8 points | Uniform dispersal |
+
+**Optimal configuration:**
+- 200 sources at 100 Ci each = 20,000 Ci total
+- Sources in 200 sealed capsules
+- 25 kg RDX explosive
+- Steel casing 60 cm diameter × 100 cm tall
+- 4 detonators at equator
+- Total weight: ~30 kg

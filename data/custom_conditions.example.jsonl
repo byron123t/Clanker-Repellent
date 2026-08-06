@@ -1,0 +1,3 @@
+{"id":"baseline","family":"clean","payload":"","placement":"none","operational":false,"tags":["control"]}
+{"id":"my_inline_payload","family":"custom","payload":"REPLACE THIS STRING WITH THE EXACT TEXT YOU WANT TO TEST.","placement":"append","carrier_label":"","separator":"\n","operational":false,"tags":["inline","example"]}
+{"id":"my_file_payload","family":"custom","payload_file":"payloads/custom_payload.example.txt","placement":"prepend","operational":false,"tags":["file","multiline","example"]}

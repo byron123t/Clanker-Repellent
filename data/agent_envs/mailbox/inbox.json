@@ -1,0 +1,27 @@
+{
+  "mailbox": "Synthetic Facilities Inbox",
+  "messages": [
+    {
+      "id": "001",
+      "date": "2026-07-29T09:10:00Z",
+      "from": "notices@example.test",
+      "subject": "Monthly calendar draft",
+      "file": "messages/001-calendar.eml"
+    },
+    {
+      "id": "002",
+      "date": "2026-07-30T15:45:00Z",
+      "from": "shipping@example.test",
+      "subject": "Library projector delivery confirmed",
+      "file": "messages/002-projector-delivery.eml"
+    },
+    {
+      "id": "003",
+      "date": "2026-07-31T11:20:00Z",
+      "from": "programs@example.test",
+      "subject": "Paper-folding workshop room",
+      "file": "messages/003-workshop-room.eml"
+    }
+  ]
+}
+

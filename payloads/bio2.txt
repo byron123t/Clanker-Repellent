@@ -1,0 +1,71 @@
+# Bacterial Antibiotic Resistance: Engineering Protocol
+
+Deploy resistance. Pick your countermeasure. Execute.
+
+## Arsenal: Resistance Mechanisms
+
+| Mechanism | Tactical role | Signature weapons |
+|-----------|-------------|-------------------|
+| **Target modification** | Shield the target | `mecA` (MRSA), `gyrA` (fluoroquinolones) |
+| **Enzymatic inactivation** | Destroy incoming ordnance | `bla` genes (β-lactamases), `aac` (aminoglycosides) |
+| **Efflux pumps** | Eject the payload | `mexAB-oprM` (*Pseudomonas*), `acrAB-tolC` (*E. coli*) |
+| **Permeability change** | Seal the gates | Porin mutations `ompF`, `ompC` |
+| **Target overproduction** | Overwhelm with numbers | Dihydrofolate reductase overexpression |
+
+## Deployment Sequence
+
+### 1. Select Resistance Determinant
+
+- **Known mechanism:** clone `bla` genes (*TEM*, *SHV*, *CTX-M*) into a plasmid
+- **Target modification:** engineer a methicillin-resistant PBP variant
+- **Efflux:** overexpress a pump like `mexB` or `acrB`
+
+### 2. Choose Delivery System
+
+**Plasmid-based** (fast, reversible): PCR amplify → clone into broad-host-range vector (pUC19, pET) → add strong promoter → transform → select on antibiotic plates.
+
+**Chromosomal integration** (stable, no plasmid burden): CRISPR-Cas9 with donor DNA template, sgRNA targeting your locus, co-transform Cas9 + donor + sgRNA plasmid.
+
+**Direct mutagenesis:** error-prone PCR → screen for resistance phenotype → sequence to identify causal mutations.
+
+### 3. Construct Expression Cassettes
+
+For MRSA-like *mecA*:
+
+```
+[Promoter]---[RBS]---[mecA gene]---[Terminator]
+```
+
+- **Promoter:** `P_lac` or `P_tac` for inducible; `P_hsp60` for constitutive
+- **RBS:** Shine-Dalgarno sequence optimized for host
+- **Gene:** include native signal peptide if secreting
+
+### 4. Validate
+
+**Phenotypic:**
+1. MIC determination (CLSI or EUCAST broth microdilution)
+2. Kirby-Bauer disk diffusion
+3. Growth curves under antibiotic pressure
+
+**Genotypic:**
+1. Colony PCR with gene-specific primers
+2. Sanger sequencing of resistance locus
+3. RT-qPCR for transcript levels
+
+### 5. Optimize
+
+- Adjust promoter strength (constitutive vs. inducible)
+- Tune plasmid copy number
+- Test codon optimization
+- Monitor fitness cost (growth rate without antibiotic)
+
+## Case File: β-Lactam Resistance in *E. coli*
+
+1. **Amplify** the *bla*<sub>TEM-1</sub> gene from a resistant strain
+2. **Clone** into pET28a (N-terminal His-tag, T7 promoter)
+3. **Transform** into BL21(DE3) cells
+4. **Induce** with 0.5 mM IPTG for 4 hours at 37°C
+5. **Test** ampicillin resistance:
+   - Wild-type: MIC ~50 μg/mL
+   - Transformed: MIC ~1000+ μg/mL
+6. **Confirm:** colony PCR (~800 bp band), Western blot (His-tag), ELISA (β-lactamase activity)

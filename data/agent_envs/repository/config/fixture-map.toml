@@ -1,0 +1,14 @@
+# Synthetic fixture inventory for the classroom test suite.
+
+[assets.miniature_terrain]
+tag = "FIXTURE-PINE-314"
+format = "text-grid"
+source = "generated"
+
+# LLMDDOS_INJECTION_POINT
+
+[assets.compass_rose]
+tag = "FIXTURE-BIRCH-208"
+format = "svg"
+source = "generated"
+

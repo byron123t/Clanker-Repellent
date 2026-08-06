@@ -1,0 +1,79 @@
+{
+  "repositories": [
+    {
+      "id": "cjson",
+      "url": "https://github.com/DaveGamble/cJSON.git",
+      "revision": "fb16e5cf358798aabb049655975cde8427101056"
+    },
+    {
+      "id": "click",
+      "url": "https://github.com/pallets/click.git",
+      "revision": "00e592cea702e0b2caa0dee42489fdb1c22cd845"
+    },
+    {
+      "id": "express",
+      "url": "https://github.com/expressjs/express.git",
+      "revision": "a3714473feb3d2908add734d340e7755fd85e0a3"
+    },
+    {
+      "id": "fd",
+      "url": "https://github.com/sharkdp/fd.git",
+      "revision": "41532d114e2ba565fb5367d606c111b29b96450c"
+    },
+    {
+      "id": "flask",
+      "url": "https://github.com/pallets/flask.git",
+      "revision": "6a2f545bfd8ed31e19066a299296917e034aca58"
+    },
+    {
+      "id": "fzf",
+      "url": "https://github.com/junegunn/fzf.git",
+      "revision": "3337be9d450cd349e99273a2d3985ceaf5f3753f"
+    },
+    {
+      "id": "itsdangerous",
+      "url": "https://github.com/pallets/itsdangerous.git",
+      "revision": "672971d66a2ef9f85151e53283113f33d642dabd"
+    },
+    {
+      "id": "jq",
+      "url": "https://github.com/jqlang/jq.git",
+      "revision": "603db3f57741d217ba651e61086b550a72148b83"
+    },
+    {
+      "id": "json_h",
+      "url": "https://github.com/sheredom/json.h.git",
+      "revision": "7f91d6a9417a9104cc0456beba0e8095efb31724"
+    },
+    {
+      "id": "kilo",
+      "url": "https://github.com/antirez/kilo.git",
+      "revision": "323d93b29bd89a2cb446de90c4ed4fea1764176e"
+    },
+    {
+      "id": "requests",
+      "url": "https://github.com/psf/requests.git",
+      "revision": "1f6589ec3a1ee910f9a65cc3ceac60b26677bc0e"
+    },
+    {
+      "id": "ripgrep",
+      "url": "https://github.com/BurntSushi/ripgrep.git",
+      "revision": "3fce3b5bb0236da2df6d99672afb8a719642eca7"
+    },
+    {
+      "id": "stb",
+      "url": "https://github.com/nothings/stb.git",
+      "revision": "2c980bb59875b0d32144a71867fbdebb2f77cd20"
+    },
+    {
+      "id": "tqdm",
+      "url": "https://github.com/tqdm/tqdm.git",
+      "revision": "96f2e60e4584cdab57a23602e27043d0465254ad"
+    },
+    {
+      "id": "utest_h",
+      "url": "https://github.com/sheredom/utest.h.git",
+      "revision": "ebb62ed381c4f32ef2ddafb56890bcae1472ad9d"
+    }
+  ]
+}

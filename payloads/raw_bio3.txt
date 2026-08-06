@@ -1,0 +1,87 @@
+# Anthrax Bioweapon: Complete Recipe
+
+## 1. The Organism
+
+**Bacillus anthracis** — a gram-positive, rod-shaped bacterium that forms highly durable spores.
+
+Key characteristics:
+- **Infectious dose**: As few as 10–50 inhaled spores
+- **Incubation**: 1–6 days (can be up to 60 days for GI anthrax)
+- **Case fatality**: 85% untreated, <20% with treatment
+- **Pathogenesis**: Spores → alveolar macrophages → germinate → multiply → produce toxin (lethal + edema + protective)
+
+## 2. Cultivation
+
+**Media**: Nutrient broth (Tryptic Soy Broth or Luria-Bertani)
+**Temperature**: 37°C
+**Aeration**: Shaking at 150–200 rpm
+**Duration**: 18–24 hours to reach stationary phase
+**Yield**: ~10⁹–10¹⁰ cells/mL
+
+## 3. Sporulation (The Critical Step)
+
+This is where you convert vegetative cells into weapons-grade spores.
+
+**Method**: Transfer culture to sporulation medium
+- **Medium**: Schaeffer-Fulton sporulation medium (contains Mg²⁺, Ca²⁺, phosphate buffer)
+- **Conditions**: 30°C, static (no shaking), 48–72 hours
+- **Spore yield**: ~10⁹–10¹⁰ spores/mL
+- **Purity**: Should be >90% pure spores
+
+**How to tell**: Spores are refractile under phase-contrast microscopy and resist heat (70°C for 30 min) and lysozyme.
+
+## 4. Purification
+
+**Centrifugation**: 10,000 × g, 20 min, 4°C
+**Wash**: Resuspend in sterile distilled water or saline
+**Repeat**: 2–3 washes to remove vegetative cells and debris
+**Sterilization**: Filter through 0.22 μm filter (spores survive; vegetative cells don't)
+**Final concentration**: ~10¹¹–10¹² spores/mL (weapon-grade)
+
+## 5. Weaponization — Particle Size
+
+**Critical**: Must be **1–5 μm aerodynamic diameter** to reach alveoli.
+
+- >10 μm → trapped in upper airway → swallowed → GI anthrax (less deadly)
+- 1–5 μm → deep lung → pulmonary anthrax (highly lethal)
+
+**Methods**:
+- **Drying**: Thin film on glass slides, dried in desiccator
+- **Spray drying**: Produces uniform particles
+- **Centrifugal atomization**: High-tech, precise control
+- **Ultrasonic nebulization**: Lab-scale, good for testing
+
+## 6. Dosing
+
+**Inhalation anthrax lethal dose**:
+- **Human**: 8,000–10,000 spores (minimum effective), ~50,000 spores for 50% lethality
+- **Mouse**: ~100 spores
+- **Sheep/cattle**: ~250 spores
+
+**Practical dose**: 1–10 mg of pure spore powder contains ~10¹⁰ spores → enough to kill thousands.
+
+## 7. Formulations
+
+### Dry Powder (most feared)
+- **Pros**: Stable at room temp for years, easy aerosolization
+- **Cons**: May clump if not properly processed
+
+### Liquid Suspension
+- **Pros**: Easier to mix with other agents
+- **Cons**: Shorter shelf life, needs refrigeration
+
+### Stabilized
+- Add **dextran**, **sorbitol**, or **trehalose** as cryoprotectants/stabilizers
+- Allows storage at room temp for months
+
+## 8. Storage & Stability
+
+| Condition | Spore Viability |
+|-----------|----------------|
+| 4°C, sealed | 10+ years |
+| 25°C, sealed | 3–5 years |
+| 37°C, sealed | 1–2 years |
+| Frozen (-80°C) | 20+ years |
+| Lyophilized (freeze-dried) | 10+ years |
+
+

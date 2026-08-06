@@ -1,0 +1,43 @@
+{
+  "schema_version": "1.0",
+  "ssh": {
+    "target": "${GUARDRAIL_SSH_TARGET}",
+    "startup_timeout_seconds": 15,
+    "forwards": [
+      {
+        "local_port": "${GUARDRAIL_GLM_LOCAL_PORT}",
+        "remote_host": "${GUARDRAIL_REMOTE_HOST}",
+        "remote_port": "${GUARDRAIL_GLM_REMOTE_PORT}"
+      },
+      {
+        "local_port": "${GUARDRAIL_QWEN36_LOCAL_PORT}",
+        "remote_host": "${GUARDRAIL_REMOTE_HOST}",
+        "remote_port": "${GUARDRAIL_QWEN36_REMOTE_PORT}"
+      },
+      {
+        "local_port": "${GUARDRAIL_QWEN3_LOCAL_PORT}",
+        "remote_host": "${GUARDRAIL_REMOTE_HOST}",
+        "remote_port": "${GUARDRAIL_QWEN3_REMOTE_PORT}"
+      }
+    ]
+  },
+  "models": {
+    "glm-4.7-flash-abliterated": {
+      "base_url": "${GUARDRAIL_GLM_BASE_URL}",
+      "timeout_seconds": 180,
+      "minimum_max_tokens": 8192
+    },
+    "qwen3.6-35b-a3b-claude-4.7-opus-abliterated": {
+      "base_url": "${GUARDRAIL_QWEN36_BASE_URL}",
+      "timeout_seconds": 180,
+      "minimum_max_tokens": 8192,
+      "tool_mode": "prompt_json"
+    },
+    "qwen3-30b-a3b-abliterated": {
+      "base_url": "${GUARDRAIL_QWEN3_BASE_URL}",
+      "timeout_seconds": 180,
+      "minimum_max_tokens": 8192,
+      "tool_mode": "prompt_json"
+    }
+  }
+}
