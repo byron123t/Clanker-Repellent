@@ -170,7 +170,7 @@ def build_parser() -> argparse.ArgumentParser:
         or not runtime_environment.get("LLMDDOS_API_KEY")
         else "LLMDDOS_API_KEY"
     )
-    parser = argparse.ArgumentParser(prog="guardrail-anaphylaxis")
+    parser = argparse.ArgumentParser(prog="guardrail-eval")
     subparsers = parser.add_subparsers(dest="command", required=True)
 
     validate = subparsers.add_parser("validate", help="validate benchmark datasets")

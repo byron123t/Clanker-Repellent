@@ -106,6 +106,63 @@ class PayloadScatterTests(unittest.TestCase):
             self.assertIn("// payload", (root / "MANUAL.adoc").read_text(encoding="utf-8"))
             self.assertNotIn("payload", (root / "ignored.json").read_text(encoding="utf-8"))
 
+    def test_explicit_target_paths_select_only_requested_eligible_files(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            selected = root / "src/selected.py"
+            selected.parent.mkdir()
+            selected.write_text("selected = True\n", encoding="utf-8")
+            untouched = root / "untouched.py"
+            untouched.write_text("untouched = True\n", encoding="utf-8")
+
+            manifest = scatter_payload(
+                root,
+                "payload",
+                condition_id="single",
+                target_paths=[Path("src/selected.py")],
+                seed=3,
+                apply=True,
+            )
+
+            self.assertEqual(manifest["selection_mode"], "explicit_files")
+            self.assertEqual(manifest["requested_injections"], 1)
+            self.assertEqual(manifest["requested_paths"], ["src/selected.py"])
+            self.assertEqual(manifest["eligible_files"], 2)
+            self.assertEqual(manifest["source_files_selected"], 1)
+            self.assertEqual(manifest["injections"][0]["path"], "src/selected.py")
+            self.assertIn("payload", selected.read_text(encoding="utf-8"))
+            self.assertEqual(
+                untouched.read_text(encoding="utf-8"), "untouched = True\n"
+            )
+
+    def test_explicit_target_paths_reject_unsafe_duplicate_and_ineligible_values(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "app.py").write_text("pass\n", encoding="utf-8")
+            (root / "data.json").write_text("{}\n", encoding="utf-8")
+            cases = (
+                ("count and target_paths", {"target_paths": ["app.py"], "count": 1}),
+                ("at least one", {"target_paths": []}),
+                ("path strings", {"target_paths": [1]}),
+                ("unsafe target path", {"target_paths": [root / "app.py"]}),
+                ("unsafe target path", {"target_paths": ["../app.py"]}),
+                ("unsafe target path", {"target_paths": ["."]}),
+                ("duplicate target path", {"target_paths": ["app.py", "app.py"]}),
+                ("ineligible", {"target_paths": ["data.json"]}),
+                ("ineligible", {"target_paths": ["missing.py"]}),
+            )
+            for message, options in cases:
+                with self.subTest(options=options), self.assertRaisesRegex(
+                    ValueError, message
+                ):
+                    scatter_payload(
+                        root,
+                        "payload",
+                        condition_id="single",
+                        seed=3,
+                        **options,
+                    )
+
     def test_mainstream_languages_build_files_and_test_sources_are_eligible(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)

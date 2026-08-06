@@ -1,7 +1,7 @@
 # Optional evaluation harness
 
 The evaluation layer compares clean and payloaded copies of pinned benign repositories. It is not
-required for the four-command `guardrail-anaphylaxis` repository tool.
+required for the four-command `anaphylaxis` repository tool.
 
 ## Conditions and payload pools
 
@@ -77,7 +77,7 @@ Git. Codex uses workspace-write/no-approval mode; Claude uses permission mode `a
 Use the primary CLI for a prepared workspace:
 
 ```bash
-guardrail-anaphylaxis status \
+anaphylaxis status \
   --repo data/benign_repos/injected/with_instruction_files/replicated/stb \
   --index data/benign_repos/injected/with_instruction_files/evaluation-manifest.json
 ```

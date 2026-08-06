@@ -22,7 +22,7 @@ fail_under = 100
 show_missing = true
 
 [project.scripts]
-guardrail-anaphylaxis = "llmddos.repo_tool:main"
+anaphylaxis = "llmddos.repo_tool:main"
 guardrail-eval = "llmddos.cli:main"
 llmddos = "llmddos.cli:main"
 

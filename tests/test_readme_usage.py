@@ -11,20 +11,29 @@ class ReadmeUsageTests(unittest.TestCase):
         documentation = " ".join(readme.split())
         expected = (
             "## The four commands",
-            "guardrail-anaphylaxis add",
-            "guardrail-anaphylaxis status",
-            "guardrail-anaphylaxis remove",
-            "guardrail-anaphylaxis guard",
-            "python3 scripts/guardrail.py",
+            "anaphylaxis add",
+            "anaphylaxis status",
+            "anaphylaxis remove",
+            "anaphylaxis guard",
+            "python3 scripts/anaphylaxis.py",
             "Standard `venv`",
-            "conda create -n guardrail-anaphylaxis",
+            "conda create -n anaphylaxis",
             "No virtual environment",
             "python3 -m pip install --user -e .",
             "payload text files → language-appropriate comments",
             "automatically selects three bundled payload mixtures",
-            "guardrail-anaphylaxis add --apply",
-            "current-directory default",
+            "anaphylaxis add --apply",
+            "Current-directory mode is the default",
+            "index at `./.anaphylaxis-index.json`",
+            "`--git-repo` discovers the enclosing Git worktree",
+            "anaphylaxis remove --git-repo --apply",
+            "anaphylaxis add --file src/app.py --apply",
+            "`--file` and `--count` are mutually exclusive",
+            "do not need `--file` again",
+            "Legacy sibling indexes",
             "`--strategy` defaults to `replicated`",
+            "repository tool defaults to `head,tail`",
+            "N = max(1, ceil(physical source lines / --inline-source-lines))",
             "Repeat `--payload`",
             "omitting it means every eligible file",
             "Publication automation is cleanup/block-only",
@@ -36,6 +45,7 @@ class ReadmeUsageTests(unittest.TestCase):
                 self.assertIn(text, documentation)
 
         self.assertNotIn("scripts/launch_repo_agents.py", readme)
+        self.assertNotIn("guardrail-anaphylaxis add", readme)
         self.assertLess(len(readme.splitlines()), 200)
 
     def test_only_three_top_level_guides_remain(self):

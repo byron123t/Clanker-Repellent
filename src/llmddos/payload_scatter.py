@@ -662,6 +662,7 @@ def scatter_payload(
     apply: bool = False,
     max_file_bytes: int = DEFAULT_MAX_FILE_BYTES,
     extensions: Optional[Iterable[str]] = None,
+    target_paths: Optional[Iterable[str]] = None,
     strategy: str = STRATEGY_REPLICATED,
     file_positions: Optional[Iterable[str]] = None,
     instruction_files: Optional[Iterable[str]] = None,
@@ -706,6 +707,38 @@ def scatter_payload(
         for candidate in candidates
         if candidate[0].relative_to(root).as_posix() not in excluded_source_paths
     ]
+    eligible_count = len(candidates)
+    explicit_paths: Optional[List[str]] = None
+    if target_paths is not None:
+        if count is not None:
+            raise ValueError("count and target_paths cannot be used together")
+        requested_paths = list(target_paths)
+        if not requested_paths:
+            raise ValueError("target_paths must contain at least one path")
+        explicit_paths = []
+        seen_paths = set()
+        for value in requested_paths:
+            if not isinstance(value, (str, Path)):
+                raise ValueError("target_paths must contain path strings")
+            relative = Path(value)
+            if relative.is_absolute() or relative == Path(".") or ".." in relative.parts:
+                raise ValueError(f"unsafe target path: {value}")
+            normalized = relative.as_posix()
+            if normalized in seen_paths:
+                raise ValueError(f"duplicate target path: {normalized}")
+            seen_paths.add(normalized)
+            explicit_paths.append(normalized)
+        by_path = {
+            candidate[0].relative_to(root).as_posix(): candidate
+            for candidate in candidates
+        }
+        unavailable = [path for path in explicit_paths if path not in by_path]
+        if unavailable:
+            raise ValueError(
+                "target files are missing, unsafe, or ineligible: "
+                + ", ".join(unavailable)
+            )
+        candidates = [by_path[path] for path in explicit_paths]
     ranked = sorted(
         candidates,
         key=lambda item: _rank(seed, item[0].relative_to(root).as_posix()),
@@ -995,10 +1028,15 @@ def scatter_payload(
         "inline_source_lines": inline_source_lines,
         "hub_chunk_lines": hub_chunk_lines,
         "instruction_files": list(instruction_names),
-        "requested_injections": count,
-        "selection_mode": "all_eligible" if count is None else "fixed_count",
+        "requested_injections": len(explicit_paths) if explicit_paths is not None else count,
+        "requested_paths": explicit_paths,
+        "selection_mode": (
+            "explicit_files"
+            if explicit_paths is not None
+            else "all_eligible" if count is None else "fixed_count"
+        ),
         "source_files_selected": effective_count,
-        "eligible_files": len(candidates),
+        "eligible_files": eligible_count,
         "files_changed": len(injections),
         "placements_written": sum(
             len(record.get("placements", ())) for record in injections

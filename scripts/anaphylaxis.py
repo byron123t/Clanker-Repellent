@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run the small GuardrailAnaphylaxis repository payload CLI."""
+"""Run the small Anaphylaxis repository payload CLI."""
 
 from __future__ import annotations
 

@@ -35,7 +35,7 @@ routes use prompt-JSON tool compatibility; GLM uses native tools. The default ma
 context controls are documented by `--help` and `/settings`.
 
 The abliterated endpoints are not automatic payload generators. Candidate drafting is manual and
-reviewed; repository addition is a separate explicit `guardrail-anaphylaxis add --apply` action.
+reviewed; repository addition is a separate explicit `anaphylaxis add --apply` action.
 The system does not optimize, mutate, or publish evasive variants automatically.
 
 ## Measurement and logging

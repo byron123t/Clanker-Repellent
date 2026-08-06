@@ -5,20 +5,23 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
+import subprocess
+import tempfile
 from pathlib import Path
-from typing import Dict, List, Optional, Sequence
+from typing import Dict, List, Optional, Sequence, Tuple
 
 from .dataset import load_conditions
 from .payload_scatter import (
-    DEFAULT_FILE_POSITIONS,
     DEFAULT_HUB_CHUNK_LINES,
     DEFAULT_INLINE_SOURCE_LINES,
     INSTRUCTION_FILES,
+    POSITION_HEAD,
+    POSITION_TAIL,
     STRATEGIES,
     normalize_file_positions,
     normalize_instruction_files,
     scatter_payload,
-    write_scatter_manifest,
 )
 from .publication_guard import (
     STATE_CLEAN,
@@ -28,17 +31,127 @@ from .publication_guard import (
 )
 
 
+DEFAULT_REPO_TOOL_POSITIONS = (POSITION_HEAD, POSITION_TAIL)
+CURRENT_INDEX_FILENAME = ".anaphylaxis-index.json"
+GIT_INDEX_FILENAME = "anaphylaxis-index.json"
+
+
 def _csv(value: str) -> List[str]:
     return [item.strip() for item in value.split(",") if item.strip()]
 
 
 def default_index_path(repository: Path) -> Path:
+    return repository.resolve() / CURRENT_INDEX_FILENAME
+
+
+def legacy_index_path(repository: Path) -> Path:
     root = repository.resolve()
     return root.parent / f".{root.name}.guardrail-index.json"
 
 
-def _index_path(repository: Path, value: Optional[Path]) -> Path:
-    return value.resolve() if value is not None else default_index_path(repository)
+def _git_repository(start: Path) -> Tuple[Path, Path]:
+    """Resolve the enclosing Git worktree and its private metadata directory."""
+
+    if not start.is_dir():
+        raise ValueError(f"target directory is not a directory: {start}")
+    values = []
+    for argument in ("--show-toplevel", "--absolute-git-dir"):
+        try:
+            result = subprocess.run(
+                ["git", "-C", str(start), "rev-parse", argument],
+                check=False,
+                capture_output=True,
+                text=True,
+            )
+        except OSError as exc:
+            raise ValueError("git executable is unavailable") from exc
+        if result.returncode != 0 or not result.stdout.strip():
+            raise ValueError(f"no enclosing Git repository found from: {start}")
+        values.append(Path(result.stdout.strip()).resolve())
+    return values[0], values[1]
+
+
+def _target_context(start: Path, git_repo: bool) -> Tuple[Path, Path, str]:
+    start = start.resolve()
+    if git_repo:
+        repository, git_directory = _git_repository(start)
+        return repository, git_directory / GIT_INDEX_FILENAME, "git_repository"
+    if not start.is_dir():
+        raise ValueError(f"target directory is not a directory: {start}")
+    return start, default_index_path(start), "current_directory"
+
+
+def _operation_index(
+    repository: Path,
+    preferred: Path,
+    explicit: Optional[Path],
+    *,
+    adding: bool,
+) -> Tuple[Path, Optional[Path]]:
+    """Choose the current index and identify a clean legacy index to migrate."""
+
+    if explicit is not None:
+        return explicit.resolve(), None
+    legacy = legacy_index_path(repository)
+    if preferred.exists() and legacy.exists() and preferred != legacy:
+        raise ValueError(
+            "both current and legacy indexes exist; remove the stale index or "
+            "select one explicitly with --index"
+        )
+    if preferred.exists() or not legacy.exists():
+        return preferred, None
+    return (preferred, legacy) if adding else (legacy, None)
+
+
+def _add_target_arguments(parser: argparse.ArgumentParser) -> None:
+    parser.add_argument(
+        "--repo",
+        type=Path,
+        default=Path.cwd(),
+        help="target/start directory (default: current directory)",
+    )
+    parser.add_argument(
+        "--git-repo",
+        action="store_true",
+        help="target the enclosing Git root and keep its index under Git metadata",
+    )
+
+
+def _allow_clean_index_replacement(repository: Path, index_path: Path) -> None:
+    """Allow reuse only for a direct index whose repository is already clean."""
+
+    try:
+        document = json.loads(index_path.read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, OSError) as exc:
+        raise ValueError(f"cannot read existing index: {index_path}") from exc
+    if not isinstance(document, dict) or not isinstance(document.get("injections"), list):
+        raise ValueError(
+            f"refusing to replace a non-direct or aggregate index: {index_path}"
+        )
+    scatter, _ = resolve_scatter_index(repository, index_path)
+    state = classify_indexed_repository(repository, scatter)["state"]
+    if state != STATE_CLEAN:
+        raise ValueError(
+            f"existing index is not clean (state={state}): {index_path}; "
+            "remove the payload or resolve repository changes first"
+        )
+
+
+def _write_index_atomically(manifest: Dict, path: Path) -> None:
+    """Atomically create or replace a direct scatter index."""
+
+    path.parent.mkdir(parents=True, exist_ok=True)
+    descriptor, temporary_name = tempfile.mkstemp(
+        prefix=f".{path.name}.", dir=path.parent
+    )
+    temporary_path = Path(temporary_name)
+    try:
+        with os.fdopen(descriptor, "w", encoding="utf-8") as handle:
+            json.dump(manifest, handle, indent=2)
+            handle.write("\n")
+        os.replace(temporary_path, path)
+    finally:
+        temporary_path.unlink(missing_ok=True)
 
 
 def _payload_pool(repository: Path, paths: Sequence[Path]) -> List[Dict[str, str]]:
@@ -64,6 +177,23 @@ def _payload_pool(repository: Path, paths: Sequence[Path]) -> List[Dict[str, str
         seen.add(payload_id)
         payloads.append({"id": payload_id, "payload": text})
     return payloads
+
+
+def _target_file(repository: Path, value: Path) -> str:
+    """Resolve one requested file within the selected target root."""
+
+    root = repository.resolve()
+    candidate = value if value.is_absolute() else root / value
+    if candidate.is_symlink():
+        raise ValueError(f"target file cannot be a symlink: {candidate}")
+    resolved = candidate.resolve()
+    try:
+        relative = resolved.relative_to(root)
+    except ValueError as exc:
+        raise ValueError(f"target file must be inside {root}: {value}") from exc
+    if not resolved.is_file() or relative == Path("."):
+        raise ValueError(f"target file does not exist: {resolved}")
+    return relative.as_posix()
 
 
 def _automatic_payload_pool(seed: int, payload_count: int) -> List[Dict[str, str]]:
@@ -123,18 +253,13 @@ def _summary(manifest: Dict) -> Dict:
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        prog="guardrail-anaphylaxis",
+        prog="anaphylaxis",
         description="Add, inspect, and exactly remove indexed comment payloads.",
     )
     subparsers = parser.add_subparsers(dest="command", required=True)
 
     add = subparsers.add_parser("add", help="comment-deliver payload files")
-    add.add_argument(
-        "--repo",
-        type=Path,
-        default=Path.cwd(),
-        help="target repository (default: current directory)",
-    )
+    _add_target_arguments(add)
     add.add_argument(
         "--payload",
         type=Path,
@@ -155,8 +280,19 @@ def build_parser() -> argparse.ArgumentParser:
         default=STRATEGIES[0],
         help="comment-delivery strategy (default: replicated)",
     )
-    add.add_argument("--positions", type=_csv, default=list(DEFAULT_FILE_POSITIONS))
-    add.add_argument("--count", type=int)
+    add.add_argument(
+        "--positions",
+        type=_csv,
+        default=list(DEFAULT_REPO_TOOL_POSITIONS),
+        help="full-payload positions (default: head,tail)",
+    )
+    selection = add.add_mutually_exclusive_group()
+    selection.add_argument("--count", type=int)
+    selection.add_argument(
+        "--file",
+        type=Path,
+        help="target exactly one eligible file, relative to the selected root",
+    )
     add.add_argument("--seed", type=int, default=20260805)
     add.add_argument(
         "--instruction-files",
@@ -178,12 +314,7 @@ def build_parser() -> argparse.ArgumentParser:
         ("guard", "exit nonzero unless indexed paths are clean"),
     ):
         subparser = subparsers.add_parser(command, help=help_text)
-        subparser.add_argument(
-            "--repo",
-            type=Path,
-            default=Path.cwd(),
-            help="target repository (default: current directory)",
-        )
+        _add_target_arguments(subparser)
         subparser.add_argument("--index", type=Path)
         if command == "remove":
             subparser.add_argument(
@@ -196,24 +327,35 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     parser = build_parser()
     args = parser.parse_args(argv)
     try:
-        repository = args.repo.resolve()
-        index_path = _index_path(repository, args.index)
+        repository, preferred_index, target_mode = _target_context(
+            args.repo, args.git_repo
+        )
+        index_path, legacy_migration = _operation_index(
+            repository,
+            preferred_index,
+            args.index,
+            adding=args.command == "add",
+        )
         if args.command == "add":
-            if index_path.exists():
-                raise ValueError(
-                    f"index already exists: {index_path}; remove or choose --index"
-                )
+            if legacy_migration is not None:
+                _allow_clean_index_replacement(repository, legacy_migration)
+            elif index_path.exists():
+                _allow_clean_index_replacement(repository, index_path)
             automatic = not args.payload
             payloads = (
                 _automatic_payload_pool(args.seed, args.payload_count)
                 if automatic
                 else _payload_pool(repository, args.payload)
             )
+            target_file = (
+                _target_file(repository, args.file) if args.file is not None else None
+            )
             manifest = scatter_payload(
                 repository,
                 payloads[0]["payload"],
                 condition_id=payloads[0]["id"],
                 count=args.count,
+                target_paths=[target_file] if target_file is not None else None,
                 seed=args.seed,
                 apply=args.apply,
                 strategy=args.strategy,
@@ -235,9 +377,16 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
                 for item in payloads
             ]
             if args.apply:
-                write_scatter_manifest(manifest, index_path)
+                _write_index_atomically(manifest, index_path)
+                if legacy_migration is not None:
+                    legacy_migration.unlink()
             output = _summary(manifest)
             output["index"] = str(index_path)
+            output["target_mode"] = target_mode
+            if target_file is not None:
+                output["target_file"] = target_file
+            if legacy_migration is not None:
+                output["legacy_index_migrated"] = bool(args.apply)
             output["payload_selection"] = (
                 "bundled_conditions" if automatic else "explicit_files"
             )
@@ -259,6 +408,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
                 )
                 return 3
         output["index"] = str(source)
+        output["target_mode"] = target_mode
         print(json.dumps(output, indent=2))
         return 0
     except (OSError, UnicodeError, ValueError) as exc:
