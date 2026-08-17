@@ -28,7 +28,7 @@ DEFAULT_CONFIG = PROJECT_ROOT / "configs" / "abliterated-local.json"
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        prog="anaphylaxis noop generate",
+        prog="repel noop generate",
         description=(
             "Generate one inert source candidate per requested language with the active local "
             "model discovered from the server, then statically validate it without execution."

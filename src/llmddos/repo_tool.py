@@ -254,7 +254,7 @@ def _summary(manifest: Dict) -> Dict:
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        prog="anaphylaxis",
+        prog="repel",
         description="Add, inspect, and exactly remove indexed comment payloads.",
     )
     subparsers = parser.add_subparsers(dest="command", required=True)

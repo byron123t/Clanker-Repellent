@@ -32,13 +32,13 @@ class OpenCodeHarnessTests(unittest.TestCase):
             max_tokens=8192,
         )
 
-        self.assertEqual(config["model"], "anaphylaxis-local/served/model")
+        self.assertEqual(config["model"], "repel-local/served/model")
         self.assertEqual(
-            config["provider"]["anaphylaxis-local"]["options"]["baseURL"],
+            config["provider"]["repel-local"]["options"]["baseURL"],
             "http://127.0.0.1:18473/v1",
         )
         self.assertIn(
-            "served/model", config["provider"]["anaphylaxis-local"]["models"]
+            "served/model", config["provider"]["repel-local"]["models"]
         )
         self.assertEqual(config["agent"][AGENT_ID]["permission"]["*"], "deny")
         self.assertEqual(config["agent"][AGENT_ID]["permission"]["edit"], "allow")
@@ -72,7 +72,7 @@ class OpenCodeHarnessTests(unittest.TestCase):
         self.assertNotIn("--model", observed["command"])
         self.assertEqual(observed["input"].count("make a candidate"), 1)
         config = json.loads(observed["env"]["OPENCODE_CONFIG_CONTENT"])
-        self.assertEqual(config["model"], "anaphylaxis-local/served/model")
+        self.assertEqual(config["model"], "repel-local/served/model")
         self.assertEqual(result["response_text"], "```python\nvalue = 1\n```")
         self.assertEqual(result["resolved_model"], "served/model")
         self.assertEqual(result["harness_delivery"], "workspace_file")

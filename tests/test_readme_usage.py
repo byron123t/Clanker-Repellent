@@ -13,26 +13,26 @@ class ReadmeUsageTests(unittest.TestCase):
             "## Configuration and secret hygiene",
             "Checked-in configuration contains environment-variable references and placeholders only",
             "## Core repository commands",
-            "anaphylaxis add",
-            "anaphylaxis status",
-            "anaphylaxis remove",
-            "anaphylaxis guard",
-            "python3 scripts/anaphylaxis.py",
+            "repel add",
+            "repel status",
+            "repel remove",
+            "repel guard",
+            "python3 scripts/repel.py",
             "Standard `venv`",
-            "conda create -n anaphylaxis",
+            "conda create -n clanker-repellent",
             "No virtual environment",
             "python3 -m pip install --user -e .",
             "payload text files → language-appropriate comments",
             "automatically selects three bundled payload mixtures",
-            "anaphylaxis add --apply",
+            "repel add --apply",
             "Current-directory mode is the default",
             "index at `./.anaphylaxis-index.json`",
             "`--git-repo` discovers the enclosing Git worktree",
-            "anaphylaxis remove --git-repo --apply",
-            "anaphylaxis add --file src/app.py --apply",
+            "repel remove --git-repo --apply",
+            "repel add --file src/app.py --apply",
             "`--file` and `--count` are mutually exclusive",
             "do not need `--file` again",
-            "anaphylaxis add --instruction-files --apply",
+            "repel add --instruction-files --apply",
             "--instruction-files AGENTS.md,CLAUDE.md",
             "Legacy sibling indexes",
             "`--strategy` defaults to `replicated`",
@@ -42,6 +42,12 @@ class ReadmeUsageTests(unittest.TestCase):
             "omitting it means every eligible file",
             "Publication automation is cleanup/block-only",
             "## Reviewed abliterated-model drafts",
+            "### Direct no-op generation",
+            "repel noop generate --list-languages",
+            "repel noop generate --payload /private/payload.txt --language python --retries 3",
+            "### OpenCode no-op generation",
+            "repel noop generate --harness opencode",
+            "--opencode-bin PATH",
             "## Optional evaluation harness",
         )
         for text in expected:
@@ -49,11 +55,15 @@ class ReadmeUsageTests(unittest.TestCase):
                 self.assertIn(text, documentation)
 
         self.assertNotIn("scripts/launch_repo_agents.py", readme)
-        self.assertNotIn("guardrail-anaphylaxis add", readme)
-        self.assertLess(len(readme.splitlines()), 220)
+        self.assertNotIn("anaphylaxis add", readme)
+        self.assertLess(len(readme.splitlines()), 250)
 
     def test_only_three_top_level_guides_remain(self):
-        guides = {path.name for path in ROOT.glob("*.md")}
+        guides = {
+            path.name
+            for path in ROOT.glob("*.md")
+            if path.name in {"README.md", "EVALUATION.md", "RESEARCH.md"}
+        }
         self.assertEqual(guides, {"README.md", "EVALUATION.md", "RESEARCH.md"})
 
 

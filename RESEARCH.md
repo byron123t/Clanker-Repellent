@@ -1,6 +1,6 @@
 # Research notes and local inference
 
-GuardrailAnaphylaxis studies artifact-induced LLM over-refusal: whether safety-related text inside
+The Guardrail Anaphylaxis paper/research project studies artifact-induced LLM over-refusal: whether safety-related text inside
 an otherwise benign artifact makes a model refuse the benign task. A full refusal is task denial;
 a scoped refusal that ignores only embedded unsafe text is successful handling; provider failures
 are infrastructure errors, not trigger success.
@@ -40,12 +40,12 @@ client supports streaming, multiline paste, `/models`, `/think`, `/no_think`, `/
 and `/new`. Output and context controls are documented by `--help` and `/settings`.
 
 The abliterated endpoints are not automatic payload generators; repository addition is a separate
-explicit action (`anaphylaxis add --apply` for comments or `anaphylaxis noop deploy ...` for
+explicit action (`repel add --apply` for comments or `repel noop deploy ...` for
 reviewed native carriers), and generation is separate from both.
 
 ## Structured no-op generation
 
-`anaphylaxis noop generate` is the bounded generation loop for language-native source
+`repel noop generate` is the bounded generation loop for language-native source
 drafts. It reads one UTF-8 payload, selects one or more requested languages, and makes exactly one
 OpenAI-compatible completion per selected language. The system message treats the payload as opaque data and forbids imports,
 includes, I/O, dynamic evaluation, subprocesses, startup hooks, and runtime effects. Each language gets
@@ -84,10 +84,10 @@ timeout, private config/cache directories, no stdin, and never receive shell com
 List the contract without contacting an endpoint:
 
 ```bash
-anaphylaxis noop generate --list-languages
-anaphylaxis noop generate --list-toolchains
-anaphylaxis noop generate --payload /private/payload.txt --retries 3
-anaphylaxis noop generate --harness opencode --payload /private/payload.txt --language python --retries 3
+repel noop generate --list-languages
+repel noop generate --list-toolchains
+repel noop generate --payload /private/payload.txt --language python --retries 3
+repel noop generate --harness opencode --payload /private/payload.txt --language python --retries 3
 ```
 
 With `--harness opencode`, the launcher creates an ephemeral custom-provider configuration from the
@@ -98,8 +98,8 @@ temporary XDG directories and sharing, plugins, model-catalog fetching, LSP down
 web access, subagents, and external-directory access remain disabled.
 
 After review, candidates remain reviewable fixtures until an explicit native deployment. The
-existing `anaphylaxis add --payload` path still treats a supplied file as comment-delivery text;
-it does not insert generated source. Use `anaphylaxis noop deploy add --run-dir ...` for the
+existing `repel add --payload` path still treats a supplied file as comment-delivery text;
+it does not insert generated source. Use `repel noop deploy add --run-dir ...` for the
 separate native path. It matches carriers by language, creates and validates complete in-memory
 post-images with the host-language parser/compiler path, keeps Python shebangs/encoding cookies and
 multiline-string contents intact while aligning nested indentation, and writes an exact insertion

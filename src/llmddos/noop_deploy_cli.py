@@ -31,7 +31,7 @@ def _target_arguments(parser: argparse.ArgumentParser) -> None:
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        prog="anaphylaxis noop deploy",
+        prog="repel noop deploy",
         description="Place accepted language-native no-op carriers with syntax-aware alignment and host validation.",
     )
     subparsers = parser.add_subparsers(dest="command", required=True)

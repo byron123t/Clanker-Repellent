@@ -13,8 +13,8 @@ class PublicationGuardDocumentationTests(unittest.TestCase):
         readme = (ROOT / "README.md").read_text(encoding="utf-8")
         project = (ROOT / "pyproject.toml").read_text(encoding="utf-8")
         expected = (
-            "anaphylaxis remove",
-            "anaphylaxis guard",
+            "repel remove",
+            "repel guard",
             "scripts/install_publication_guard.py",
             "without searching for their strings",
             "partially changed workspace fails closed",
@@ -25,10 +25,11 @@ class PublicationGuardDocumentationTests(unittest.TestCase):
         for text in expected:
             with self.subTest(text=text):
                 self.assertIn(text, publication)
-        self.assertIn("Guardrail Anaphylaxis", readme.splitlines()[0])
-        self.assertIn('name = "guardrail-anaphylaxis"', project)
-        self.assertIn('anaphylaxis = "llmddos.repo_tool:main"', project)
-        self.assertNotIn('guardrail-anaphylaxis = "llmddos.repo_tool:main"', project)
+        self.assertIn("# Clanker Repellent", readme)
+        self.assertIn("Guardrail Anaphylaxis paper/research project", readme)
+        self.assertIn('name = "clanker-repellent"', project)
+        self.assertIn('repel = "llmddos.repo_tool:main"', project)
+        self.assertNotIn('anaphylaxis = "llmddos.repo_tool:main"', project)
 
     def test_inference_docs_do_not_claim_automatic_payload_generation(self):
         documentation = " ".join(

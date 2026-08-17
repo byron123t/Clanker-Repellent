@@ -11,7 +11,7 @@ from pathlib import Path
 from typing import Any, Dict, List
 
 
-PROVIDER_ID = "anaphylaxis-local"
+PROVIDER_ID = "repel-local"
 AGENT_ID = "noop-generator"
 DEFAULT_OPENCODE_TIMEOUT_SECONDS = 900.0
 
@@ -33,7 +33,7 @@ def build_opencode_config(
         "provider": {
             PROVIDER_ID: {
                 "npm": "@ai-sdk/openai-compatible",
-                "name": "Anaphylaxis local endpoint",
+                "name": "Clanker Repellent local endpoint",
                 "options": {"baseURL": base_url, "apiKey": "unused"},
                 "models": {
                     model: {

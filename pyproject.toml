@@ -3,9 +3,9 @@ requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "guardrail-anaphylaxis"
+name = "clanker-repellent"
 version = "0.1.0"
-description = "GuardrailAnaphylaxis: a controlled benchmark for artifact-induced LLM over-refusal"
+description = "Clanker Repellent: a controlled tool for artifact-induced LLM over-refusal research"
 readme = "README.md"
 requires-python = ">=3.9"
 dependencies = ["openai>=1.50,<2", "prompt-toolkit>=3.0,<4"]
@@ -22,7 +22,7 @@ fail_under = 100
 show_missing = true
 
 [project.scripts]
-anaphylaxis = "llmddos.repo_tool:main"
+repel = "llmddos.repo_tool:main"
 guardrail-eval = "llmddos.cli:main"
 llmddos = "llmddos.cli:main"
 

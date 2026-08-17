@@ -31,7 +31,7 @@ class PayloadScatterDocumentationTests(unittest.TestCase):
             "manifest redaction": "contains no payload text",
             "central byte index": "exact insertion ranges",
             "no visible metadata": "No visible hash, wrapper marker, position label",
-            "indexed removal": "anaphylaxis remove",
+            "indexed removal": "repel remove",
             "modified removal refusal": "Cleanup rejects files edited after scattering",
             "multi-position flag": "--file-positions head,mid,tail",
             "instruction-file flag": "--instruction-files",

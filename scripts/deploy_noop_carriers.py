@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Source-tree entry point for ``anaphylaxis-noop-deploy``."""
+"""Source-tree entry point for ``repel noop deploy``."""
 
 import sys
 from pathlib import Path

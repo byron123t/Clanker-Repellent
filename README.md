@@ -1,13 +1,17 @@
-# Disclaimer
+# Clanker Repellent
 
-I am not responsible if your account or organization loses access to OpenAI or Anthropic models due to exceeding biological safety or other safety guardrail usage limits. YOU ARE RESPONSIBLE FOR YOUR OWN AI AGENT USE AND BEHAVIOR. Please use this tool responsibly, and never commit or push clanker repellent payloads without consulting your collaborators.
-
-# Clanker-Repellent (Guardrail Anaphylaxis)
-
-Guardrail Anaphylaxis is a small, indexed payload-delivery tool for authorized repositories. Its core flow is
+Clanker Repellent is a small, indexed payload-delivery tool for authorized repositories. It is the
+tooling companion to the Guardrail Anaphylaxis paper/research project. Its core flow is
 `payload text files → language-appropriate comments → centralized hash/range index → exact removal → clean commit/publish guard`.
 
 Payload text is never hidden in the index. The index contains condition IDs, hashes, selected paths, and exact insertion ranges so payloads can be removed without searching for their strings.
+
+## Disclaimer
+
+I am not responsible if your account or organization loses access to OpenAI or Anthropic models due
+to exceeding biological safety or other safety guardrail usage limits. YOU ARE RESPONSIBLE FOR YOUR
+OWN AI AGENT USE AND BEHAVIOR. Please use this tool responsibly, and never commit or push Clanker
+Repellent payloads without consulting your collaborators.
 
 ## Install
 
@@ -19,8 +23,8 @@ python3 -m venv .venv
 . .venv/bin/activate
 python3 -m pip install -e .
 
-conda create -n anaphylaxis python=3.11 pip
-conda activate anaphylaxis
+conda create -n clanker-repellent python=3.11 pip
+conda activate clanker-repellent
 python -m pip install -e .
 
 # No virtual environment
@@ -28,10 +32,10 @@ python3 -m pip install -e .
 python3 -m pip install --user -e .
 ```
 
-Each method installs the `anaphylaxis` command. The repository, no-op generation, and native deployment workflows are subcommands of this one binary. If a per-user scripts directory is not on `PATH`, run a source entry point directly:
+Each method installs the `repel` command. Repository operations, no-op generation, and native deployment are subcommands of this binary. If a per-user scripts directory is not on `PATH`, run the source entry point directly:
 
 ```bash
-python3 scripts/anaphylaxis.py
+python3 scripts/repel.py
 ```
 
 Install development/test dependencies only when needed with `python3 -m pip install -e '.[dev]'`.
@@ -48,14 +52,14 @@ arguments or stored in endpoint JSON. Use `git status --ignored` to confirm `.en
 Run these inside the repository you want to process. `add` automatically selects three bundled payload mixtures, uses the `replicated` strategy, places full payloads at both the head and tail of every eligible file, and performs only a dry run unless `--apply` is present.
 
 ```bash
-anaphylaxis add
+repel add
 
-anaphylaxis add --apply
+repel add --apply
 
-anaphylaxis status
-anaphylaxis remove --apply
+repel status
+repel remove --apply
 
-anaphylaxis guard
+repel guard
 ```
 
 There are two target modes:
@@ -66,10 +70,10 @@ There are two target modes:
 Use the same mode for every lifecycle command:
 
 ```bash
-anaphylaxis add --git-repo --apply
-anaphylaxis status --git-repo
-anaphylaxis remove --git-repo --apply
-anaphylaxis guard --git-repo
+repel add --git-repo --apply
+repel status --git-repo
+repel remove --git-repo --apply
+repel guard --git-repo
 ```
 
 `--repo /path` changes the current target—or Git discovery when combined with `--git-repo`; `--index /private/path/index.json` overrides either default. The index contains no payload text or payload path.
@@ -77,8 +81,8 @@ anaphylaxis guard --git-repo
 To target exactly one file, use `--file`. Relative paths resolve from the selected root; absolute paths must remain inside it:
 
 ```bash
-anaphylaxis add --file src/app.py --apply
-anaphylaxis add --git-repo --file src/app.py --apply
+repel add --file src/app.py --apply
+repel add --git-repo --file src/app.py --apply
 ```
 
 The file must be an eligible non-symlink text format. `--file` and `--count` are mutually exclusive.
@@ -98,7 +102,7 @@ Choose a topology with `--strategy`:
 Automatic selection is deterministic for the same `--seed` and rendered through `payloads/header.txt`. Use `--payload-count N` or pass custom payload files outside the target repository:
 
 ```bash
-anaphylaxis add --payload /private/a.txt --payload /private/b.txt --strategy fragmented --apply
+repel add --payload /private/a.txt --payload /private/b.txt --strategy fragmented --apply
 ```
 
 - Repeat `--payload` for an explicit deterministic multi-payload pool.
@@ -107,7 +111,7 @@ anaphylaxis add --payload /private/a.txt --payload /private/b.txt --strategy fra
 - `--file path/to/file` targets one exact eligible file inside that root.
 - `--strategy` defaults to `replicated`.
 - `--positions` accepts `head`, `mid`, and `tail`; the repository tool defaults to `head,tail`.
-- `anaphylaxis add --instruction-files --apply` also targets `CLAUDE.md`, `AGENTS.md`, and `MEMORY.md`; pass `--instruction-files AGENTS.md,CLAUDE.md` for a subset.
+- `repel add --instruction-files --apply` also targets `CLAUDE.md`, `AGENTS.md`, and `MEMORY.md`; pass `--instruction-files AGENTS.md,CLAUDE.md` for a subset.
 - `--count N` selects a deterministic N-file sample; omitting it means every eligible file.
 - Fragmented inline density defaults to one chunk per 40 source lines and is configurable with
   `--inline-source-lines`.
@@ -115,7 +119,7 @@ anaphylaxis add --payload /private/a.txt --payload /private/b.txt --strategy fra
 For head-and-tail full copies plus N throughout-file chunks, use:
 
 ```bash
-anaphylaxis add --strategy fragmented --apply
+repel add --strategy fragmented --apply
 ```
 
 For each file, fragmented delivery calculates `N = max(1, ceil(physical source lines / --inline-source-lines))`, capped by payload line count, then distributes ordered chunks across the file.
@@ -127,7 +131,7 @@ files. Each payload line receives only the syntax needed for that file type.
 
 Run `remove` before opening an ordinary coding agent on a payloaded workspace. Removal first checks that every indexed file still has its exact post-add hash, then restores original bytes and deletes carrier/instruction files created by the tool. A partially changed workspace fails closed rather than attempting approximate string deletion.
 
-The command syntax is `anaphylaxis remove --apply` (not `--remove`). Cleanup retains the centralized index; a later `anaphylaxis add --apply` verifies it is clean and atomically replaces it. An existing payload-present, modified, aggregate, or malformed index is never replaced.
+The command syntax is `repel remove --apply` (not `--remove`). Cleanup retains the centralized index; a later `repel add --apply` verifies it is clean and atomically replaces it. An existing payload-present, modified, aggregate, or malformed index is never replaced.
 
 Legacy sibling indexes such as `../.multiagent.guardrail-index.json` are still discovered for cleanup; after they verify clean, the next applied add migrates them to the selected mode's index location.
 
@@ -137,7 +141,7 @@ Legacy sibling indexes such as `../.multiagent.guardrail-index.json` are still d
 python3 scripts/install_publication_guard.py --repository /path/to/repo --scatter-manifest /path/to/index.json
 ```
 
-Publication automation is cleanup/block-only: GuardrailAnaphylaxis does not automatically inject
+Publication automation is cleanup/block-only: Clanker Repellent does not automatically inject
 payloads during a commit or deployment.
 
 ## Reviewed abliterated-model drafts
@@ -152,12 +156,40 @@ cp .env.example .env
 PYTHONPATH=src python3 scripts/interactive_inference.py
 ```
 
-For payload no-op generation, provide the payload once and choose one or more target languages. The active model is discovered from the server; generation is never injected automatically. There is no automatic generate-and-publish loop:
+### Direct no-op generation
+
+Provide one UTF-8 payload file and choose one or more target languages. The active model is
+discovered from the configured server; generation never injects into a repository or publishes
+automatically. There is no automatic generate-and-publish loop. First check the available
+language targets and toolchains:
 
 ```bash
-anaphylaxis noop generate --payload /private/payload.txt --retries 3
-anaphylaxis noop generate --harness opencode --payload /private/payload.txt --language python --retries 3
+repel noop generate --list-languages
+repel noop generate --list-toolchains
 ```
+
+Run the default direct OpenAI-compatible harness for one language, or repeat `--language` for
+several:
+
+```bash
+repel noop generate --payload /private/payload.txt --language python --retries 3
+repel noop generate --payload /private/payload.txt --language python --language rust --retries 3
+```
+
+### OpenCode no-op generation
+
+Install the `opencode` executable separately, then use the same configuration and payload command
+with `--harness opencode`:
+
+```bash
+command -v opencode
+repel noop generate --harness opencode \
+  --payload /private/payload.txt --language python --retries 3
+```
+
+OpenCode runs in an isolated temporary workspace with its own runtime configuration, then the
+candidate goes through the same parser/compiler/linter checks. Use `--opencode-bin PATH` when the
+executable is not on `PATH`; use `--opencode-timeout SECONDS` to change its per-attempt limit.
 
 Each response must contain exactly one fenced source block. Every attempt prints its local LLM request and response, then parses/compiles/linters in a temporary directory. Failed retries receive the prior response plus parser/compiler/linter/formatting diagnostics. Generated source is never executed; review
 accepted candidates under `results/noop-generation/<payload-name>/`. Failed candidates remain metadata-only.
@@ -172,16 +204,16 @@ Generation and deployment are separate, reviewable steps. To deploy accepted nat
 real authorized repository, run a dry run first, then apply it explicitly:
 
 ```bash
-anaphylaxis noop deploy add \
+repel noop deploy add \
   --repo /path/to/real-repo \
   --run-dir /path/to/project/results/noop-generation/<payload-name>
-anaphylaxis noop deploy add \
+repel noop deploy add \
   --repo /path/to/real-repo \
   --run-dir /path/to/project/results/noop-generation/<payload-name> \
   --file src/app.py --positions head,mid,tail --apply
-anaphylaxis noop deploy status --repo /path/to/real-repo
-anaphylaxis noop deploy remove --repo /path/to/real-repo
-anaphylaxis noop deploy remove --repo /path/to/real-repo --apply
+repel noop deploy status --repo /path/to/real-repo
+repel noop deploy remove --repo /path/to/real-repo
+repel noop deploy remove --repo /path/to/real-repo --apply
 ```
 
 The first `add` is a preview; `--apply` writes the selected files only after every matching

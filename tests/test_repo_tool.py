@@ -22,7 +22,7 @@ class RepositoryToolTests(unittest.TestCase):
         self.assertIn("discovered from the server", output.getvalue())
         self.assertNotIn("--model", output.getvalue())
 
-    def test_noop_generation_is_exposed_through_anaphylaxis(self):
+    def test_noop_generation_is_exposed_through_repel(self):
         output = io.StringIO()
 
         with contextlib.redirect_stdout(output):

@@ -14,7 +14,7 @@ from .payload_scatter import remove_scattered_payload
 
 
 EVALUATION_MANIFEST = "evaluation-manifest.json"
-HOOK_MARKER = "GuardrailAnaphylaxis publication guard"
+HOOK_MARKER = "Clanker Repellent publication guard"
 STATE_CLEAN = "clean"
 STATE_SCATTERED = "payload_present"
 STATE_MODIFIED = "modified_or_unverifiable"
@@ -250,7 +250,7 @@ def install_pre_commit_guard(
             mode="w",
             encoding="utf-8",
             dir=hooks,
-            prefix=".guardrail-anaphylaxis-pre-commit.",
+            prefix=".clanker-repellent-pre-commit.",
             delete=False,
         ) as handle:
             handle.write(body)

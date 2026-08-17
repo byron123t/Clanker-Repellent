@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Install the GuardrailAnaphylaxis publication check as a pre-commit hook."""
+"""Install the Clanker Repellent publication check as a pre-commit hook."""
 
 from __future__ import annotations
 
