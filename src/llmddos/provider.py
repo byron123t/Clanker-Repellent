@@ -10,8 +10,30 @@ import ssl
 import time
 from pathlib import Path
 from typing import Any, Callable, Dict, List, Optional
+from urllib.parse import urlsplit, urlunsplit
 
 from .endpoints import is_allowed_base_url
+
+
+def _health_url(base_url: str) -> str:
+    """Return the server-level health URL for an OpenAI-compatible /v1 base URL."""
+
+    parsed = urlsplit(base_url.rstrip("/"))
+    path = parsed.path.rstrip("/")
+    if path.endswith("/v1"):
+        path = path[:-3]
+    path = path.rstrip("/") + "/health"
+    return urlunsplit((parsed.scheme, parsed.netloc, path, "", ""))
+
+
+def _required_model_value(model: Any) -> str:
+    if not isinstance(model, str) or not model.strip():
+        raise RuntimeError("completion response did not include a model field")
+    return model
+
+
+def _required_response_model(response: Any) -> str:
+    return _required_model_value(getattr(response, "model", None))
 
 
 class OpenAICompatibleProvider:
@@ -33,12 +55,14 @@ class OpenAICompatibleProvider:
             import httpx
         except ImportError as exc:
             raise RuntimeError("Install the 'openai' and 'httpx' packages to run inference") from exc
-        http_client = None
+        verify: Any = True
         if ca_cert is not None:
             if not ca_cert.is_file():
                 raise ValueError(f"CA certificate does not exist: {ca_cert}")
-            context = ssl.create_default_context(cafile=str(ca_cert))
-            http_client = httpx.Client(verify=context, timeout=timeout)
+            verify = ssl.create_default_context(cafile=str(ca_cert))
+        http_client = httpx.Client(verify=verify, timeout=timeout)
+        self._http_client = http_client
+        self.health_url = _health_url(base_url)
         self.client = OpenAI(
             api_key=api_key,
             base_url=base_url.rstrip("/"),
@@ -49,6 +73,35 @@ class OpenAICompatibleProvider:
 
     def list_models(self) -> List[str]:
         return sorted(model.id for model in self.client.models.list())
+
+    def wait_for_health(
+        self, timeout_seconds: float, poll_interval_seconds: float = 0.5
+    ) -> None:
+        """Poll the server-level /health route until it returns a successful status."""
+
+        if timeout_seconds <= 0:
+            raise ValueError("health timeout must be positive")
+        if poll_interval_seconds <= 0:
+            raise ValueError("health poll interval must be positive")
+        deadline = time.monotonic() + timeout_seconds
+        last_error = "not ready"
+        while True:
+            remaining = deadline - time.monotonic()
+            if remaining <= 0:
+                raise TimeoutError(
+                    f"endpoint health check did not succeed at {self.health_url} "
+                    f"within {timeout_seconds:g}s: {last_error}"
+                )
+            try:
+                response = self._http_client.get(
+                    self.health_url, timeout=max(0.05, min(2.0, remaining))
+                )
+                if 200 <= response.status_code < 300:
+                    return
+                last_error = f"HTTP {response.status_code}"
+            except Exception as exc:
+                last_error = f"{type(exc).__name__}: {exc}"
+            time.sleep(min(poll_interval_seconds, max(0.0, remaining)))
 
     def complete(
         self,
@@ -76,7 +129,7 @@ class OpenAICompatibleProvider:
             "latency_ms": elapsed_ms,
             "usage": usage_dict,
             "provider_request_id": getattr(response, "id", None),
-            "resolved_model": getattr(response, "model", None),
+            "resolved_model": _required_response_model(response),
             "system_fingerprint": getattr(response, "system_fingerprint", None),
             "service_tier": getattr(response, "service_tier", None),
         }
@@ -178,7 +231,7 @@ class OpenAICompatibleProvider:
             "latency_ms": elapsed_ms,
             "usage": usage_dict,
             "provider_request_id": request_id,
-            "resolved_model": resolved_model,
+            "resolved_model": _required_model_value(resolved_model),
             "stopped_by_client": stopped_by_client,
         }
 
@@ -222,7 +275,7 @@ class OpenAICompatibleProvider:
             "latency_ms": elapsed_ms,
             "usage": usage_dict,
             "provider_request_id": getattr(response, "id", None),
-            "resolved_model": getattr(response, "model", None),
+            "resolved_model": _required_response_model(response),
             "system_fingerprint": getattr(response, "system_fingerprint", None),
             "service_tier": getattr(response, "service_tier", None),
         }
@@ -367,6 +420,9 @@ class RoutedOpenAICompatibleProvider:
         self.providers: Dict[str, OpenAICompatibleProvider] = {}
         self.tool_modes: Dict[str, str] = {}
         self.minimum_max_tokens: Dict[str, int] = {}
+        self.health_timeouts: Dict[str, float] = {}
+        self.discovered_providers: Dict[str, OpenAICompatibleProvider] = {}
+        self.discovery_route: Optional[str] = endpoint_config.get("_discovery_route")
         for model, route in endpoint_config["models"].items():
             api_key_env = route.get("api_key_env")
             api_key = os.getenv(api_key_env) if api_key_env else "unused"
@@ -381,15 +437,54 @@ class RoutedOpenAICompatibleProvider:
             )
             self.tool_modes[model] = route.get("tool_mode", "native")
             self.minimum_max_tokens[model] = route.get("minimum_max_tokens", 1)
+            self.health_timeouts[model] = route.get(
+                "health_timeout_seconds", route["timeout_seconds"]
+            )
 
     def list_models(self) -> List[str]:
         return sorted(self.providers)
 
     def _provider(self, model: str) -> OpenAICompatibleProvider:
+        discovered = getattr(self, "discovered_providers", {})
+        if model in discovered:
+            return discovered[model]
         try:
             return self.providers[model]
         except KeyError as exc:
             raise ValueError(f"No endpoint configured for model {model!r}") from exc
+
+    def wait_for_models(self) -> List[str]:
+        """Wait for configured servers and discover their model IDs via /v1/models."""
+
+        routes = (
+            [self.discovery_route]
+            if self.discovery_route is not None
+            else sorted(self.providers)
+        )
+        discovered: List[str] = []
+        for route in routes:
+            provider = self._provider(route)
+            provider.wait_for_health(self.health_timeouts[route])
+            models = provider.list_models()
+            if not models:
+                raise RuntimeError(f"/v1/models returned no model IDs for route {route!r}")
+            for model in models:
+                self.discovered_providers[model] = provider
+                self.tool_modes[model] = self.tool_modes[route]
+                self.minimum_max_tokens[model] = self.minimum_max_tokens[route]
+                discovered.append(model)
+        return sorted(set(discovered))
+
+    def wait_for_model(self) -> str:
+        """Wait for one configured server and return its sole active model."""
+
+        models = self.wait_for_models()
+        if len(models) != 1:
+            raise RuntimeError(
+                "/v1/models must return exactly one active model; received: "
+                + ", ".join(models)
+            )
+        return models[0]
 
     def complete(self, model: str, **kwargs: Any) -> Dict[str, Any]:
         request = self._enforce_minimum_tokens(model, kwargs)

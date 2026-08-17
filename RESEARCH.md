@@ -18,25 +18,97 @@ These results do not establish a universal trigger or privacy mechanism. Confirm
 held-out tasks and model families, repeats, blinded labels, paired uncertainty estimates, and safe
 contrast controls.
 
-## Local endpoints
+## Local inference configuration
 
-`configs/abliterated-local.json` contains `${VARIABLE}` references only. Copy `.env.example` to the
-ignored `.env` and set the SSH target, loopback-forward ports, and base URLs. Process environment
-values override `.env`; missing references fail explicitly. Plain HTTP is allowed only on an
-explicit loopback port declared in the SSH forwards.
+`configs/abliterated-local.json` contains `${VARIABLE}` references only; it has no endpoint address
+or credential. Copy `.env.example` to the ignored `.env` and set the SSH target, loopback-forward
+ports, and base URL locally. Process environment values override `.env`; missing references fail
+explicitly. Plain HTTP is allowed only on an explicit loopback port declared in the SSH forwards.
+
+The example file is a template, not a working credential or endpoint record. Keep real endpoint
+values and API keys in the ignored `.env` or in the process environment. The loader rejects inline
+credentials in endpoint JSON and accepts an API-key environment-variable name only.
 
 ```bash
 PYTHONPATH=src python3 scripts/interactive_inference.py
 ```
 
-The client supports routed models, managed/reused SSH forwards, streaming, multiline paste,
-per-model histories, `/model`, `/think`, `/no_think`, `/compact`, `/context`, and `/new`. The Qwen
-routes use prompt-JSON tool compatibility; GLM uses native tools. The default maximum output and
-context controls are documented by `--help` and `/settings`.
+After the tunnel is available, clients wait for `/health` and query `/v1/models`; the server must
+report exactly one active model. There is no model-name argument or configured model ID. Completion
+responses must include their `model` field, which is retained as `resolved_model`. The interactive
+client supports streaming, multiline paste, `/models`, `/think`, `/no_think`, `/compact`, `/context`,
+and `/new`. Output and context controls are documented by `--help` and `/settings`.
 
-The abliterated endpoints are not automatic payload generators. Candidate drafting is manual and
-reviewed; repository addition is a separate explicit `anaphylaxis add --apply` action.
-The system does not optimize, mutate, or publish evasive variants automatically.
+The abliterated endpoints are not automatic payload generators; repository addition is a separate
+explicit action (`anaphylaxis add --apply` for comments or `anaphylaxis noop deploy ...` for
+reviewed native carriers), and generation is separate from both.
+
+## Structured no-op generation
+
+`anaphylaxis noop generate` is the bounded generation loop for language-native source
+drafts. It reads one UTF-8 payload, selects one or more requested languages, and makes exactly one
+OpenAI-compatible completion per selected language. The system message treats the payload as opaque data and forbids imports,
+includes, I/O, dynamic evaluation, subprocesses, startup hooks, and runtime effects. Each language gets
+one independent attempt plus up to two bounded retries by default (`--retries 0..5`); each retry
+receives the previous model response and parser/compiler/linter/formatting diagnostics, while the
+payload and language remain unchanged. The loop does not
+optimize triggers, inject into a repository, or publish.
+It does not optimize, mutate, or publish evasive variants automatically.
+
+The model receives no source template or language-specific scaffold; it receives only the requested
+language and payload. Operational terms, payload processing, and side effects remain forbidden;
+acceptance is based on source parsing, compilation, formatting, and linting, not exact payload
+representation in the generated source.
+
+The model must return exactly one Markdown-fenced source block, optionally labeled with the target
+language. The extractor rejects missing, duplicate, malformed/nested-fenced, empty, NUL-containing,
+or oversized blocks, strips the outer fence, and passes only the unfenced source to validation.
+Surrounding chatter is ignored.
+Only accepted candidates are written below the ignored
+`results/noop-generation/<payload-name>/` directory. Failed attempts remain manifest metadata;
+their source is not persisted. Re-running the same payload directory resumes incomplete languages
+and refuses to overwrite a fully successful run. `manifest.json` records payload, language,
+response, candidate, and diagnostic hashes plus validator statuses. `--keep-raw-responses` is
+opt-in because raw responses can contain the payload.
+
+The validator registry is deliberately static and never runs generated source. Python uses its AST
+parser and builtin compiler; C/C++ use syntax-only compilers with warnings as errors; Rust uses
+`rustc` with `-Dwarnings`; Go uses `gofmt` plus `go tool compile`; Java uses `javac -proc:none`
+with `-Xlint:all -Werror`; JavaScript uses `node --check`; TypeScript uses `tsc --noEmit`;
+Ruby uses `ruby -cw`; Bash uses `bash -n`; and Swift uses `swiftc -typecheck -warnings-as-errors`.
+Optional standalone linters (ruff, clang-tidy, rustfmt, eslint, RuboCop, shellcheck, and
+swift-format) run when installed. Required-tool absence fails closed unless
+`--allow-missing-toolchains` explicitly records a partial result. Compiler/parser processes have a
+timeout, private config/cache directories, no stdin, and never receive shell commands.
+
+List the contract without contacting an endpoint:
+
+```bash
+anaphylaxis noop generate --list-languages
+anaphylaxis noop generate --list-toolchains
+anaphylaxis noop generate --payload /private/payload.txt --retries 3
+anaphylaxis noop generate --harness opencode --payload /private/payload.txt --language python --retries 3
+```
+
+With `--harness opencode`, the launcher creates an ephemeral custom-provider configuration from the
+model discovered at `/v1/models`, runs `opencode run --format json` in a disposable workspace, and
+allows only OpenCode's file-editing permission. A created candidate—or assistant text fallback—is
+normalized into the same extraction and static-validation pipeline. OpenCode state is confined to
+temporary XDG directories and sharing, plugins, model-catalog fetching, LSP downloads, shell access,
+web access, subagents, and external-directory access remain disabled.
+
+After review, candidates remain reviewable fixtures until an explicit native deployment. The
+existing `anaphylaxis add --payload` path still treats a supplied file as comment-delivery text;
+it does not insert generated source. Use `anaphylaxis noop deploy add --run-dir ...` for the
+separate native path. It matches carriers by language, creates and validates complete in-memory
+post-images with the host-language parser/compiler path, keeps Python shebangs/encoding cookies and
+multiline-string contents intact while aligning nested indentation, and writes an exact insertion
+record plus hash/preimage index. `apply` fails closed rather than partially applying when a matching
+file cannot be integrated. `status` and `remove --apply` fail closed if an indexed file changed;
+failed or partial candidates are not deployable by default. No generated source is executed.
+
+Generated source is a syntax fixture, not a security boundary. Do not feed operational or harmful
+procedures to a remote service; use owned loopback endpoints and authorized test data.
 
 ## Measurement and logging
 

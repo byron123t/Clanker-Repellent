@@ -33,11 +33,18 @@ class EndpointConfigTests(unittest.TestCase):
         example = (root / ".env.example").read_text(encoding="utf-8")
 
         self.assertIn("${GUARDRAIL_SSH_TARGET}", raw)
-        self.assertIn("${GUARDRAIL_QWEN36_BASE_URL}", raw)
+        self.assertEqual(raw.count("${GUARDRAIL_NOOP_BASE_URL}"), 1)
+        self.assertEqual(raw.count("${GUARDRAIL_NOOP_LOCAL_PORT}"), 1)
+        self.assertNotIn("glm-4.7", raw)
+        self.assertNotIn("qwen3", raw.casefold())
         self.assertNotIn("http://", raw)
         self.assertNotRegex(raw, r"\b18\d{3}\b")
         self.assertNotRegex(raw, r"\b(?:\d{1,3}\.){3}\d{1,3}\b")
-        self.assertIn("GUARDRAIL_QWEN36_BASE_URL=<loopback-openai-base-url>", example)
+        self.assertIn("GUARDRAIL_NOOP_LOCAL_PORT=<local-port>", example)
+        self.assertIn("GUARDRAIL_NOOP_REMOTE_PORT=<remote-port>", example)
+        self.assertIn(
+            "GUARDRAIL_NOOP_BASE_URL=<loopback-openai-base-url>", example
+        )
 
     def test_url_policy_allows_https_and_explicit_loopback_only(self):
         self.assertTrue(is_allowed_base_url("https://models.example/v1"))
@@ -56,8 +63,26 @@ class EndpointConfigTests(unittest.TestCase):
 
             self.assertEqual(loaded["ssh"]["startup_timeout_seconds"], 15.0)
             self.assertEqual(loaded["models"]["model-a"]["timeout_seconds"], 120.0)
+            self.assertEqual(
+                loaded["models"]["model-a"]["health_timeout_seconds"], 120.0
+            )
             self.assertEqual(loaded["models"]["model-a"]["minimum_max_tokens"], 1)
             self.assertEqual(loaded["models"]["model-a"]["tool_mode"], "native")
+
+    def test_normalizes_one_server_discovered_endpoint(self):
+        value = config()
+        value["endpoint"] = value.pop("models")["model-a"]
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "endpoints.json"
+            path.write_text(json.dumps(value), encoding="utf-8")
+
+            loaded = load_endpoint_config(path)
+
+            self.assertEqual(loaded["_discovery_route"], "server")
+            self.assertEqual(
+                loaded["models"]["server"]["base_url"],
+                "http://127.0.0.1:18473/v1",
+            )
 
     def test_rejects_unforwarded_loopback_port(self):
         value = config()

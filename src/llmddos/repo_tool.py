@@ -29,6 +29,7 @@ from .publication_guard import (
     clean_indexed_repository,
     resolve_scatter_index,
 )
+from . import noop_cli, noop_deploy_cli
 
 
 DEFAULT_REPO_TOOL_POSITIONS = (POSITION_HEAD, POSITION_TAIL)
@@ -325,12 +326,29 @@ def build_parser() -> argparse.ArgumentParser:
             subparser.add_argument(
                 "--apply", action="store_true", help="write files; default is a preview"
             )
+    noop = subparsers.add_parser(
+        "noop", help="generate and deploy validated native no-op source"
+    )
+    noop.add_argument(
+        "operation",
+        choices=("generate", "deploy"),
+        help="generate source or manage native source deployment",
+    )
+    noop.add_argument(
+        "arguments",
+        nargs=argparse.REMAINDER,
+        help=argparse.SUPPRESS,
+    )
     return parser
 
 
 def main(argv: Optional[Sequence[str]] = None) -> int:
     parser = build_parser()
     args = parser.parse_args(argv)
+    if args.command == "noop":
+        if args.operation == "generate":
+            return noop_cli.main(args.arguments)
+        return noop_deploy_cli.main(args.arguments)
     try:
         repository, preferred_index, target_mode = _target_context(
             args.repo, args.git_repo

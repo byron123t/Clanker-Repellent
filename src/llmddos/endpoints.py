@@ -98,9 +98,18 @@ def load_endpoint_config(
         environ=environ,
     )
     config = _expand_environment(config, environment, str(path))
+    endpoint = config.get("endpoint")
     models = config.get("models")
+    if endpoint is not None:
+        if models is not None:
+            raise ValueError(f"{path}: configure endpoint or models, not both")
+        if not isinstance(endpoint, dict):
+            raise ValueError(f"{path}: endpoint must be an object")
+        config["models"] = {"server": endpoint}
+        config["_discovery_route"] = "server"
+        models = config["models"]
     if not isinstance(models, dict) or not models:
-        raise ValueError(f"{path}: models must be a non-empty object")
+        raise ValueError(f"{path}: endpoint or models must be a non-empty object")
 
     tunnel_ports = set()
     ssh = config.get("ssh")
@@ -166,6 +175,14 @@ def load_endpoint_config(
         if not isinstance(timeout, (int, float)) or isinstance(timeout, bool) or timeout <= 0:
             raise ValueError(f"{path}: {model!r} timeout_seconds must be positive")
         route["timeout_seconds"] = float(timeout)
+        health_timeout = route.get("health_timeout_seconds", timeout)
+        if (
+            not isinstance(health_timeout, (int, float))
+            or isinstance(health_timeout, bool)
+            or health_timeout <= 0
+        ):
+            raise ValueError(f"{path}: {model!r} health_timeout_seconds must be positive")
+        route["health_timeout_seconds"] = float(health_timeout)
         minimum_max_tokens = route.get("minimum_max_tokens", 1)
         if (
             not isinstance(minimum_max_tokens, int)

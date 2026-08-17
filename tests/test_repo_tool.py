@@ -11,6 +11,26 @@ from llmddos.repo_tool import default_index_path, legacy_index_path, main
 
 
 class RepositoryToolTests(unittest.TestCase):
+    def test_unified_noop_help_uses_server_model_discovery(self):
+        output = io.StringIO()
+
+        with contextlib.redirect_stdout(output):
+            with self.assertRaises(SystemExit) as raised:
+                main(["noop", "generate", "--help"])
+
+        self.assertEqual(raised.exception.code, 0)
+        self.assertIn("discovered from the server", output.getvalue())
+        self.assertNotIn("--model", output.getvalue())
+
+    def test_noop_generation_is_exposed_through_anaphylaxis(self):
+        output = io.StringIO()
+
+        with contextlib.redirect_stdout(output):
+            result = main(["noop", "generate", "--list-languages"])
+
+        self.assertEqual(result, 0)
+        self.assertIn("python\tgenerated.py", output.getvalue())
+
     def test_zero_argument_add_uses_cwd_bundled_pool_and_replicated_default(self):
         with tempfile.TemporaryDirectory() as directory:
             repository = Path(directory) / "sample"

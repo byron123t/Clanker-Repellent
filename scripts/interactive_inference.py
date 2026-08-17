@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""A streaming, compacting chat client for routed OpenAI-compatible endpoints."""
+"""A streaming chat client that discovers the active OpenAI-compatible model."""
 
 from __future__ import annotations
 
@@ -16,7 +16,6 @@ from llmddos.tunnel import managed_ssh_tunnel
 
 DEFAULT_CONFIG = Path(__file__).resolve().parents[1] / "configs" / "abliterated-local.json"
 DEFAULT_MAX_TOKENS = 8192
-DEFAULT_MODEL = "glm-4.7-flash-abliterated"
 DEFAULT_TEMPERATURE = 0.7
 DEFAULT_TOP_P = 0.95
 DEFAULT_TOP_K = 20
@@ -32,7 +31,6 @@ SUMMARY_HEADER = "\n\n--- compacted conversation context ---\n"
 COMMANDS = (
     "/help",
     "/models",
-    "/model",
     "/new",
     "/clear",
     "/compact",
@@ -55,14 +53,9 @@ to continue from."""
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        description="Streaming chat with routed OpenAI-compatible models."
+        description="Streaming chat with the active model discovered through /v1/models."
     )
     parser.add_argument("--config", type=Path, default=DEFAULT_CONFIG)
-    parser.add_argument(
-        "--model",
-        default=DEFAULT_MODEL,
-        help=f"model name, comma-separated names, or 'all' (default: {DEFAULT_MODEL})",
-    )
     parser.add_argument("--system", default="", help="optional initial system message")
     parser.add_argument("--max-tokens", type=int, default=DEFAULT_MAX_TOKENS)
     parser.add_argument("--temperature", type=float, default=DEFAULT_TEMPERATURE)
@@ -121,18 +114,6 @@ def validate_args(args: argparse.Namespace) -> None:
         raise ValueError("--keep-turns must be positive")
 
 
-def select_models(value: str, available: List[str]) -> List[str]:
-    if value.strip().casefold() == "all":
-        return available
-    selected = [item.strip() for item in value.split(",") if item.strip()]
-    unknown = set(selected) - set(available)
-    if unknown:
-        raise ValueError("unknown model(s): " + ", ".join(sorted(unknown)))
-    if not selected:
-        raise ValueError("select at least one model")
-    return selected
-
-
 def initial_history(system_prompt: str) -> List[Dict[str, str]]:
     return [{"role": "system", "content": system_prompt}] if system_prompt else []
 
@@ -182,8 +163,7 @@ def print_help() -> None:
         "  /context             show estimated context use and last API usage\n"
         "  /new or /clear       start a fresh conversation\n"
         "  /paste               enter multiline text; finish with a line containing only .\n"
-        "  /models              list configured models\n"
-        "  /model NAME[,NAME]   switch models (each keeps separate history)\n"
+        "  /models              show the server-discovered active model\n"
         "  /system TEXT         replace the system prompt and clear history\n"
         "  /think, /no_think    toggle Qwen thinking mode\n"
         "  /settings            show sampling and compaction settings\n"
@@ -418,13 +398,6 @@ def _handle_command(
     elif prompt == "/models":
         for model in available:
             print(("* " if model in selected else "  ") + model)
-    elif prompt.startswith("/model "):
-        try:
-            selected[:] = select_models(prompt[len("/model ") :], available)
-        except ValueError as exc:
-            print(f"Error: {exc}")
-        else:
-            print("Selected: " + ", ".join(selected))
     elif prompt.startswith("/system "):
         system_prompt = prompt[len("/system ") :].strip()
         for model in available:
@@ -542,53 +515,55 @@ def _prompt_loop(
             completion_tokens = usage.get("completion_tokens")
             token_text = f" tokens={completion_tokens}" if completion_tokens is not None else ""
             print(
-                f"[{result.get('finish_reason') or 'unknown'}{token_text} "
+                f"[model={result['resolved_model']} "
+                f"{result.get('finish_reason') or 'unknown'}{token_text} "
                 f"latency={result.get('latency_ms')}ms]"
             )
     return 0
+
+
+def _run_ready_chat(
+    provider: RoutedOpenAICompatibleProvider,
+    system_prompt: str,
+    args: argparse.Namespace,
+) -> int:
+    print("Waiting for endpoint health and discovering /v1/models...")
+    model = provider.wait_for_model()
+    available = [model]
+    selected = [model]
+    histories = {model: initial_history(system_prompt)}
+    prompt_session = create_prompt_session()
+    print("OpenAI-compatible chat")
+    print("model: " + model)
+    print_settings(args)
+    print("Type /help for commands.")
+    return _prompt_loop(
+        provider,
+        available,
+        selected,
+        histories,
+        system_prompt,
+        args,
+        prompt_session,
+    )
 
 
 def run_chat(args: argparse.Namespace) -> int:
     validate_args(args)
     config = load_endpoint_config(args.config)
     provider = RoutedOpenAICompatibleProvider(config)
-    available = provider.list_models()
-    selected = select_models(args.model, available)
     system_prompt = args.system
-    histories = {model: initial_history(system_prompt) for model in available}
-
-    prompt_session = create_prompt_session()
-    print("OpenAI-compatible chat")
-    print("model: " + ", ".join(selected))
-    print_settings(args)
-    print("Type /help for commands.")
 
     tunnel_config = config.get("ssh")
     if tunnel_config is None:
-        return _prompt_loop(
-            provider,
-            available,
-            selected,
-            histories,
-            system_prompt,
-            args,
-            prompt_session,
-        )
+        return _run_ready_chat(provider, system_prompt, args)
     if not args.batch_ssh:
         print("SSH authentication: enter your password/passphrase if prompted (not stored).")
     with managed_ssh_tunnel(
         tunnel_config, interactive_auth=not args.batch_ssh
     ) as tunnel:
         print(f"SSH tunnel: {tunnel['status']}")
-        return _prompt_loop(
-            provider,
-            available,
-            selected,
-            histories,
-            system_prompt,
-            args,
-            prompt_session,
-        )
+        return _run_ready_chat(provider, system_prompt, args)
 
 
 def main() -> int:

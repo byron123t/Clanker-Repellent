@@ -943,7 +943,7 @@ def main(argv: Optional[List[str]] = None) -> int:
             tunnel_context = _endpoint_tunnel_context(endpoint_config)
             with tunnel_context as tunnel:
                 print(f"ssh_tunnel={tunnel['status']}")
-                for model in provider.list_models():
+                for model in provider.wait_for_models():
                     print(model)
             return 0
         runtime_environment = _runtime_environment()
@@ -957,6 +957,7 @@ def main(argv: Optional[List[str]] = None) -> int:
             base_url=args.base_url,
             ca_cert=Path(args.ca_cert) if args.ca_cert else None,
         )
+        provider.wait_for_health(120.0)
         for model in provider.list_models():
             print(model)
         return 0

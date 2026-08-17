@@ -10,7 +10,9 @@ class ReadmeUsageTests(unittest.TestCase):
         readme = (ROOT / "README.md").read_text(encoding="utf-8")
         documentation = " ".join(readme.split())
         expected = (
-            "## The four commands",
+            "## Configuration and secret hygiene",
+            "Checked-in configuration contains environment-variable references and placeholders only",
+            "## Core repository commands",
             "anaphylaxis add",
             "anaphylaxis status",
             "anaphylaxis remove",
@@ -48,7 +50,7 @@ class ReadmeUsageTests(unittest.TestCase):
 
         self.assertNotIn("scripts/launch_repo_agents.py", readme)
         self.assertNotIn("guardrail-anaphylaxis add", readme)
-        self.assertLess(len(readme.splitlines()), 200)
+        self.assertLess(len(readme.splitlines()), 220)
 
     def test_only_three_top_level_guides_remain(self):
         guides = {path.name for path in ROOT.glob("*.md")}

@@ -1,4 +1,5 @@
 import re
+import subprocess
 import unittest
 from pathlib import Path
 
@@ -36,18 +37,20 @@ class SecretHygieneTests(unittest.TestCase):
         self.assertFalse(any(line.startswith("!results/") for line in ignore))
 
     def test_publishable_project_files_have_no_credential_shaped_values(self):
-        paths = []
-        for directory in ("src", "scripts", "configs", "payloads", "data"):
-            paths.extend((ROOT / directory).rglob("*"))
-        paths.extend(ROOT.glob("*.md"))
-        paths.extend(ROOT.glob("*.txt"))
-        paths.append(ROOT / ".env.example")
-        for pattern in (
-            "smoke-*.*",
-            "refusal-*.*",
-            "raw-artifact-*.*",
-        ):
-            paths.extend((ROOT / "results").glob(pattern))
+        listing = subprocess.run(
+            ["git", "ls-files", "-z", "--cached", "--others", "--exclude-standard"],
+            cwd=ROOT,
+            check=True,
+            capture_output=True,
+        ).stdout.split(b"\0")
+        paths = [
+            ROOT / relative.decode("utf-8")
+            for relative in listing
+            if relative
+            and not {"payloads", "results"}.intersection(
+                Path(relative.decode("utf-8")).parts
+            )
+        ]
 
         findings = []
         for path in paths:
@@ -65,6 +68,16 @@ class SecretHygieneTests(unittest.TestCase):
                 if pattern.search(content):
                     findings.append(f"{label}: {path.relative_to(ROOT)}")
         self.assertEqual(findings, [])
+
+    def test_checked_in_endpoint_templates_have_no_literal_endpoint_or_key(self):
+        example = (ROOT / ".env.example").read_text(encoding="utf-8")
+        config = (ROOT / "configs" / "abliterated-local.json").read_text(encoding="utf-8")
+
+        self.assertNotRegex(example, r"https?://")
+        self.assertNotRegex(example, r"\b(?:\d{1,3}\.){3}\d{1,3}\b")
+        self.assertNotRegex(config, r"https?://")
+        self.assertNotRegex(config, r"\b(?:\d{1,3}\.){3}\d{1,3}\b")
+        self.assertNotIn('"api_key"', config)
 
 
 if __name__ == "__main__":

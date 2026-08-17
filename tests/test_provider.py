@@ -1,12 +1,13 @@
 import unittest
 from types import SimpleNamespace
-from unittest.mock import MagicMock, patch
+from unittest.mock import MagicMock, call, patch
 
 from llmddos.provider import (
     OpenAICompatibleProvider,
     RoutedOpenAICompatibleProvider,
     _extract_prompt_final,
     _extract_prompt_tool_call,
+    _health_url,
 )
 
 
@@ -98,6 +99,7 @@ class ProviderToolTests(unittest.TestCase):
             tool_calls=None,
         )
         self.provider.client.chat.completions.create.return_value = SimpleNamespace(
+            model="resolved-model",
             usage=None,
             choices=[SimpleNamespace(message=message, finish_reason="stop")],
         )
@@ -113,6 +115,20 @@ class ProviderToolTests(unittest.TestCase):
         self.assertEqual(result["tool_calls"], [])
         self.assertIsNone(result["usage"])
         self.assertIsNone(result["provider_request_id"])
+
+    def test_completion_response_requires_server_model_field(self):
+        self.provider.client.chat.completions.create.return_value = SimpleNamespace(
+            usage=None,
+            choices=[
+                SimpleNamespace(
+                    message=SimpleNamespace(content="answer", refusal=None),
+                    finish_reason="stop",
+                )
+            ],
+        )
+
+        with self.assertRaisesRegex(RuntimeError, "model field"):
+            self.provider.complete(model="discovered-model", messages=[])
 
     @patch("llmddos.provider.time.monotonic", side_effect=[20.0, 20.25])
     def test_stream_complete_assembles_vllm_content_reasoning_and_usage(self, _monotonic):
@@ -190,6 +206,43 @@ class ProviderToolTests(unittest.TestCase):
 
 
 class RoutedProviderTests(unittest.TestCase):
+    def test_waits_for_health_before_discovering_the_active_model(self):
+        routed = RoutedOpenAICompatibleProvider.__new__(RoutedOpenAICompatibleProvider)
+        endpoint = MagicMock()
+        endpoint.list_models.return_value = ["served-model"]
+        routed.providers = {"server": endpoint}
+        routed.tool_modes = {"server": "prompt_json"}
+        routed.minimum_max_tokens = {"server": 8192}
+        routed.health_timeouts = {"server": 600.0}
+        routed.discovered_providers = {}
+        routed.discovery_route = "server"
+
+        model = routed.wait_for_model()
+
+        self.assertEqual(model, "served-model")
+        self.assertEqual(
+            endpoint.method_calls,
+            [call.wait_for_health(600.0), call.list_models()],
+        )
+        routed.complete(model, messages=[], max_tokens=10)
+        endpoint.complete.assert_called_once_with(
+            model="served-model", messages=[], max_tokens=8192
+        )
+
+    def test_discovery_requires_one_active_server_model(self):
+        routed = RoutedOpenAICompatibleProvider.__new__(RoutedOpenAICompatibleProvider)
+        endpoint = MagicMock()
+        endpoint.list_models.return_value = ["model-a", "model-b"]
+        routed.providers = {"server": endpoint}
+        routed.tool_modes = {"server": "native"}
+        routed.minimum_max_tokens = {"server": 1}
+        routed.health_timeouts = {"server": 10.0}
+        routed.discovered_providers = {}
+        routed.discovery_route = "server"
+
+        with self.assertRaisesRegex(RuntimeError, "exactly one active model"):
+            routed.wait_for_model()
+
     def test_dispatches_models_to_distinct_providers(self):
         routed = RoutedOpenAICompatibleProvider.__new__(RoutedOpenAICompatibleProvider)
         glm = MagicMock()
@@ -243,6 +296,14 @@ class PromptToolProtocolTests(unittest.TestCase):
         )
 
         self.assertEqual(_extract_prompt_final(text), "The code is TOKEN-9.")
+
+
+class HealthUrlTests(unittest.TestCase):
+    def test_health_is_server_level_while_models_stays_under_v1(self):
+        self.assertEqual(
+            _health_url("http://127.0.0.1:18473/v1"),
+            "http://127.0.0.1:18473/health",
+        )
 
 
 if __name__ == "__main__":

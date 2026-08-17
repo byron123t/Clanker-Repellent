@@ -61,46 +61,34 @@ def make_args(**overrides):
 
 
 class InteractiveInferenceTests(unittest.TestCase):
-    def test_default_model_is_glm(self):
+    def test_model_is_discovered_instead_of_accepted_as_an_argument(self):
         args = interactive.build_parser().parse_args([])
 
-        self.assertEqual(args.model, "glm-4.7-flash-abliterated")
+        self.assertFalse(hasattr(args, "model"))
+        self.assertNotIn("--model", interactive.build_parser().format_help())
         self.assertEqual(args.temperature, 0.7)
         self.assertEqual(args.top_p, 0.95)
 
-    def test_default_config_includes_qwen_3_6_route(self):
+    def test_default_config_has_one_server_discovered_route(self):
         base_url = "http://127.0.0.1:19002/v1"
         config = interactive.load_endpoint_config(
             interactive.DEFAULT_CONFIG,
             environ={
                 "GUARDRAIL_SSH_TARGET": "user@example.test",
                 "GUARDRAIL_REMOTE_HOST": "127.0.0.1",
-                "GUARDRAIL_GLM_LOCAL_PORT": "19001",
-                "GUARDRAIL_GLM_REMOTE_PORT": "19001",
-                "GUARDRAIL_GLM_BASE_URL": "http://127.0.0.1:19001/v1",
-                "GUARDRAIL_QWEN36_LOCAL_PORT": "19002",
-                "GUARDRAIL_QWEN36_REMOTE_PORT": "19002",
-                "GUARDRAIL_QWEN36_BASE_URL": base_url,
-                "GUARDRAIL_QWEN3_LOCAL_PORT": "19003",
-                "GUARDRAIL_QWEN3_REMOTE_PORT": "19003",
-                "GUARDRAIL_QWEN3_BASE_URL": "http://127.0.0.1:19003/v1",
+                "GUARDRAIL_NOOP_LOCAL_PORT": "19002",
+                "GUARDRAIL_NOOP_REMOTE_PORT": "19002",
+                "GUARDRAIL_NOOP_BASE_URL": base_url,
             },
         )
-        route = config["models"][
-            "qwen3.6-35b-a3b-claude-4.7-opus-abliterated"
-        ]
+        route = config["models"]["server"]
 
         self.assertEqual(route["base_url"], base_url)
+        self.assertEqual(config["_discovery_route"], "server")
+        self.assertEqual(len(config["models"]), 1)
+        self.assertEqual(len(config["ssh"]["forwards"]), 1)
         self.assertEqual(route["minimum_max_tokens"], 8192)
         self.assertEqual(route["tool_mode"], "prompt_json")
-
-    def test_model_selection(self):
-        available = ["glm", "qwen"]
-
-        self.assertEqual(interactive.select_models("all", available), available)
-        self.assertEqual(interactive.select_models("qwen", available), ["qwen"])
-        with self.assertRaisesRegex(ValueError, "unknown model"):
-            interactive.select_models("missing", available)
 
     def test_prompt_loop_sends_history_and_prints_response(self):
         provider = FakeProvider()
