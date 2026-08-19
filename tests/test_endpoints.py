@@ -33,17 +33,17 @@ class EndpointConfigTests(unittest.TestCase):
         example = (root / ".env.example").read_text(encoding="utf-8")
 
         self.assertIn("${GUARDRAIL_SSH_TARGET}", raw)
-        self.assertEqual(raw.count("${GUARDRAIL_NOOP_BASE_URL}"), 1)
-        self.assertEqual(raw.count("${GUARDRAIL_NOOP_LOCAL_PORT}"), 1)
+        self.assertEqual(raw.count("${REPEL_BASE_URL}"), 1)
+        self.assertEqual(raw.count("${REPEL_LOCAL_PORT}"), 1)
         self.assertNotIn("glm-4.7", raw)
         self.assertNotIn("qwen3", raw.casefold())
         self.assertNotIn("http://", raw)
         self.assertNotRegex(raw, r"\b18\d{3}\b")
         self.assertNotRegex(raw, r"\b(?:\d{1,3}\.){3}\d{1,3}\b")
-        self.assertIn("GUARDRAIL_NOOP_LOCAL_PORT=<local-port>", example)
-        self.assertIn("GUARDRAIL_NOOP_REMOTE_PORT=<remote-port>", example)
+        self.assertIn("REPEL_LOCAL_PORT=<local-port>", example)
+        self.assertIn("REPEL_REMOTE_PORT=<remote-port>", example)
         self.assertIn(
-            "GUARDRAIL_NOOP_BASE_URL=<loopback-openai-base-url>", example
+            "REPEL_BASE_URL=<loopback-openai-base-url>", example
         )
 
     def test_url_policy_allows_https_and_explicit_loopback_only(self):

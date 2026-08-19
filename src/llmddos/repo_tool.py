@@ -1,4 +1,4 @@
-"""Small payload add/status/remove/guard CLI for authorized repositories."""
+"""Repel repository lifecycle and collaborator-verification CLI."""
 
 from __future__ import annotations
 
@@ -7,6 +7,7 @@ import hashlib
 import json
 import os
 import subprocess
+import sys
 import tempfile
 from pathlib import Path
 from typing import Dict, List, Optional, Sequence, Tuple
@@ -29,7 +30,15 @@ from .publication_guard import (
     clean_indexed_repository,
     resolve_scatter_index,
 )
-from . import noop_cli, noop_deploy_cli
+from .hash_share import (
+    SHARE_STATE_CHOICES,
+    SHARE_STATE_CURRENT,
+    VERIFY_STATE_VERIFIED,
+    create_hash_share,
+    verify_hash_share,
+    write_hash_share,
+)
+from . import deploy_cli, generate_cli
 
 
 DEFAULT_REPO_TOOL_POSITIONS = (POSITION_HEAD, POSITION_TAIL)
@@ -255,7 +264,27 @@ def _summary(manifest: Dict) -> Dict:
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="repel",
-        description="Add, inspect, and exactly remove indexed comment payloads.",
+        description=(
+            "Clanker Repellent: safely deliver, generate, review, and remove authorized "
+            "repository artifacts."
+        ),
+        epilog=(
+            "Common workflows:\n"
+            "  repel add                         Preview comment delivery\n"
+            "  repel add --apply                 Apply indexed comment delivery\n"
+            "  repel generate --help             Generate validated source candidates\n"
+            "  repel generate --harness opencode Use the isolated OpenCode harness\n"
+            "  repel deploy --help               Review or apply native carriers\n"
+            "  repel status | remove | guard     Inspect, clean, or block publication\n\n"
+            "  repel share --output .repel-hashes.json  Export hash-only collaborator proof\n"
+            "  repel verify --hashes .repel-hashes.json Verify before enabling an agent\n\n"
+            "Configuration:\n"
+            "  Endpoint addresses and credentials belong in the ignored .env or the process\n"
+            "  environment. Checked-in JSON contains variable references only.\n\n"
+            "Run `repel COMMAND --help` for command-specific options. Generation validates\n"
+            "source without executing it; deployment remains an explicit reviewable action."
+        ),
+        formatter_class=argparse.RawDescriptionHelpFormatter,
     )
     subparsers = parser.add_subparsers(dest="command", required=True)
 
@@ -326,33 +355,103 @@ def build_parser() -> argparse.ArgumentParser:
             subparser.add_argument(
                 "--apply", action="store_true", help="write files; default is a preview"
             )
-    noop = subparsers.add_parser(
-        "noop", help="generate and deploy validated native no-op source"
+
+    share = subparsers.add_parser(
+        "share", help="export a hash-only collaborator verification artifact"
     )
-    noop.add_argument(
-        "operation",
-        choices=("generate", "deploy"),
-        help="generate source or manage native source deployment",
+    _add_target_arguments(share)
+    share.add_argument(
+        "--index", type=Path, help="scatter index to export; defaults to the active index"
     )
-    noop.add_argument(
-        "arguments",
-        nargs=argparse.REMAINDER,
-        help=argparse.SUPPRESS,
+    share.add_argument(
+        "--state",
+        choices=SHARE_STATE_CHOICES,
+        default=SHARE_STATE_CURRENT,
+        help=(
+            "expected checkout state: current, clean, or payload_present "
+            "(default: current)"
+        ),
+    )
+    share.add_argument(
+        "--output",
+        type=Path,
+        required=True,
+        help="JSON file to create for collaborators (contains hashes, never payload text)",
+    )
+
+    verify = subparsers.add_parser(
+        "verify", help="verify a hash-only collaborator artifact before agent use"
+    )
+    _add_target_arguments(verify)
+    verify.add_argument(
+        "--hashes", type=Path, required=True, help="hash-only artifact to verify"
+    )
+    generate = subparsers.add_parser(
+        "generate",
+        help="generate validated source candidates (see `repel generate --help`)",
+        add_help=False,
+        description=(
+            "Generate one statically validated source candidate per requested language. "
+            "Use `repel generate --help` for payload, harness, retry, and toolchain options."
+        ),
+    )
+    deploy = subparsers.add_parser(
+        "deploy",
+        help="review or apply validated native carriers (see `repel deploy --help`)",
+        add_help=False,
+        description=(
+            "Review or apply accepted native carriers. Use `repel deploy --help` for "
+            "repository, run-directory, position, and apply options."
+        ),
     )
     return parser
 
 
 def main(argv: Optional[Sequence[str]] = None) -> int:
+    command_argv = list(sys.argv[1:] if argv is None else argv)
+    if command_argv and command_argv[0] == "generate":
+        return generate_cli.main(command_argv[1:])
+    if command_argv and command_argv[0] == "deploy":
+        return deploy_cli.main(command_argv[1:])
     parser = build_parser()
-    args = parser.parse_args(argv)
-    if args.command == "noop":
-        if args.operation == "generate":
-            return noop_cli.main(args.arguments)
-        return noop_deploy_cli.main(args.arguments)
+    args = parser.parse_args(command_argv)
     try:
         repository, preferred_index, target_mode = _target_context(
             args.repo, args.git_repo
         )
+        if args.command == "verify":
+            output = verify_hash_share(repository, args.hashes)
+            output["repository"] = str(repository)
+            output["hashes"] = str(args.hashes.resolve())
+            output["target_mode"] = target_mode
+            print(json.dumps(output, indent=2))
+            return 0 if output["state"] == VERIFY_STATE_VERIFIED else 3
+
+        if args.command == "share":
+            index_path, _ = _operation_index(
+                repository, preferred_index, args.index, adding=False
+            )
+            scatter, source = resolve_scatter_index(repository, index_path)
+            if args.output.is_symlink():
+                raise ValueError(f"refusing to replace symlinked hash share: {args.output}")
+            output_path = args.output.resolve()
+            if output_path == source.resolve():
+                raise ValueError("hash-share output must not replace the scatter index")
+            share_document = create_hash_share(
+                repository, scatter, expected_state=args.state
+            )
+            write_hash_share(share_document, output_path)
+            output = {
+                "kind": share_document["kind"],
+                "expected_state": share_document["expected_state"],
+                "file_count": share_document["file_count"],
+                "index": str(source),
+                "hashes": str(output_path),
+                "target_mode": target_mode,
+            }
+            print(json.dumps(output, indent=2))
+            return 0
+
         index_path, legacy_migration = _operation_index(
             repository,
             preferred_index,

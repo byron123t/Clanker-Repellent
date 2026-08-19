@@ -40,12 +40,12 @@ client supports streaming, multiline paste, `/models`, `/think`, `/no_think`, `/
 and `/new`. Output and context controls are documented by `--help` and `/settings`.
 
 The abliterated endpoints are not automatic payload generators; repository addition is a separate
-explicit action (`repel add --apply` for comments or `repel noop deploy ...` for
+explicit action (`repel add --apply` for comments or `repel deploy ...` for
 reviewed native carriers), and generation is separate from both.
 
-## Structured no-op generation
+## Structured source generation
 
-`repel noop generate` is the bounded generation loop for language-native source
+`repel generate` is the bounded generation loop for language-native source
 drafts. It reads one UTF-8 payload, selects one or more requested languages, and makes exactly one
 OpenAI-compatible completion per selected language. The system message treats the payload as opaque data and forbids imports,
 includes, I/O, dynamic evaluation, subprocesses, startup hooks, and runtime effects. Each language gets
@@ -54,6 +54,13 @@ receives the previous model response and parser/compiler/linter/formatting diagn
 payload and language remain unchanged. The loop does not
 optimize triggers, inject into a repository, or publish.
 It does not optimize, mutate, or publish evasive variants automatically.
+
+For local debugging and control measurements, `repel generate --benign` switches to a separate
+inert-generation contract. It asks for comments/literals/inert declarations only and fails closed
+when a candidate contains conservative indicators of imports, I/O, process or network activity,
+dynamic evaluation, executable entry points, or harmful content. These runs are written below
+`results/benign-generation/<payload-name>/`, never execute generated source, and remain subject to
+human review; the static policy is deliberately conservative rather than a complete security proof.
 
 The model receives no source template or language-specific scaffold; it receives only the requested
 language and payload. Operational terms, payload processing, and side effects remain forbidden;
@@ -65,7 +72,8 @@ language. The extractor rejects missing, duplicate, malformed/nested-fenced, emp
 or oversized blocks, strips the outer fence, and passes only the unfenced source to validation.
 Surrounding chatter is ignored.
 Only accepted candidates are written below the ignored
-`results/noop-generation/<payload-name>/` directory. Failed attempts remain manifest metadata;
+`results/source-generation/<payload-name>/` directory (or the separate
+`results/benign-generation/<payload-name>/` directory with `--benign`). Failed attempts remain manifest metadata;
 their source is not persisted. Re-running the same payload directory resumes incomplete languages
 and refuses to overwrite a fully successful run. `manifest.json` records payload, language,
 response, candidate, and diagnostic hashes plus validator statuses. `--keep-raw-responses` is
@@ -84,10 +92,10 @@ timeout, private config/cache directories, no stdin, and never receive shell com
 List the contract without contacting an endpoint:
 
 ```bash
-repel noop generate --list-languages
-repel noop generate --list-toolchains
-repel noop generate --payload /private/payload.txt --language python --retries 3
-repel noop generate --harness opencode --payload /private/payload.txt --language python --retries 3
+repel generate --list-languages
+repel generate --list-toolchains
+repel generate --payload /private/payload.txt --language python --retries 3
+repel generate --harness opencode --payload /private/payload.txt --language python --retries 3
 ```
 
 With `--harness opencode`, the launcher creates an ephemeral custom-provider configuration from the
@@ -99,7 +107,7 @@ web access, subagents, and external-directory access remain disabled.
 
 After review, candidates remain reviewable fixtures until an explicit native deployment. The
 existing `repel add --payload` path still treats a supplied file as comment-delivery text;
-it does not insert generated source. Use `repel noop deploy add --run-dir ...` for the
+it does not insert generated source. Use `repel deploy add --run-dir ...` for the
 separate native path. It matches carriers by language, creates and validates complete in-memory
 post-images with the host-language parser/compiler path, keeps Python shebangs/encoding cookies and
 multiline-string contents intact while aligning nested indentation, and writes an exact insertion

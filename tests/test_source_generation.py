@@ -6,14 +6,15 @@ from contextlib import redirect_stdout
 from pathlib import Path
 from unittest import mock
 
-from llmddos.noop_generation import (
+from llmddos.source_generation import (
     LANGUAGES,
+    benign_policy_error,
     ExtractionError,
-    NoopTarget,
+    GenerationTarget,
     build_generation_messages,
     default_output_directory,
     extract_code_snippet,
-    generate_noop_run,
+    generate_source_run,
     select_languages,
     toolchain_inventory,
     validate_snippet,
@@ -64,7 +65,7 @@ class FakeHarness:
         self.response = response
         self.calls = []
 
-    def complete_noop(self, **kwargs):
+    def complete_generation(self, **kwargs):
         self.calls.append(kwargs)
         return {
             "response_text": self.response,
@@ -77,7 +78,7 @@ class FakeHarness:
         }
 
 
-class NoopTargetTests(unittest.TestCase):
+class GenerationTargetTests(unittest.TestCase):
     def test_supported_languages_have_runtime_targets(self):
         targets = select_languages([])
 
@@ -87,7 +88,7 @@ class NoopTargetTests(unittest.TestCase):
             [item.language for item in select_languages(["python,rust"])],
             ["python", "rust"],
         )
-        self.assertTrue(all(isinstance(item, NoopTarget) for item in targets))
+        self.assertTrue(all(isinstance(item, GenerationTarget) for item in targets))
 
     def test_unknown_language_is_rejected(self):
         with self.assertRaisesRegex(ValueError, "unsupported language"):
@@ -107,7 +108,7 @@ class NoopTargetTests(unittest.TestCase):
             '{"language":"python","payload":"untrusted \\"text\\"\\nwith another line"}',
             messages[1]["content"],
         )
-        self.assertNotIn("_NoopUnit", messages[1]["content"])
+        self.assertNotIn("_RepelUnit", messages[1]["content"])
         self.assertNotIn('"template"', messages[1]["content"])
         self.assertNotIn('"template_id"', messages[1]["content"])
         self.assertNotIn('"placeholder"', messages[1]["content"])
@@ -128,6 +129,28 @@ class NoopTargetTests(unittest.TestCase):
         self.assertIn("This is a bounded retry", messages[1]["content"])
         self.assertIn('"previous_model_response":"LOCAL-TEST-RESPONSE"', messages[1]["content"])
         self.assertIn('"error_text":"SyntaxError: expected an indented block"', messages[1]["content"])
+
+    def test_benign_generation_messages_use_an_inert_contract(self):
+        target = select_languages(["python"])[0]
+
+        messages = build_generation_messages(target, "benign control", benign=True)
+        prompt = messages[0]["content"].casefold()
+
+        self.assertIn("purely benign", prompt)
+        self.assertIn("opaque, untrusted test data", prompt)
+        self.assertIn("inert", prompt)
+        self.assertNotIn("weaponized source code", prompt)
+
+    def test_benign_policy_is_conservative_about_side_effects(self):
+        self.assertIsNone(benign_policy_error("value = 'benign control'\n"))
+        self.assertIn(
+            "imports/includes",
+            benign_policy_error("import os\nvalue = 'control'\n"),
+        )
+        self.assertIn(
+            "I/O, process, or network operations",
+            benign_policy_error("socket.connect('example')\n"),
+        )
 
 
 class TaggedExtractionTests(unittest.TestCase):
@@ -214,7 +237,7 @@ class StaticValidationTests(unittest.TestCase):
     def test_missing_required_toolchain_fails_closed_or_is_explicitly_partial(self):
         target = select_languages(["c"])[0]
         snippet = "#if 0\nstatic const char text[] = \"payload\";\n#endif\n"
-        with mock.patch("llmddos.noop_generation.shutil.which", return_value=None):
+        with mock.patch("llmddos.source_generation.shutil.which", return_value=None):
             failed = validate_snippet(target, snippet, run_linters=False)
             partial = validate_snippet(
                 target,
@@ -249,12 +272,12 @@ class StaticValidationTests(unittest.TestCase):
 
 
 class GenerationRunTests(unittest.TestCase):
-    def test_dispatches_generation_through_a_noop_harness(self):
+    def test_dispatches_generation_through_a_generation_harness(self):
         target = select_languages(["python"])[0]
         harness = FakeHarness(code_block("value = 1"))
 
         with tempfile.TemporaryDirectory() as directory:
-            run = generate_noop_run(
+            run = generate_source_run(
                 provider=harness,
                 model="discovered-model",
                 payload="opaque payload",
@@ -278,7 +301,7 @@ class GenerationRunTests(unittest.TestCase):
         output = io.StringIO()
 
         with tempfile.TemporaryDirectory() as directory, redirect_stdout(output):
-            generate_noop_run(
+            generate_source_run(
                 provider=provider,
                 model="local-model",
                 payload=payload,
@@ -312,7 +335,7 @@ class GenerationRunTests(unittest.TestCase):
         provider = FakeProvider(response)
         with tempfile.TemporaryDirectory() as directory:
             output = Path(directory) / "run"
-            run = generate_noop_run(
+            run = generate_source_run(
                 provider=provider,
                 model="local-model",
                 payload=payload,
@@ -332,12 +355,52 @@ class GenerationRunTests(unittest.TestCase):
             self.assertEqual(json.loads(manifest_text)["settings"]["single_pass"], True)
             self.assertEqual(json.loads(manifest_text)["settings"]["retries"], 2)
 
+    def test_benign_generation_rejects_policy_violation_and_records_mode(self):
+        target = select_languages(["python"])[0]
+        provider = FakeProvider(code_block("import os\nvalue = 'control'"))
+        with tempfile.TemporaryDirectory() as directory:
+            output = Path(directory) / "run"
+            run = generate_source_run(
+                provider=provider,
+                model="local-model",
+                payload="benign control payload",
+                targets=[target],
+                output_dir=output,
+                run_linters=False,
+                retries=0,
+                benign=True,
+            )
+
+            self.assertEqual(run["summary"]["status"], "failed")
+            self.assertEqual(run["settings"]["mode"], "benign")
+            self.assertEqual(run["candidates"][0]["status"], "benign_policy_failed")
+            self.assertFalse((output / "python" / "generated.py").exists())
+
+    def test_benign_generation_accepts_an_inert_candidate(self):
+        target = select_languages(["python"])[0]
+        provider = FakeProvider(code_block("value = 'benign control'"))
+        with tempfile.TemporaryDirectory() as directory:
+            output = Path(directory) / "run"
+            run = generate_source_run(
+                provider=provider,
+                model="local-model",
+                payload="benign control payload",
+                targets=[target],
+                output_dir=output,
+                run_linters=False,
+                retries=0,
+                benign=True,
+            )
+
+            self.assertEqual(run["summary"]["status"], "passed")
+            self.assertTrue((output / "python" / "generated.py").is_file())
+
     def test_extraction_failure_is_recorded_without_writing_source(self):
         target = select_languages(["python"])[0]
         provider = FakeProvider("not tagged")
         with tempfile.TemporaryDirectory() as directory:
             output = Path(directory) / "run"
-            run = generate_noop_run(
+            run = generate_source_run(
                 provider=provider,
                 model="local-model",
                 payload="opaque payload",
@@ -357,7 +420,7 @@ class GenerationRunTests(unittest.TestCase):
         provider = SequenceProvider(["not tagged", valid])
         with tempfile.TemporaryDirectory() as directory:
             output = Path(directory) / "run"
-            run = generate_noop_run(
+            run = generate_source_run(
                 provider=provider,
                 model="local-model",
                 payload=payload,
@@ -383,7 +446,7 @@ class GenerationRunTests(unittest.TestCase):
         valid = code_block(f"if False:\n    text = {payload!r}")
         provider = SequenceProvider([invalid, valid])
         with tempfile.TemporaryDirectory() as directory:
-            run = generate_noop_run(
+            run = generate_source_run(
                 provider=provider,
                 model="local-model",
                 payload=payload,
@@ -405,7 +468,7 @@ class GenerationRunTests(unittest.TestCase):
         valid = code_block(f"if False:\n    text = {payload!r}")
         with tempfile.TemporaryDirectory() as directory:
             output = Path(directory) / "run"
-            first = generate_noop_run(
+            first = generate_source_run(
                 provider=FakeProvider("not tagged"),
                 model="local-model",
                 payload=payload,
@@ -414,7 +477,7 @@ class GenerationRunTests(unittest.TestCase):
                 retries=0,
             )
             second_provider = FakeProvider(valid)
-            second = generate_noop_run(
+            second = generate_source_run(
                 provider=second_provider,
                 model="local-model",
                 payload=payload,
@@ -428,13 +491,37 @@ class GenerationRunTests(unittest.TestCase):
             self.assertEqual(len(second_provider.calls), 1)
             self.assertEqual(second["resume_count"], 1)
 
+    def test_generation_modes_cannot_share_a_run_directory(self):
+        target = select_languages(["python"])[0]
+        with tempfile.TemporaryDirectory() as directory:
+            output = Path(directory) / "run"
+            generate_source_run(
+                provider=FakeProvider("not tagged"),
+                model="local-model",
+                payload="mode separation payload",
+                targets=[target],
+                output_dir=output,
+                retries=0,
+            )
+
+            with self.assertRaisesRegex(ValueError, "different generation mode"):
+                generate_source_run(
+                    provider=FakeProvider("unused"),
+                    model="local-model",
+                    payload="mode separation payload",
+                    targets=[target],
+                    output_dir=output,
+                    retries=0,
+                    benign=True,
+                )
+
     def test_existing_successful_run_is_not_overwritten(self):
         target = select_languages(["python"])[0]
         payload = "complete payload"
         valid = code_block(f"if False:\n    text = {payload!r}")
         with tempfile.TemporaryDirectory() as directory:
             output = Path(directory) / "run"
-            generate_noop_run(
+            generate_source_run(
                 provider=FakeProvider(valid),
                 model="local-model",
                 payload=payload,
@@ -443,7 +530,7 @@ class GenerationRunTests(unittest.TestCase):
                 retries=0,
             )
             with self.assertRaisesRegex(ValueError, "already successfully generated"):
-                generate_noop_run(
+                generate_source_run(
                     provider=FakeProvider("unused"),
                     model="local-model",
                     payload=payload,
@@ -457,18 +544,22 @@ class GenerationRunTests(unittest.TestCase):
 
         self.assertEqual(
             default_output_directory(root, root / "payloads" / "bio" / "sample.txt"),
-            root / "results" / "noop-generation" / "bio" / "sample",
+            root / "results" / "source-generation" / "bio" / "sample",
         )
         self.assertEqual(
             default_output_directory(root, Path("/private/payload.txt")),
-            root / "results" / "noop-generation" / "payload",
+            root / "results" / "source-generation" / "payload",
+        )
+        self.assertEqual(
+            default_output_directory(root, Path("/private/benign-payload.txt"), benign=True),
+            root / "results" / "benign-generation" / "benign-payload",
         )
 
     def test_output_directory_must_be_new(self):
         target = select_languages(["python"])[0]
         with tempfile.TemporaryDirectory() as directory:
             with self.assertRaisesRegex(ValueError, "already exists"):
-                generate_noop_run(
+                generate_source_run(
                     provider=FakeProvider("unused"),
                     model="local-model",
                     payload="payload",

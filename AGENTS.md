@@ -1,1 +1,1 @@
-DO NOT LOOK IN `payloads/` or `results/` when working on this repo.
+DO NOT LOOK IN `payloads/` or `results/` when working on this repo. Any artifacts created by using `repel generate` or `repel add` should also not be looked at, unless they were done with the benign flag.

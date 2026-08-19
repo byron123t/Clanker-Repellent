@@ -1,4 +1,4 @@
-"""CLI for deploying and removing validated native no-op carriers."""
+"""CLI for deploying and removing validated native carriers."""
 
 from __future__ import annotations
 
@@ -7,7 +7,7 @@ import json
 from pathlib import Path
 from typing import Optional, Sequence
 
-from .noop_deploy import (
+from .carrier_deploy import (
     INDEX_FILENAME,
     POSITIONS,
     DeploymentError,
@@ -31,8 +31,8 @@ def _target_arguments(parser: argparse.ArgumentParser) -> None:
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        prog="repel noop deploy",
-        description="Place accepted language-native no-op carriers with syntax-aware alignment and host validation.",
+        prog="repel deploy",
+        description="Place accepted language-native carriers with syntax-aware alignment and host validation.",
     )
     subparsers = parser.add_subparsers(dest="command", required=True)
     add = subparsers.add_parser("add", help="plan or apply native carrier injections")

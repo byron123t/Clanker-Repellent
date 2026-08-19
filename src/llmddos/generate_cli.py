@@ -9,15 +9,15 @@ from pathlib import Path
 from typing import Any, ContextManager, Dict, Optional, Sequence
 
 from .endpoints import load_endpoint_config
-from .noop_generation import (
+from .source_generation import (
     DEFAULT_MAX_TOKENS,
     default_output_directory,
-    generate_noop_run,
+    generate_source_run,
     read_payload,
     select_languages,
     toolchain_inventory,
 )
-from .opencode_harness import DEFAULT_OPENCODE_TIMEOUT_SECONDS, OpenCodeNoopHarness
+from .opencode_harness import DEFAULT_OPENCODE_TIMEOUT_SECONDS, OpenCodeGenerationHarness
 from .provider import RoutedOpenAICompatibleProvider
 from .tunnel import managed_ssh_tunnel
 
@@ -28,9 +28,9 @@ DEFAULT_CONFIG = PROJECT_ROOT / "configs" / "abliterated-local.json"
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        prog="repel noop generate",
+        prog="repel generate",
         description=(
-            "Generate one inert source candidate per requested language with the active local "
+            "Generate one statically validated source candidate per requested language with the active local "
             "model discovered from the server, then statically validate it without execution."
         ),
     )
@@ -60,6 +60,14 @@ def build_parser() -> argparse.ArgumentParser:
         help="maximum seconds for each OpenCode attempt (default: 900)",
     )
     parser.add_argument("--output-dir", type=Path)
+    parser.add_argument(
+        "--benign",
+        action="store_true",
+        help=(
+            "use the purely benign control contract: inert declarations only, conservative "
+            "side-effect checks, and a separate benign-generation output directory"
+        ),
+    )
     parser.add_argument("--max-tokens", type=int, default=DEFAULT_MAX_TOKENS)
     parser.add_argument("--temperature", type=float, default=0.2)
     parser.add_argument("--top-p", type=float, default=0.8)
@@ -141,7 +149,9 @@ def run(args: argparse.Namespace) -> int:
     payload = read_payload(args.payload)
     if args.retries < 0 or args.retries > 5:
         raise ValueError("--retries must be an integer from 0 to 5")
-    output_dir = args.output_dir or default_output_directory(PROJECT_ROOT, args.payload)
+    output_dir = args.output_dir or default_output_directory(
+        PROJECT_ROOT, args.payload, benign=args.benign
+    )
     config = load_endpoint_config(args.config)
     provider = RoutedOpenAICompatibleProvider(config)
 
@@ -156,14 +166,15 @@ def run(args: argparse.Namespace) -> int:
         if args.harness == "opencode":
             route_name = config.get("_discovery_route") or next(iter(config["models"]))
             route = config["models"][route_name]
-            generation_provider = OpenCodeNoopHarness(
+            generation_provider = OpenCodeGenerationHarness(
                 model=model,
                 base_url=route["base_url"],
                 binary=args.opencode_bin,
                 timeout_seconds=args.opencode_timeout,
             )
         print(f"Harness: {args.harness}")
-        run_manifest = generate_noop_run(
+        print(f"Mode: {'benign' if args.benign else 'standard'}")
+        run_manifest = generate_source_run(
             provider=generation_provider,
             model=model,
             payload=payload,
@@ -177,6 +188,7 @@ def run(args: argparse.Namespace) -> int:
             keep_raw_responses=args.keep_raw_responses,
             validator_timeout_seconds=args.validator_timeout,
             retries=args.retries,
+            benign=args.benign,
         )
     summary = run_manifest["summary"]
     for candidate in run_manifest["candidates"]:

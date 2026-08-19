@@ -11,22 +11,45 @@ from llmddos.repo_tool import default_index_path, legacy_index_path, main
 
 
 class RepositoryToolTests(unittest.TestCase):
-    def test_unified_noop_help_uses_server_model_discovery(self):
+    def test_top_level_help_explains_workflows_and_configuration(self):
         output = io.StringIO()
 
         with contextlib.redirect_stdout(output):
             with self.assertRaises(SystemExit) as raised:
-                main(["noop", "generate", "--help"])
+                main(["--help"])
+
+        self.assertEqual(raised.exception.code, 0)
+        help_text = output.getvalue()
+        for expected in (
+            "Clanker Repellent",
+            "repel add --apply",
+            "repel generate --help",
+            "repel deploy --help",
+            "repel share --output .repel-hashes.json",
+            "repel verify --hashes .repel-hashes.json",
+            "ignored .env",
+            "without executing it",
+        ):
+            with self.subTest(expected=expected):
+                self.assertIn(expected, help_text)
+        self.assertNotIn("{add,status,remove,guard,generate}", help_text)
+
+    def test_generation_help_uses_server_model_discovery(self):
+        output = io.StringIO()
+
+        with contextlib.redirect_stdout(output):
+            with self.assertRaises(SystemExit) as raised:
+                main(["generate", "--help"])
 
         self.assertEqual(raised.exception.code, 0)
         self.assertIn("discovered from the server", output.getvalue())
         self.assertNotIn("--model", output.getvalue())
 
-    def test_noop_generation_is_exposed_through_repel(self):
+    def test_generation_is_exposed_through_repel(self):
         output = io.StringIO()
 
         with contextlib.redirect_stdout(output):
-            result = main(["noop", "generate", "--list-languages"])
+            result = main(["generate", "--list-languages"])
 
         self.assertEqual(result, 0)
         self.assertIn("python\tgenerated.py", output.getvalue())

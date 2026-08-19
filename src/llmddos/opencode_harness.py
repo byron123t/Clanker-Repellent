@@ -12,7 +12,7 @@ from typing import Any, Dict, List
 
 
 PROVIDER_ID = "repel-local"
-AGENT_ID = "noop-generator"
+AGENT_ID = "repel-source-generator"
 DEFAULT_OPENCODE_TIMEOUT_SECONDS = 900.0
 
 
@@ -49,7 +49,7 @@ def build_opencode_config(
         "default_agent": AGENT_ID,
         "agent": {
             AGENT_ID: {
-                "description": "Create one statically validated no-op source candidate",
+                "description": "Create one statically validated source candidate",
                 "mode": "primary",
                 "model": qualified_model,
                 "prompt": (
@@ -92,7 +92,7 @@ def extract_opencode_text(stdout: str) -> str:
     return "".join(parts).strip()
 
 
-class OpenCodeNoopHarness:
+class OpenCodeGenerationHarness:
     """Run one OpenCode agent attempt in a disposable, tool-restricted workspace."""
 
     def __init__(
@@ -115,7 +115,7 @@ class OpenCodeNoopHarness:
         self.base_url = base_url
         self.timeout_seconds = timeout_seconds
 
-    def complete_noop(
+    def complete_generation(
         self,
         *,
         target: Any,
@@ -136,7 +136,7 @@ class OpenCodeNoopHarness:
             "reply with a short completion notice.\n\n"
             + json.dumps(messages, ensure_ascii=False, separators=(",", ":"))
         )
-        with tempfile.TemporaryDirectory(prefix="anaphylaxis-opencode-") as directory:
+        with tempfile.TemporaryDirectory(prefix="repel-opencode-") as directory:
             root = Path(directory)
             workspace = root / "workspace"
             workspace.mkdir(mode=0o700)

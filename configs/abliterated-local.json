@@ -5,14 +5,14 @@
     "startup_timeout_seconds": 15,
     "forwards": [
       {
-        "local_port": "${GUARDRAIL_NOOP_LOCAL_PORT}",
+        "local_port": "${REPEL_LOCAL_PORT}",
         "remote_host": "${GUARDRAIL_REMOTE_HOST}",
-        "remote_port": "${GUARDRAIL_NOOP_REMOTE_PORT}"
+        "remote_port": "${REPEL_REMOTE_PORT}"
       }
     ]
   },
   "endpoint": {
-    "base_url": "${GUARDRAIL_NOOP_BASE_URL}",
+    "base_url": "${REPEL_BASE_URL}",
     "timeout_seconds": 180,
     "health_timeout_seconds": 600,
     "minimum_max_tokens": 8192,

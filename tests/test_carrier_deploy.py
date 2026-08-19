@@ -5,7 +5,7 @@ import unittest
 from pathlib import Path
 from unittest import mock
 
-import llmddos.noop_deploy as deploy
+import llmddos.carrier_deploy as deploy
 
 
 class NativeDeploymentTests(unittest.TestCase):
@@ -19,7 +19,7 @@ class NativeDeploymentTests(unittest.TestCase):
         (run / "manifest.json").write_text(
             json.dumps(
                 {
-                    "kind": "anaphylaxis_noop_generation",
+                    "kind": "repel_source_generation",
                     "candidates": [
                         {
                             "candidate_id": "python",
@@ -45,9 +45,9 @@ class NativeDeploymentTests(unittest.TestCase):
         compile("def f():\n" + aligned, "carrier.py", "exec", dont_inherit=True)
 
     def test_repeated_go_placement_avoids_duplicate_declarations(self):
-        source = "package unit\n\nconst noopUnit = `payload`\n"
+        source = "package unit\n\nconst repelUnit = `payload`\n"
         repeated = deploy._disambiguate_carrier(source, "go", 1)
-        self.assertIn("noopUnit_2", repeated)
+        self.assertIn("repelUnit_2", repeated)
         self.assertIn("`payload`", repeated)
 
     def test_apply_status_and_exact_remove(self):
@@ -106,8 +106,8 @@ class NativeDeploymentTests(unittest.TestCase):
 
     def test_host_validation_has_a_strict_path_for_every_supported_language(self):
         completed = subprocess.CompletedProcess([], 0, "", "")
-        with mock.patch("llmddos.noop_deploy.shutil.which", return_value="/tool"), mock.patch(
-            "llmddos.noop_deploy.subprocess.run", return_value=completed
+        with mock.patch("llmddos.carrier_deploy.shutil.which", return_value="/tool"), mock.patch(
+            "llmddos.carrier_deploy.subprocess.run", return_value=completed
         ):
             for language, extensions in deploy.SOURCE_EXTENSIONS.items():
                 suffix = extensions[0]

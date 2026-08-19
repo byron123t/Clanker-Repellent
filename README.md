@@ -15,30 +15,28 @@ Repellent payloads without consulting your collaborators.
 
 ## Install
 
-Choose any environment; isolation is recommended but not required:
+Recommended for using the installed CLI: install it in an isolated `pipx` environment from the
+repository checkout. This installs the `repel` command without modifying the system Python:
 
 ```bash
-# Standard `venv`
+python3 -m pip install --user pipx
+python3 -m pipx ensurepath
+python3 -m pipx install .
+```
+
+After pulling updates, refresh the isolated install with `python3 -m pipx reinstall .`; remove it with
+`python3 -m pipx uninstall clanker-repellent`. Repository operations, source generation, and native
+deployment are subcommands of the `repel` binary. For development or test dependencies, use an editable
+venv instead:
+
+```bash
 python3 -m venv .venv
 . .venv/bin/activate
-python3 -m pip install -e .
-
-conda create -n clanker-repellent python=3.11 pip
-conda activate clanker-repellent
-python -m pip install -e .
-
-# No virtual environment
-python3 -m pip install -e .
-python3 -m pip install --user -e .
+python -m pip install -e '.[dev]'
 ```
 
-Each method installs the `repel` command. Repository operations, no-op generation, and native deployment are subcommands of this binary. If a per-user scripts directory is not on `PATH`, run the source entry point directly:
-
-```bash
-python3 scripts/repel.py
-```
-
-Install development/test dependencies only when needed with `python3 -m pip install -e '.[dev]'`.
+If `pipx` is unavailable, a standard user install also works: `python3 -m pip install --user .`.
+When running directly from a source checkout without installing, use `python3 scripts/repel.py`.
 
 ## Configuration and secret hygiene
 
@@ -46,6 +44,41 @@ Checked-in configuration contains environment-variable references and placeholde
 `.env.example` to the ignored `.env`, replace its placeholders locally, and never commit that file.
 Endpoint addresses and API keys belong in environment variables; they are not accepted in command
 arguments or stored in endpoint JSON. Use `git status --ignored` to confirm `.env` remains ignored.
+The local generation tunnel uses the `REPEL_LOCAL_PORT`, `REPEL_REMOTE_PORT`, and `REPEL_BASE_URL` names shown in `.env.example`; move existing local values to those names when upgrading.
+
+## Architecture and lifecycle
+
+Generation, insertion, verification, and removal are separate operations. The indexes are
+control metadata: they hold hashes and byte ranges rather than payload text. The share artifact
+additionally omits endpoint addresses, API keys, absolute repository paths, and payload contents.
+
+```text
+external payload + abliterated model endpoint
+                  |
+                  v
+repel generate  --> statically validated source candidate
+                  |
+                  v
+repel deploy     --> native carrier insertion --> .repel-carrier-index.json
+                  |                                  |
+                  |                                  `--> repel deploy status/remove
+                  |
+repel add        --> syntax-aware comment insertion --> .anaphylaxis-index.json
+                  |                                  |
+                  |                                  `--> status / guard / remove --apply
+                  v
+repel share      --> .repel-hashes.json (hash-only collaborator proof)
+                  |
+                  v
+repel verify     --> enable an agent only when the checkout is verified
+```
+
+`repel generate` calls the configured inference server and validates candidates without executing
+them. `repel deploy` is the optional native-source path. `repel add` is the comment-delivery path;
+it performs a dry run unless `--apply` is supplied. `repel remove --apply` restores the exact
+pre-add bytes or removes files the index says Repel created. Native carriers have their own
+`repel deploy remove --apply` lifecycle. `payloads/` and `results/` are local operational inputs
+and outputs; they are not needed by collaborators who only verify a shared hash artifact.
 
 ## Core repository commands
 
@@ -144,6 +177,123 @@ python3 scripts/install_publication_guard.py --repository /path/to/repo --scatte
 Publication automation is cleanup/block-only: Clanker Repellent does not automatically inject
 payloads during a commit or deployment.
 
+## Share hashes before enabling collaborators' agents
+
+The share artifact lets an owner publish a small, reviewable proof of the checkout state that
+collaborators should have before using Claude, Codex, or another coding agent. It contains only
+relative paths, presence bits, and SHA-256 values. It contains no payload text, endpoints, keys,
+absolute paths, or `payloads/`/`results/` data.
+
+Create it from the active scatter index after cleanup, then commit the artifact:
+
+```bash
+repel remove --apply
+repel share --state clean --output .repel-hashes.json
+git add .repel-hashes.json
+git commit -m "Share clean Repel checkout hashes"
+```
+
+`--state current` is the default and refuses a modified or mixed checkout. `--state clean` exports
+the pre-insertion hashes from an applied index even when the owner's controlled workspace still has
+the indexed files present. `--state payload_present` exports post-insertion hashes for authorized
+controlled testing only; it is not a clean-agent approval.
+
+After cloning or pulling, a collaborator verifies before opening an agent:
+
+```bash
+repel verify --repo . --hashes .repel-hashes.json
+```
+
+Only a `state` of `verified` enables the agent workflow. Exit code 3 means a file is missing,
+changed, non-regular, or symlinked. Re-share the artifact only after an intentional repository
+state transition; the artifact is a state gate, not a cryptographic signature or a substitute for
+reviewing the commit that contains it.
+
+## Git, GitHub, Claude, and Codex hooks
+
+The existing publication installer protects the local indexed workspace before commits:
+
+```bash
+python3 scripts/install_publication_guard.py \
+  --repository /path/to/repo \
+  --scatter-manifest /path/to/index.json
+```
+
+For a portable collaborator gate, add this command to the repository's pre-commit hook before its
+existing checks:
+
+```bash
+REPO_ROOT="$(git rev-parse --show-toplevel)"
+repel verify --repo "$REPO_ROOT" \
+  --hashes "$REPO_ROOT/.repel-hashes.json" || exit 1
+```
+
+For GitHub Actions, commit `.repel-hashes.json` and verify every pull request or push. This does
+not need the owner's private scatter index or any endpoint credentials:
+
+```yaml
+name: Repel checkout verification
+on: [pull_request, push]
+jobs:
+  verify-repel-hashes:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+      - run: python -m pip install .
+      - run: repel verify --repo . --hashes .repel-hashes.json
+```
+
+Claude Code can use the same fail-closed command as a synchronous `PreToolUse` hook in the
+project's `.claude/settings.json`:
+
+```json
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash|Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "root=\"$(git rev-parse --show-toplevel)\" && repel verify --repo \"$root\" --hashes \"$root/.repel-hashes.json\" >/dev/null || { echo 'Repel hash verification failed; agent use is blocked.' >&2; exit 2; }"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+Codex supports the same event shape in a trusted project-local `.codex/hooks.json`:
+
+```json
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash|Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "root=\"$(git rev-parse --show-toplevel)\" && repel verify --repo \"$root\" --hashes \"$root/.repel-hashes.json\" >/dev/null || { echo 'Repel hash verification failed; agent use is blocked.' >&2; exit 2; }",
+            "timeout": 30,
+            "statusMessage": "Checking Repel checkout hashes"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+Review and trust the hook in Codex with `/hooks`; project-local hooks run only for a trusted
+project. Hook commands run for Bash and file-edit tools, so a changed checkout is blocked before
+the next agent operation. Disable or remove this gate only for an explicitly authorized test
+workspace, then restore and verify the clean share artifact before normal agent use.
+
 ## Reviewed abliterated-model drafts
 
 Local inference uses one SSH-forwarded server configured in `configs/abliterated-local.json`. The
@@ -156,43 +306,47 @@ cp .env.example .env
 PYTHONPATH=src python3 scripts/interactive_inference.py
 ```
 
-### Direct no-op generation
+### Direct generation
 
 Provide one UTF-8 payload file and choose one or more target languages. The active model is
-discovered from the configured server; generation never injects into a repository or publishes
-automatically. There is no automatic generate-and-publish loop. First check the available
-language targets and toolchains:
+discovered from the configured server; generation never injects into a repository or publishes automatically. There is no automatic generate-and-publish loop.
+First check the available language targets and toolchains:
 
 ```bash
-repel noop generate --list-languages
-repel noop generate --list-toolchains
+repel generate --list-languages
+repel generate --list-toolchains
 ```
 
-Run the default direct OpenAI-compatible harness for one language, or repeat `--language` for
-several:
+Run the default direct OpenAI-compatible harness for one language, or repeat `--language` for several:
 
 ```bash
-repel noop generate --payload /private/payload.txt --language python --retries 3
-repel noop generate --payload /private/payload.txt --language python --language rust --retries 3
+repel generate --payload /private/payload.txt --language python --retries 3
+repel generate --payload /private/payload.txt --language python --language rust --retries 3
 ```
 
-### OpenCode no-op generation
-
-Install the `opencode` executable separately, then use the same configuration and payload command
-with `--harness opencode`:
+For a purely benign control/debug run, add `--benign`. It uses an inert contract, rejects common
+side-effect and harmful-content patterns, and stores the run under `results/benign-generation/`;
+generated source is never executed, but the conservative policy does not replace review:
 
 ```bash
-command -v opencode
-repel noop generate --harness opencode \
-  --payload /private/payload.txt --language python --retries 3
+repel generate --benign --payload /private/benign-payload.txt --language python --output-dir /private/benign-repel-run
 ```
 
-OpenCode runs in an isolated temporary workspace with its own runtime configuration, then the
-candidate goes through the same parser/compiler/linter checks. Use `--opencode-bin PATH` when the
-executable is not on `PATH`; use `--opencode-timeout SECONDS` to change its per-attempt limit.
+### OpenCode generation
+
+Install the `opencode` executable separately, then use the same configuration and payload command with `--harness opencode`:
+
+```bash
+repel generate --harness opencode --payload /private/payload.txt --language python --retries 3
+```
+
+OpenCode runs in an isolated temporary workspace with its own runtime configuration, then the candidate goes through
+the same parser/compiler/linter checks. Add `--benign` for the inert control contract. Use `--opencode-bin PATH`
+when the executable is not on `PATH`; use `--opencode-timeout SECONDS` to change its per-attempt limit.
 
 Each response must contain exactly one fenced source block. Every attempt prints its local LLM request and response, then parses/compiles/linters in a temporary directory. Failed retries receive the prior response plus parser/compiler/linter/formatting diagnostics. Generated source is never executed; review
-accepted candidates under `results/noop-generation/<payload-name>/`. Failed candidates remain metadata-only.
+accepted candidates under `results/source-generation/<payload-name>/` or
+`results/benign-generation/<payload-name>/` with `--benign`; failed candidates remain metadata-only.
 Use `--language`, `--list-languages`, `--list-toolchains`, `--keep-raw-responses`, or
 `--allow-missing-toolchains`; use `--config PATH` for another endpoint file. The completion response's
 `model` field is recorded as `resolved_model`. Protocol details are in [RESEARCH.md](RESEARCH.md).
@@ -204,16 +358,16 @@ Generation and deployment are separate, reviewable steps. To deploy accepted nat
 real authorized repository, run a dry run first, then apply it explicitly:
 
 ```bash
-repel noop deploy add \
+repel deploy add \
   --repo /path/to/real-repo \
-  --run-dir /path/to/project/results/noop-generation/<payload-name>
-repel noop deploy add \
+  --run-dir /path/to/project/results/source-generation/<payload-name>
+repel deploy add \
   --repo /path/to/real-repo \
-  --run-dir /path/to/project/results/noop-generation/<payload-name> \
+  --run-dir /path/to/project/results/source-generation/<payload-name> \
   --file src/app.py --positions head,mid,tail --apply
-repel noop deploy status --repo /path/to/real-repo
-repel noop deploy remove --repo /path/to/real-repo
-repel noop deploy remove --repo /path/to/real-repo --apply
+repel deploy status --repo /path/to/real-repo
+repel deploy remove --repo /path/to/real-repo
+repel deploy remove --repo /path/to/real-repo --apply
 ```
 
 The first `add` is a preview; `--apply` writes the selected files only after every matching
@@ -225,7 +379,7 @@ aligns Python indentation without prefixing multiline-string continuation lines.
 complete post-image with the native parser/compiler path for every supported language; unavailable
 validators fail closed during apply. Midpoint insertion tries nearby physical boundaries, while
 Bash/Ruby heredocs and Java top-level declarations stay at safe file scope. Applied changes use
-ignored `.anaphylaxis-noop-index.json` and `.preimage/`, record each exact inserted string with its
+ignored `.repel-carrier-index.json` and `.preimage/`, record each exact inserted string with its
 hash and byte count, require unchanged pre- and post-deployment hashes, and restore exact bytes.
 Failed/partial candidates require explicit `--allow-partial`.
 

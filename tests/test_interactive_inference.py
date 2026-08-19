@@ -76,9 +76,9 @@ class InteractiveInferenceTests(unittest.TestCase):
             environ={
                 "GUARDRAIL_SSH_TARGET": "user@example.test",
                 "GUARDRAIL_REMOTE_HOST": "127.0.0.1",
-                "GUARDRAIL_NOOP_LOCAL_PORT": "19002",
-                "GUARDRAIL_NOOP_REMOTE_PORT": "19002",
-                "GUARDRAIL_NOOP_BASE_URL": base_url,
+                "REPEL_LOCAL_PORT": "19002",
+                "REPEL_REMOTE_PORT": "19002",
+                "REPEL_BASE_URL": base_url,
             },
         )
         route = config["models"]["server"]

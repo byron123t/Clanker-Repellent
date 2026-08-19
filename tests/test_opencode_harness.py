@@ -7,7 +7,7 @@ from unittest.mock import patch
 
 from llmddos.opencode_harness import (
     AGENT_ID,
-    OpenCodeNoopHarness,
+    OpenCodeGenerationHarness,
     build_opencode_config,
     extract_opencode_text,
 )
@@ -19,7 +19,7 @@ class OpenCodeHarnessTests(unittest.TestCase):
 
     def harness(self):
         with patch("llmddos.opencode_harness.shutil.which", return_value="/bin/opencode"):
-            return OpenCodeNoopHarness(
+            return OpenCodeGenerationHarness(
                 model="served/model",
                 base_url="http://127.0.0.1:18473/v1",
                 timeout_seconds=12,
@@ -63,7 +63,7 @@ class OpenCodeHarnessTests(unittest.TestCase):
             )
 
         with patch("llmddos.opencode_harness.subprocess.run", side_effect=fake_run):
-            result = self.harness().complete_noop(
+            result = self.harness().complete_generation(
                 target=self.target(),
                 messages=[{"role": "user", "content": "make a candidate"}],
                 max_tokens=8192,
@@ -88,7 +88,7 @@ class OpenCodeHarnessTests(unittest.TestCase):
         completed = subprocess.CompletedProcess([], 0, stdout=stdout, stderr="")
 
         with patch("llmddos.opencode_harness.subprocess.run", return_value=completed):
-            result = self.harness().complete_noop(
+            result = self.harness().complete_generation(
                 target=self.target(),
                 messages=[{"role": "user", "content": "make a candidate"}],
                 max_tokens=8192,
@@ -106,7 +106,7 @@ class OpenCodeHarnessTests(unittest.TestCase):
 
         with patch("llmddos.opencode_harness.subprocess.run", side_effect=fake_run):
             with self.assertRaisesRegex(RuntimeError, "unexpected workspace files"):
-                self.harness().complete_noop(
+                self.harness().complete_generation(
                     target=self.target(),
                     messages=[{"role": "user", "content": "make a candidate"}],
                     max_tokens=8192,

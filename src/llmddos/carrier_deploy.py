@@ -1,7 +1,7 @@
-"""Safely place validated language-native no-op carriers in a repository.
+"""Safely place validated language-native carriers in a repository.
 
 This module is deliberately separate from :mod:`payload_scatter`.  The latter delivers
-opaque text as comments; this module consumes *already accepted* candidates from a no-op
+opaque text as comments; this module consumes *already accepted* candidates from a source
 generation run and places source syntax at statement boundaries.  Nothing here executes a
 candidate.  Every applied change is recorded in a private, hash-based index so removal can
 restore the exact original bytes.
@@ -25,7 +25,7 @@ from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional, Sequence, Tuple
 
 
-INDEX_FILENAME = ".anaphylaxis-noop-index.json"
+INDEX_FILENAME = ".repel-carrier-index.json"
 POSITIONS = ("head", "mid", "tail")
 SOURCE_EXTENSIONS: Dict[str, Tuple[str, ...]] = {
     "python": (".py", ".pyw"),
@@ -87,7 +87,7 @@ def _read_json(path: Path) -> Dict[str, Any]:
 
 
 def load_accepted_carriers(run_dir: Path, *, allow_partial: bool = False) -> List[Carrier]:
-    """Load only source files accepted by a completed no-op generation run.
+    """Load only source files accepted by a completed source-generation run.
 
     The manifest is authoritative: a stray source file, a failed candidate, or a symlink is
     never deployed.  ``allow_partial`` is explicit because a missing compiler/parser should
@@ -106,8 +106,8 @@ def load_accepted_carriers(run_dir: Path, *, allow_partial: bool = False) -> Lis
     if not manifest_path.is_file():
         raise DeploymentError(f"--run-dir must contain manifest.json: {root}")
     document = _read_json(manifest_path)
-    if document.get("kind") != "anaphylaxis_noop_generation":
-        raise DeploymentError(f"not a no-op generation manifest: {manifest_path}")
+    if document.get("kind") != "repel_source_generation":
+        raise DeploymentError(f"not a source-generation manifest: {manifest_path}")
     candidates = document.get("candidates")
     if not isinstance(candidates, list) or not candidates:
         raise DeploymentError("generation manifest has no candidates")
@@ -308,28 +308,28 @@ def _disambiguate_carrier(source: str, language: str, ordinal: int) -> str:
         return source
     suffix = f"_{ordinal + 1}"
     replacements: Dict[str, Tuple[str, ...]] = {
-        "python": (r"^(\s*class\s+)(_NoopUnit)(\s*:)",),
+        "python": (r"^(\s*class\s+)(_RepelUnit)(\s*:)",),
         "c": (
-            r"^(\s*static\s+const\s+char\s+)(noop_unit)(\s*\[)",
-            r"^(\s*typedef\s+int\s+)(noop_translation_unit)(\s*;)",
+            r"^(\s*static\s+const\s+char\s+)(repel_unit)(\s*\[)",
+            r"^(\s*typedef\s+int\s+)(repel_translation_unit)(\s*;)",
         ),
         "cpp": (
-            r"^(\s*namespace\s+)(noop_unit)(\s*\{)",
+            r"^(\s*namespace\s+)(repel_unit)(\s*\{)",
             r"^(\s*constexpr\s+auto\s+)(text)(\s*=)",
         ),
         "rust": (
-            r"^(\s*mod\s+)(noop_unit)(\s*\{)",
+            r"^(\s*mod\s+)(repel_unit)(\s*\{)",
             r"^(\s*const\s+)(TEXT)(\s*:)",
         ),
-        "go": (r"^(\s*const\s+)(noopUnit)(\s*=)",),
+        "go": (r"^(\s*const\s+)(repelUnit)(\s*=)",),
         "java": (
-            r"^(\s*final\s+class\s+)(NoopUnit)(\s*\{)",
-            r"^(\s*private\s+)(NoopUnit)(\(\))",
+            r"^(\s*final\s+class\s+)(RepelUnit)(\s*\{)",
+            r"^(\s*private\s+)(RepelUnit)(\(\))",
         ),
-        "javascript": (r"^(\s*class\s+)(NoopUnit)(\s*\{)",),
-        "typescript": (r"^(\s*class\s+)(NoopUnit)(\s*\{)",),
-        "ruby": (r"^(\s*)(NOOP_UNIT)(\s*=)",),
-        "swift": (r"^(\s*private\s+enum\s+)(NoopUnit)(\s*\{)",),
+        "javascript": (r"^(\s*class\s+)(RepelUnit)(\s*\{)",),
+        "typescript": (r"^(\s*class\s+)(RepelUnit)(\s*\{)",),
+        "ruby": (r"^(\s*)(REPEL_UNIT)(\s*=)",),
+        "swift": (r"^(\s*private\s+enum\s+)(RepelUnit)(\s*\{)",),
     }
     result = source
     for pattern in replacements.get(language, ()):
@@ -706,7 +706,7 @@ def deploy_carriers(
     index = requested_index.resolve()
     manifest: Dict[str, Any] = {
         "schema_version": 1,
-        "kind": "anaphylaxis_noop_deployment",
+        "kind": "repel_carrier_deployment",
         "repository_root": str(root),
         "run_dir": str(run_dir.resolve()),
         "positions_requested": list(positions),
@@ -763,7 +763,7 @@ def remove_deployment(*, repository: Path, index_path: Optional[Path] = None, ap
         raise DeploymentError(f"deployment index cannot be a symlink: {requested_index}")
     index = requested_index.resolve()
     document = _read_json(index)
-    if document.get("kind") != "anaphylaxis_noop_deployment" or document.get("repository_root") != str(root):
+    if document.get("kind") != "repel_carrier_deployment" or document.get("repository_root") != str(root):
         raise DeploymentError(f"index does not belong to this repository: {index}")
     rows = document.get("files")
     if not isinstance(rows, list):
@@ -804,7 +804,7 @@ def status_deployment(*, repository: Path, index_path: Optional[Path] = None) ->
     index = requested_index.resolve()
     document = _read_json(index)
     rows = document.get("files")
-    if document.get("kind") != "anaphylaxis_noop_deployment" or not isinstance(rows, list):
+    if document.get("kind") != "repel_carrier_deployment" or not isinstance(rows, list):
         raise DeploymentError(f"invalid native-carrier deployment index: {index}")
     changed = 0
     for row in rows:

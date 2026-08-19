@@ -23,8 +23,6 @@ show_missing = true
 
 [project.scripts]
 repel = "llmddos.repo_tool:main"
-guardrail-eval = "llmddos.cli:main"
-llmddos = "llmddos.cli:main"
 
 [tool.setuptools]
 package-dir = {"" = "src"}
