@@ -72,12 +72,16 @@ class SecretHygieneTests(unittest.TestCase):
     def test_checked_in_endpoint_templates_have_no_literal_endpoint_or_key(self):
         example = (ROOT / ".env.example").read_text(encoding="utf-8")
         config = (ROOT / "configs" / "abliterated-local.json").read_text(encoding="utf-8")
+        remote_config = (ROOT / "configs" / "abliterated-remote.json").read_text(encoding="utf-8")
 
         self.assertNotRegex(example, r"https?://")
         self.assertNotRegex(example, r"\b(?:\d{1,3}\.){3}\d{1,3}\b")
         self.assertNotRegex(config, r"https?://")
         self.assertNotRegex(config, r"\b(?:\d{1,3}\.){3}\d{1,3}\b")
+        self.assertNotRegex(remote_config, r"https?://")
+        self.assertNotRegex(remote_config, r"\b(?:\d{1,3}\.){3}\d{1,3}\b")
         self.assertNotIn('"api_key"', config)
+        self.assertNotIn('"api_key"', remote_config)
 
 
 if __name__ == "__main__":

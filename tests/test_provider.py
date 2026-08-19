@@ -1,7 +1,11 @@
+import json
+import tempfile
 import unittest
+from pathlib import Path
 from types import SimpleNamespace
 from unittest.mock import MagicMock, call, patch
 
+from llmddos.endpoints import load_endpoint_config
 from llmddos.provider import (
     OpenAICompatibleProvider,
     RoutedOpenAICompatibleProvider,
@@ -206,6 +210,35 @@ class ProviderToolTests(unittest.TestCase):
 
 
 class RoutedProviderTests(unittest.TestCase):
+    @patch("llmddos.provider.OpenAICompatibleProvider")
+    def test_route_provider_reads_api_key_from_endpoint_dotenv(self, provider_class):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            endpoint_path = root / "endpoints.json"
+            dotenv_path = root / ".env"
+            endpoint_path.write_text(
+                json.dumps(
+                    {
+                        "endpoint": {
+                            "base_url": "${TEST_BASE_URL}",
+                            "api_key_env": "TEST_API_KEY",
+                        }
+                    }
+                ),
+                encoding="utf-8",
+            )
+            dotenv_path.write_text("TEST_API_KEY=test-api-key\n", encoding="utf-8")
+            config = load_endpoint_config(
+                endpoint_path,
+                environ={"TEST_BASE_URL": "https://models.example/v1"},
+                dotenv_path=dotenv_path,
+            )
+
+            routed = RoutedOpenAICompatibleProvider(config)
+
+        self.assertEqual(provider_class.call_args.kwargs["api_key"], "test-api-key")
+        self.assertEqual(routed.api_key_for_route("server"), "test-api-key")
+
     def test_waits_for_health_before_discovering_the_active_model(self):
         routed = RoutedOpenAICompatibleProvider.__new__(RoutedOpenAICompatibleProvider)
         endpoint = MagicMock()

@@ -23,7 +23,7 @@ from .tunnel import managed_ssh_tunnel
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
-DEFAULT_CONFIG = PROJECT_ROOT / "configs" / "abliterated-local.json"
+DEFAULT_CONFIG = PROJECT_ROOT / "configs" / "abliterated-remote.json"
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -169,6 +169,7 @@ def run(args: argparse.Namespace) -> int:
             generation_provider = OpenCodeGenerationHarness(
                 model=model,
                 base_url=route["base_url"],
+                api_key=provider.api_key_for_route(route_name),
                 binary=args.opencode_bin,
                 timeout_seconds=args.opencode_timeout,
             )

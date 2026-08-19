@@ -20,10 +20,10 @@ contrast controls.
 
 ## Local inference configuration
 
-`configs/abliterated-local.json` contains `${VARIABLE}` references only; it has no endpoint address
-or credential. Copy `.env.example` to the ignored `.env` and set the SSH target, loopback-forward
-ports, and base URL locally. Process environment values override `.env`; missing references fail
-explicitly. Plain HTTP is allowed only on an explicit loopback port declared in the SSH forwards.
+`configs/abliterated-remote.json` contains `${VARIABLE}` references only; it has no endpoint address
+or credential. Copy `.env.example` to the ignored `.env` and set the HTTPS base URL and API-key
+environment variable locally. Process environment values override `.env`; missing references fail
+explicitly. The SSH-forwarded setup remains available through `configs/abliterated-local.json`.
 
 The example file is a template, not a working credential or endpoint record. Keep real endpoint
 values and API keys in the ignored `.env` or in the process environment. The loader rejects inline

@@ -297,7 +297,7 @@ def print_llm_output(
 
 
 def extract_code_snippet(response: str) -> str:
-    """Extract exactly one Markdown-fenced source block from a model response."""
+    """Extract the first Markdown-fenced source block and ignore surrounding response text."""
 
     lines = response.splitlines(keepends=True)
     fence_indexes = [
@@ -305,8 +305,8 @@ def extract_code_snippet(response: str) -> str:
         for index, line in enumerate(lines)
         if re.fullmatch(r"[ \t]{0,3}```[^\r\n]*", line.rstrip("\r\n"))
     ]
-    if len(fence_indexes) != 2:
-        raise ExtractionError("response must contain exactly one Markdown code block")
+    if len(fence_indexes) < 2:
+        raise ExtractionError("response must contain a Markdown code block")
     opening = lines[fence_indexes[0]].rstrip("\r\n")
     closing = lines[fence_indexes[1]].rstrip("\r\n")
     if (
@@ -1194,6 +1194,7 @@ def generate_source_run(
         for attempt_number in range(1, retries + 2):
             attempt: Dict[str, Any] = {"attempt": attempt_number}
             response = ""
+            snippet = ""
             try:
                 messages = build_generation_messages(
                     target,
@@ -1271,7 +1272,7 @@ def generate_source_run(
                     accepted_validation = validation
                     break
                 last_error = validation["status"]
-                previous_response = response
+                previous_response = snippet
                 retry_error = _validation_retry_error(validation)
                 # A missing required compiler/parser cannot be fixed by another model request.
                 if any(
@@ -1281,7 +1282,7 @@ def generate_source_run(
                     break
             except BenignPolicyError as exc:
                 last_error = str(exc)
-                previous_response = response
+                previous_response = snippet
                 retry_error = last_error
                 attempt.update(
                     {"status": "benign_policy_failed", "accepted": False, "error": last_error}
@@ -1289,13 +1290,13 @@ def generate_source_run(
                 record["attempts"].append(attempt)
             except ExtractionError as exc:
                 last_error = str(exc)
-                previous_response = response
+                previous_response = snippet
                 retry_error = last_error
                 attempt.update({"status": "extraction_failed", "accepted": False, "error": last_error})
                 record["attempts"].append(attempt)
             except Exception as exc:  # Provider failures must not expose request bodies in metadata.
                 last_error = type(exc).__name__
-                previous_response = response
+                previous_response = snippet
                 retry_error = f"{type(exc).__name__}: {exc}"
                 attempt.update({"status": "generation_failed", "accepted": False, "error": last_error})
                 record["attempts"].append(attempt)

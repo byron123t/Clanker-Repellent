@@ -160,6 +160,16 @@ class TaggedExtractionTests(unittest.TestCase):
 
         self.assertEqual(extract_code_snippet(response), "print('ok')\n")
 
+    def test_extracts_first_code_block_and_ignores_later_response_text(self):
+        response = (
+            "Here is the requested code:\n"
+            + code_block("x")
+            + "\nAdditional explanation:\n"
+            + code_block("y", "javascript")
+        )
+
+        self.assertEqual(extract_code_snippet(response), "x\n")
+
     def test_strips_one_outer_code_fence_and_rejects_malformed_fences(self):
         fenced = code_block("x")
         self.assertEqual(extract_code_snippet(fenced), "x\n")
@@ -167,8 +177,6 @@ class TaggedExtractionTests(unittest.TestCase):
         cases = (
             "plain response",
             "```python\nx\n````",
-            code_block("x") + "\n```",
-            code_block("x") + "\n" + code_block("y", "javascript"),
         )
         for response in cases:
             with self.subTest(response=response):
@@ -461,6 +469,50 @@ class GenerationRunTests(unittest.TestCase):
         retry_prompt = provider.calls[1]["messages"][1]["content"]
         self.assertIn("previous_model_response", retry_prompt)
         self.assertIn("SyntaxError", retry_prompt)
+
+    def test_validation_retry_uses_only_the_extracted_code_block(self):
+        target = select_languages(["python"])[0]
+        invalid = "model explanation\n```python\nif False\n```\nmodel afterthought"
+        valid = code_block("value = 'valid'")
+        provider = SequenceProvider([invalid, valid])
+
+        with tempfile.TemporaryDirectory() as directory:
+            run = generate_source_run(
+                provider=provider,
+                model="local-model",
+                payload="retry payload",
+                targets=[target],
+                output_dir=Path(directory) / "run",
+                run_linters=False,
+                retries=1,
+            )
+
+        self.assertEqual(run["summary"]["status"], "passed")
+        retry_prompt = provider.calls[1]["messages"][1]["content"]
+        self.assertIn('"previous_model_response":"if False\\n"', retry_prompt)
+        self.assertNotIn("model explanation", retry_prompt)
+        self.assertNotIn("model afterthought", retry_prompt)
+
+    def test_extraction_retry_does_not_forward_unextracted_response_text(self):
+        target = select_languages(["python"])[0]
+        valid = code_block("value = 'valid'")
+        provider = SequenceProvider(["unfenced model response", valid])
+
+        with tempfile.TemporaryDirectory() as directory:
+            run = generate_source_run(
+                provider=provider,
+                model="local-model",
+                payload="retry payload",
+                targets=[target],
+                output_dir=Path(directory) / "run",
+                run_linters=False,
+                retries=1,
+            )
+
+        self.assertEqual(run["summary"]["status"], "passed")
+        retry_prompt = provider.calls[1]["messages"][1]["content"]
+        self.assertIn('"previous_model_response":""', retry_prompt)
+        self.assertNotIn("unfenced model response", retry_prompt)
 
     def test_existing_failed_run_resumes_only_the_incomplete_language(self):
         target = select_languages(["python"])[0]

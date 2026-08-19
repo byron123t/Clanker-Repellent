@@ -13,6 +13,7 @@ class GenerateCliTests(unittest.TestCase):
         self.assertIn("--harness {direct,opencode}", help_text)
         self.assertIn("--benign", help_text)
         self.assertNotIn("--model", help_text)
+        self.assertEqual(build_parser().parse_args([]).config.name, "abliterated-remote.json")
 
     def test_opencode_harness_options_parse_without_a_model(self):
         defaults = build_parser().parse_args(["--harness", "opencode"])

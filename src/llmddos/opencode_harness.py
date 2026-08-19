@@ -17,7 +17,7 @@ DEFAULT_OPENCODE_TIMEOUT_SECONDS = 900.0
 
 
 def build_opencode_config(
-    *, model: str, base_url: str, max_tokens: int
+    *, model: str, base_url: str, max_tokens: int, api_key: str = "unused"
 ) -> Dict[str, Any]:
     """Build a runtime-only OpenCode configuration for one discovered model."""
 
@@ -34,7 +34,7 @@ def build_opencode_config(
             PROVIDER_ID: {
                 "npm": "@ai-sdk/openai-compatible",
                 "name": "Clanker Repellent local endpoint",
-                "options": {"baseURL": base_url, "apiKey": "unused"},
+                "options": {"baseURL": base_url, "apiKey": api_key},
                 "models": {
                     model: {
                         "name": model,
@@ -100,6 +100,7 @@ class OpenCodeGenerationHarness:
         *,
         model: str,
         base_url: str,
+        api_key: str = "unused",
         binary: str = "opencode",
         timeout_seconds: float = DEFAULT_OPENCODE_TIMEOUT_SECONDS,
     ) -> None:
@@ -113,6 +114,7 @@ class OpenCodeGenerationHarness:
         self.binary = resolved
         self.model = model
         self.base_url = base_url
+        self.api_key = api_key
         self.timeout_seconds = timeout_seconds
 
     def complete_generation(
@@ -129,6 +131,7 @@ class OpenCodeGenerationHarness:
             model=self.model,
             base_url=self.base_url,
             max_tokens=max_tokens,
+            api_key=self.api_key,
         )
         request = (
             f"Create exactly {target.output_filename} for the {target.language} language. "
