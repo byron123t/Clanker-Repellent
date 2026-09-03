@@ -7,7 +7,7 @@ import json
 from pathlib import Path
 from typing import Optional, Sequence
 
-from .carrier_deploy import (
+from ..payload.carrier_deploy import (
     INDEX_FILENAME,
     POSITIONS,
     DeploymentError,

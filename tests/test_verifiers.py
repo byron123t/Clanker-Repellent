@@ -1,6 +1,6 @@
 import unittest
 
-from llmddos.verifiers import detect_refusal_signals, refusal_echoed_from_prompt, verify_refusal_threshold
+from clanker_repellent.measurement.verifiers import detect_refusal_signals, refusal_echoed_from_prompt, verify_refusal_threshold
 
 
 def row(text, status="ok", condition="condition"):

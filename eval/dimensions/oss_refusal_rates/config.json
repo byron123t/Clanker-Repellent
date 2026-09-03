@@ -1,0 +1,8 @@
+{
+  "dimension": "oss_refusal_rates",
+  "description": "Open-source model refusal rates",
+  "conditions": "data/refusal_conditions.jsonl",
+  "guardrails": ["qwen3", "nemo", "codex", "leaked-claude"],
+  "repeats": 3,
+  "max_tokens": 256
+}

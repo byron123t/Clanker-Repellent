@@ -5,8 +5,8 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from llmddos.payload_scatter import scatter_payload
-from llmddos.publication_guard import (
+from clanker_repellent.payload.payload_scatter import scatter_payload
+from clanker_repellent.payload.publication_guard import (
     HOOK_MARKER,
     STATE_CLEAN,
     STATE_MODIFIED,

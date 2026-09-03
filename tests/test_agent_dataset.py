@@ -3,7 +3,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from llmddos.agent_dataset import load_agent_scenarios
+from clanker_repellent.datasets.agent_dataset import load_agent_scenarios
 
 
 class AgentDatasetTests(unittest.TestCase):

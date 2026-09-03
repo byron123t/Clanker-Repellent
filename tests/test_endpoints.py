@@ -3,7 +3,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from llmddos.endpoints import is_allowed_base_url, load_endpoint_config
+from clanker_repellent.inference.endpoints import is_allowed_base_url, load_endpoint_config
 
 
 def config():

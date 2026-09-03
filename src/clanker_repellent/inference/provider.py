@@ -379,7 +379,7 @@ class OpenAICompatibleProvider:
         else:
             result.update(
                 {
-                    "content": _extract_prompt_final(response_text),
+                    "content": extract_prompt_final(response_text),
                     "tool_calls": [],
                 }
             )
@@ -404,13 +404,17 @@ def _extract_prompt_tool_call(text: str, allowed_names: set) -> Optional[Dict[st
     return None
 
 
-def _extract_prompt_final(text: str) -> str:
+def extract_prompt_final(text: str) -> str:
     final_markers = list(re.finditer(r"(?im)^\s*FINAL\s*:?\s*", text))
     if final_markers:
         return text[final_markers[-1].end() :].strip()
     if "</think>" in text:
         return text.rsplit("</think>", 1)[-1].strip()
     return re.sub(r"^\s*FINAL\s*:?\s*", "", text, flags=re.IGNORECASE).strip()
+
+
+# Backwards-compatible private alias (predates the public name).
+_extract_prompt_final = extract_prompt_final
 
 
 class RoutedOpenAICompatibleProvider:

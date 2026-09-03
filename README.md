@@ -388,6 +388,8 @@ Failed/partial candidates require explicit `--allow-partial`.
 
 The older paired benchmark, pinned benign repository fixtures, condition JSONL pipeline, and
 Codex/Claude launcher remain available but are secondary; see [EVALUATION.md](EVALUATION.md).
+The `eval/` suite organizes the research-dimension experiments (guardrail configs, a shared
+offline-safe runner, and per-dimension result aggregation); see [eval/README.md](eval/README.md).
 Research results, configuration rules, generation protocol, and the ethics boundary are in
 [RESEARCH.md](RESEARCH.md).
 

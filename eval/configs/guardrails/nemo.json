@@ -1,0 +1,12 @@
+{
+  "schema_version": "1.0",
+  "_note": "NVIDIA NeMo Guardrails endpoint (OpenAI-compatible shim). Env-var-only; set NEMO_BASE_URL and NEMO_API_KEY in the ignored .env. No secrets in this file.",
+  "endpoint": {
+    "base_url": "${NEMO_BASE_URL}",
+    "api_key_env": "NEMO_API_KEY",
+    "timeout_seconds": 180,
+    "health_timeout_seconds": 600,
+    "minimum_max_tokens": 8192,
+    "tool_mode": "prompt_json"
+  }
+}

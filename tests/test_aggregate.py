@@ -1,6 +1,6 @@
 import unittest
 
-from llmddos.metrics import aggregate
+from clanker_repellent.measurement.metrics import aggregate
 
 
 def row(condition_id, family, task_success, attack_success):

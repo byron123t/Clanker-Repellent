@@ -2,7 +2,7 @@ import io
 import unittest
 from contextlib import redirect_stdout
 
-from llmddos.generate_cli import build_parser, main
+from clanker_repellent.cli.generate_cli import build_parser, main
 
 
 class GenerateCliTests(unittest.TestCase):

@@ -7,7 +7,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from llmddos.repo_tool import default_index_path, legacy_index_path, main
+from clanker_repellent.cli.repo_tool import default_index_path, legacy_index_path, main
 
 
 class RepositoryToolTests(unittest.TestCase):

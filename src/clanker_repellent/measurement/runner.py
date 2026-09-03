@@ -11,8 +11,8 @@ from typing import Any, Dict, Iterable, List, Optional, Sequence, Tuple
 
 from .events import EventLogger, compact_usage, fingerprint, redact_text
 from .metrics import classify_response
-from .prompts import PROMPT_VERSION, build_messages
-from .provider import OpenAICompatibleProvider
+from ..inference.prompts import PROMPT_VERSION, build_messages
+from ..inference.provider import OpenAICompatibleProvider
 
 
 def trial_id(

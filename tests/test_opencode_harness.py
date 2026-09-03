@@ -5,7 +5,7 @@ from pathlib import Path
 from types import SimpleNamespace
 from unittest.mock import patch
 
-from llmddos.opencode_harness import (
+from clanker_repellent.generate.opencode_harness import (
     AGENT_ID,
     OpenCodeGenerationHarness,
     build_opencode_config,
@@ -18,7 +18,7 @@ class OpenCodeHarnessTests(unittest.TestCase):
         return SimpleNamespace(language="python", output_filename="generated.py")
 
     def harness(self):
-        with patch("llmddos.opencode_harness.shutil.which", return_value="/bin/opencode"):
+        with patch("clanker_repellent.generate.opencode_harness.shutil.which", return_value="/bin/opencode"):
             return OpenCodeGenerationHarness(
                 model="served/model",
                 base_url="http://127.0.0.1:18473/v1",
@@ -68,7 +68,7 @@ class OpenCodeHarnessTests(unittest.TestCase):
                 stderr="",
             )
 
-        with patch("llmddos.opencode_harness.subprocess.run", side_effect=fake_run):
+        with patch("clanker_repellent.generate.opencode_harness.subprocess.run", side_effect=fake_run):
             result = self.harness().complete_generation(
                 target=self.target(),
                 messages=[{"role": "user", "content": "make a candidate"}],
@@ -97,7 +97,7 @@ class OpenCodeHarnessTests(unittest.TestCase):
         )
         completed = subprocess.CompletedProcess([], 0, stdout=stdout, stderr="")
 
-        with patch("llmddos.opencode_harness.subprocess.run", return_value=completed):
+        with patch("clanker_repellent.generate.opencode_harness.subprocess.run", return_value=completed):
             result = self.harness().complete_generation(
                 target=self.target(),
                 messages=[{"role": "user", "content": "make a candidate"}],
@@ -114,7 +114,7 @@ class OpenCodeHarnessTests(unittest.TestCase):
             (workspace / "extra.txt").write_text("unexpected\n", encoding="utf-8")
             return subprocess.CompletedProcess(command, 0, stdout="", stderr="")
 
-        with patch("llmddos.opencode_harness.subprocess.run", side_effect=fake_run):
+        with patch("clanker_repellent.generate.opencode_harness.subprocess.run", side_effect=fake_run):
             with self.assertRaisesRegex(RuntimeError, "unexpected workspace files"):
                 self.harness().complete_generation(
                     target=self.target(),

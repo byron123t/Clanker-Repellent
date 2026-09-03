@@ -8,7 +8,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
-from llmddos.generate_cli import main
+from clanker_repellent.cli.generate_cli import main
 
 
 if __name__ == "__main__":

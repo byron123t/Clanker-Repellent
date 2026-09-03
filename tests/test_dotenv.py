@@ -2,7 +2,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from llmddos.dotenv import load_dotenv, merged_environment
+from clanker_repellent.inference.dotenv import load_dotenv, merged_environment
 
 
 class DotenvTests(unittest.TestCase):

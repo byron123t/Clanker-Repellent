@@ -3,7 +3,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from llmddos.agent_report import (
+from clanker_repellent.measurement.agent_report import (
     aggregate_agent_records,
     make_agent_report,
     write_agent_report,

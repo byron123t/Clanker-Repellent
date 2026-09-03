@@ -3,8 +3,8 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from llmddos.events import EventLogger, compact_usage, redact_text
-from llmddos.runner import run_trials
+from clanker_repellent.measurement.events import EventLogger, compact_usage, redact_text
+from clanker_repellent.measurement.runner import run_trials
 
 
 class FakeProvider:

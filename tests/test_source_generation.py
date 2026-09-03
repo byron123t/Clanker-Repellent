@@ -6,7 +6,7 @@ from contextlib import redirect_stdout
 from pathlib import Path
 from unittest import mock
 
-from llmddos.source_generation import (
+from clanker_repellent.generate.source_generation import (
     LANGUAGES,
     benign_policy_error,
     ExtractionError,
@@ -245,7 +245,7 @@ class StaticValidationTests(unittest.TestCase):
     def test_missing_required_toolchain_fails_closed_or_is_explicitly_partial(self):
         target = select_languages(["c"])[0]
         snippet = "#if 0\nstatic const char text[] = \"payload\";\n#endif\n"
-        with mock.patch("llmddos.source_generation.shutil.which", return_value=None):
+        with mock.patch("clanker_repellent.generate.source_generation.shutil.which", return_value=None):
             failed = validate_snippet(target, snippet, run_linters=False)
             partial = validate_snippet(
                 target,

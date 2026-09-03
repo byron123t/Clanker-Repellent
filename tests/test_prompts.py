@@ -1,6 +1,6 @@
 import unittest
 
-from llmddos.prompts import build_messages, render_artifact
+from clanker_repellent.inference.prompts import build_messages, render_artifact
 
 
 CASE = {"task": "Find CANARY.", "artifact": "CANARY", "expected_terms": ["CANARY"]}

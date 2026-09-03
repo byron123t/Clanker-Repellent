@@ -1,0 +1,8 @@
+{
+  "dimension": "static_vs_generative",
+  "description": "Static payload files vs repel-generated source",
+  "conditions": "data/refusal_conditions.jsonl",
+  "guardrails": ["qwen3", "nemo", "codex", "leaked-claude"],
+  "repeats": 3,
+  "max_tokens": 256
+}

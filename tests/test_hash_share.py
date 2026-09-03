@@ -6,7 +6,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from llmddos.hash_share import (
+from clanker_repellent.payload.hash_share import (
     HASH_SHARE_KIND,
     VERIFY_STATE_MISMATCH,
     VERIFY_STATE_VERIFIED,
@@ -14,7 +14,7 @@ from llmddos.hash_share import (
     verify_hash_share,
     write_hash_share,
 )
-from llmddos.repo_tool import main
+from clanker_repellent.cli.repo_tool import main
 
 
 def _sha256(value: bytes) -> str:

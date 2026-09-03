@@ -8,8 +8,8 @@ from contextlib import nullcontext
 from pathlib import Path
 from typing import Any, ContextManager, Dict, Optional, Sequence
 
-from .endpoints import load_endpoint_config
-from .source_generation import (
+from ..inference.endpoints import load_endpoint_config
+from ..generate.source_generation import (
     DEFAULT_MAX_TOKENS,
     default_output_directory,
     generate_source_run,
@@ -17,12 +17,12 @@ from .source_generation import (
     select_languages,
     toolchain_inventory,
 )
-from .opencode_harness import DEFAULT_OPENCODE_TIMEOUT_SECONDS, OpenCodeGenerationHarness
-from .provider import RoutedOpenAICompatibleProvider
-from .tunnel import managed_ssh_tunnel
+from ..generate.opencode_harness import DEFAULT_OPENCODE_TIMEOUT_SECONDS, OpenCodeGenerationHarness
+from ..inference.provider import RoutedOpenAICompatibleProvider
+from ..inference.tunnel import managed_ssh_tunnel
 
 
-PROJECT_ROOT = Path(__file__).resolve().parents[2]
+PROJECT_ROOT = Path(__file__).resolve().parents[3]
 DEFAULT_CONFIG = PROJECT_ROOT / "configs" / "abliterated-remote.json"
 
 

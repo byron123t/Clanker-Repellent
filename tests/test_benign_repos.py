@@ -4,7 +4,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from llmddos.benign_repos import (
+from clanker_repellent.datasets.benign_repos import (
     clone_repositories,
     create_injected_workspace,
     load_repository_manifest,

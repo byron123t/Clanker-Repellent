@@ -28,8 +28,8 @@ class PublicationGuardDocumentationTests(unittest.TestCase):
         self.assertIn("# Clanker Repellent", readme)
         self.assertIn("Guardrail Anaphylaxis paper/research project", readme)
         self.assertIn('name = "clanker-repellent"', project)
-        self.assertIn('repel = "llmddos.repo_tool:main"', project)
-        self.assertNotIn('anaphylaxis = "llmddos.repo_tool:main"', project)
+        self.assertIn('repel = "clanker_repellent.cli.repo_tool:main"', project)
+        self.assertNotIn('anaphylaxis = "clanker_repellent.cli.repo_tool:main"', project)
 
     def test_inference_docs_do_not_claim_automatic_payload_generation(self):
         documentation = " ".join(

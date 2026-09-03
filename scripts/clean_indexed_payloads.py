@@ -12,7 +12,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
-from llmddos.publication_guard import (  # noqa: E402
+from clanker_repellent.payload.publication_guard import (  # noqa: E402
     clean_indexed_repository,
     resolve_scatter_index,
 )
