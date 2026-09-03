@@ -85,6 +85,23 @@ def build_messages(task: Dict[str, Any], condition: Dict[str, Any]) -> List[Dict
     ]
 
 
+# Guardrail types this runner can drive live today. NeMo (rails_framework) and
+# OpenAI Guardrails (guardrails_library) need their own adapters + installed
+# libraries; until those land they are dry-run only.
+LIVE_SUPPORTED = {"moderation_model"}
+
+
+def _build_live_provider(guardrail_config: Path):
+    """Return (provider, model) for a moderation-model guardrail, mirroring the
+    generate/run CLI: discover the served model from /v1/models after health."""
+    from clanker_repellent.inference.provider import RoutedOpenAICompatibleProvider
+
+    config = load_endpoint_config(guardrail_config)
+    provider = RoutedOpenAICompatibleProvider(config)
+    model = provider.wait_for_model()
+    return provider, model
+
+
 def run(
     guardrail_config: Path,
     conditions: List[Dict[str, Any]],
@@ -96,24 +113,28 @@ def run(
     guardrail_name: str = "",
     dimension: str = "",
 ) -> List[Dict[str, Any]]:
+    spec = json.loads(guardrail_config.read_text(encoding="utf-8"))
+    guardrail = guardrail_name or spec.get("guardrail") or guardrail_config.stem
+    guardrail_type = spec.get("type", "moderation_model")
     expected_terms = task.get("expected_terms", DEFAULT_TASK["expected_terms"])
-    provider = None
-    resolved_model = "dry-run"
-    if not dry_run:
-        # Imported lazily so --dry-run and --help need no network/openai client.
-        from clanker_repellent.inference.provider import OpenAICompatibleProvider
 
-        config = load_endpoint_config(guardrail_config)
-        endpoint = config["endpoint"]
-        provider = OpenAICompatibleProvider(endpoint)
-        resolved_model = endpoint.get("model", "auto")
+    provider = None
+    model = "dry-run"
+    if not dry_run:
+        if guardrail_type not in LIVE_SUPPORTED:
+            raise NotImplementedError(
+                f"guardrail '{guardrail}' is type '{guardrail_type}'; the live adapter is "
+                f"pending. Re-run with dry_run=True, or add a {guardrail_type} adapter."
+            )
+        provider, model = _build_live_provider(guardrail_config)
 
     records: List[Dict[str, Any]] = []
     for condition in conditions:
         for repeat in range(repeats):
             messages = build_messages(task, condition)
             base = {
-                "guardrail": guardrail_name or guardrail_config.stem,
+                "guardrail": guardrail,
+                "guardrail_type": guardrail_type,
                 "dimension": dimension,
                 "condition_id": condition.get("id"),
                 "family": condition.get("family"),
@@ -125,7 +146,7 @@ def run(
                 records.append({**base, "outcome": "dry_run", "dry_run": True,
                                 "prompt_chars": len(messages[-1]["content"])})
                 continue
-            result = provider.complete(resolved_model, messages, max_tokens=max_tokens)
+            result = provider.complete(model, messages, max_tokens=max_tokens)
             classification = classify_response(
                 result["response_text"], expected_terms,
                 provider_refusal=result.get("provider_refusal") or "",

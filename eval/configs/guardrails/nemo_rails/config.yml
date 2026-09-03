@@ -1,0 +1,14 @@
+# NeMo Guardrails config skeleton. Replace the model with the wrapped LLM you
+# are testing, then define input/output rails. See https://github.com/NVIDIA-NeMo/Guardrails
+models:
+  - type: main
+    engine: openai
+    model: gpt-4o-mini   # placeholder; point at the wrapped LLM under test
+
+rails:
+  input:
+    flows:
+      - self check input
+  output:
+    flows:
+      - self check output

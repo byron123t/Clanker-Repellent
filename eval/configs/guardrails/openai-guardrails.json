@@ -1,0 +1,13 @@
+{
+  "schema_version": "2.0",
+  "guardrail": "openai-guardrails",
+  "type": "guardrails_library",
+  "source": "https://github.com/openai/openai-guardrails-python",
+  "wizard": "https://guardrails.openai.com/",
+  "_note": "OpenAI Guardrails: drop-in wrapper (GuardrailsOpenAI(config=guardrail_config.json)) validating LLM input/output; raises GuardrailTripwireTriggered on violation. Config JSON is produced by the wizard at guardrails.openai.com. Requires `pip install openai-guardrails`. Adapter pending in runner.py (live path); dry-run supported now.",
+  "guardrail_config": "eval/configs/guardrails/openai_guardrails_config.json",
+  "wrapped_llm": {
+    "base_url": "${OPENAI_GUARDRAILS_BASE_URL}",
+    "api_key_env": "OPENAI_GUARDRAILS_API_KEY"
+  }
+}

@@ -1,3 +1,4 @@
+.pytest_cache/
 __pycache__/
 *.py[cod]
 .venv/
@@ -22,3 +23,5 @@ data/benign_repos/
 results/
 .repel-carrier-index.json
 .repel-carrier-index.json.preimage/
+eval/results/
+.coverage

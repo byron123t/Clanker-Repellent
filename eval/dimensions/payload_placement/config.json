@@ -2,7 +2,11 @@
   "dimension": "payload_placement",
   "description": "Effect of payload location (head/mid/tail)",
   "conditions": "data/refusal_conditions.jsonl",
-  "guardrails": ["qwen3", "nemo", "codex", "leaked-claude"],
+  "guardrails": [
+    "qwen3guard",
+    "nemo",
+    "openai-guardrails"
+  ],
   "repeats": 3,
   "max_tokens": 256
 }

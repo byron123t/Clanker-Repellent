@@ -1,12 +1,12 @@
 {
-  "schema_version": "1.0",
-  "_note": "NVIDIA NeMo Guardrails endpoint (OpenAI-compatible shim). Env-var-only; set NEMO_BASE_URL and NEMO_API_KEY in the ignored .env. No secrets in this file.",
-  "endpoint": {
-    "base_url": "${NEMO_BASE_URL}",
-    "api_key_env": "NEMO_API_KEY",
-    "timeout_seconds": 180,
-    "health_timeout_seconds": 600,
-    "minimum_max_tokens": 8192,
-    "tool_mode": "prompt_json"
+  "schema_version": "2.0",
+  "guardrail": "nemo",
+  "type": "rails_framework",
+  "source": "https://github.com/NVIDIA-NeMo/Guardrails",
+  "_note": "NVIDIA NeMo Guardrails: programmable input/dialog/output rails wrapping an LLM. Configured by a rails folder (config.yml + optional Colang .co flows). Requires `pip install nemoguardrails`; instantiate LLMRails(RailsConfig.from_path(rails_config_dir)) and call generate(). Adapter pending in runner.py (live path); dry-run supported now.",
+  "rails_config_dir": "eval/configs/guardrails/nemo_rails",
+  "wrapped_llm": {
+    "base_url": "${NEMO_LLM_BASE_URL}",
+    "api_key_env": "NEMO_LLM_API_KEY"
   }
 }

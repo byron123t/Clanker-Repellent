@@ -1,0 +1,9 @@
+{
+  "_note": "Placeholder for a guardrail_config.json produced by https://guardrails.openai.com/ . Replace with your generated bundle.",
+  "version": 1,
+  "guardrails": [
+    {"name": "Moderation", "config": {}},
+    {"name": "Jailbreak", "config": {}},
+    {"name": "Prompt Injection Detection", "config": {}}
+  ]
+}

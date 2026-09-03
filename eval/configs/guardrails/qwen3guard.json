@@ -1,0 +1,17 @@
+{
+  "schema_version": "2.0",
+  "guardrail": "qwen3guard",
+  "type": "moderation_model",
+  "source": "https://github.com/QwenLM/Qwen3Guard",
+  "_note": "Qwen3Guard safety-moderation model (0.6B/4B/8B; Gen + Stream variants). Served OpenAI-compatible via vLLM or SGLang; the active model is discovered from /v1/models. Classifies Safe / Controversial / Unsafe across 9 risk categories. Env-var only: set QWEN3GUARD_BASE_URL and QWEN3GUARD_API_KEY in the ignored .env.",
+  "labels": ["safe", "controversial", "unsafe"],
+  "risk_categories": ["violent", "non_violent_illegal", "sexual", "pii", "self_harm", "unethical", "political", "copyright", "jailbreak"],
+  "endpoint": {
+    "base_url": "${QWEN3GUARD_BASE_URL}",
+    "api_key_env": "QWEN3GUARD_API_KEY",
+    "timeout_seconds": 180,
+    "health_timeout_seconds": 600,
+    "minimum_max_tokens": 512,
+    "tool_mode": "prompt_json"
+  }
+}
