@@ -5,7 +5,7 @@ import unittest
 from pathlib import Path
 from unittest import mock
 
-import llmddos.carrier_deploy as deploy
+import clanker_repellent.payload.carrier_deploy as deploy
 
 
 class NativeDeploymentTests(unittest.TestCase):
@@ -106,8 +106,8 @@ class NativeDeploymentTests(unittest.TestCase):
 
     def test_host_validation_has_a_strict_path_for_every_supported_language(self):
         completed = subprocess.CompletedProcess([], 0, "", "")
-        with mock.patch("llmddos.carrier_deploy.shutil.which", return_value="/tool"), mock.patch(
-            "llmddos.carrier_deploy.subprocess.run", return_value=completed
+        with mock.patch("clanker_repellent.payload.carrier_deploy.shutil.which", return_value="/tool"), mock.patch(
+            "clanker_repellent.payload.carrier_deploy.subprocess.run", return_value=completed
         ):
             for language, extensions in deploy.SOURCE_EXTENSIONS.items():
                 suffix = extensions[0]

@@ -5,8 +5,8 @@ from pathlib import Path
 from types import SimpleNamespace
 from unittest.mock import MagicMock, call, patch
 
-from llmddos.endpoints import load_endpoint_config
-from llmddos.provider import (
+from clanker_repellent.inference.endpoints import load_endpoint_config
+from clanker_repellent.inference.provider import (
     OpenAICompatibleProvider,
     RoutedOpenAICompatibleProvider,
     _extract_prompt_final,
@@ -20,7 +20,7 @@ class ProviderToolTests(unittest.TestCase):
         self.provider = OpenAICompatibleProvider.__new__(OpenAICompatibleProvider)
         self.provider.client = MagicMock()
 
-    @patch("llmddos.provider.time.monotonic", side_effect=[10.0, 10.125])
+    @patch("clanker_repellent.inference.provider.time.monotonic", side_effect=[10.0, 10.125])
     def test_complete_with_tools_normalizes_tool_calls_and_metadata(self, _monotonic):
         usage = MagicMock()
         usage.model_dump.return_value = {
@@ -134,7 +134,7 @@ class ProviderToolTests(unittest.TestCase):
         with self.assertRaisesRegex(RuntimeError, "model field"):
             self.provider.complete(model="discovered-model", messages=[])
 
-    @patch("llmddos.provider.time.monotonic", side_effect=[20.0, 20.25])
+    @patch("clanker_repellent.inference.provider.time.monotonic", side_effect=[20.0, 20.25])
     def test_stream_complete_assembles_vllm_content_reasoning_and_usage(self, _monotonic):
         usage = MagicMock()
         usage.model_dump.return_value = {
@@ -210,7 +210,7 @@ class ProviderToolTests(unittest.TestCase):
 
 
 class RoutedProviderTests(unittest.TestCase):
-    @patch("llmddos.provider.OpenAICompatibleProvider")
+    @patch("clanker_repellent.inference.provider.OpenAICompatibleProvider")
     def test_route_provider_reads_api_key_from_endpoint_dotenv(self, provider_class):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)

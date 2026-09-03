@@ -1,7 +1,7 @@
 import unittest
 from pathlib import Path
 
-from llmddos.payload_scatter import HUB_CARRIER, STRATEGIES
+from clanker_repellent.payload.payload_scatter import HUB_CARRIER, STRATEGIES
 
 
 ROOT = Path(__file__).resolve().parents[1]

@@ -1,0 +1,8 @@
+{
+  "dimension": "guardrail_vs_refusal",
+  "description": "Breakdown of guardrail-block vs task-refusal",
+  "conditions": "data/refusal_conditions.jsonl",
+  "guardrails": ["qwen3", "nemo", "codex", "leaked-claude"],
+  "repeats": 3,
+  "max_tokens": 256
+}

@@ -14,7 +14,7 @@ from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional
 from urllib.parse import urlparse
 
-from .payload_scatter import STRATEGIES
+from ..payload.payload_scatter import STRATEGIES
 
 
 REPOSITORY_ID = re.compile(r"^[a-z0-9][a-z0-9._-]{0,63}$")

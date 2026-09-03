@@ -4,7 +4,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from llmddos.audit import evaluate_audit, export_blinded_sample
+from clanker_repellent.measurement.audit import evaluate_audit, export_blinded_sample
 
 
 class AuditTests(unittest.TestCase):

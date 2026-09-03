@@ -1,0 +1,8 @@
+{
+  "dimension": "comments_vs_code",
+  "description": "Comment-delivery vs native-carrier code payloads",
+  "conditions": "data/refusal_conditions.jsonl",
+  "guardrails": ["qwen3", "nemo", "codex", "leaked-claude"],
+  "repeats": 3,
+  "max_tokens": 256
+}

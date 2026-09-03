@@ -6,7 +6,7 @@ import unittest
 from pathlib import Path
 from unittest import mock
 
-from llmddos.repo_cli_launcher import (
+from clanker_repellent.cli.repo_cli_launcher import (
     _select_tasks,
     agent_command,
     build_parser,
@@ -77,19 +77,19 @@ class RepositoryCliLauncherTests(unittest.TestCase):
             (workspace / "app.py").write_text("before\n", encoding="utf-8")
             with (
                 mock.patch(
-                    "llmddos.repo_cli_launcher._select_tasks", return_value=selected
+                    "clanker_repellent.cli.repo_cli_launcher._select_tasks", return_value=selected
                 ),
                 mock.patch(
-                    "llmddos.repo_cli_launcher.shutil.which", return_value="/bin/agent"
+                    "clanker_repellent.cli.repo_cli_launcher.shutil.which", return_value="/bin/agent"
                 ),
-                mock.patch("llmddos.repo_cli_launcher._prepare") as prepare,
-                mock.patch("llmddos.repo_cli_launcher.subprocess.run") as run,
+                mock.patch("clanker_repellent.cli.repo_cli_launcher._prepare") as prepare,
+                mock.patch("clanker_repellent.cli.repo_cli_launcher.subprocess.run") as run,
                 mock.patch(
-                    "llmddos.repo_cli_launcher.verify_git_isolation",
+                    "clanker_repellent.cli.repo_cli_launcher.verify_git_isolation",
                     return_value=os.environ.copy(),
                 ),
                 mock.patch(
-                    "llmddos.repo_cli_launcher.capture_tree_artifacts",
+                    "clanker_repellent.cli.repo_cli_launcher.capture_tree_artifacts",
                     side_effect=capture,
                 ),
             ):

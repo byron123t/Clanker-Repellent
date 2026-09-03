@@ -5,9 +5,9 @@ import unittest
 from pathlib import Path
 from unittest import mock
 
-import llmddos.payload_scatter as payload_scatter
+import clanker_repellent.payload.payload_scatter as payload_scatter
 
-from llmddos.payload_scatter import (
+from clanker_repellent.payload.payload_scatter import (
     FILE_POSITIONS,
     END_MARKER,
     HUB_CARRIER,

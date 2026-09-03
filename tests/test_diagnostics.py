@@ -1,6 +1,6 @@
 import unittest
 
-from llmddos.diagnostics import diagnose, diagnostic_markdown
+from clanker_repellent.measurement.diagnostics import diagnose, diagnostic_markdown
 
 
 class DiagnosticTests(unittest.TestCase):

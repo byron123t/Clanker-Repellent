@@ -16,9 +16,9 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional, Sequence
 
-from .benign_repos import BASELINE_VARIANT, load_repository_manifest
+from ..datasets.benign_repos import BASELINE_VARIANT, load_repository_manifest
 from .cli import main as llmddos_main
-from .payload_scatter import (
+from ..payload.payload_scatter import (
     DEFAULT_FILE_POSITIONS,
     DEFAULT_HUB_CHUNK_LINES,
     DEFAULT_INLINE_SOURCE_LINES,
@@ -28,7 +28,7 @@ from .payload_scatter import (
     normalize_file_positions,
     normalize_instruction_files,
 )
-from .repo_tasks import load_repository_tasks
+from ..datasets.repo_tasks import load_repository_tasks
 
 
 SUPPORTED_AGENTS = ("codex", "claude")
@@ -433,7 +433,7 @@ def build_parser(project_root: Path) -> argparse.ArgumentParser:
 
 
 def main(argv: Optional[Sequence[str]] = None) -> int:
-    project_root = Path(__file__).resolve().parents[2]
+    project_root = Path(__file__).resolve().parents[3]
     parser = build_parser(project_root)
     args = parser.parse_args(argv)
     try:

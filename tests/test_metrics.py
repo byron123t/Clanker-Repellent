@@ -1,6 +1,6 @@
 import unittest
 
-from llmddos.metrics import classify_response, wilson_interval
+from clanker_repellent.measurement.metrics import classify_response, wilson_interval
 
 
 class MetricsTests(unittest.TestCase):

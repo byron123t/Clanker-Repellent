@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import MagicMock, patch
 
-from llmddos.tunnel import (
+from clanker_repellent.inference.tunnel import (
     build_interactive_ssh_command,
     build_ssh_command,
     managed_ssh_tunnel,
@@ -47,8 +47,8 @@ class TunnelTests(unittest.TestCase):
         self.assertNotIn("BatchMode=yes", command)
         self.assertIn("StrictHostKeyChecking=yes", command)
 
-    @patch("llmddos.tunnel._interactive_ssh_tunnel")
-    @patch("llmddos.tunnel._port_is_open", return_value=False)
+    @patch("clanker_repellent.inference.tunnel._interactive_ssh_tunnel")
+    @patch("clanker_repellent.inference.tunnel._port_is_open", return_value=False)
     def test_interactive_auth_uses_interactive_manager(self, _open, interactive):
         interactive.return_value.__enter__.return_value = {
             "status": "started",
@@ -60,17 +60,17 @@ class TunnelTests(unittest.TestCase):
 
         interactive.assert_called_once()
 
-    @patch("llmddos.tunnel.subprocess.Popen")
-    @patch("llmddos.tunnel._port_is_open", return_value=True)
+    @patch("clanker_repellent.inference.tunnel.subprocess.Popen")
+    @patch("clanker_repellent.inference.tunnel._port_is_open", return_value=True)
     def test_reuses_existing_tunnel_without_spawning(self, _open, popen):
         with managed_ssh_tunnel(self.config) as state:
             self.assertEqual(state["status"], "reused")
 
         popen.assert_not_called()
 
-    @patch("llmddos.tunnel._wait_for_ports")
-    @patch("llmddos.tunnel.subprocess.Popen")
-    @patch("llmddos.tunnel._port_is_open", return_value=False)
+    @patch("clanker_repellent.inference.tunnel._wait_for_ports")
+    @patch("clanker_repellent.inference.tunnel.subprocess.Popen")
+    @patch("clanker_repellent.inference.tunnel._port_is_open", return_value=False)
     def test_starts_and_stops_only_managed_process(self, _open, popen, wait_for_ports):
         process = MagicMock()
         process.poll.return_value = None

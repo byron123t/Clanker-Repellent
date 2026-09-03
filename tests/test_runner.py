@@ -3,7 +3,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from llmddos.runner import run_trials
+from clanker_repellent.measurement.runner import run_trials
 
 
 class FakeProvider:

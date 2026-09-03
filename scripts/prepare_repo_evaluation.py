@@ -5,7 +5,7 @@ from __future__ import annotations
 
 import sys
 
-from llmddos.cli import main
+from clanker_repellent.cli.cli import main
 
 
 if __name__ == "__main__":

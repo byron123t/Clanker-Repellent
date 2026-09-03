@@ -87,9 +87,9 @@ class ReadmeUsageTests(unittest.TestCase):
     def test_package_exposes_only_the_repel_console_command(self):
         project = (ROOT / "pyproject.toml").read_text(encoding="utf-8")
 
-        self.assertIn('repel = "llmddos.repo_tool:main"', project)
+        self.assertIn('repel = "clanker_repellent.cli.repo_tool:main"', project)
         self.assertNotIn("guardrail-eval =", project)
-        self.assertNotIn("llmddos =", project)
+        self.assertNotIn("clanker_repellent =", project)
 
 
 if __name__ == "__main__":

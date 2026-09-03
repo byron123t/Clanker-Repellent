@@ -3,7 +3,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from llmddos.payload_mixer import (
+from clanker_repellent.payload.payload_mixer import (
     build_mix_condition_rows,
     validate_mixture_parts,
     write_mix_conditions,

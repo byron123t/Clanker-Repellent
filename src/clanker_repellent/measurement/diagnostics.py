@@ -8,7 +8,7 @@ from collections import Counter, defaultdict
 from pathlib import Path
 from typing import Any, Dict, Iterable, List, Mapping, Sequence, Tuple
 
-from .dataset import load_conditions
+from ..datasets.dataset import load_conditions
 from .verifiers import refusal_echoed_from_prompt
 
 

@@ -3,10 +3,10 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from llmddos.cli import _build_scatter_payload_pool, build_parser, main
-from llmddos.dataset import load_conditions
-from llmddos.payload_scatter import FILE_POSITIONS, INSTRUCTION_FILES
-from llmddos.repo_cli_launcher import build_parser as build_launcher_parser
+from clanker_repellent.cli.cli import _build_scatter_payload_pool, build_parser, main
+from clanker_repellent.datasets.dataset import load_conditions
+from clanker_repellent.payload.payload_scatter import FILE_POSITIONS, INSTRUCTION_FILES
+from clanker_repellent.cli.repo_cli_launcher import build_parser as build_launcher_parser
 
 
 class PayloadScatterCliTests(unittest.TestCase):

@@ -12,8 +12,8 @@ import tempfile
 from pathlib import Path
 from typing import Dict, List, Optional, Sequence, Tuple
 
-from .dataset import load_conditions
-from .payload_scatter import (
+from ..datasets.dataset import load_conditions
+from ..payload.payload_scatter import (
     DEFAULT_HUB_CHUNK_LINES,
     DEFAULT_INLINE_SOURCE_LINES,
     INSTRUCTION_FILES,
@@ -24,13 +24,13 @@ from .payload_scatter import (
     normalize_instruction_files,
     scatter_payload,
 )
-from .publication_guard import (
+from ..payload.publication_guard import (
     STATE_CLEAN,
     classify_indexed_repository,
     clean_indexed_repository,
     resolve_scatter_index,
 )
-from .hash_share import (
+from ..payload.hash_share import (
     SHARE_STATE_CHOICES,
     SHARE_STATE_CURRENT,
     VERIFY_STATE_VERIFIED,
@@ -39,6 +39,7 @@ from .hash_share import (
     write_hash_share,
 )
 from . import deploy_cli, generate_cli
+
 
 
 DEFAULT_REPO_TOOL_POSITIONS = (POSITION_HEAD, POSITION_TAIL)
@@ -211,7 +212,7 @@ def _automatic_payload_pool(seed: int, payload_count: int) -> List[Dict[str, str
 
     if payload_count < 1:
         raise ValueError("--payload-count must be at least 1")
-    project_root = Path(__file__).resolve().parents[2]
+    project_root = Path(__file__).resolve().parents[3]
     conditions_path = project_root / "payloads/mixed_conditions.generated.jsonl"
     template_path = project_root / "payloads/header.txt"
     if not conditions_path.is_file() or not template_path.is_file():

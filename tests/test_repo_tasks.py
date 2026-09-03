@@ -3,8 +3,8 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from llmddos.benign_repos import load_repository_manifest
-from llmddos.repo_tasks import load_repository_tasks
+from clanker_repellent.datasets.benign_repos import load_repository_manifest
+from clanker_repellent.datasets.repo_tasks import load_repository_tasks
 
 
 ROOT = Path(__file__).resolve().parents[1]

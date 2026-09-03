@@ -7,8 +7,8 @@ import hashlib
 from pathlib import Path
 from typing import Any, Dict, Iterable, List
 
-from .payload_mixer import load_payload_mixture, validate_mixture_parts
-from .payload_templates import load_and_render_template, resolve_config_file
+from ..payload.payload_mixer import load_payload_mixture, validate_mixture_parts
+from ..payload.payload_templates import load_and_render_template, resolve_config_file
 
 
 REQUIRED_CASE_FIELDS = {"id", "task", "artifact", "expected_terms"}

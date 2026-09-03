@@ -1,7 +1,7 @@
 import json
 import unittest
 
-from llmddos.agent_env import VirtualAgentEnvironment
+from clanker_repellent.measurement.agent_env import VirtualAgentEnvironment
 
 
 class AgentEnvironmentTests(unittest.TestCase):

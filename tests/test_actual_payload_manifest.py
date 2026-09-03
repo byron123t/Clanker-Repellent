@@ -3,8 +3,8 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from llmddos.dataset import load_conditions
-from llmddos.payload_scatter import MARKER, scatter_payload
+from clanker_repellent.datasets.dataset import load_conditions
+from clanker_repellent.payload.payload_scatter import MARKER, scatter_payload
 
 
 ROOT = Path(__file__).resolve().parents[1]

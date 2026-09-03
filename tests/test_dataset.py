@@ -2,7 +2,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from llmddos.dataset import (
+from clanker_repellent.datasets.dataset import (
     condition_metadata,
     load_cases,
     load_conditions,

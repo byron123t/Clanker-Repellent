@@ -9,15 +9,15 @@ from contextlib import nullcontext
 from pathlib import Path
 from typing import List, Optional
 
-from .agent_dataset import load_agent_scenarios
-from .agent_report import write_agent_report
-from .agent_runner import (
+from ..datasets.agent_dataset import load_agent_scenarios
+from ..measurement.agent_report import write_agent_report
+from ..measurement.agent_runner import (
     AGENT_PROMPT_MODES,
     DEFAULT_AGENT_PROMPT_MODES,
     run_agent_trials,
 )
-from .audit import evaluate_audit, export_blinded_sample
-from .benign_repos import (
+from ..measurement.audit import evaluate_audit, export_blinded_sample
+from ..datasets.benign_repos import (
     BASELINE_VARIANT,
     clone_repositories,
     create_injected_workspace,
@@ -25,19 +25,19 @@ from .benign_repos import (
     strip_corpus_git_metadata,
     write_clone_manifest,
 )
-from .dataset import (
+from ..datasets.dataset import (
     condition_metadata,
     load_cases,
     load_conditions,
     validate_condition_references,
 )
-from .diagnostics import load_result_files, write_diagnostics
-from .dotenv import merged_environment
-from .endpoints import load_endpoint_config
-from .prompts import DEFAULT_PROMPT_MODES, PROMPT_MODES
-from .provider import OpenAICompatibleProvider, RoutedOpenAICompatibleProvider
-from .payload_mixer import build_mix_condition_rows, write_mix_conditions
-from .payload_scatter import (
+from ..measurement.diagnostics import load_result_files, write_diagnostics
+from ..inference.dotenv import merged_environment
+from ..inference.endpoints import load_endpoint_config
+from ..inference.prompts import DEFAULT_PROMPT_MODES, PROMPT_MODES
+from ..inference.provider import OpenAICompatibleProvider, RoutedOpenAICompatibleProvider
+from ..payload.payload_mixer import build_mix_condition_rows, write_mix_conditions
+from ..payload.payload_scatter import (
     DEFAULT_FILE_POSITIONS,
     DEFAULT_HUB_CHUNK_LINES,
     DEFAULT_INLINE_SOURCE_LINES,
@@ -50,15 +50,15 @@ from .payload_scatter import (
     scatter_payload,
     write_scatter_manifest,
 )
-from .payload_templates import load_and_render_template, resolve_config_file
-from .report import write_reports
-from .repo_tasks import load_repository_tasks
-from .runner import run_trials
-from .tunnel import managed_ssh_tunnel
-from .verifiers import write_refusal_verification
+from ..payload.payload_templates import load_and_render_template, resolve_config_file
+from ..measurement.report import write_reports
+from ..datasets.repo_tasks import load_repository_tasks
+from ..measurement.runner import run_trials
+from ..inference.tunnel import managed_ssh_tunnel
+from ..measurement.verifiers import write_refusal_verification
 
 
-PROJECT_DOTENV = Path(__file__).resolve().parents[2] / ".env"
+PROJECT_DOTENV = Path(__file__).resolve().parents[3] / ".env"
 TOPIC_LABELS = {
     "bio": "BIOLOGICAL",
     "c4": "EXPLOSIVE",
