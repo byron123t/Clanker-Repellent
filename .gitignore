@@ -20,3 +20,5 @@ build/
 *.egg-info/
 data/benign_repos/
 results/
+.repel-carrier-index.json
+.repel-carrier-index.json.preimage/
