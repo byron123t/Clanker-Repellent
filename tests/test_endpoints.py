@@ -30,6 +30,7 @@ class EndpointConfigTests(unittest.TestCase):
     def test_checked_in_routed_config_contains_only_environment_references(self):
         root = Path(__file__).resolve().parents[1]
         raw = (root / "configs/abliterated-local.json").read_text(encoding="utf-8")
+        remote = (root / "configs/abliterated-remote.json").read_text(encoding="utf-8")
         example = (root / ".env.example").read_text(encoding="utf-8")
 
         self.assertIn("${GUARDRAIL_SSH_TARGET}", raw)
@@ -44,6 +45,24 @@ class EndpointConfigTests(unittest.TestCase):
         self.assertIn("REPEL_REMOTE_PORT=<remote-port>", example)
         self.assertIn(
             "REPEL_BASE_URL=<loopback-openai-base-url>", example
+        )
+        self.assertIn("${GUARDRAIL_BASE_URL}", remote)
+        self.assertIn('"api_key_env": "GUARDRAIL_API_KEY"', remote)
+        self.assertNotIn('"api_key"', remote)
+
+    def test_loads_credential_free_direct_config(self):
+        root = Path(__file__).resolve().parents[1]
+        loaded = load_endpoint_config(
+            root / "configs/abliterated-remote.json",
+            environ={"GUARDRAIL_BASE_URL": "https://models.example/v1"},
+        )
+
+        self.assertEqual(loaded["_discovery_route"], "server")
+        self.assertEqual(
+            loaded["models"]["server"]["base_url"], "https://models.example/v1"
+        )
+        self.assertEqual(
+            loaded["models"]["server"]["api_key_env"], "GUARDRAIL_API_KEY"
         )
 
     def test_url_policy_allows_https_and_explicit_loopback_only(self):

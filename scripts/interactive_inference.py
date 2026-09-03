@@ -14,7 +14,7 @@ from llmddos.provider import RoutedOpenAICompatibleProvider, _extract_prompt_fin
 from llmddos.tunnel import managed_ssh_tunnel
 
 
-DEFAULT_CONFIG = Path(__file__).resolve().parents[1] / "configs" / "abliterated-local.json"
+DEFAULT_CONFIG = Path(__file__).resolve().parents[1] / "configs" / "abliterated-remote.json"
 DEFAULT_MAX_TOKENS = 8192
 DEFAULT_TEMPERATURE = 0.7
 DEFAULT_TOP_P = 0.95

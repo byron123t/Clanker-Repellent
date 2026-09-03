@@ -22,6 +22,7 @@ class OpenCodeHarnessTests(unittest.TestCase):
             return OpenCodeGenerationHarness(
                 model="served/model",
                 base_url="http://127.0.0.1:18473/v1",
+                api_key="test-api-key",
                 timeout_seconds=12,
             )
 
@@ -30,12 +31,17 @@ class OpenCodeHarnessTests(unittest.TestCase):
             model="served/model",
             base_url="http://127.0.0.1:18473/v1",
             max_tokens=8192,
+            api_key="test-api-key",
         )
 
         self.assertEqual(config["model"], "repel-local/served/model")
         self.assertEqual(
             config["provider"]["repel-local"]["options"]["baseURL"],
             "http://127.0.0.1:18473/v1",
+        )
+        self.assertEqual(
+            config["provider"]["repel-local"]["options"]["apiKey"],
+            "test-api-key",
         )
         self.assertIn(
             "served/model", config["provider"]["repel-local"]["models"]
@@ -73,6 +79,10 @@ class OpenCodeHarnessTests(unittest.TestCase):
         self.assertEqual(observed["input"].count("make a candidate"), 1)
         config = json.loads(observed["env"]["OPENCODE_CONFIG_CONTENT"])
         self.assertEqual(config["model"], "repel-local/served/model")
+        self.assertEqual(
+            config["provider"]["repel-local"]["options"]["apiKey"],
+            "test-api-key",
+        )
         self.assertEqual(result["response_text"], "```python\nvalue = 1\n```")
         self.assertEqual(result["resolved_model"], "served/model")
         self.assertEqual(result["harness_delivery"], "workspace_file")

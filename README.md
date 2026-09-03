@@ -296,10 +296,11 @@ workspace, then restore and verify the clean share artifact before normal agent 
 
 ## Reviewed abliterated-model drafts
 
-Local inference uses one SSH-forwarded server configured in `configs/abliterated-local.json`. The
-server address, forwarded ports, and credentials are supplied through the ignored `.env`. Clients
-wait for `/health`, then discover the active model from `/v1/models`; model IDs are not configured
-or passed on the command line.
+The default inference configuration is the direct OpenAI-compatible endpoint in
+`configs/abliterated-remote.json`. Set `GUARDRAIL_BASE_URL` and `GUARDRAIL_API_KEY` in the ignored
+`.env`; credentials are never stored in endpoint JSON. Clients wait for `/health`, then discover
+the active model from `/v1/models`; model IDs are not configured or passed on the command line.
+The SSH-forwarded setup remains available explicitly through `configs/abliterated-local.json`.
 
 ```bash
 cp .env.example .env

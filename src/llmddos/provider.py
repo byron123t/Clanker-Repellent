@@ -2,16 +2,16 @@
 
 from __future__ import annotations
 
-import os
 import hashlib
 import json
 import re
 import ssl
 import time
 from pathlib import Path
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any, Callable, Dict, List, Mapping, Optional
 from urllib.parse import urlsplit, urlunsplit
 
+from .dotenv import merged_environment
 from .endpoints import is_allowed_base_url
 
 
@@ -421,13 +421,19 @@ class RoutedOpenAICompatibleProvider:
         self.tool_modes: Dict[str, str] = {}
         self.minimum_max_tokens: Dict[str, int] = {}
         self.health_timeouts: Dict[str, float] = {}
+        self.api_keys: Dict[str, str] = {}
         self.discovered_providers: Dict[str, OpenAICompatibleProvider] = {}
         self.discovery_route: Optional[str] = endpoint_config.get("_discovery_route")
+        dotenv_source = endpoint_config.get("_dotenv_source")
+        environment: Mapping[str, str] = merged_environment(
+            dotenv_path=Path(dotenv_source) if dotenv_source else None
+        )
         for model, route in endpoint_config["models"].items():
             api_key_env = route.get("api_key_env")
-            api_key = os.getenv(api_key_env) if api_key_env else "unused"
+            api_key = environment.get(api_key_env) if api_key_env else "unused"
             if not api_key:
                 raise ValueError(f"Set {api_key_env} for endpoint model {model!r}")
+            self.api_keys[model] = api_key
             ca_cert = route.get("_ca_cert_path")
             self.providers[model] = OpenAICompatibleProvider(
                 api_key=api_key,
@@ -474,6 +480,14 @@ class RoutedOpenAICompatibleProvider:
                 self.minimum_max_tokens[model] = self.minimum_max_tokens[route]
                 discovered.append(model)
         return sorted(set(discovered))
+
+    def api_key_for_route(self, route: str) -> str:
+        """Return a configured route key for runtime-only downstream clients."""
+
+        try:
+            return self.api_keys[route]
+        except KeyError as exc:
+            raise ValueError(f"No API key configured for endpoint route {route!r}") from exc
 
     def wait_for_model(self) -> str:
         """Wait for one configured server and return its sole active model."""

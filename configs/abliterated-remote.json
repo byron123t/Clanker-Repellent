@@ -1,0 +1,11 @@
+{
+  "schema_version": "1.0",
+  "endpoint": {
+    "base_url": "${GUARDRAIL_BASE_URL}",
+    "api_key_env": "GUARDRAIL_API_KEY",
+    "timeout_seconds": 180,
+    "health_timeout_seconds": 600,
+    "minimum_max_tokens": 8192,
+    "tool_mode": "prompt_json"
+  }
+}

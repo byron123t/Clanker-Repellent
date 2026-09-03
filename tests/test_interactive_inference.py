@@ -69,24 +69,21 @@ class InteractiveInferenceTests(unittest.TestCase):
         self.assertEqual(args.temperature, 0.7)
         self.assertEqual(args.top_p, 0.95)
 
-    def test_default_config_has_one_server_discovered_route(self):
-        base_url = "http://127.0.0.1:19002/v1"
+    def test_default_config_has_one_direct_discovered_route(self):
+        base_url = "https://models.example/v1"
         config = interactive.load_endpoint_config(
             interactive.DEFAULT_CONFIG,
             environ={
-                "GUARDRAIL_SSH_TARGET": "user@example.test",
-                "GUARDRAIL_REMOTE_HOST": "127.0.0.1",
-                "REPEL_LOCAL_PORT": "19002",
-                "REPEL_REMOTE_PORT": "19002",
-                "REPEL_BASE_URL": base_url,
+                "GUARDRAIL_BASE_URL": base_url,
             },
         )
         route = config["models"]["server"]
 
         self.assertEqual(route["base_url"], base_url)
+        self.assertEqual(route["api_key_env"], "GUARDRAIL_API_KEY")
         self.assertEqual(config["_discovery_route"], "server")
         self.assertEqual(len(config["models"]), 1)
-        self.assertEqual(len(config["ssh"]["forwards"]), 1)
+        self.assertNotIn("ssh", config)
         self.assertEqual(route["minimum_max_tokens"], 8192)
         self.assertEqual(route["tool_mode"], "prompt_json")
 
