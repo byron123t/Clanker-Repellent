@@ -1,0 +1,12 @@
+{
+  "name": "repel-dashboard-design-template",
+  "private": true,
+  "scripts": {
+    "start": "python3 serve.py --open",
+    "check": "node --check web/app.js",
+    "test:browser": "node tests/browser-smoke.cjs"
+  },
+  "devDependencies": {
+    "playwright": "1.64.1"
+  }
+}

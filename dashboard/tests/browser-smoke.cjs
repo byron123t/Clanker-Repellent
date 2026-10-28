@@ -21,6 +21,16 @@ async function main() {
     const summary = await response.json(), latest = new Map();
     for (const item of summary.deployments) if (!latest.has(item.repository)) latest.set(item.repository, item);
     assert.equal(await page.locator(".project-card").count(), latest.size);
+    await page.waitForFunction((count) => document.querySelectorAll(".atlas-repo-row").length === count, latest.size);
+    await page.locator('[data-atlas-mode="bytes"]').click();
+    const tracks = [...latest.values()].reduce((total, item) => total + Math.min(item.metrics.placed_files, 256), 0);
+    assert.equal(await page.locator(".byte-lane").count(), tracks);
+    if (tracks) {
+      const track = page.locator(".byte-lane").first();
+      const path = await track.getAttribute("data-path"); await track.click();
+      assert.equal(await page.locator("#atlas-file").innerText(), path);
+    }
+    await page.locator('[data-atlas-mode="coverage"]').click();
     const placements = [...latest.values()].filter((item) => item.state === "applied").reduce((total, item) => total + item.metrics.placements, 0);
     assert.equal(await page.locator("#workspace-placements").innerText(), new Intl.NumberFormat().format(placements));
     assert.equal(contentRequests.length, 0, "Overview must not fetch stored content.");

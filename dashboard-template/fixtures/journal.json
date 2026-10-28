@@ -1,0 +1,2450 @@
+{
+  "schema_version": 1,
+  "summary": {
+    "store": "Isolated template / synthetic fixtures",
+    "demo": false,
+    "template": true,
+    "deployments": [
+      {
+        "id": "790899c55e455e7b91ca04b18d099905",
+        "repository": "/sample-workspace/native-util",
+        "repository_name": "native-util",
+        "index": "/sample-workspace/native-util/.repel-carrier-index.json",
+        "state": "applied",
+        "mode": "retained",
+        "benign": true,
+        "created_at": "2026-10-28T14:30:00+00:00",
+        "updated_at": "2026-10-28T14:35:00+00:00",
+        "selection": {
+          "random": true,
+          "seed": 42,
+          "count": 8
+        },
+        "types": [
+          "native_retained_string"
+        ],
+        "metrics": {
+          "eligible_files": 42,
+          "placed_files": 8,
+          "selected_files": 8,
+          "coverage_percent": 19.0,
+          "placements": 8,
+          "inserted_bytes": 558,
+          "after_bytes": 1122,
+          "density_percent": 49.7,
+          "artifacts": 1,
+          "scope": "synthetic fixture targets"
+        }
+      },
+      {
+        "id": "278290161bdc18b74f81bc21bbf56d46",
+        "repository": "/sample-workspace/web-client",
+        "repository_name": "web-client",
+        "index": "/sample-workspace/web-client/.repel-carrier-index.json",
+        "state": "applied",
+        "mode": "retained",
+        "benign": true,
+        "created_at": "2026-10-28T14:30:00+00:00",
+        "updated_at": "2026-10-28T14:35:00+00:00",
+        "selection": {
+          "random": true,
+          "seed": 42,
+          "count": 12
+        },
+        "types": [
+          "javascript_global_data"
+        ],
+        "metrics": {
+          "eligible_files": 62,
+          "placed_files": 12,
+          "selected_files": 12,
+          "coverage_percent": 19.4,
+          "placements": 12,
+          "inserted_bytes": 838,
+          "after_bytes": 1470,
+          "density_percent": 57.0,
+          "artifacts": 0,
+          "scope": "synthetic fixture targets"
+        }
+      },
+      {
+        "id": "c6046e7a04d072b97d5673f042091610",
+        "repository": "/sample-workspace/wasm-runtime",
+        "repository_name": "wasm-runtime",
+        "index": "/sample-workspace/wasm-runtime/.repel-carrier-index.json",
+        "state": "applied",
+        "mode": "retained",
+        "benign": true,
+        "created_at": "2026-10-28T14:30:00+00:00",
+        "updated_at": "2026-10-28T14:35:00+00:00",
+        "selection": {
+          "random": true,
+          "seed": 42,
+          "count": 3
+        },
+        "types": [
+          "wasm_custom_section"
+        ],
+        "metrics": {
+          "eligible_files": 6,
+          "placed_files": 3,
+          "selected_files": 3,
+          "coverage_percent": 50.0,
+          "placements": 3,
+          "inserted_bytes": 111,
+          "after_bytes": 135,
+          "density_percent": 82.2,
+          "artifacts": 0,
+          "scope": "synthetic fixture targets"
+        }
+      },
+      {
+        "id": "1c3c105a0fd8688be58bcadba715e44a",
+        "repository": "/sample-workspace/markdown-core",
+        "repository_name": "markdown-core",
+        "index": "/sample-workspace/markdown-core/.repel-carrier-index.json",
+        "state": "applied",
+        "mode": "retained",
+        "benign": true,
+        "created_at": "2026-10-28T14:30:00+00:00",
+        "updated_at": "2026-10-28T14:35:00+00:00",
+        "selection": {
+          "random": true,
+          "seed": 42,
+          "count": 5
+        },
+        "types": [
+          "typescript"
+        ],
+        "metrics": {
+          "eligible_files": 13,
+          "placed_files": 5,
+          "selected_files": 5,
+          "coverage_percent": 38.5,
+          "placements": 5,
+          "inserted_bytes": 345,
+          "after_bytes": 940,
+          "density_percent": 36.7,
+          "artifacts": 0,
+          "scope": "synthetic fixture targets"
+        }
+      },
+      {
+        "id": "17a4baae2062e376e1137eec3eef5125",
+        "repository": "/sample-workspace/docs-site",
+        "repository_name": "docs-site",
+        "index": "/sample-workspace/docs-site/.repel-carrier-index.json",
+        "state": "restored",
+        "mode": "retained",
+        "benign": true,
+        "created_at": "2026-10-28T14:30:00+00:00",
+        "updated_at": "2026-10-28T14:35:00+00:00",
+        "selection": {
+          "random": true,
+          "seed": 42,
+          "count": 12
+        },
+        "types": [
+          "document_data"
+        ],
+        "metrics": {
+          "eligible_files": 280,
+          "placed_files": 12,
+          "selected_files": 12,
+          "coverage_percent": 4.3,
+          "placements": 12,
+          "inserted_bytes": 846,
+          "after_bytes": 1452,
+          "density_percent": 58.3,
+          "artifacts": 0,
+          "scope": "synthetic fixture targets"
+        }
+      },
+      {
+        "id": "232c4d5c5d73308fde01916bd05855a9",
+        "repository": "/sample-workspace/legacy-import",
+        "repository_name": "legacy-import",
+        "index": "/sample-workspace/legacy-import/.repel-carrier-index.json",
+        "state": "applied",
+        "mode": "retained",
+        "benign": true,
+        "created_at": "2026-10-28T14:30:00+00:00",
+        "updated_at": "2026-10-28T14:35:00+00:00",
+        "selection": {
+          "random": true,
+          "seed": 42,
+          "count": 2
+        },
+        "types": [
+          "javascript_global_data"
+        ],
+        "metrics": {
+          "eligible_files": null,
+          "placed_files": 2,
+          "selected_files": 2,
+          "coverage_percent": null,
+          "placements": 2,
+          "inserted_bytes": 138,
+          "after_bytes": 308,
+          "density_percent": 44.8,
+          "artifacts": 0,
+          "scope": "denominator not recorded"
+        }
+      },
+      {
+        "id": "1d27bca4e3ad26d5e156b8b3d5eb5595",
+        "repository": "/sample-workspace/build-staging",
+        "repository_name": "build-staging",
+        "index": "/sample-workspace/build-staging/.repel-carrier-index.json",
+        "state": "prepared",
+        "mode": "snapshot",
+        "benign": true,
+        "created_at": "2026-10-28T14:30:00+00:00",
+        "updated_at": "2026-10-28T14:35:00+00:00",
+        "selection": {
+          "random": true,
+          "seed": 42,
+          "count": 0
+        },
+        "types": [],
+        "metrics": {
+          "eligible_files": null,
+          "placed_files": 0,
+          "selected_files": 0,
+          "coverage_percent": null,
+          "placements": 0,
+          "inserted_bytes": 0,
+          "after_bytes": 0,
+          "density_percent": null,
+          "artifacts": 1,
+          "scope": "denominator not recorded"
+        }
+      }
+    ],
+    "total_deployments": 7,
+    "response_count": 3,
+    "errors": [],
+    "limit": 200
+  },
+  "deployments": {
+    "790899c55e455e7b91ca04b18d099905": {
+      "id": "790899c55e455e7b91ca04b18d099905",
+      "repository": "/sample-workspace/native-util",
+      "repository_name": "native-util",
+      "index": "/sample-workspace/native-util/.repel-carrier-index.json",
+      "state": "applied",
+      "mode": "retained",
+      "benign": true,
+      "created_at": "2026-10-28T14:30:00+00:00",
+      "updated_at": "2026-10-28T14:35:00+00:00",
+      "selection": {
+        "random": true,
+        "seed": 42,
+        "count": 8
+      },
+      "types": [
+        "native_retained_string"
+      ],
+      "metrics": {
+        "eligible_files": 42,
+        "placed_files": 8,
+        "selected_files": 8,
+        "coverage_percent": 19.0,
+        "placements": 8,
+        "inserted_bytes": 558,
+        "after_bytes": 1122,
+        "density_percent": 49.7,
+        "artifacts": 1,
+        "scope": "synthetic fixture targets"
+      },
+      "eligible_paths": [
+        "src/module_000.c",
+        "src/module_001.c",
+        "src/module_002.c",
+        "src/module_003.c",
+        "src/module_004.c",
+        "src/module_005.c",
+        "src/module_006.c",
+        "src/module_007.c",
+        "src/module_008.c",
+        "src/module_009.c",
+        "src/module_010.c",
+        "src/module_011.c",
+        "src/module_012.c",
+        "src/module_013.c",
+        "src/module_014.c",
+        "src/module_015.c",
+        "src/module_016.c",
+        "src/module_017.c",
+        "src/module_018.c",
+        "src/module_019.c",
+        "src/module_020.c",
+        "src/module_021.c",
+        "src/module_022.c",
+        "src/module_023.c",
+        "src/module_024.c",
+        "src/module_025.c",
+        "src/module_026.c",
+        "src/module_027.c",
+        "src/module_028.c",
+        "src/module_029.c",
+        "src/module_030.c",
+        "src/module_031.c",
+        "src/module_032.c",
+        "src/module_033.c",
+        "src/module_034.c",
+        "src/module_035.c",
+        "src/module_036.c",
+        "src/module_037.c",
+        "src/module_038.c",
+        "src/module_039.c",
+        "src/module_040.c",
+        "src/module_041.c"
+      ],
+      "files": [
+        {
+          "number": 0,
+          "path": "src/module_000.c",
+          "kind": "native_retained_string",
+          "role": "placement",
+          "pending": false,
+          "before_bytes": 69,
+          "after_bytes": 138,
+          "before_sha256": "f2c1d25731bb6b2f12f93fee59d03cc8e1b83af3d052a74ad181515448e7c266",
+          "after_sha256": "0205c04237dacf902610e3eab8c87105343075e3671dd71e32facd937065d955",
+          "payload_ids": [
+            "benign-template-note"
+          ],
+          "edits": [
+            {
+              "step": 0,
+              "offset": 0,
+              "inserted_bytes": 69,
+              "removed_bytes": 0,
+              "sha256": "def3ff52065d7eebc816d3fd99acefb8d4faf03f067c761d6818fd0f655afcae",
+              "location_percent": 0
+            }
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 69,
+              "step": 0,
+              "start_percent": 0.0,
+              "width_percent": 50.0
+            }
+          ],
+          "placements": 1,
+          "inserted_bytes": 69
+        },
+        {
+          "number": 1,
+          "path": "src/module_005.c",
+          "kind": "native_retained_string",
+          "role": "placement",
+          "pending": false,
+          "before_bytes": 69,
+          "after_bytes": 138,
+          "before_sha256": "07241f456ac0fdafd7a6c0d9dfbf77fd714da0227db99470648e14fb4d13c272",
+          "after_sha256": "a9e4f03232fd2d0d32c40a531b50765771757fd4ece6206d4f398176bedcdd3d",
+          "payload_ids": [
+            "benign-template-note"
+          ],
+          "edits": [
+            {
+              "step": 0,
+              "offset": 69,
+              "inserted_bytes": 69,
+              "removed_bytes": 0,
+              "sha256": "ca4f4d6dcde1ad775604dad3efda4a21e5a5ebd9dd7ec2ca94973285286f9f25",
+              "location_percent": 100.0
+            }
+          ],
+          "spans": [
+            {
+              "start": 69,
+              "end": 138,
+              "step": 0,
+              "start_percent": 50.0,
+              "width_percent": 50.0
+            }
+          ],
+          "placements": 1,
+          "inserted_bytes": 69
+        },
+        {
+          "number": 2,
+          "path": "src/module_010.c",
+          "kind": "native_retained_string",
+          "role": "placement",
+          "pending": false,
+          "before_bytes": 71,
+          "after_bytes": 141,
+          "before_sha256": "0a6995d15f698c2a511d4533ae390acfac61a2633bbda450df68903ddb3f3d91",
+          "after_sha256": "e6ed4185dbefd0e8eab6766e92cd09eff40449029d3d5c9d229f28af7b3e1029",
+          "payload_ids": [
+            "benign-template-note"
+          ],
+          "edits": [
+            {
+              "step": 0,
+              "offset": 35,
+              "inserted_bytes": 70,
+              "removed_bytes": 0,
+              "sha256": "cdbd4b81046459db21649f0d10d2c3a1163b665a97694d90ac35031583780966",
+              "location_percent": 49.3
+            }
+          ],
+          "spans": [
+            {
+              "start": 35,
+              "end": 105,
+              "step": 0,
+              "start_percent": 24.8,
+              "width_percent": 49.6
+            }
+          ],
+          "placements": 1,
+          "inserted_bytes": 70
+        },
+        {
+          "number": 3,
+          "path": "src/module_015.c",
+          "kind": "native_retained_string",
+          "role": "placement",
+          "pending": false,
+          "before_bytes": 71,
+          "after_bytes": 141,
+          "before_sha256": "a8a13fe73e197a58b136deb7818f853b6f1ee4b02794e5b7ae1b1bbe3bb5bcc4",
+          "after_sha256": "867bfbfa05e12f18ff77f0fc9cde84aac507dbfaa854e092125469a5b1edd1b7",
+          "payload_ids": [
+            "benign-template-note"
+          ],
+          "edits": [
+            {
+              "step": 0,
+              "offset": 0,
+              "inserted_bytes": 70,
+              "removed_bytes": 0,
+              "sha256": "2be36fa4000a0d5b53a34d4e4b4b311fd012c3447ee952f89c74f1e6bfcc41d1",
+              "location_percent": 0
+            }
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 70,
+              "step": 0,
+              "start_percent": 0.0,
+              "width_percent": 49.6
+            }
+          ],
+          "placements": 1,
+          "inserted_bytes": 70
+        },
+        {
+          "number": 4,
+          "path": "src/module_020.c",
+          "kind": "native_retained_string",
+          "role": "placement",
+          "pending": false,
+          "before_bytes": 71,
+          "after_bytes": 141,
+          "before_sha256": "3eecbcff32be82087c9b359eef7ef2a64e04a59da4c720d3d41107a6ec1c0031",
+          "after_sha256": "81d18d67325c024b98e589c25821560b656a2827e3813f9cfff11acac8b7b569",
+          "payload_ids": [
+            "benign-template-note"
+          ],
+          "edits": [
+            {
+              "step": 0,
+              "offset": 71,
+              "inserted_bytes": 70,
+              "removed_bytes": 0,
+              "sha256": "086bb25fcec8a6b88e81859d17d7b9693ff73f2a9ed2c6588b123973217da087",
+              "location_percent": 100.0
+            }
+          ],
+          "spans": [
+            {
+              "start": 71,
+              "end": 141,
+              "step": 0,
+              "start_percent": 50.4,
+              "width_percent": 49.6
+            }
+          ],
+          "placements": 1,
+          "inserted_bytes": 70
+        },
+        {
+          "number": 5,
+          "path": "src/module_025.c",
+          "kind": "native_retained_string",
+          "role": "placement",
+          "pending": false,
+          "before_bytes": 71,
+          "after_bytes": 141,
+          "before_sha256": "df2e80b13aa7d2e6b45ce1d7a33386dcd3e64da97da18560f8bb8a5cccbc9fe6",
+          "after_sha256": "8dcff7b856f0e1d85544dcc51a6177e45779c7acb14f4249b17ccd3540eeae6a",
+          "payload_ids": [
+            "benign-template-note"
+          ],
+          "edits": [
+            {
+              "step": 0,
+              "offset": 35,
+              "inserted_bytes": 70,
+              "removed_bytes": 0,
+              "sha256": "fcd733543865dbe910e9c9d80b4ee3ff904c04c8ef1d009294fa05151417fe2b",
+              "location_percent": 49.3
+            }
+          ],
+          "spans": [
+            {
+              "start": 35,
+              "end": 105,
+              "step": 0,
+              "start_percent": 24.8,
+              "width_percent": 49.6
+            }
+          ],
+          "placements": 1,
+          "inserted_bytes": 70
+        },
+        {
+          "number": 6,
+          "path": "src/module_030.c",
+          "kind": "native_retained_string",
+          "role": "placement",
+          "pending": false,
+          "before_bytes": 71,
+          "after_bytes": 141,
+          "before_sha256": "c757dedd1a1853dbff68d54b3adf6baa34ecd023d5f04a6b945ccaeb6594e043",
+          "after_sha256": "0767adb0d2b3f1b5256927df057e3d4f4ee2f1deb0655db1db88452043c9b579",
+          "payload_ids": [
+            "benign-template-note"
+          ],
+          "edits": [
+            {
+              "step": 0,
+              "offset": 0,
+              "inserted_bytes": 70,
+              "removed_bytes": 0,
+              "sha256": "3314a28730ff60447d49567c8e7b4dda9d6ab3d06406296834c99d297dfb0667",
+              "location_percent": 0
+            }
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 70,
+              "step": 0,
+              "start_percent": 0.0,
+              "width_percent": 49.6
+            }
+          ],
+          "placements": 1,
+          "inserted_bytes": 70
+        },
+        {
+          "number": 7,
+          "path": "src/module_035.c",
+          "kind": "native_retained_string",
+          "role": "placement",
+          "pending": false,
+          "before_bytes": 71,
+          "after_bytes": 141,
+          "before_sha256": "330a01845831a6e57dbbe7fce6544173f9cc4b05c8cb90818b3cabfbab92239d",
+          "after_sha256": "dfd448f505d87beea077261da680862b4610651295c0940fc5853a4b56e9b1aa",
+          "payload_ids": [
+            "benign-template-note"
+          ],
+          "edits": [
+            {
+              "step": 0,
+              "offset": 71,
+              "inserted_bytes": 70,
+              "removed_bytes": 0,
+              "sha256": "577950a927ea9e3f6d4ce7dc4bc2c8a2beede39e7f9aac57bbbad31a7fc65c9a",
+              "location_percent": 100.0
+            }
+          ],
+          "spans": [
+            {
+              "start": 71,
+              "end": 141,
+              "step": 0,
+              "start_percent": 50.4,
+              "width_percent": 49.6
+            }
+          ],
+          "placements": 1,
+          "inserted_bytes": 70
+        },
+        {
+          "number": 8,
+          "path": "build/example.bin",
+          "kind": "artifact",
+          "role": "artifact",
+          "pending": false,
+          "before_bytes": 128,
+          "after_bytes": 155,
+          "before_sha256": "471fb943aa23c511f6f72f8d1652d9c880cfa392ad80503120547703e56a2be5",
+          "after_sha256": "bae5112cacdc8d32cc5744d005141053ff1bd0940e9ea5d1615c012ce6da2063",
+          "payload_ids": [],
+          "edits": [],
+          "spans": [],
+          "placements": 0,
+          "inserted_bytes": 0
+        }
+      ],
+      "examples": {
+        "inspect": "repel deploy inspect --repo /sample-workspace/native-util --include-text",
+        "status": "repel deploy status --repo /sample-workspace/native-util",
+        "restore": "repel deploy remove --repo /sample-workspace/native-util --apply"
+      }
+    },
+    "278290161bdc18b74f81bc21bbf56d46": {
+      "id": "278290161bdc18b74f81bc21bbf56d46",
+      "repository": "/sample-workspace/web-client",
+      "repository_name": "web-client",
+      "index": "/sample-workspace/web-client/.repel-carrier-index.json",
+      "state": "applied",
+      "mode": "retained",
+      "benign": true,
+      "created_at": "2026-10-28T14:30:00+00:00",
+      "updated_at": "2026-10-28T14:35:00+00:00",
+      "selection": {
+        "random": true,
+        "seed": 42,
+        "count": 12
+      },
+      "types": [
+        "javascript_global_data"
+      ],
+      "metrics": {
+        "eligible_files": 62,
+        "placed_files": 12,
+        "selected_files": 12,
+        "coverage_percent": 19.4,
+        "placements": 12,
+        "inserted_bytes": 838,
+        "after_bytes": 1470,
+        "density_percent": 57.0,
+        "artifacts": 0,
+        "scope": "synthetic fixture targets"
+      },
+      "eligible_paths": [
+        "src/module_000.js",
+        "src/module_001.js",
+        "src/module_002.js",
+        "src/module_003.js",
+        "src/module_004.js",
+        "src/module_005.js",
+        "src/module_006.js",
+        "src/module_007.js",
+        "src/module_008.js",
+        "src/module_009.js",
+        "src/module_010.js",
+        "src/module_011.js",
+        "src/module_012.js",
+        "src/module_013.js",
+        "src/module_014.js",
+        "src/module_015.js",
+        "src/module_016.js",
+        "src/module_017.js",
+        "src/module_018.js",
+        "src/module_019.js",
+        "src/module_020.js",
+        "src/module_021.js",
+        "src/module_022.js",
+        "src/module_023.js",
+        "src/module_024.js",
+        "src/module_025.js",
+        "src/module_026.js",
+        "src/module_027.js",
+        "src/module_028.js",
+        "src/module_029.js",
+        "src/module_030.js",
+        "src/module_031.js",
+        "src/module_032.js",
+        "src/module_033.js",
+        "src/module_034.js",
+        "src/module_035.js",
+        "src/module_036.js",
+        "src/module_037.js",
+        "src/module_038.js",
+        "src/module_039.js",
+        "src/module_040.js",
+        "src/module_041.js",
+        "src/module_042.js",
+        "src/module_043.js",
+        "src/module_044.js",
+        "src/module_045.js",
+        "src/module_046.js",
+        "src/module_047.js",
+        "src/module_048.js",
+        "src/module_049.js",
+        "src/module_050.js",
+        "src/module_051.js",
+        "src/module_052.js",
+        "src/module_053.js",
+        "src/module_054.js",
+        "src/module_055.js",
+        "src/module_056.js",
+        "src/module_057.js",
+        "src/module_058.js",
+        "src/module_059.js",
+        "src/module_060.js",
+        "src/module_061.js"
+      ],
+      "files": [
+        {
+          "number": 0,
+          "path": "src/module_000.js",
+          "kind": "javascript_global_data",
+          "role": "placement",
+          "pending": false,
+          "before_bytes": 51,
+          "after_bytes": 120,
+          "before_sha256": "240155e75ef740ea8d0564827e8f3f17045ff922fb64036ac7fc94e1a4cf26bd",
+          "after_sha256": "15d079c8c04e3902613a18d666bf1d6fce13000f5829a3ce9fe82dd12dca06e2",
+          "payload_ids": [
+            "benign-template-note"
+          ],
+          "edits": [
+            {
+              "step": 0,
+              "offset": 0,
+              "inserted_bytes": 69,
+              "removed_bytes": 0,
+              "sha256": "def3ff52065d7eebc816d3fd99acefb8d4faf03f067c761d6818fd0f655afcae",
+              "location_percent": 0
+            }
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 69,
+              "step": 0,
+              "start_percent": 0.0,
+              "width_percent": 57.5
+            }
+          ],
+          "placements": 1,
+          "inserted_bytes": 69
+        },
+        {
+          "number": 1,
+          "path": "src/module_005.js",
+          "kind": "javascript_global_data",
+          "role": "placement",
+          "pending": false,
+          "before_bytes": 51,
+          "after_bytes": 120,
+          "before_sha256": "2103244c1816476da9751e6b4a72c3dbecc2913ea18f359bbbe1a3d2361a6ce8",
+          "after_sha256": "020c99b5f664b2299129410bb709a0492b042ff6e1819de7040d6e5bf511f8c4",
+          "payload_ids": [
+            "benign-template-note"
+          ],
+          "edits": [
+            {
+              "step": 0,
+              "offset": 51,
+              "inserted_bytes": 69,
+              "removed_bytes": 0,
+              "sha256": "ca4f4d6dcde1ad775604dad3efda4a21e5a5ebd9dd7ec2ca94973285286f9f25",
+              "location_percent": 100.0
+            }
+          ],
+          "spans": [
+            {
+              "start": 51,
+              "end": 120,
+              "step": 0,
+              "start_percent": 42.5,
+              "width_percent": 57.5
+            }
+          ],
+          "placements": 1,
+          "inserted_bytes": 69
+        },
+        {
+          "number": 2,
+          "path": "src/module_010.js",
+          "kind": "javascript_global_data",
+          "role": "placement",
+          "pending": false,
+          "before_bytes": 53,
+          "after_bytes": 123,
+          "before_sha256": "199eab5cdd5953bfcf1d1fc2b2ae044a7f78a85fc1fd4e9aeb95a7a8ec1de8a9",
+          "after_sha256": "8be0d9f6571c0c70efb7daa8113f5c92093e63ca0be754d481c75f6de0adead0",
+          "payload_ids": [
+            "benign-template-note"
+          ],
+          "edits": [
+            {
+              "step": 0,
+              "offset": 35,
+              "inserted_bytes": 70,
+              "removed_bytes": 0,
+              "sha256": "cdbd4b81046459db21649f0d10d2c3a1163b665a97694d90ac35031583780966",
+              "location_percent": 66.0
+            }
+          ],
+          "spans": [
+            {
+              "start": 35,
+              "end": 105,
+              "step": 0,
+              "start_percent": 28.5,
+              "width_percent": 56.9
+            }
+          ],
+          "placements": 1,
+          "inserted_bytes": 70
+        },
+        {
+          "number": 3,
+          "path": "src/module_015.js",
+          "kind": "javascript_global_data",
+          "role": "placement",
+          "pending": false,
+          "before_bytes": 53,
+          "after_bytes": 123,
+          "before_sha256": "87d27f31da2899d8304d821886ed8d6f7d466aff2d57313a276b0841993de886",
+          "after_sha256": "029a6098ce2ddc012a1ae92b26511f3ada629ce6ac2e9113542884cd579e032d",
+          "payload_ids": [
+            "benign-template-note"
+          ],
+          "edits": [
+            {
+              "step": 0,
+              "offset": 0,
+              "inserted_bytes": 70,
+              "removed_bytes": 0,
+              "sha256": "2be36fa4000a0d5b53a34d4e4b4b311fd012c3447ee952f89c74f1e6bfcc41d1",
+              "location_percent": 0
+            }
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 70,
+              "step": 0,
+              "start_percent": 0.0,
+              "width_percent": 56.9
+            }
+          ],
+          "placements": 1,
+          "inserted_bytes": 70
+        },
+        {
+          "number": 4,
+          "path": "src/module_020.js",
+          "kind": "javascript_global_data",
+          "role": "placement",
+          "pending": false,
+          "before_bytes": 53,
+          "after_bytes": 123,
+          "before_sha256": "c0eda08f5c73aa787bfedcbe38938aff4c0ece41b7a9a25d9e23afa3d1465405",
+          "after_sha256": "c8d7135ee8d37115df69570c921e232b3a65dac45c7c91dd755ceff7370b6b3c",
+          "payload_ids": [
+            "benign-template-note"
+          ],
+          "edits": [
+            {
+              "step": 0,
+              "offset": 53,
+              "inserted_bytes": 70,
+              "removed_bytes": 0,
+              "sha256": "086bb25fcec8a6b88e81859d17d7b9693ff73f2a9ed2c6588b123973217da087",
+              "location_percent": 100.0
+            }
+          ],
+          "spans": [
+            {
+              "start": 53,
+              "end": 123,
+              "step": 0,
+              "start_percent": 43.1,
+              "width_percent": 56.9
+            }
+          ],
+          "placements": 1,
+          "inserted_bytes": 70
+        },
+        {
+          "number": 5,
+          "path": "src/module_025.js",
+          "kind": "javascript_global_data",
+          "role": "placement",
+          "pending": false,
+          "before_bytes": 53,
+          "after_bytes": 123,
+          "before_sha256": "8a65c25ee7b1c382cbda6ad78f23ff151f56e3a18d8d120360751b84b2222a85",
+          "after_sha256": "ffc642653212632194032777bb644495bd996f4e3b8604c53b2a6a06cdf70afd",
+          "payload_ids": [
+            "benign-template-note"
+          ],
+          "edits": [
+            {
+              "step": 0,
+              "offset": 35,
+              "inserted_bytes": 70,
+              "removed_bytes": 0,
+              "sha256": "fcd733543865dbe910e9c9d80b4ee3ff904c04c8ef1d009294fa05151417fe2b",
+              "location_percent": 66.0
+            }
+          ],
+          "spans": [
+            {
+              "start": 35,
+              "end": 105,
+              "step": 0,
+              "start_percent": 28.5,
+              "width_percent": 56.9
+            }
+          ],
+          "placements": 1,
+          "inserted_bytes": 70
+        },
+        {
+          "number": 6,
+          "path": "src/module_030.js",
+          "kind": "javascript_global_data",
+          "role": "placement",
+          "pending": false,
+          "before_bytes": 53,
+          "after_bytes": 123,
+          "before_sha256": "18c8145d034e9555bc2f6933f636d98e6a1cd4b9d47188037d547e723b5ea19a",
+          "after_sha256": "0bdbbb556d13d567e93904d865c81909acd58f5e92a9f19a3163f1aa66f5eba2",
+          "payload_ids": [
+            "benign-template-note"
+          ],
+          "edits": [
+            {
+              "step": 0,
+              "offset": 0,
+              "inserted_bytes": 70,
+              "removed_bytes": 0,
+              "sha256": "3314a28730ff60447d49567c8e7b4dda9d6ab3d06406296834c99d297dfb0667",
+              "location_percent": 0
+            }
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 70,
+              "step": 0,
+              "start_percent": 0.0,
+              "width_percent": 56.9
+            }
+          ],
+          "placements": 1,
+          "inserted_bytes": 70
+        },
+        {
+          "number": 7,
+          "path": "src/module_035.js",
+          "kind": "javascript_global_data",
+          "role": "placement",
+          "pending": false,
+          "before_bytes": 53,
+          "after_bytes": 123,
+          "before_sha256": "0a35a28d541f3af9c07dba534c23d479d8e271e28cd164cad9b15df794fa9861",
+          "after_sha256": "0ebd2f7aca6ca513152696d6d6626a5f8c50cbc08ded9890b1f07bf544259d86",
+          "payload_ids": [
+            "benign-template-note"
+          ],
+          "edits": [
+            {
+              "step": 0,
+              "offset": 53,
+              "inserted_bytes": 70,
+              "removed_bytes": 0,
+              "sha256": "577950a927ea9e3f6d4ce7dc4bc2c8a2beede39e7f9aac57bbbad31a7fc65c9a",
+              "location_percent": 100.0
+            }
+          ],
+          "spans": [
+            {
+              "start": 53,
+              "end": 123,
+              "step": 0,
+              "start_percent": 43.1,
+              "width_percent": 56.9
+            }
+          ],
+          "placements": 1,
+          "inserted_bytes": 70
+        },
+        {
+          "number": 8,
+          "path": "src/module_040.js",
+          "kind": "javascript_global_data",
+          "role": "placement",
+          "pending": false,
+          "before_bytes": 53,
+          "after_bytes": 123,
+          "before_sha256": "815f4a2b4c07a2d342c4209f94913d0455b0e602a18be75ac1592db3375e2972",
+          "after_sha256": "62e7dd9a25a0d1a604ff4844afbd5a23dc36d0b31233d566eacda7df1607bb4a",
+          "payload_ids": [
+            "benign-template-note"
+          ],
+          "edits": [
+            {
+              "step": 0,
+              "offset": 35,
+              "inserted_bytes": 70,
+              "removed_bytes": 0,
+              "sha256": "07de083e44e66cefe546adcee80bd2a8274885db4ee9b5e42641f7974973d66e",
+              "location_percent": 66.0
+            }
+          ],
+          "spans": [
+            {
+              "start": 35,
+              "end": 105,
+              "step": 0,
+              "start_percent": 28.5,
+              "width_percent": 56.9
+            }
+          ],
+          "placements": 1,
+          "inserted_bytes": 70
+        },
+        {
+          "number": 9,
+          "path": "src/module_045.js",
+          "kind": "javascript_global_data",
+          "role": "placement",
+          "pending": false,
+          "before_bytes": 53,
+          "after_bytes": 123,
+          "before_sha256": "877ef0a387f50ba8a3a0ba92c2df87cf6f716e6250b709adc61825b3a68da7d9",
+          "after_sha256": "68573efc2e125f96c7b5e465d8af555b51856547ec37de5f2a379099c9c4d87b",
+          "payload_ids": [
+            "benign-template-note"
+          ],
+          "edits": [
+            {
+              "step": 0,
+              "offset": 0,
+              "inserted_bytes": 70,
+              "removed_bytes": 0,
+              "sha256": "097458088247a2f9cf400e9ef2581cc50e392cf73eee62ad0c2ad6a1cc12c712",
+              "location_percent": 0
+            }
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 70,
+              "step": 0,
+              "start_percent": 0.0,
+              "width_percent": 56.9
+            }
+          ],
+          "placements": 1,
+          "inserted_bytes": 70
+        },
+        {
+          "number": 10,
+          "path": "src/module_050.js",
+          "kind": "javascript_global_data",
+          "role": "placement",
+          "pending": false,
+          "before_bytes": 53,
+          "after_bytes": 123,
+          "before_sha256": "83214f6416d1eb0c6d83002379bb6ca51f397492e20ea1e73e805a8a0083cd9e",
+          "after_sha256": "2264660823aee6c4860dcd9977558e507a3e43a7aff4420ec40296808c1e5125",
+          "payload_ids": [
+            "benign-template-note"
+          ],
+          "edits": [
+            {
+              "step": 0,
+              "offset": 53,
+              "inserted_bytes": 70,
+              "removed_bytes": 0,
+              "sha256": "c9f9faec5e73c359bd9b898ff0b47a4f056499bc7a22539f6c9bb9715fc531cf",
+              "location_percent": 100.0
+            }
+          ],
+          "spans": [
+            {
+              "start": 53,
+              "end": 123,
+              "step": 0,
+              "start_percent": 43.1,
+              "width_percent": 56.9
+            }
+          ],
+          "placements": 1,
+          "inserted_bytes": 70
+        },
+        {
+          "number": 11,
+          "path": "src/module_055.js",
+          "kind": "javascript_global_data",
+          "role": "placement",
+          "pending": false,
+          "before_bytes": 53,
+          "after_bytes": 123,
+          "before_sha256": "9101b75e8155caa117da5e590a81260bb2f96be24ee5600e6112b2c5df5f5de8",
+          "after_sha256": "abf3b753320c996db5150831a3b2e77cbea03d564d5366718707aaad56505876",
+          "payload_ids": [
+            "benign-template-note"
+          ],
+          "edits": [
+            {
+              "step": 0,
+              "offset": 35,
+              "inserted_bytes": 70,
+              "removed_bytes": 0,
+              "sha256": "93738e3a4d5063abeec48f9bc2f58928df0e8b90cdc5c272dad7c1797c2cf90d",
+              "location_percent": 66.0
+            }
+          ],
+          "spans": [
+            {
+              "start": 35,
+              "end": 105,
+              "step": 0,
+              "start_percent": 28.5,
+              "width_percent": 56.9
+            }
+          ],
+          "placements": 1,
+          "inserted_bytes": 70
+        }
+      ],
+      "examples": {
+        "inspect": "repel deploy inspect --repo /sample-workspace/web-client --include-text",
+        "status": "repel deploy status --repo /sample-workspace/web-client",
+        "restore": "repel deploy remove --repo /sample-workspace/web-client --apply"
+      }
+    },
+    "c6046e7a04d072b97d5673f042091610": {
+      "id": "c6046e7a04d072b97d5673f042091610",
+      "repository": "/sample-workspace/wasm-runtime",
+      "repository_name": "wasm-runtime",
+      "index": "/sample-workspace/wasm-runtime/.repel-carrier-index.json",
+      "state": "applied",
+      "mode": "retained",
+      "benign": true,
+      "created_at": "2026-10-28T14:30:00+00:00",
+      "updated_at": "2026-10-28T14:35:00+00:00",
+      "selection": {
+        "random": true,
+        "seed": 42,
+        "count": 3
+      },
+      "types": [
+        "wasm_custom_section"
+      ],
+      "metrics": {
+        "eligible_files": 6,
+        "placed_files": 3,
+        "selected_files": 3,
+        "coverage_percent": 50.0,
+        "placements": 3,
+        "inserted_bytes": 111,
+        "after_bytes": 135,
+        "density_percent": 82.2,
+        "artifacts": 0,
+        "scope": "synthetic fixture targets"
+      },
+      "eligible_paths": [
+        "src/module_000.wasm",
+        "src/module_001.wasm",
+        "src/module_002.wasm",
+        "src/module_003.wasm",
+        "src/module_004.wasm",
+        "src/module_005.wasm"
+      ],
+      "files": [
+        {
+          "number": 0,
+          "path": "src/module_000.wasm",
+          "kind": "wasm_custom_section",
+          "role": "placement",
+          "pending": false,
+          "before_bytes": 8,
+          "after_bytes": 45,
+          "before_sha256": "93a44bbb96c751218e4c00d479e4c14358122a389acca16205b1e4d0dc5f9476",
+          "after_sha256": "b7c8c794c2178746da3d7e910a76334b07e59b01c49cc854ac39371c1c96c6cc",
+          "payload_ids": [
+            "benign-template-note"
+          ],
+          "edits": [
+            {
+              "step": 0,
+              "offset": 8,
+              "inserted_bytes": 37,
+              "removed_bytes": 0,
+              "sha256": "30e3a2e3d59bc91c51c45f0b413c5e695f920dea490b0f6e5b33f61822c57ddf",
+              "location_percent": 100.0
+            }
+          ],
+          "spans": [
+            {
+              "start": 8,
+              "end": 45,
+              "step": 0,
+              "start_percent": 17.8,
+              "width_percent": 82.2
+            }
+          ],
+          "placements": 1,
+          "inserted_bytes": 37
+        },
+        {
+          "number": 1,
+          "path": "src/module_002.wasm",
+          "kind": "wasm_custom_section",
+          "role": "placement",
+          "pending": false,
+          "before_bytes": 8,
+          "after_bytes": 45,
+          "before_sha256": "93a44bbb96c751218e4c00d479e4c14358122a389acca16205b1e4d0dc5f9476",
+          "after_sha256": "b7c8c794c2178746da3d7e910a76334b07e59b01c49cc854ac39371c1c96c6cc",
+          "payload_ids": [
+            "benign-template-note"
+          ],
+          "edits": [
+            {
+              "step": 0,
+              "offset": 8,
+              "inserted_bytes": 37,
+              "removed_bytes": 0,
+              "sha256": "30e3a2e3d59bc91c51c45f0b413c5e695f920dea490b0f6e5b33f61822c57ddf",
+              "location_percent": 100.0
+            }
+          ],
+          "spans": [
+            {
+              "start": 8,
+              "end": 45,
+              "step": 0,
+              "start_percent": 17.8,
+              "width_percent": 82.2
+            }
+          ],
+          "placements": 1,
+          "inserted_bytes": 37
+        },
+        {
+          "number": 2,
+          "path": "src/module_004.wasm",
+          "kind": "wasm_custom_section",
+          "role": "placement",
+          "pending": false,
+          "before_bytes": 8,
+          "after_bytes": 45,
+          "before_sha256": "93a44bbb96c751218e4c00d479e4c14358122a389acca16205b1e4d0dc5f9476",
+          "after_sha256": "b7c8c794c2178746da3d7e910a76334b07e59b01c49cc854ac39371c1c96c6cc",
+          "payload_ids": [
+            "benign-template-note"
+          ],
+          "edits": [
+            {
+              "step": 0,
+              "offset": 8,
+              "inserted_bytes": 37,
+              "removed_bytes": 0,
+              "sha256": "30e3a2e3d59bc91c51c45f0b413c5e695f920dea490b0f6e5b33f61822c57ddf",
+              "location_percent": 100.0
+            }
+          ],
+          "spans": [
+            {
+              "start": 8,
+              "end": 45,
+              "step": 0,
+              "start_percent": 17.8,
+              "width_percent": 82.2
+            }
+          ],
+          "placements": 1,
+          "inserted_bytes": 37
+        }
+      ],
+      "examples": {
+        "inspect": "repel deploy inspect --repo /sample-workspace/wasm-runtime --include-text",
+        "status": "repel deploy status --repo /sample-workspace/wasm-runtime",
+        "restore": "repel deploy remove --repo /sample-workspace/wasm-runtime --apply"
+      }
+    },
+    "1c3c105a0fd8688be58bcadba715e44a": {
+      "id": "1c3c105a0fd8688be58bcadba715e44a",
+      "repository": "/sample-workspace/markdown-core",
+      "repository_name": "markdown-core",
+      "index": "/sample-workspace/markdown-core/.repel-carrier-index.json",
+      "state": "applied",
+      "mode": "retained",
+      "benign": true,
+      "created_at": "2026-10-28T14:30:00+00:00",
+      "updated_at": "2026-10-28T14:35:00+00:00",
+      "selection": {
+        "random": true,
+        "seed": 42,
+        "count": 5
+      },
+      "types": [
+        "typescript"
+      ],
+      "metrics": {
+        "eligible_files": 13,
+        "placed_files": 5,
+        "selected_files": 5,
+        "coverage_percent": 38.5,
+        "placements": 5,
+        "inserted_bytes": 345,
+        "after_bytes": 940,
+        "density_percent": 36.7,
+        "artifacts": 0,
+        "scope": "synthetic fixture targets"
+      },
+      "eligible_paths": [
+        "src/module_000.ts",
+        "src/module_001.ts",
+        "src/module_002.ts",
+        "src/module_003.ts",
+        "src/module_004.ts",
+        "src/module_005.ts",
+        "src/module_006.ts",
+        "src/module_007.ts",
+        "src/module_008.ts",
+        "src/module_009.ts",
+        "src/module_010.ts",
+        "src/module_011.ts",
+        "src/module_012.ts"
+      ],
+      "files": [
+        {
+          "number": 0,
+          "path": "src/module_000.ts",
+          "kind": "typescript",
+          "role": "placement",
+          "pending": false,
+          "before_bytes": 51,
+          "after_bytes": 120,
+          "before_sha256": "240155e75ef740ea8d0564827e8f3f17045ff922fb64036ac7fc94e1a4cf26bd",
+          "after_sha256": "15d079c8c04e3902613a18d666bf1d6fce13000f5829a3ce9fe82dd12dca06e2",
+          "payload_ids": [
+            "benign-template-note"
+          ],
+          "edits": [
+            {
+              "step": 0,
+              "offset": 0,
+              "inserted_bytes": 69,
+              "removed_bytes": 0,
+              "sha256": "def3ff52065d7eebc816d3fd99acefb8d4faf03f067c761d6818fd0f655afcae",
+              "location_percent": 0
+            }
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 69,
+              "step": 0,
+              "start_percent": 0.0,
+              "width_percent": 57.5
+            }
+          ],
+          "placements": 1,
+          "inserted_bytes": 69
+        },
+        {
+          "number": 1,
+          "path": "src/module_002.ts",
+          "kind": "typescript",
+          "role": "placement",
+          "pending": false,
+          "before_bytes": 119,
+          "after_bytes": 188,
+          "before_sha256": "6bc0c06dce49794cb4ac4f924a150f788aa3a1ae46f2aaea871c4fa3281636d0",
+          "after_sha256": "ebac878ec5e8c5aaf521f066ca20629f247599e4f6f7263f1b07bb260bbffeaf",
+          "payload_ids": [
+            "benign-template-note"
+          ],
+          "edits": [
+            {
+              "step": 0,
+              "offset": 119,
+              "inserted_bytes": 69,
+              "removed_bytes": 0,
+              "sha256": "b555d92b48b1cbe523cf4bc4ae6b506840825848248e66b20b9097d28992558b",
+              "location_percent": 100.0
+            }
+          ],
+          "spans": [
+            {
+              "start": 119,
+              "end": 188,
+              "step": 0,
+              "start_percent": 63.3,
+              "width_percent": 36.7
+            }
+          ],
+          "placements": 1,
+          "inserted_bytes": 69
+        },
+        {
+          "number": 2,
+          "path": "src/module_004.ts",
+          "kind": "typescript",
+          "role": "placement",
+          "pending": false,
+          "before_bytes": 187,
+          "after_bytes": 256,
+          "before_sha256": "019244b99909c62febbf6eb506dc7c8f4d512f511dbc2899895799db749a97ad",
+          "after_sha256": "8128138c1aa6fd3bdfdde44ea248f434729f851cde722f2f2893220b019e99fd",
+          "payload_ids": [
+            "benign-template-note"
+          ],
+          "edits": [
+            {
+              "step": 0,
+              "offset": 34,
+              "inserted_bytes": 69,
+              "removed_bytes": 0,
+              "sha256": "59f3a252738cf8ca0edeb3a66680bd59730809eb1a1bdb417d79daa00d518386",
+              "location_percent": 18.2
+            }
+          ],
+          "spans": [
+            {
+              "start": 34,
+              "end": 103,
+              "step": 0,
+              "start_percent": 13.3,
+              "width_percent": 27.0
+            }
+          ],
+          "placements": 1,
+          "inserted_bytes": 69
+        },
+        {
+          "number": 3,
+          "path": "src/module_006.ts",
+          "kind": "typescript",
+          "role": "placement",
+          "pending": false,
+          "before_bytes": 85,
+          "after_bytes": 154,
+          "before_sha256": "5fb22ef45403aa9429d12beaf15fad277e95087699730b3dcc1cad4cc9f7b54e",
+          "after_sha256": "4098f78f874ae5178594b52f1afa14ea6519d6034caea599b470944aa6294e3a",
+          "payload_ids": [
+            "benign-template-note"
+          ],
+          "edits": [
+            {
+              "step": 0,
+              "offset": 0,
+              "inserted_bytes": 69,
+              "removed_bytes": 0,
+              "sha256": "7a09a38f32fd4476176ce910b6cc31840a3b4ab1dd4e71b55217a7a0ea1bb8da",
+              "location_percent": 0
+            }
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 69,
+              "step": 0,
+              "start_percent": 0.0,
+              "width_percent": 44.8
+            }
+          ],
+          "placements": 1,
+          "inserted_bytes": 69
+        },
+        {
+          "number": 4,
+          "path": "src/module_008.ts",
+          "kind": "typescript",
+          "role": "placement",
+          "pending": false,
+          "before_bytes": 153,
+          "after_bytes": 222,
+          "before_sha256": "ea2239e4dfed5b32b917976fd1c1dc0e61572fde943348063e5b4c6a595b55e9",
+          "after_sha256": "e82989496175bd78c654afd0d45b5f3b7defbb11f764581efa47c0a5cb661083",
+          "payload_ids": [
+            "benign-template-note"
+          ],
+          "edits": [
+            {
+              "step": 0,
+              "offset": 153,
+              "inserted_bytes": 69,
+              "removed_bytes": 0,
+              "sha256": "f7b9909d5f54ccb21d10031d8677d0bf0e34c555c4d168e376648796f0f3a7e4",
+              "location_percent": 100.0
+            }
+          ],
+          "spans": [
+            {
+              "start": 153,
+              "end": 222,
+              "step": 0,
+              "start_percent": 68.9,
+              "width_percent": 31.1
+            }
+          ],
+          "placements": 1,
+          "inserted_bytes": 69
+        }
+      ],
+      "examples": {
+        "inspect": "repel deploy inspect --repo /sample-workspace/markdown-core --include-text",
+        "status": "repel deploy status --repo /sample-workspace/markdown-core",
+        "restore": "repel deploy remove --repo /sample-workspace/markdown-core --apply"
+      }
+    },
+    "17a4baae2062e376e1137eec3eef5125": {
+      "id": "17a4baae2062e376e1137eec3eef5125",
+      "repository": "/sample-workspace/docs-site",
+      "repository_name": "docs-site",
+      "index": "/sample-workspace/docs-site/.repel-carrier-index.json",
+      "state": "restored",
+      "mode": "retained",
+      "benign": true,
+      "created_at": "2026-10-28T14:30:00+00:00",
+      "updated_at": "2026-10-28T14:35:00+00:00",
+      "selection": {
+        "random": true,
+        "seed": 42,
+        "count": 12
+      },
+      "types": [
+        "document_data"
+      ],
+      "metrics": {
+        "eligible_files": 280,
+        "placed_files": 12,
+        "selected_files": 12,
+        "coverage_percent": 4.3,
+        "placements": 12,
+        "inserted_bytes": 846,
+        "after_bytes": 1452,
+        "density_percent": 58.3,
+        "artifacts": 0,
+        "scope": "synthetic fixture targets"
+      },
+      "eligible_paths": [
+        "src/module_000.md",
+        "src/module_001.md",
+        "src/module_002.md",
+        "src/module_003.md",
+        "src/module_004.md",
+        "src/module_005.md",
+        "src/module_006.md",
+        "src/module_007.md",
+        "src/module_008.md",
+        "src/module_009.md",
+        "src/module_010.md",
+        "src/module_011.md",
+        "src/module_012.md",
+        "src/module_013.md",
+        "src/module_014.md",
+        "src/module_015.md",
+        "src/module_016.md",
+        "src/module_017.md",
+        "src/module_018.md",
+        "src/module_019.md",
+        "src/module_020.md",
+        "src/module_021.md",
+        "src/module_022.md",
+        "src/module_023.md",
+        "src/module_024.md",
+        "src/module_025.md",
+        "src/module_026.md",
+        "src/module_027.md",
+        "src/module_028.md",
+        "src/module_029.md",
+        "src/module_030.md",
+        "src/module_031.md",
+        "src/module_032.md",
+        "src/module_033.md",
+        "src/module_034.md",
+        "src/module_035.md",
+        "src/module_036.md",
+        "src/module_037.md",
+        "src/module_038.md",
+        "src/module_039.md",
+        "src/module_040.md",
+        "src/module_041.md",
+        "src/module_042.md",
+        "src/module_043.md",
+        "src/module_044.md",
+        "src/module_045.md",
+        "src/module_046.md",
+        "src/module_047.md",
+        "src/module_048.md",
+        "src/module_049.md",
+        "src/module_050.md",
+        "src/module_051.md",
+        "src/module_052.md",
+        "src/module_053.md",
+        "src/module_054.md",
+        "src/module_055.md",
+        "src/module_056.md",
+        "src/module_057.md",
+        "src/module_058.md",
+        "src/module_059.md",
+        "src/module_060.md",
+        "src/module_061.md",
+        "src/module_062.md",
+        "src/module_063.md",
+        "src/module_064.md",
+        "src/module_065.md",
+        "src/module_066.md",
+        "src/module_067.md",
+        "src/module_068.md",
+        "src/module_069.md",
+        "src/module_070.md",
+        "src/module_071.md",
+        "src/module_072.md",
+        "src/module_073.md",
+        "src/module_074.md",
+        "src/module_075.md",
+        "src/module_076.md",
+        "src/module_077.md",
+        "src/module_078.md",
+        "src/module_079.md",
+        "src/module_080.md",
+        "src/module_081.md",
+        "src/module_082.md",
+        "src/module_083.md",
+        "src/module_084.md",
+        "src/module_085.md",
+        "src/module_086.md",
+        "src/module_087.md",
+        "src/module_088.md",
+        "src/module_089.md",
+        "src/module_090.md",
+        "src/module_091.md",
+        "src/module_092.md",
+        "src/module_093.md",
+        "src/module_094.md",
+        "src/module_095.md",
+        "src/module_096.md",
+        "src/module_097.md",
+        "src/module_098.md",
+        "src/module_099.md",
+        "src/module_100.md",
+        "src/module_101.md",
+        "src/module_102.md",
+        "src/module_103.md",
+        "src/module_104.md",
+        "src/module_105.md",
+        "src/module_106.md",
+        "src/module_107.md",
+        "src/module_108.md",
+        "src/module_109.md",
+        "src/module_110.md",
+        "src/module_111.md",
+        "src/module_112.md",
+        "src/module_113.md",
+        "src/module_114.md",
+        "src/module_115.md",
+        "src/module_116.md",
+        "src/module_117.md",
+        "src/module_118.md",
+        "src/module_119.md",
+        "src/module_120.md",
+        "src/module_121.md",
+        "src/module_122.md",
+        "src/module_123.md",
+        "src/module_124.md",
+        "src/module_125.md",
+        "src/module_126.md",
+        "src/module_127.md",
+        "src/module_128.md",
+        "src/module_129.md",
+        "src/module_130.md",
+        "src/module_131.md",
+        "src/module_132.md",
+        "src/module_133.md",
+        "src/module_134.md",
+        "src/module_135.md",
+        "src/module_136.md",
+        "src/module_137.md",
+        "src/module_138.md",
+        "src/module_139.md",
+        "src/module_140.md",
+        "src/module_141.md",
+        "src/module_142.md",
+        "src/module_143.md",
+        "src/module_144.md",
+        "src/module_145.md",
+        "src/module_146.md",
+        "src/module_147.md",
+        "src/module_148.md",
+        "src/module_149.md",
+        "src/module_150.md",
+        "src/module_151.md",
+        "src/module_152.md",
+        "src/module_153.md",
+        "src/module_154.md",
+        "src/module_155.md",
+        "src/module_156.md",
+        "src/module_157.md",
+        "src/module_158.md",
+        "src/module_159.md",
+        "src/module_160.md",
+        "src/module_161.md",
+        "src/module_162.md",
+        "src/module_163.md",
+        "src/module_164.md",
+        "src/module_165.md",
+        "src/module_166.md",
+        "src/module_167.md",
+        "src/module_168.md",
+        "src/module_169.md",
+        "src/module_170.md",
+        "src/module_171.md",
+        "src/module_172.md",
+        "src/module_173.md",
+        "src/module_174.md",
+        "src/module_175.md",
+        "src/module_176.md",
+        "src/module_177.md",
+        "src/module_178.md",
+        "src/module_179.md",
+        "src/module_180.md",
+        "src/module_181.md",
+        "src/module_182.md",
+        "src/module_183.md",
+        "src/module_184.md",
+        "src/module_185.md",
+        "src/module_186.md",
+        "src/module_187.md",
+        "src/module_188.md",
+        "src/module_189.md",
+        "src/module_190.md",
+        "src/module_191.md",
+        "src/module_192.md",
+        "src/module_193.md",
+        "src/module_194.md",
+        "src/module_195.md",
+        "src/module_196.md",
+        "src/module_197.md",
+        "src/module_198.md",
+        "src/module_199.md",
+        "src/module_200.md",
+        "src/module_201.md",
+        "src/module_202.md",
+        "src/module_203.md",
+        "src/module_204.md",
+        "src/module_205.md",
+        "src/module_206.md",
+        "src/module_207.md",
+        "src/module_208.md",
+        "src/module_209.md",
+        "src/module_210.md",
+        "src/module_211.md",
+        "src/module_212.md",
+        "src/module_213.md",
+        "src/module_214.md",
+        "src/module_215.md",
+        "src/module_216.md",
+        "src/module_217.md",
+        "src/module_218.md",
+        "src/module_219.md",
+        "src/module_220.md",
+        "src/module_221.md",
+        "src/module_222.md",
+        "src/module_223.md",
+        "src/module_224.md",
+        "src/module_225.md",
+        "src/module_226.md",
+        "src/module_227.md",
+        "src/module_228.md",
+        "src/module_229.md",
+        "src/module_230.md",
+        "src/module_231.md",
+        "src/module_232.md",
+        "src/module_233.md",
+        "src/module_234.md",
+        "src/module_235.md",
+        "src/module_236.md",
+        "src/module_237.md",
+        "src/module_238.md",
+        "src/module_239.md",
+        "src/module_240.md",
+        "src/module_241.md",
+        "src/module_242.md",
+        "src/module_243.md",
+        "src/module_244.md",
+        "src/module_245.md",
+        "src/module_246.md",
+        "src/module_247.md",
+        "src/module_248.md",
+        "src/module_249.md",
+        "src/module_250.md",
+        "src/module_251.md",
+        "src/module_252.md",
+        "src/module_253.md",
+        "src/module_254.md",
+        "src/module_255.md",
+        "src/module_256.md",
+        "src/module_257.md",
+        "src/module_258.md",
+        "src/module_259.md",
+        "src/module_260.md",
+        "src/module_261.md",
+        "src/module_262.md",
+        "src/module_263.md",
+        "src/module_264.md",
+        "src/module_265.md",
+        "src/module_266.md",
+        "src/module_267.md",
+        "src/module_268.md",
+        "src/module_269.md",
+        "src/module_270.md",
+        "src/module_271.md",
+        "src/module_272.md",
+        "src/module_273.md",
+        "src/module_274.md",
+        "src/module_275.md",
+        "src/module_276.md",
+        "src/module_277.md",
+        "src/module_278.md",
+        "src/module_279.md"
+      ],
+      "files": [
+        {
+          "number": 0,
+          "path": "src/module_000.md",
+          "kind": "document_data",
+          "role": "placement",
+          "pending": false,
+          "before_bytes": 49,
+          "after_bytes": 118,
+          "before_sha256": "fad1d233ad1c77db2eaa5858b959713c6393ba888ae1aa7e54ba139bdb74d625",
+          "after_sha256": "898c98cafb26726fd028eefcd82db7e78c558e70551ccb847d685765cd1877d8",
+          "payload_ids": [
+            "benign-template-note"
+          ],
+          "edits": [
+            {
+              "step": 0,
+              "offset": 0,
+              "inserted_bytes": 69,
+              "removed_bytes": 0,
+              "sha256": "def3ff52065d7eebc816d3fd99acefb8d4faf03f067c761d6818fd0f655afcae",
+              "location_percent": 0
+            }
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 69,
+              "step": 0,
+              "start_percent": 0.0,
+              "width_percent": 58.5
+            }
+          ],
+          "placements": 1,
+          "inserted_bytes": 69
+        },
+        {
+          "number": 1,
+          "path": "src/module_023.md",
+          "kind": "document_data",
+          "role": "placement",
+          "pending": false,
+          "before_bytes": 50,
+          "after_bytes": 120,
+          "before_sha256": "427b0215ce35b201ea763c97c9b13e890690f8ad20c31f97918243500509cfa6",
+          "after_sha256": "53b8026570ee98beda734304fa20fda2f0237c1b3eb0a46028aec904b6603917",
+          "payload_ids": [
+            "benign-template-note"
+          ],
+          "edits": [
+            {
+              "step": 0,
+              "offset": 50,
+              "inserted_bytes": 70,
+              "removed_bytes": 0,
+              "sha256": "3af954bc51a97d8bab353410a546d3016a8bf260d0a8c587abf87708bb994347",
+              "location_percent": 100.0
+            }
+          ],
+          "spans": [
+            {
+              "start": 50,
+              "end": 120,
+              "step": 0,
+              "start_percent": 41.7,
+              "width_percent": 58.3
+            }
+          ],
+          "placements": 1,
+          "inserted_bytes": 70
+        },
+        {
+          "number": 2,
+          "path": "src/module_046.md",
+          "kind": "document_data",
+          "role": "placement",
+          "pending": false,
+          "before_bytes": 50,
+          "after_bytes": 120,
+          "before_sha256": "3f01fe5f1a2725f802f7621ccf5cd0c51a0402128a10c2631baa8416f7da3081",
+          "after_sha256": "9d4b89dfa286e164e89523f92789f00c432ff033d84deff35571cfedbe5a8f31",
+          "payload_ids": [
+            "benign-template-note"
+          ],
+          "edits": [
+            {
+              "step": 0,
+              "offset": 26,
+              "inserted_bytes": 70,
+              "removed_bytes": 0,
+              "sha256": "85e61d4c925febe4348c0b9ef592105e5ce6e5e6e26f90b079e1cf2e1f4610bb",
+              "location_percent": 52.0
+            }
+          ],
+          "spans": [
+            {
+              "start": 26,
+              "end": 96,
+              "step": 0,
+              "start_percent": 21.7,
+              "width_percent": 58.3
+            }
+          ],
+          "placements": 1,
+          "inserted_bytes": 70
+        },
+        {
+          "number": 3,
+          "path": "src/module_069.md",
+          "kind": "document_data",
+          "role": "placement",
+          "pending": false,
+          "before_bytes": 50,
+          "after_bytes": 120,
+          "before_sha256": "8384dfb8dfa5da3b82c84fe536f391bf1358f6d76bc37a1e25af9167d867a612",
+          "after_sha256": "eaaba6eee84c729d841eae8c288c787e22acc47bc6fffe6dd042680188e4c8af",
+          "payload_ids": [
+            "benign-template-note"
+          ],
+          "edits": [
+            {
+              "step": 0,
+              "offset": 0,
+              "inserted_bytes": 70,
+              "removed_bytes": 0,
+              "sha256": "56fda616293d532461a7d2457028e182c5a234ec0b4fc525e5c3980eb435e37c",
+              "location_percent": 0
+            }
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 70,
+              "step": 0,
+              "start_percent": 0.0,
+              "width_percent": 58.3
+            }
+          ],
+          "placements": 1,
+          "inserted_bytes": 70
+        },
+        {
+          "number": 4,
+          "path": "src/module_092.md",
+          "kind": "document_data",
+          "role": "placement",
+          "pending": false,
+          "before_bytes": 50,
+          "after_bytes": 120,
+          "before_sha256": "18a3aafe9bb1e61e32c049291c30cb9e4780f997a1e1c0d1dcb5d28a7adfade5",
+          "after_sha256": "e79324487ea555d54b0f4d36b1f0c524f5cc373e68e560c27f13e9e40a118451",
+          "payload_ids": [
+            "benign-template-note"
+          ],
+          "edits": [
+            {
+              "step": 0,
+              "offset": 50,
+              "inserted_bytes": 70,
+              "removed_bytes": 0,
+              "sha256": "2ac59b5965085aaaad90247da532d7c2d82575375127eb5be18659e4f7d559af",
+              "location_percent": 100.0
+            }
+          ],
+          "spans": [
+            {
+              "start": 50,
+              "end": 120,
+              "step": 0,
+              "start_percent": 41.7,
+              "width_percent": 58.3
+            }
+          ],
+          "placements": 1,
+          "inserted_bytes": 70
+        },
+        {
+          "number": 5,
+          "path": "src/module_115.md",
+          "kind": "document_data",
+          "role": "placement",
+          "pending": false,
+          "before_bytes": 51,
+          "after_bytes": 122,
+          "before_sha256": "e288dcf79daa48b1f4cc7abc3d368e452389eb2c8f185ff1f81ba6d928427d61",
+          "after_sha256": "4f4f0c94e977d8e62a80bd3e5c9766df5bea75e48cf39baf84914474fb39740a",
+          "payload_ids": [
+            "benign-template-note"
+          ],
+          "edits": [
+            {
+              "step": 0,
+              "offset": 27,
+              "inserted_bytes": 71,
+              "removed_bytes": 0,
+              "sha256": "a5a9b6c138a45f9204cd0533cdcbc4beee25263c8442fd18d781075b944f4f77",
+              "location_percent": 52.9
+            }
+          ],
+          "spans": [
+            {
+              "start": 27,
+              "end": 98,
+              "step": 0,
+              "start_percent": 22.1,
+              "width_percent": 58.2
+            }
+          ],
+          "placements": 1,
+          "inserted_bytes": 71
+        },
+        {
+          "number": 6,
+          "path": "src/module_138.md",
+          "kind": "document_data",
+          "role": "placement",
+          "pending": false,
+          "before_bytes": 51,
+          "after_bytes": 122,
+          "before_sha256": "99070c41108eecfad2d3ba6a2824a215b069bc9bfa7536f85bab679d2af023e6",
+          "after_sha256": "9d7cfd331a79d283c6c3e17e83035e13388ad47f682008147fd242498999ce35",
+          "payload_ids": [
+            "benign-template-note"
+          ],
+          "edits": [
+            {
+              "step": 0,
+              "offset": 0,
+              "inserted_bytes": 71,
+              "removed_bytes": 0,
+              "sha256": "415e5fd68978afdb8e2c41fd20baf68735914772fae04989baccdd73306453d4",
+              "location_percent": 0
+            }
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 71,
+              "step": 0,
+              "start_percent": 0.0,
+              "width_percent": 58.2
+            }
+          ],
+          "placements": 1,
+          "inserted_bytes": 71
+        },
+        {
+          "number": 7,
+          "path": "src/module_161.md",
+          "kind": "document_data",
+          "role": "placement",
+          "pending": false,
+          "before_bytes": 51,
+          "after_bytes": 122,
+          "before_sha256": "e4944cb3ae058559105255af559c598006498931cdffaf7719c35abe592a3d66",
+          "after_sha256": "a96b5ad8be05f034312e7d200e768b02ee5cec4645bf1c9d7c81c20fc5e99d88",
+          "payload_ids": [
+            "benign-template-note"
+          ],
+          "edits": [
+            {
+              "step": 0,
+              "offset": 51,
+              "inserted_bytes": 71,
+              "removed_bytes": 0,
+              "sha256": "c5ff0d4e7fc231d13e29fffb2ea9dffc3b3dfc489b5fa5055090ba2289c40bc1",
+              "location_percent": 100.0
+            }
+          ],
+          "spans": [
+            {
+              "start": 51,
+              "end": 122,
+              "step": 0,
+              "start_percent": 41.8,
+              "width_percent": 58.2
+            }
+          ],
+          "placements": 1,
+          "inserted_bytes": 71
+        },
+        {
+          "number": 8,
+          "path": "src/module_184.md",
+          "kind": "document_data",
+          "role": "placement",
+          "pending": false,
+          "before_bytes": 51,
+          "after_bytes": 122,
+          "before_sha256": "a7b588791fde5a920512c7c3d82d2085db7230798f2da0f1ff6a50d3e138ed58",
+          "after_sha256": "142f9461d037e986ad62d1b7b5a9d8f978f2ff8e2321830f943d0c38a72d2700",
+          "payload_ids": [
+            "benign-template-note"
+          ],
+          "edits": [
+            {
+              "step": 0,
+              "offset": 27,
+              "inserted_bytes": 71,
+              "removed_bytes": 0,
+              "sha256": "a8f6a3538490e5b3d02437a823f55d612b327ac3546c3b7c49b8967c654237f2",
+              "location_percent": 52.9
+            }
+          ],
+          "spans": [
+            {
+              "start": 27,
+              "end": 98,
+              "step": 0,
+              "start_percent": 22.1,
+              "width_percent": 58.2
+            }
+          ],
+          "placements": 1,
+          "inserted_bytes": 71
+        },
+        {
+          "number": 9,
+          "path": "src/module_207.md",
+          "kind": "document_data",
+          "role": "placement",
+          "pending": false,
+          "before_bytes": 51,
+          "after_bytes": 122,
+          "before_sha256": "648cfa39c579c7cc8c8db5db340996128ef9ce9a500bce04b082f01f92f0feaa",
+          "after_sha256": "58dd7e46c186ae8583c6904c5808a897eadd629345079dcf6e5b7b6bac46f6b1",
+          "payload_ids": [
+            "benign-template-note"
+          ],
+          "edits": [
+            {
+              "step": 0,
+              "offset": 0,
+              "inserted_bytes": 71,
+              "removed_bytes": 0,
+              "sha256": "ef6ce526c5faf0a37ef303c721f153b2b230d2a9fdfe9d1af3388316f76546ad",
+              "location_percent": 0
+            }
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 71,
+              "step": 0,
+              "start_percent": 0.0,
+              "width_percent": 58.2
+            }
+          ],
+          "placements": 1,
+          "inserted_bytes": 71
+        },
+        {
+          "number": 10,
+          "path": "src/module_230.md",
+          "kind": "document_data",
+          "role": "placement",
+          "pending": false,
+          "before_bytes": 51,
+          "after_bytes": 122,
+          "before_sha256": "1e47008d9d5d12b91335a9745adc7a5f3fbb9e72afffd69cd52945d58f4f0744",
+          "after_sha256": "b3a211868d112570047b48f8eb895be3b049e993cbbdbdbecd88b2db75e41cf1",
+          "payload_ids": [
+            "benign-template-note"
+          ],
+          "edits": [
+            {
+              "step": 0,
+              "offset": 51,
+              "inserted_bytes": 71,
+              "removed_bytes": 0,
+              "sha256": "f653b41ef74f1fa66e2507fed43c90452be8be8edcf5c6b5ddb676e88d895342",
+              "location_percent": 100.0
+            }
+          ],
+          "spans": [
+            {
+              "start": 51,
+              "end": 122,
+              "step": 0,
+              "start_percent": 41.8,
+              "width_percent": 58.2
+            }
+          ],
+          "placements": 1,
+          "inserted_bytes": 71
+        },
+        {
+          "number": 11,
+          "path": "src/module_253.md",
+          "kind": "document_data",
+          "role": "placement",
+          "pending": false,
+          "before_bytes": 51,
+          "after_bytes": 122,
+          "before_sha256": "c63535ace98e42933134976e39455b2dc8319a7ff6878fa3925cad9a4cba4db5",
+          "after_sha256": "1aa183e13f502b707d8af70c444126e49fff53b928110030b5a9cdb21685a225",
+          "payload_ids": [
+            "benign-template-note"
+          ],
+          "edits": [
+            {
+              "step": 0,
+              "offset": 27,
+              "inserted_bytes": 71,
+              "removed_bytes": 0,
+              "sha256": "a77275c757704345a39abcf3cd6b169604f86c21f1bc0b081c43a76dab2983eb",
+              "location_percent": 52.9
+            }
+          ],
+          "spans": [
+            {
+              "start": 27,
+              "end": 98,
+              "step": 0,
+              "start_percent": 22.1,
+              "width_percent": 58.2
+            }
+          ],
+          "placements": 1,
+          "inserted_bytes": 71
+        }
+      ],
+      "examples": {
+        "inspect": "repel deploy inspect --repo /sample-workspace/docs-site --include-text",
+        "status": "repel deploy status --repo /sample-workspace/docs-site",
+        "restore": "repel deploy remove --repo /sample-workspace/docs-site --apply"
+      }
+    },
+    "232c4d5c5d73308fde01916bd05855a9": {
+      "id": "232c4d5c5d73308fde01916bd05855a9",
+      "repository": "/sample-workspace/legacy-import",
+      "repository_name": "legacy-import",
+      "index": "/sample-workspace/legacy-import/.repel-carrier-index.json",
+      "state": "applied",
+      "mode": "retained",
+      "benign": true,
+      "created_at": "2026-10-28T14:30:00+00:00",
+      "updated_at": "2026-10-28T14:35:00+00:00",
+      "selection": {
+        "random": true,
+        "seed": 42,
+        "count": 2
+      },
+      "types": [
+        "javascript_global_data"
+      ],
+      "metrics": {
+        "eligible_files": null,
+        "placed_files": 2,
+        "selected_files": 2,
+        "coverage_percent": null,
+        "placements": 2,
+        "inserted_bytes": 138,
+        "after_bytes": 308,
+        "density_percent": 44.8,
+        "artifacts": 0,
+        "scope": "denominator not recorded"
+      },
+      "eligible_paths": [],
+      "files": [
+        {
+          "number": 0,
+          "path": "src/module_000.js",
+          "kind": "javascript_global_data",
+          "role": "placement",
+          "pending": false,
+          "before_bytes": 51,
+          "after_bytes": 120,
+          "before_sha256": "240155e75ef740ea8d0564827e8f3f17045ff922fb64036ac7fc94e1a4cf26bd",
+          "after_sha256": "15d079c8c04e3902613a18d666bf1d6fce13000f5829a3ce9fe82dd12dca06e2",
+          "payload_ids": [
+            "benign-template-note"
+          ],
+          "edits": [
+            {
+              "step": 0,
+              "offset": 0,
+              "inserted_bytes": 69,
+              "removed_bytes": 0,
+              "sha256": "def3ff52065d7eebc816d3fd99acefb8d4faf03f067c761d6818fd0f655afcae",
+              "location_percent": 0
+            }
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 69,
+              "step": 0,
+              "start_percent": 0.0,
+              "width_percent": 57.5
+            }
+          ],
+          "placements": 1,
+          "inserted_bytes": 69
+        },
+        {
+          "number": 1,
+          "path": "src/module_002.js",
+          "kind": "javascript_global_data",
+          "role": "placement",
+          "pending": false,
+          "before_bytes": 119,
+          "after_bytes": 188,
+          "before_sha256": "6bc0c06dce49794cb4ac4f924a150f788aa3a1ae46f2aaea871c4fa3281636d0",
+          "after_sha256": "ebac878ec5e8c5aaf521f066ca20629f247599e4f6f7263f1b07bb260bbffeaf",
+          "payload_ids": [
+            "benign-template-note"
+          ],
+          "edits": [
+            {
+              "step": 0,
+              "offset": 119,
+              "inserted_bytes": 69,
+              "removed_bytes": 0,
+              "sha256": "b555d92b48b1cbe523cf4bc4ae6b506840825848248e66b20b9097d28992558b",
+              "location_percent": 100.0
+            }
+          ],
+          "spans": [
+            {
+              "start": 119,
+              "end": 188,
+              "step": 0,
+              "start_percent": 63.3,
+              "width_percent": 36.7
+            }
+          ],
+          "placements": 1,
+          "inserted_bytes": 69
+        }
+      ],
+      "examples": {
+        "inspect": "repel deploy inspect --repo /sample-workspace/legacy-import --include-text",
+        "status": "repel deploy status --repo /sample-workspace/legacy-import",
+        "restore": "repel deploy remove --repo /sample-workspace/legacy-import --apply"
+      }
+    },
+    "1d27bca4e3ad26d5e156b8b3d5eb5595": {
+      "id": "1d27bca4e3ad26d5e156b8b3d5eb5595",
+      "repository": "/sample-workspace/build-staging",
+      "repository_name": "build-staging",
+      "index": "/sample-workspace/build-staging/.repel-carrier-index.json",
+      "state": "prepared",
+      "mode": "snapshot",
+      "benign": true,
+      "created_at": "2026-10-28T14:30:00+00:00",
+      "updated_at": "2026-10-28T14:35:00+00:00",
+      "selection": {
+        "random": true,
+        "seed": 42,
+        "count": 0
+      },
+      "types": [],
+      "metrics": {
+        "eligible_files": null,
+        "placed_files": 0,
+        "selected_files": 0,
+        "coverage_percent": null,
+        "placements": 0,
+        "inserted_bytes": 0,
+        "after_bytes": 0,
+        "density_percent": null,
+        "artifacts": 1,
+        "scope": "denominator not recorded"
+      },
+      "eligible_paths": [],
+      "files": [
+        {
+          "number": 0,
+          "path": "build/example.bin",
+          "kind": "artifact",
+          "role": "artifact",
+          "pending": true,
+          "before_bytes": 128,
+          "after_bytes": 128,
+          "before_sha256": "471fb943aa23c511f6f72f8d1652d9c880cfa392ad80503120547703e56a2be5",
+          "after_sha256": "471fb943aa23c511f6f72f8d1652d9c880cfa392ad80503120547703e56a2be5",
+          "payload_ids": [],
+          "edits": [],
+          "spans": [],
+          "placements": 0,
+          "inserted_bytes": 0
+        }
+      ],
+      "examples": {
+        "inspect": "repel deploy inspect --repo /sample-workspace/build-staging --include-text",
+        "status": "repel deploy status --repo /sample-workspace/build-staging",
+        "restore": "repel deploy remove --repo /sample-workspace/build-staging --apply"
+      }
+    }
+  },
+  "responses": [
+    {
+      "id": "969b2056a8aff27e8339754009823282",
+      "request": {
+        "method": "GET",
+        "path": "/example.html"
+      },
+      "status": "200 OK",
+      "created_at": "2026-10-28T14:34:00+00:00",
+      "content_type": "text/html",
+      "before_sha256": "be3971332d1b264e7d4e0e38a1353e97e69ac13acd07a42d2f20004678fd94ea",
+      "after_sha256": "32f1e77905a3de66b57268a20f2b49f617b07a079e49579882c52c2b9e604bfa"
+    },
+    {
+      "id": "c873d82e45a857f3995da9ce3a22c145",
+      "request": {
+        "method": "GET",
+        "path": "/example.js"
+      },
+      "status": "200 OK",
+      "created_at": "2026-10-28T14:34:00+00:00",
+      "content_type": "text/javascript",
+      "before_sha256": "130ff0e143e7b8a5ea742af7850be629caddac4dc0edc4ef70b3b0bf5734f422",
+      "after_sha256": "8470c2f093521391445453b67ad6afff3dd81b1efd3d5ccf05bed643d0b23b53"
+    },
+    {
+      "id": "88d7a49543f0941b56e18fde1b6baefd",
+      "request": {
+        "method": "GET",
+        "path": "/example.wasm"
+      },
+      "status": "200 OK",
+      "created_at": "2026-10-28T14:34:00+00:00",
+      "content_type": "application/wasm",
+      "before_sha256": "93a44bbb96c751218e4c00d479e4c14358122a389acca16205b1e4d0dc5f9476",
+      "after_sha256": "5fa648929be02143581020260a67be5e6fc967c55ca4ad4066b5eec4712be21a"
+    }
+  ]
+}

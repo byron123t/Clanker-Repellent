@@ -18,8 +18,11 @@ ROUTE = re.compile(r"/api/(deployments|responses)/([0-9a-f]{32})(?:/(preview|dow
 
 
 class DashboardApp:
-    def __init__(self, store, token):
+    def __init__(self, store, token, *, assets=None):
         self.reader, self.token = JournalReader(store), token
+        self.assets = Path(assets).resolve() if assets is not None else ASSETS
+        if not all((self.assets / name).is_file() for name in ("index.html", "app.js", "style.css", "favicon.svg")):
+            raise ValueError("dashboard assets must contain index.html, app.js, style.css, and favicon.svg")
 
     def __call__(self, environ, start_response):
         headers = [("Cache-Control", "no-store"), ("X-Content-Type-Options", "nosniff"),
@@ -37,7 +40,7 @@ class DashboardApp:
                   "/style.css": ("style.css", "text/css"), "/favicon.svg": ("favicon.svg", "image/svg+xml")}
         if path in assets:
             name, mime = assets[path]
-            return respond("200 OK", (ASSETS / name).read_bytes(), mime + "; charset=utf-8")
+            return respond("200 OK", (self.assets / name).read_bytes(), mime + "; charset=utf-8")
         provided = environ.get("HTTP_AUTHORIZATION", "")
         if not hmac.compare_digest(provided.encode("utf-8"), ("Bearer " + self.token).encode("utf-8")):
             return document({"error": "Open the dashboard URL printed by repel to connect."}, "401 Unauthorized")

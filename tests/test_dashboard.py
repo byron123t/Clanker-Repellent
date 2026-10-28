@@ -215,8 +215,21 @@ class DashboardTests(unittest.TestCase):
             main(["dashboard", "--help"])
         self.assertIn("--store", out.getvalue())
         self.assertIn("--demo", out.getvalue())
+        self.assertIn("--assets", out.getvalue())
         for path in ["/", "/app.js", "/style.css", "/favicon.svg"]:
             self.assertEqual(self.request(path, auth=False)[0]["status"], "200 OK")
+
+    def test_isolated_frontend_override_keeps_real_journal_api(self):
+        assets = self.root / "candidate-web"
+        assets.mkdir()
+        for name in ("index.html", "app.js", "style.css", "favicon.svg"):
+            (assets / name).write_text("isolated candidate " + name)
+        self.app = DashboardApp(self.store, "test-token", assets=assets)
+        self.assertEqual(self.request("/", auth=False)[1], b"isolated candidate index.html")
+        self.assertEqual(json.loads(self.request("/api/summary")[1])["deployments"][0]["id"], self.identity)
+        self.assertEqual(self.request("/../journal.sqlite3")[0]["status"], "404 Not Found")
+        (assets / "app.js").unlink()
+        with self.assertRaises(ValueError): DashboardApp(self.store, "test-token", assets=assets)
 
 
 if __name__ == "__main__":

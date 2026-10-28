@@ -2,12 +2,12 @@
 
 const $ = (id) => document.getElementById(id);
 const state = {summary: null, detail: null, view: "workspace", file: null, version: "insertion", step: 0,
-  preview: null, response: null, responses: [], request: 0, previewRequest: 0, refreshing: false};
+  preview: null, response: null, responses: [], request: 0, previewRequest: 0, refreshing: false, atlasMode: "coverage", atlas: [], atlasKey: "", atlasSelection: null, atlasRequest: 0};
 const fragment = new URLSearchParams(location.hash.slice(1));
 const suppliedToken = fragment.get("token");
 if (suppliedToken) { sessionStorage.setItem("repel-token", suppliedToken); history.replaceState(null, "", location.pathname); }
 const token = sessionStorage.getItem("repel-token") || "";
-const titles = {workspace: ["Workspace overview", "Coverage, placements, and recovery. All in one place."], overview: ["Deployment detail", "Trace every placement back to its original bytes."],
+const titles = {workspace: ["Distribution atlas", "Every file. Every insertion. A clear path back to the original."], overview: ["Deployment detail", "Trace every placement back to its original bytes."],
   snippets: ["Snippet explorer", "Find the exact insertion. Take the original example with you."],
   traffic: ["HTTP archive", "Every recorded response, with its original bytes intact."]};
 const kindLabels = {javascript_global_data: "JavaScript", typescript: "TypeScript", javascript: "JavaScript", native_retained_string: "C / C++", html_data_block: "HTML",
@@ -49,7 +49,8 @@ async function refresh() {
   try {
     const previous = state.summary;
     const summary = await api("/api/summary"); state.summary = summary; connected(true);
-    if (summary.demo) $("connection-state").replaceChildren(node("span", "status-dot"), document.createTextNode("Benign demo journal"));
+    if (summary.template) $("connection-state").replaceChildren(node("span", "status-dot"), document.createTextNode("Isolated template · sample data"));
+    else if (summary.demo) $("connection-state").replaceChildren(node("span", "status-dot"), document.createTextNode("Benign demo journal"));
     setText("store-path", summary.store); $("store-path").title = summary.store;
     setText("response-count", fmt(summary.response_count));
     setText("last-updated", `Updated ${new Date().toLocaleTimeString([], {hour: "2-digit", minute: "2-digit", second: "2-digit"})} · refreshes every 10s`);
@@ -105,7 +106,7 @@ function renderDetail() {
   setText("inserted-value", bytes(m.inserted_bytes));
   setText("inserted-foot", `${percent(m.density_percent)} of final placed-file bytes`);
   setText("journal-state", capital(detail.state));
-  $("journal-state").style.color = detail.state === "applied" ? "#4b7d54" : "#8c91a1";
+  $("journal-state").style.color = detail.state === "applied" ? "#65d9b5" : "#a5aec4";
   setText("journal-foot", detail.state === "restored" ? "Historical placement · original files restored" : `${fmt(m.artifacts)} captured artifacts · originals stored`);
   setText("scope-label", m.scope);
   setText("donut-value", percent(m.coverage_percent));
@@ -180,6 +181,7 @@ function clearPreview() {
 function renderInspector() {
   const file = state.file, unselected = !file || file.role === "unselected";
   setText("inspector-path", file?.path || "Choose a file");
+  setText("code-label", unselected ? "NO STORED CONTENT" : `${kindLabels[file.kind] || capital(file.kind)} / ${state.version === "before" ? "ORIGINAL" : state.version === "after" ? "POSTIMAGE" : "INSERTION"}`);
   setText("inspector-subtitle", unselected ? "No stored placement for this file." : "Exact bytes from the journal.");
   for (const button of document.querySelectorAll("[data-version]")) {
     button.classList.toggle("active", button.dataset.version === state.version);
@@ -258,7 +260,7 @@ $("copy-example").addEventListener("click", () => copy($("example-code").textCon
 $("response-download").addEventListener("click", () => { if (state.response) download(`/api/responses/${state.response.id}/download?version=before`, `${state.response.id}-original.bin`); });
 $("export").addEventListener("click", () => { const data = state.view === "workspace" ? state.summary : state.view === "traffic" ? {responses: state.responses} : state.detail; if (data) saveBlob(new Blob([JSON.stringify(data, null, 2) + "\n"], {type: "application/json"}), `repel-${state.view === "workspace" ? "workspace" : state.view === "traffic" ? "responses" : short(state.detail.id)}.json`); });
 
-const palette = ["#7466ea", "#459e93", "#6585ce", "#cf9259", "#ac6eb3", "#6f94a7"];
+const palette = ["#7ca6f8", "#65d9b5", "#b397f6", "#e8bf76", "#e193b0", "#78cbd9"];
 function latestRepositories() {
   const latest = new Map();
   for (const item of state.summary?.deployments || []) if (!latest.has(item.repository)) latest.set(item.repository, item);
@@ -275,9 +277,13 @@ function repoIcon(item) {
   const types = item.types || [];
   return types.includes("wasm_custom_section") ? "W" : types.includes("native_retained_string") ? ">_" : types.includes("typescript") ? "TS" : types.includes("javascript_global_data") ? "{ }" : "◇";
 }
-function openRepository(item) {
+async function openRepository(item, filePath = null) {
   $("repository").value = item.repository; $("state-filter").value = "";
-  updateDeploymentOptions(); $("deployment").value = item.id; changeView("overview");
+  updateDeploymentOptions(); $("deployment").value = item.id;
+  await loadDeployment();
+  if (state.detail?.id !== item.id) return;
+  changeView("overview");
+  if (filePath) { const file = state.detail.files.find((row) => row.path === filePath); if (file) chooseFile(file); }
 }
 function dateLabel(value) {
   if (!value) return "Time not recorded";
@@ -292,19 +298,6 @@ function renderWorkspace() {
   setText("workspace-placements-foot", `Across ${fmt(applied.length)} latest applied deployments`);
   setText("workspace-bytes", bytes(applied.reduce((total, d) => total + d.metrics.inserted_bytes, 0)));
   setText("workspace-responses", fmt(summary.response_count)); setText("project-count", fmt(repos.length));
-  $("repository-chart").replaceChildren(...repos.slice(0, 8).map((item) => {
-    const button = node("button", "repo-chart-row"), label = node("span", "chart-repo-name", item.repository_name);
-    const track = node("span", "repo-chart-track"), fill = node("span", "repo-chart-fill");
-    button.style.setProperty("--repo-color", repoColor(item.repository_name));
-    fill.style.width = `${item.metrics.coverage_percent || 0}%`; track.append(fill);
-    const value = node("span", "repo-chart-value", percent(item.metrics.coverage_percent));
-    label.append(node("small", "", item.state === "restored" ? "Restored · historical" : repoTypes(item)));
-    button.append(label, track, value);
-    button.title = item.metrics.eligible_files === null ? "Coverage denominator not recorded" : `${item.metrics.placed_files} of ${item.metrics.eligible_files} files · ${item.metrics.scope}`;
-    button.addEventListener("click", () => openRepository(item)); return button;
-  }));
-  if (!repos.length) $("repository-chart").append(node("p", "inline-empty", "Your deployments will appear here once they are recorded in this journal."));
-  if (repos.length > 8) $("repository-chart").append(node("p", "chart-extra", `8 of ${repos.length} repositories shown. Find any repository below.`));
   $("activity-list").replaceChildren(...summary.deployments.slice(0, 5).map((item) => {
     const button = node("button", "activity-item"), icon = node("span", `activity-icon ${item.state}`, item.state === "restored" ? "↶" : item.state === "applied" ? "✓" : "◷");
     const copy = node("span", "activity-copy");
@@ -313,22 +306,21 @@ function renderWorkspace() {
   }));
   if (!summary.deployments.length) $("activity-list").append(node("p", "inline-empty", "No journal activity yet."));
   setText("activity-footer", `${fmt(summary.total_deployments)} journal records · ${fmt(summary.deployments.filter((d) => d.state === "restored").length)} restored in this view`);
-  renderProjects();
+  renderProjects(); loadAtlas();
 }
 function renderProjects() {
   const query = $("project-search").value.toLowerCase(), all = latestRepositories();
   const repos = all.filter((d) => `${d.repository_name} ${repoTypes(d)} ${d.state}`.toLowerCase().includes(query));
   $("project-grid").replaceChildren(...repos.map((item) => {
     const card = node("button", "project-card"); card.dataset.deployment = item.id; card.style.setProperty("--repo-color", repoColor(item.repository_name));
-    const top = node("div", "project-card-top"), icon = node("span", "project-icon", repoIcon(item));
-    const badge = node("span", `state-badge ${item.state}`, capital(item.state)); top.append(icon, badge, node("span", "project-arrow", "↗"));
-    const title = node("h3", "", item.repository_name), types = node("p", "project-types", repoTypes(item));
-    const metrics = node("div", "project-metrics"), value = node("strong", "", percent(item.metrics.coverage_percent));
-    metrics.append(node("span", "", "File coverage"), value);
-    const track = node("div", "project-track"), fill = node("span"); fill.style.width = `${item.metrics.coverage_percent || 0}%`; track.append(fill);
-    const foot = node("div", "project-card-foot");
-    foot.append(node("span", "", item.metrics.eligible_files === null ? "Scope not recorded" : `${fmt(item.metrics.placed_files)} / ${fmt(item.metrics.eligible_files)} target files`), node("span", "", `${fmt(item.metrics.placements)} placement${item.metrics.placements === 1 ? "" : "s"}`));
-    card.append(top, title, types, metrics, track, foot); card.addEventListener("click", () => openRepository(item)); return card;
+    const identity = node("div", "project-identity"), icon = node("span", "project-icon", repoIcon(item)), name = node("div");
+    name.append(node("h3", "", item.repository_name), node("p", "project-types", repoTypes(item)));
+    identity.append(icon, name);
+    const coverage = node("div", "project-coverage"), metrics = node("div", "project-metrics"), track = node("div", "project-track"), fill = node("span");
+    metrics.append(node("strong", "", percent(item.metrics.coverage_percent)), node("span", "", item.metrics.eligible_files === null ? "Scope unknown" : `${fmt(item.metrics.placed_files)} / ${fmt(item.metrics.eligible_files)} files`));
+    fill.style.width = `${item.metrics.coverage_percent || 0}%`; track.append(fill); coverage.append(metrics, track);
+    const count = node("div", "project-count"); count.append(node("strong", "", fmt(item.metrics.placements)), node("span", `state-badge ${item.state}`, capital(item.state)));
+    card.append(identity, coverage, count, node("span", "project-arrow", "↗")); card.addEventListener("click", () => openRepository(item)); return card;
   }));
   if (!repos.length) $("project-grid").append(node("div", "project-empty", all.length ? "No repositories match your search." : "Connect a journal with deployments to start exploring."));
 }
@@ -338,6 +330,94 @@ document.addEventListener("keydown", (event) => {
     if (state.view === "traffic") return;
     event.preventDefault(); $(state.view === "workspace" ? "project-search" : "file-search").focus();
   }
+});
+
+
+async function loadAtlas() {
+  const repos = latestRepositories();
+  const key = JSON.stringify(repos.map((r) => [r.id, r.updated_at, r.state]));
+  if (key === state.atlasKey) return;
+  state.atlasKey = key; const request = ++state.atlasRequest;
+  const results = [];
+  // Bound concurrent metadata reads. No source or snippet objects are fetched here.
+  for (let index = 0; index < repos.length; index += 4) {
+    results.push(...await Promise.allSettled(repos.slice(index, index + 4).map((item) => api(`/api/deployments/${item.id}`))));
+    if (request !== state.atlasRequest) return;
+  }
+  state.atlas = results.filter((r) => r.status === "fulfilled").map((r) => r.value);
+  const failed = results.length - state.atlas.length;
+  setText("atlas-status", failed ? `${failed} record(s) unavailable` : `${fmt(state.atlas.length)} repository records · metadata only`);
+  if (failed) state.atlasKey = ""; // Retry on the next ordinary refresh.
+  renderAtlas();
+}
+function atlasPaths(detail) {
+  return detail.eligible_paths.length ? detail.eligible_paths : detail.files.filter((f) => f.role === "placement").map((f) => f.path);
+}
+function selectAtlasFile(detail, file) {
+  state.atlasSelection = {id: detail.id, path: file.path};
+  for (const item of document.querySelectorAll(".atlas-cell,.byte-lane")) item.classList.toggle("selected", item.dataset.deployment === detail.id && item.dataset.path === file.path);
+  setText("atlas-repository", detail.repository_name); setText("atlas-glyph", repoIcon(detail));
+  $("atlas-glyph").style.color = repoColor(detail.repository_name);
+  setText("atlas-file", file.path); setText("atlas-file-kind", file.role === "unselected" ? "Compatible file · unselected" : kindLabels[file.kind] || capital(file.kind));
+  setText("atlas-before", file.role === "unselected" ? "Not stored" : bytes(file.before_bytes));
+  setText("atlas-inserted", file.role === "unselected" ? "—" : bytes(file.inserted_bytes));
+  setText("atlas-count", fmt(file.placements));
+  $("atlas-inspect").disabled = file.role === "unselected";
+  $("atlas-inspect").onclick = () => openRepository(detail, file.path);
+  setText("atlas-file-note", file.role === "unselected" ? "No content was stored for this unselected file." : detail.state === "restored" ? "Historical record. Original files were restored." : "Original and inserted bytes are available in the file inspector.");
+}
+function renderAtlas() {
+  const byteMode = state.atlasMode === "bytes";
+  setText("atlas-description", byteMode ? "Each track is a placed file, normalized to its final size. Select a track to inspect its exact bytes." : "Each cell is a compatible file. Select one to explore its recorded placement.");
+  setText("atlas-scale-label", byteMode ? "0% · FILE START                         100% · FILE END" : "COMPATIBLE FILES · ORDERED BY PATH");
+  $("atlas-rows").classList.toggle("byte-mode", byteMode);
+  let selected = null, first = null;
+  $("atlas-rows").replaceChildren(...state.atlas.map((detail) => {
+    const row = node("div", "atlas-repo-row"); row.style.setProperty("--repo-color", repoColor(detail.repository_name));
+    const label = node("button", "atlas-row-label"), identity = node("span", "", detail.repository_name);
+    label.append(identity, node("span", "", `${percent(detail.metrics.coverage_percent)} · ${detail.metrics.placed_files}/${detail.metrics.eligible_files ?? "?"} files`));
+    label.addEventListener("click", () => openRepository(detail));
+    const map = node("div", byteMode ? "byte-map" : "atlas-file-map"), byPath = new Map(detail.files.map((file) => [file.path, file]));
+    const paths = byteMode ? detail.files.filter((f) => f.placements).map((f) => f.path) : atlasPaths(detail);
+    for (const path of paths.slice(0, 256)) {
+      const file = byPath.get(path) || {path, role: "unselected", placements: 0};
+      if (!first && file.placements) first = [detail, file];
+      if (state.atlasSelection?.id === detail.id && state.atlasSelection.path === path) selected = [detail, file];
+      const button = node("button", byteMode ? "byte-lane" : `atlas-cell${file.placements ? " placed" : ""}`);
+      button.dataset.path = path; button.dataset.deployment = detail.id;
+      button.title = `${path} · ${file.placements ? `${file.placements} placement(s), ${bytes(file.inserted_bytes)}` : "unselected"}`;
+      button.setAttribute("aria-label", `${detail.repository_name}: ${button.title}`);
+      if (byteMode) for (const span of file.spans) {
+        const segment = node("span", "byte-segment"); segment.style.left = `${span.start_percent}%`; segment.style.width = `${span.width_percent}%`; button.append(segment);
+      }
+      button.addEventListener("click", () => selectAtlasFile(detail, file));
+      button.addEventListener("focus", () => selectAtlasFile(detail, file));
+      map.append(button);
+    }
+    if (!paths.length) map.append(node("span", "atlas-empty-row", "No source placements in this record"));
+    if (paths.length > 256) map.append(node("span", "atlas-more", `+${paths.length - 256} files · inspect the full record`));
+    row.append(label, map); return row;
+  }));
+  if (selected || first) selectAtlasFile(...(selected || first));
+  else {
+    state.atlasSelection = null; $("atlas-inspect").disabled = true;
+    setText("atlas-file", "No placements to inspect"); setText("atlas-repository", "Journal atlas");
+    setText("atlas-file-kind", "Apply a deployment to populate this view.");
+    setText("atlas-glyph", "◇"); setText("atlas-file-note", "Choose a record with stored placements to inspect its content.");
+    for (const field of ["atlas-before", "atlas-inserted", "atlas-count"]) setText(field, "—");
+  }
+  if (!state.atlas.length) $("atlas-rows").append(node("p", "inline-empty", "No deployment metadata is available yet."));
+}
+document.querySelectorAll("[data-atlas-mode]").forEach((button) => button.addEventListener("click", () => {
+  state.atlasMode = button.dataset.atlasMode;
+  for (const item of document.querySelectorAll("[data-atlas-mode]")) {
+    const active = item.dataset.atlasMode === state.atlasMode; item.classList.toggle("active", active); item.setAttribute("aria-pressed", String(active));
+  }
+  renderAtlas();
+}));
+$("wrap-code").addEventListener("click", () => {
+  const wrap = $("wrap-code").getAttribute("aria-pressed") !== "true";
+  $("wrap-code").setAttribute("aria-pressed", String(wrap)); $("code-preview").classList.toggle("no-wrap", !wrap);
 });
 
 renderVisibility(); refresh(); setInterval(() => { if (!document.hidden) refresh(); }, 10000);

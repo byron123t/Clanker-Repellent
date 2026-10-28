@@ -30,8 +30,9 @@ artifacts. The new example directory and its journal remain available after the 
 
 ## Views
 
-- **Overview:** repository comparisons, searchable repository cards, latest-record totals,
-  and deployment/restoration activity. Aggregates use the latest record per repository;
+- **Atlas:** interactive file cells, normalized final-image byte tracks, a selected-file
+  metadata inspector, searchable repository rows, latest-record totals, and activity.
+  Aggregates use the latest record per repository;
   placement/byte totals include only those latest records marked applied.
 - **Deployments:** repository/state/deployment filters, file coverage, recorded insertion count,
   inserted byte totals, a compatible-file map, and head/middle/tail distribution.
@@ -52,6 +53,11 @@ the report does not include snippet text. The page refreshes journal metadata ev
 while visible and supports manual refresh. It lists the latest 200 deployments/responses,
 up to 200 coverage tiles, and up to 400 matching file rows at a time; larger sets can be
 filtered in the file table. The complete deployment remains in the exported report.
+
+The workspace atlas renders up to 256 files per repository, labels larger inventories,
+and switches between compatible-file cells and normalized final-image byte tracks. Selecting
+a cell or track shows metadata; **Open file inspector** selects that exact file in the
+deployment view. Previewing the stored content remains an explicit action.
 
 ## What the percentages mean
 
@@ -94,3 +100,7 @@ Stop the server with Ctrl-C. This is a local inspector, not a remotely hosted mu
 
 The frontend source and its browser checks live in the top-level [dashboard/](../dashboard/README.md)
 directory. Both the checkout and the installed package serve the same resource files.
+
+For a movable, independent design environment, use
+[`dashboard-template/`](../dashboard-template/README.md). A candidate frontend can be served
+against this journal with `--assets /path/to/candidate/web` without replacing installed assets.

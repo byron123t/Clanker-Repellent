@@ -24,13 +24,14 @@ def main(argv=None):
     source.add_argument("--demo", type=Path, help="create a new benign demonstration directory and serve its real journal")
     parser.add_argument("--port", type=int, default=8765, help="loopback port; 0 chooses an available port")
     parser.add_argument("--open", action="store_true", help="open the authenticated URL in your browser")
+    parser.add_argument("--assets", type=Path, help="serve an isolated frontend directory against this journal")
     args = parser.parse_args(argv)
     try:
         if not 0 <= args.port <= 65535:
             raise ValueError("port must be between 0 and 65535")
         store = create_demo(args.demo) if args.demo else args.store or Path.cwd() / STORE_DIRECTORY
         token = secrets.token_urlsafe(32)
-        app = DashboardApp(store, token)
+        app = DashboardApp(store, token, assets=args.assets)
         with make_server("127.0.0.1", args.port, app, handler_class=QuietHandler) as server:
             url = f"http://127.0.0.1:{server.server_port}/#token={token}"
             print(json.dumps({"url": url, "store": str(store.resolve()), "read_only": True, "demo": bool(args.demo)}), flush=True)

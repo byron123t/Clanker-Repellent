@@ -3,6 +3,10 @@
 The journal frontend lives here. The Python application serves these assets and the
 authenticated API together; there is no frontend build step or external asset service.
 
+The separate [dashboard-template/](../dashboard-template/README.md) is a complete, movable
+design workspace for another agent. It includes its own server, fixtures, API contract,
+agent brief, and tests. It works without this repository or a real journal.
+
 From the repository root, open the persistent central journal:
 
 ```sh
@@ -31,7 +35,12 @@ still available in the deployment selector and activity list. Each coverage perc
 uses that deployment's recorded compatible target scope, which can be an explicit subset
 of a repository. A missing denominator stays unknown. The overview does not scan live files.
 
-Select a repository card or coverage bar to inspect its file map. The snippet explorer
+The interactive atlas shows each compatible file as a cell and can switch to final-image
+byte tracks. Select a cell/track to see file metadata, then open its exact file inspector.
+The atlas reads deployment metadata only and shows up to 256 files per repository; the
+complete inventory remains available in the file view and exported report.
+
+Select a repository row to inspect its file map. The snippet explorer
 supports file search, exact byte positions, original-file previews, copying, downloads,
 and recovery command examples. `/` focuses the current search field. Content is fetched
 only after selecting **Load snippet**, **Load example**, or **View original**.
@@ -52,3 +61,12 @@ REPEL_DASHBOARD_URL='http://127.0.0.1:PORT/#token=TOKEN' npm run test:browser
 Set `REPEL_CHROME` to use an existing Chrome executable. Browser tests read metadata from
 the selected journal and preview content only from records explicitly marked benign.
 The dashboard itself does not need Node or Playwright to run.
+
+To try another agent's frontend against the real API without replacing these assets:
+
+```sh
+python3 scripts/repel.py dashboard --store .repel-deploy-store \
+  --assets /path/to/moved/dashboard-template/web --port 0 --open
+```
+
+Run that command from the repository root. The override is local to that server process.
