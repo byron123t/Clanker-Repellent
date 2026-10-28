@@ -9,6 +9,7 @@ import stat
 import tempfile
 import uuid
 from contextlib import contextmanager
+from datetime import datetime, timezone
 from pathlib import Path
 
 
@@ -145,6 +146,7 @@ class DeploymentStore:
         return manifest, row[2]
 
     def write(self, db, identity, manifest, state):
+        manifest["updated_at"] = datetime.now(timezone.utc).isoformat()
         value = _json(manifest)
         db.execute("UPDATE deployments SET state=?,manifest=?,manifest_sha256=? WHERE id=?",
                    (state, value, digest(value.encode()), identity))
@@ -307,7 +309,8 @@ def apply_plan(root, index, manifest, updates, *, store_path=None, snapshots=())
             row["after_mode"] = row["mode"]
             row["bytes_before"], row["bytes_after"] = len(before), len(after)
         identity = uuid.uuid4().hex
-        stored = {**manifest, "schema_version": 2, "files": rows, "deployment_id": identity, "store": str(store.root)}
+        stored = {**manifest, "schema_version": 2, "files": rows, "deployment_id": identity, "store": str(store.root),
+                  "created_at": datetime.now(timezone.utc).isoformat()}
         value = _json(stored)
         db.execute("INSERT INTO deployments VALUES (?,?,?,?,?,?)",
                    (identity, str(root), str(index), "prepared", value, digest(value.encode())))

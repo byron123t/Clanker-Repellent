@@ -12,6 +12,7 @@ import json
 import random
 import sqlite3
 import uuid
+from datetime import datetime, timezone
 from pathlib import Path
 
 from .deployment_store import DeploymentStore, atomic_bytes, digest, _edits
@@ -41,6 +42,7 @@ class TrafficArchive:
         identity = uuid.uuid4().hex
         with self.store.locked() as db:
             metadata = {"id": identity, "status": status, "headers_before": headers_before,
+                        "created_at": datetime.now(timezone.utc).isoformat(),
                         "headers_after": headers_after, "request": request,
                         "before_sha256": self.store.put(before), "after_sha256": self.store.put(after),
                         "edits": _edits(self.store, before, after, [])}

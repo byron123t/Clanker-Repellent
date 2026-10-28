@@ -29,3 +29,6 @@ package-dir = {"" = "src"}
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.setuptools.package-data]
+"clanker_repellent.dashboard" = ["static/*.html", "static/*.css", "static/*.js", "static/*.svg"]

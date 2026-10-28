@@ -400,7 +400,7 @@ validators fail closed during apply. Midpoint insertion tries nearby physical bo
 Bash/Ruby heredocs and Java top-level declarations stay at safe file scope. Applied changes use
 ignored `.repel-carrier-index.json` and a private `.repel-deploy-store/`, record each exact inserted string with its
 hash and byte count, require unchanged pre- and post-deployment hashes, and restore exact bytes.
-Failed/partial candidates require explicit `--allow-partial`. Use [retained deployment](docs/retained-data.md) for compiled/web artifacts, and [typed catalogs, random placement, recovery snapshots, and live HTTP](docs/catalog-deployment.md) for the extended workflow.
+Failed/partial candidates require explicit `--allow-partial`. Use [retained deployment](docs/retained-data.md), [typed catalogs and recovery](docs/catalog-deployment.md), and the [journal dashboard](docs/journal-dashboard.md) for coverage, placement maps, snippets, and original examples.
 
 ## Optional evaluation harness
 

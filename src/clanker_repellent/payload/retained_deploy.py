@@ -264,6 +264,7 @@ def deploy_retained(*, repository: Path, payloads: Sequence[Path] = (), run_dir:
     if target_files and incompatible:
         raise DeploymentError("explicit target has no type-compatible catalog payload")
     files = [p for p in files if compatible(p)]
+    eligible_paths = [p.relative_to(root).as_posix() for p in files]
     if count is not None:
         if count < 1 or count > len(files):
             raise DeploymentError("--count exceeds compatible files or is not positive")
@@ -330,6 +331,9 @@ def deploy_retained(*, repository: Path, payloads: Sequence[Path] = (), run_dir:
     manifest = {"schema_version": 1, "kind": "repel_carrier_deployment", "repository_root": str(root),
                 "retention": "data-v1", "benign": benign,
                 "selection": {"random": randomize, "seed": seed, "count": count, "payload_count": payload_count}, "files": rows, "files_changed": len(rows),
+                "coverage": {"eligible_paths": eligible_paths, "eligible_files": len(eligible_paths),
+                             "selected_files": len(files), "placed_files": len(rows),
+                             "scope": "explicit targets" if target_files else "compatible retained targets"},
                 "payload_metadata": [metadata for metadata, text in catalog_entries],
                 "contents": [{"sha256": FRAME_HEADER.match(r).group(2).decode(),
                               "bytes": int(FRAME_HEADER.match(r).group(1))} for r in records],

@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Repel · Deployment journal</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/style.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <aside class="sidebar">
+    <a class="brand" href="/" aria-label="Repel journal home"><span class="brand-mark">r<span>↗</span></span><span>repel<span class="brand-label">DEPLOYMENT JOURNAL</span></span></a>
+    <div class="sidebar-section-label">WORKSPACE</div>
+    <nav aria-label="Main navigation">
+      <button class="nav-item active" data-view="overview"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Overview</button>
+      <button class="nav-item" data-view="snippets"><svg viewBox="0 0 24 24"><path d="m8 6-6 6 6 6m8-12 6 6-6 6m-3-15-2 18"/></svg>Snippet explorer</button>
+      <button class="nav-item" data-view="traffic"><svg viewBox="0 0 24 24"><path d="M3 8h16m-4-4 4 4-4 4M21 16H5m4-4-4 4 4 4"/></svg>HTTP archive<span class="nav-count" id="response-count">0</span></button>
+    </nav>
+    <div class="sidebar-note"><span class="tiny-square"></span><div>Your distribution,<br>accounted for.<p>Trace every placement back to its original bytes.</p></div></div>
+    <div class="connection-card"><div class="connection-title"><span class="status-dot"></span>Connected journal</div><p id="store-path">Connecting…</p><span class="read-only">◈ &nbsp; Read-only access</span></div>
+    <div class="sidebar-footer">REPEL <span>LOCAL WORKSPACE</span></div>
+  </aside>
+  <main>
+    <header class="topbar"><div class="breadcrumb">Workspace <span>/</span> <strong id="breadcrumb-current">Overview</strong></div><div class="topbar-actions"><span class="connection-state" id="connection-state"><span class="status-dot"></span>Connecting</span><button class="icon-button" id="refresh" aria-label="Refresh journal"><svg viewBox="0 0 24 24"><path d="M20 8a8 8 0 1 0 1 8M20 3v5h-5"/></svg></button></div></header>
+    <div class="page">
+      <div id="error-banner" class="error-banner" role="alert" hidden></div>
+      <section class="page-heading"><div><div class="eyebrow">OBSERVE. INSPECT. RECOVER.</div><h1 id="page-title">Deployment overview<span class="heading-dot">.</span></h1><p id="page-description">A clear view of where your snippets live.</p></div><button id="export" class="button secondary"><svg viewBox="0 0 24 24"><path d="M12 3v12m-5-5 5 5 5-5M4 16v5h16v-5"/></svg>Export report</button></section>
+      <section id="deployment-controls" class="filter-bar" aria-label="Deployment filters">
+        <label class="select-label"><span>Repository</span><select id="repository"><option value="">All repositories</option></select></label>
+        <label class="select-label"><span>State</span><select id="state-filter"><option value="">All states</option><option value="applied">Applied</option><option value="restored">Restored</option><option value="prepared">Prepared</option><option value="removing">Removing</option></select></label>
+        <label class="select-label deployment-select"><span>Deployment</span><select id="deployment"><option value="">Select a deployment</option></select></label>
+        <span class="record-caption" id="record-caption">Journal snapshot</span>
+      </section>
+      <div id="empty-state" class="empty-state" hidden><span class="empty-icon">◇</span><h2>No deployments to show</h2><p id="empty-message">Choose another filter, or apply a deployment to this journal.</p></div>
+      <div id="deployment-content">
+        <section class="metrics" id="metrics" aria-label="Deployment statistics">
+          <article class="metric-card"><div class="metric-label">File coverage <span class="metric-symbol">◔</span></div><div class="metric-value" id="coverage-value">—</div><div class="metric-foot" id="coverage-foot">Waiting for journal</div><div class="metric-track"><span id="coverage-track"></span></div></article>
+          <article class="metric-card"><div class="metric-label">Recorded placements <span class="metric-symbol">⌖</span></div><div class="metric-value" id="placements-value">—</div><div class="metric-foot" id="placements-foot">Across selected files</div></article>
+          <article class="metric-card"><div class="metric-label">Inserted data <span class="metric-symbol">⌘</span></div><div class="metric-value" id="inserted-value">—</div><div class="metric-foot" id="inserted-foot">Retained insertion bytes</div></article>
+          <article class="metric-card"><div class="metric-label">Journal state <span class="metric-symbol">◈</span></div><div class="metric-value state-value" id="journal-state">—</div><div class="metric-foot" id="journal-foot">Originals stored by content hash</div></article>
+        </section>
+        <section id="visuals" class="visuals">
+          <article class="panel coverage-panel"><div class="panel-heading"><div><h2>Coverage map</h2><p>Each tile is one compatible file.</p></div><span class="subtle-tag" id="scope-label">Recorded selection</span></div><div class="coverage-content"><div class="donut"><svg viewBox="0 0 140 140" role="img" aria-label="Recorded file coverage"><circle class="donut-base" cx="70" cy="70" r="58"/><circle id="donut-fill" class="donut-fill" cx="70" cy="70" r="58"/></svg><div class="donut-label"><strong id="donut-value">—</strong><span>FILE COVERAGE</span></div></div><div class="map-wrap"><div class="file-map" id="file-map" aria-label="Compatible file map"></div><p class="map-caption" id="map-caption">The journal keeps the eligible set used at deployment.</p><div class="legend"><span><i class="legend-box placed"></i>Placed</span><span><i class="legend-box"></i>Unselected</span></div></div></div></article>
+          <article class="panel distribution-panel"><div class="panel-heading"><div><h2>Placement distribution</h2><p>Insertion point within the original step.</p></div><span class="small-icon">↗</span></div><div id="distribution"></div><div class="distribution-footer"><span class="status-dot"></span><span id="selection-description">Deterministic placement</span></div></article>
+        </section>
+        <section class="inspection-layout">
+          <article class="panel files-panel"><div class="panel-heading"><div><h2>Files &amp; placements <span class="count-pill" id="file-count">0</span></h2><p>Inspect a placement, or retrieve an original example.</p></div></div><div class="table-tools"><label class="search"><svg viewBox="0 0 24 24"><circle cx="10" cy="10" r="6"/><path d="m15 15 6 6"/></svg><input id="file-search" type="search" placeholder="Filter by file path or type…" aria-label="Filter files"></label><label class="checkbox-label"><input id="show-unselected" type="checkbox">Unselected</label></div><div class="table-scroll"><table><thead><tr><th>File</th><th>Type</th><th>Placement map</th><th class="align-right">Added</th></tr></thead><tbody id="files-body"></tbody></table></div><div class="table-footer"><span id="table-caption">Select a file to inspect its journal record.</span><span>BYTE POSITIONS →</span></div></article>
+          <article class="panel inspector" id="inspector"><div class="panel-heading"><div><h2>Snippet inspector</h2><p id="inspector-subtitle">Exact bytes from the journal.</p></div><span class="small-icon">⌘</span></div><div class="inspector-body"><div class="inspector-path" id="inspector-path">Choose a file</div><div class="version-tabs" role="group" aria-label="Stored version"><button class="active" data-version="insertion">Snippet</button><button data-version="before">Original example</button><button data-version="after">After</button></div><label class="step-control" id="step-control">Placement<select id="step"></select></label><div class="snippet-meta" id="snippet-meta">Content is loaded only when requested.</div><div class="code-area"><div id="preview-placeholder" class="preview-placeholder"><span>⌁</span><strong>A record, down to the byte.</strong><p>Load a stored snippet to inspect, copy, or download it.</p><button class="button primary" id="load-preview">Load snippet <span>↗</span></button></div><pre id="code-preview" tabindex="0" hidden></pre></div><div class="preview-status" id="preview-status"></div><div class="snippet-actions"><button class="button secondary" id="copy-snippet" disabled>Copy snippet</button><button class="button secondary" id="download" disabled>Download</button></div><div class="hash-label">SHA-256<span id="snippet-hash">—</span></div><details class="usage"><summary>CLI examples <span>↗</span></summary><label for="example-select" class="sr-only">Command example</label><select id="example-select"><option value="inspect">Inspect stored strings</option><option value="status">Check deployment status</option><option value="restore">Restore original files</option></select><pre id="example-code"></pre><button class="button secondary" id="copy-example">Copy command</button><p>Commands are copied, never executed here.</p></details></div></article>
+        </section>
+      </div>
+      <section id="traffic-content" hidden><article class="panel"><div class="panel-heading"><div><h2>Archived responses</h2><p>Recorded transformations. Total request coverage is not tracked.</p></div></div><div class="table-scroll"><table><thead><tr><th>Request</th><th>Status</th><th>Content type</th><th>Record</th><th>Original response</th></tr></thead><tbody id="traffic-body"></tbody></table></div></article><article class="panel response-preview" id="response-preview" hidden><div class="panel-heading"><div><h2 id="response-title">Original entity body</h2><p>Encoded bytes as recorded by the adapter. Binary bodies use base64.</p></div><button class="button secondary" id="response-download">Download original</button></div><pre id="response-code"></pre></article></section>
+      <footer class="page-footer"><span><span class="status-dot"></span>Journal metadata · no live source-file scan</span><span id="last-updated">Awaiting connection</span></footer>
+    </div>
+    <div id="toast" class="toast" role="status" hidden></div>
+  </main>
+</body>
+</html>

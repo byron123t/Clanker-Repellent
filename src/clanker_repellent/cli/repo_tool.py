@@ -38,7 +38,7 @@ from ..payload.hash_share import (
     verify_hash_share,
     write_hash_share,
 )
-from . import deploy_cli, generate_cli, catalog_cli, traffic_cli
+from . import deploy_cli, generate_cli, catalog_cli, traffic_cli, dashboard_cli
 
 
 
@@ -294,6 +294,7 @@ def build_parser() -> argparse.ArgumentParser:
     subparsers = parser.add_subparsers(dest="command", required=True)
     subparsers.add_parser("catalog", help="manage typed, tagged payloads (repel catalog --help)", add_help=False)
     subparsers.add_parser("traffic", help="local HTTP adapter and exact response archives (repel traffic --help)", add_help=False)
+    subparsers.add_parser("dashboard", help="visualize journal coverage and retrieve snippets (repel dashboard --help)", add_help=False)
 
     add = subparsers.add_parser("add", help="place test text as indexed repository comments")
     _add_target_arguments(add)
@@ -416,6 +417,8 @@ def build_parser() -> argparse.ArgumentParser:
 
 def main(argv: Optional[Sequence[str]] = None) -> int:
     command_argv = list(sys.argv[1:] if argv is None else argv)
+    if command_argv and command_argv[0] == "dashboard":
+        return dashboard_cli.main(command_argv[1:])
     if command_argv and command_argv[0] == "catalog":
         return catalog_cli.main(command_argv[1:])
     if command_argv and command_argv[0] == "traffic":

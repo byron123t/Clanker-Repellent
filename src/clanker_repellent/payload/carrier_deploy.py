@@ -707,6 +707,7 @@ def deploy_carriers(
     else:
         files = eligible_source_files(root)
     files = [p for p in files if detect_language(p, p.read_text(encoding="utf-8")) in by_language]
+    eligible_paths = [p.relative_to(root).as_posix() for p in files]
     if count is not None:
         if count < 1 or count > len(files):
             raise DeploymentError("--count exceeds the compatible files or is not positive")
@@ -766,6 +767,9 @@ def deploy_carriers(
         "repository_root": str(root),
         "run_dir": str(run_dir.resolve()) if run_dir else None,
         "selection": {"random": randomize, "seed": seed, "count": count},
+        "coverage": {"eligible_paths": eligible_paths, "eligible_files": len(eligible_paths),
+                     "selected_files": len(files), "placed_files": len(planned),
+                     "scope": "explicit targets" if target_file else "compatible source files"},
         "positions_requested": list(positions),
         "allow_partial": allow_partial,
         "files": [
