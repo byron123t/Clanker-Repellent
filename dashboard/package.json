@@ -1,0 +1,12 @@
+{
+  "name": "repel-journal-dashboard",
+  "private": true,
+  "scripts": {
+    "start": "python3 ../scripts/repel.py dashboard --store ../.repel-deploy-store --port 0 --open",
+    "check": "node --check repel_dashboard_ui/app.js",
+    "test:browser": "node tests/browser-smoke.cjs"
+  },
+  "devDependencies": {
+    "playwright": "1.64.1"
+  }
+}

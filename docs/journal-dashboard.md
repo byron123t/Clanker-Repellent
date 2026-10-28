@@ -30,7 +30,10 @@ artifacts. The new example directory and its journal remain available after the 
 
 ## Views
 
-- **Overview:** repository/state/deployment filters, file coverage, recorded insertion count,
+- **Overview:** repository comparisons, searchable repository cards, latest-record totals,
+  and deployment/restoration activity. Aggregates use the latest record per repository;
+  placement/byte totals include only those latest records marked applied.
+- **Deployments:** repository/state/deployment filters, file coverage, recorded insertion count,
   inserted byte totals, a compatible-file map, and head/middle/tail distribution.
 - **Snippet explorer:** searchable file paths/types, final-image placement ranges, and an
   inspector for each edit. Select **Load snippet** or **Load example** to read stored content.
@@ -88,3 +91,6 @@ or unavailable journal is reported without overwriting the stored data.
 The UI assets ship inside the Python package. After updating an isolated installation, use
 `python3 -m pipx reinstall .`, or run directly with `python3 scripts/repel.py dashboard ...`.
 Stop the server with Ctrl-C. This is a local inspector, not a remotely hosted multi-user service.
+
+The frontend source and its browser checks live in the top-level [dashboard/](../dashboard/README.md)
+directory. Both the checkout and the installed package serve the same resource files.

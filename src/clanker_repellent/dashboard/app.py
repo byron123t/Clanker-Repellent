@@ -6,12 +6,14 @@ import json
 import re
 import sqlite3
 from pathlib import Path
+from importlib.resources import files
 from urllib.parse import parse_qs
 
 from .reader import JournalReader
 
 
-ASSETS = Path(__file__).parent / "static"
+_CHECKOUT_ASSETS = Path(__file__).resolve().parents[3] / "dashboard" / "repel_dashboard_ui"
+ASSETS = _CHECKOUT_ASSETS if (_CHECKOUT_ASSETS / "index.html").is_file() else files("repel_dashboard_ui")
 ROUTE = re.compile(r"/api/(deployments|responses)/([0-9a-f]{32})(?:/(preview|download))?\Z")
 
 

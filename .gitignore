@@ -25,6 +25,8 @@ results/
 .repel-carrier-index.json.preimage/
 .repel-deploy-store/
 .repel-traffic-store/
+.repel-workspaces/
+dashboard/node_modules/
 payloads/catalog-v1/catalog.sqlite3*
 payloads/catalog-v1/objects/
 payloads/catalog-v1/entries/

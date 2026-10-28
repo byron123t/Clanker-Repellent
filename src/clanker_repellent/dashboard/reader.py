@@ -45,6 +45,9 @@ def placement_spans(row):
 
 def file_view(row, number):
     artifact = row.get("role") == "artifact"
+    kind = row.get("language") or row.get("carrier_kind", "artifact")
+    if kind == "javascript_global_data" and Path(row["path"]).suffix.lower() in {".ts", ".tsx", ".mts", ".cts"}:
+        kind = "typescript"
     spans = [] if artifact else placement_spans(row)
     edits, length = [], row.get("bytes_before", 0)
     for step, edit in enumerate(row.get("edits", [])):
@@ -52,7 +55,7 @@ def file_view(row, number):
                       "removed_bytes": edit["removed_bytes"], "sha256": edit["inserted_sha256"],
                       "location_percent": percentage(edit["offset_before_step"], length) or 0})
         length += edit["inserted_bytes"] - edit["removed_bytes"]
-    return {"number": number, "path": row["path"], "kind": row.get("language") or row.get("carrier_kind", "artifact"),
+    return {"number": number, "path": row["path"], "kind": kind,
             "role": "artifact" if artifact else "placement", "pending": bool(row.get("pending")),
             "before_bytes": row.get("bytes_before", 0), "after_bytes": row.get("bytes_after", 0),
             "before_sha256": row.get("before_sha256"), "after_sha256": row.get("after_sha256"),
@@ -76,6 +79,7 @@ def deployment_view(identity, root, index, state, manifest):
             "state": state, "mode": "retained" if manifest.get("retention") else ("source" if placed else "snapshot"),
             "benign": bool(manifest.get("benign")), "created_at": manifest.get("created_at"),
             "updated_at": manifest.get("updated_at"), "selection": manifest.get("selection", {}),
+            "types": sorted({row["kind"] for row in placed}),
             "metrics": {"eligible_files": eligible, "placed_files": len(placed),
                         "selected_files": coverage.get("selected_files"), "coverage_percent": percentage(len(placed), eligible),
                         "placements": sum(row["placements"] for row in files), "inserted_bytes": inserted,

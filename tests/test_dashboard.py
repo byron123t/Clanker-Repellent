@@ -112,6 +112,16 @@ class DashboardTests(unittest.TestCase):
         self.assertEqual(header["headers"]["Cache-Control"], "no-store")
         self.assertNotIn("Access-Control-Allow-Origin", header["headers"])
         self.assertEqual(json.loads(body)["deployments"][0]["id"], self.identity)
+        self.assertEqual(json.loads(body)["deployments"][0]["types"], ["javascript_global_data"])
+
+    def test_typescript_retention_is_identified_in_summary_and_file_view(self):
+        remove_deployment(repository=self.repo, apply=True)
+        (self.repo / "entry.ts").write_text("export const value: number = 42;\n")
+        result = deploy_retained(repository=self.repo, payloads=[self.note], benign=True,
+                                 target_files=[Path("entry.ts")], apply=True)
+        detail = self.reader.deployment(result["deployment_id"])
+        self.assertEqual(detail["types"], ["typescript"])
+        self.assertEqual(detail["files"][0]["kind"], "typescript")
 
     def test_authenticated_explicit_preview_and_download_are_exact(self):
         route = f"/api/deployments/{self.identity}"

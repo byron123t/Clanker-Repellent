@@ -25,10 +25,11 @@ show_missing = true
 repel = "clanker_repellent.cli.repo_tool:main"
 
 [tool.setuptools]
-package-dir = {"" = "src"}
+package-dir = {"" = "src", "repel_dashboard_ui" = "dashboard/repel_dashboard_ui"}
 
 [tool.setuptools.packages.find]
-where = ["src"]
+where = ["src", "dashboard"]
+include = ["clanker_repellent*", "repel_dashboard_ui"]
 
 [tool.setuptools.package-data]
-"clanker_repellent.dashboard" = ["static/*.html", "static/*.css", "static/*.js", "static/*.svg"]
+"repel_dashboard_ui" = ["*.html", "*.css", "*.js", "*.svg"]
