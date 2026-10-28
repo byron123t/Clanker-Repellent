@@ -1,5 +1,6 @@
 {
   "name": "repel-dashboard-design-template",
+  "description": "Read-only visualization of synthetic file-change records for frontend design",
   "private": true,
   "scripts": {
     "start": "python3 serve.py --open",

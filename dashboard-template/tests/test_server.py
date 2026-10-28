@@ -31,7 +31,10 @@ class PortableTemplateTests(unittest.TestCase):
 
     def test_authentication_read_only_and_scenarios(self):
         self.assertEqual(self.request("/api/summary", token="wrong")[0]["status"], "401 Unauthorized")
-        self.assertEqual(self.request("/api/summary", method="POST")[0]["status"], "405 Method Not Allowed")
+        record = next(iter(self.app.journal["deployments"].values()))
+        for path in ("/api/summary", f'/api/deployments/{record["id"]}', "/api/responses"):
+            for method in ("POST", "PUT", "PATCH", "DELETE"):
+                self.assertEqual(self.request(path, method=method)[0]["status"], "405 Method Not Allowed")
         self.assertEqual(self.request("/api/summary", app=FixtureApp("test-token", "error"))[0]["status"], "503 Service Unavailable")
         empty = json.loads(self.request("/api/summary", app=FixtureApp("test-token", "empty"))[1])
         self.assertEqual(empty["deployments"], [])
@@ -51,7 +54,7 @@ class PortableTemplateTests(unittest.TestCase):
             if record["metrics"]["eligible_files"] is None:
                 self.assertIsNone(record["metrics"]["coverage_percent"])
         self.assertTrue(self.app.journal["summary"]["template"])
-        self.assertNotIn("Retained documentation sample", self.request("/api/summary")[1].decode())
+        self.assertNotIn("examples use consistent names", self.request("/api/summary")[1].decode())
 
     def test_previews_and_downloads_preserve_exact_objects(self):
         for record in self.app.journal["deployments"].values():
@@ -68,6 +71,12 @@ class PortableTemplateTests(unittest.TestCase):
         self.assertEqual(self.request(f'/api/deployments/{record["id"]}/preview?file=-1')[0]["status"], "404 Not Found")
 
     def test_binary_response_and_integrity_failure(self):
+        for response in self.app.journal["responses"]:
+            for version in ("before", "after"):
+                route = f'/api/responses/{response["id"]}/download?version={version}'
+                meta, body = self.request(route)
+                self.assertEqual(meta["status"], "200 OK")
+                self.assertEqual(hashlib.sha256(body).hexdigest(), response[version + "_sha256"])
         record = self.app.journal["responses"][-1]
         route = f'/api/responses/{record["id"]}/preview?version=before'
         self.assertEqual(json.loads(self.request(route)[1])["encoding"], "base64")

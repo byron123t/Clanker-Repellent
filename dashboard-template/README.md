@@ -1,40 +1,55 @@
-# Portable annotation dashboard template
+# File-change viewer design template
 
-Move or copy **this entire directory** anywhere. It runs independently of Repel, the original
-repository, its virtual environment, and its central journal. Python 3.9+ is the only runtime
-requirement. No installation, network access, or Node build step is needed.
+This is a **read-only visualization of synthetic file-change records**. Use it to design
+charts, file navigation, previews, and download interactions. All example projects, file
+versions, snippets, and response bodies are generated locally by `build_fixtures.py`.
+
+The API uses the same record structure as Repel's annotation journal, so a finished design
+can be connected to that journal later. The standalone server serves its own sample files;
+project modification and restoration belong to the separate Repel application.
+
+## Run anywhere
+
+Move or copy **this entire directory** to your preferred location. Python 3.9+ is the only
+runtime requirement. The server works without the original repository, its virtual
+environment, a journal database, Node, or an internet connection.
 
 ```sh
 cd /wherever/you/put/dashboard-template
 python3 serve.py --open
 ```
 
-The server chooses an available loopback port and prints an authenticated URL. Open that
-URL, including `#token=…`. Stop with Ctrl-C. You can also run the server by its absolute path
-from any working directory.
+The server prints a local URL with a session token and chooses an available loopback port.
+Open that complete URL. Stop with Ctrl-C. An absolute path to `serve.py` also works from
+another working directory. Frontend changes appear on browser refresh.
 
-## Hand this to another agent
+## Design handoff
 
-Point the agent at [AGENT_BRIEF.md](AGENT_BRIEF.md). It has the design task, API requirements,
-acceptance checks, and handoff expectations. The agent can replace everything in `web/`.
+Give your agent [AGENT_BRIEF.md](AGENT_BRIEF.md). The task is frontend design using the
+included sample API. It covers coverage charts, byte-position tracks, search, file-version
+previews, accessibility, and responsive layouts.
 
 ```text
 dashboard-template/
-  AGENT_BRIEF.md       Ready-to-use design task
-  API_CONTRACT.md      Endpoints, data shapes, and metric meanings
-  serve.py            Independent read-only fixture API + asset server
+  AGENT_BRIEF.md       Frontend task and acceptance criteria
+  API_CONTRACT.md      Read-only endpoints and field definitions
+  INTEGRATION.md       Optional connection to the main application
+  serve.py            Local sample API and static asset server
   web/                Editable HTML, CSS, JavaScript, and favicon
-  fixtures/           Synthetic metadata and benign content objects
-  build_fixtures.py   Rebuild the fixtures without reading any repository
-  tests/              Standard-library server/fixture checks
-  reference/          Desktop and mobile screenshots of this starting point
+  fixtures/README.md  Sample provenance and design scenarios
+  fixtures/           Generated record metadata and content objects
+  build_fixtures.py   Reproducible sample-data generator
+  tests/              API and browser checks
+  reference/          Desktop and mobile reference screenshots
 ```
 
-The included UI is a working starting point with an interactive file atlas, byte tracks,
-repository navigation, original/snippet previews, and downloads. It is deliberately a copy:
-editing it does not change the main dashboard.
+The UI identifies the dataset as **Synthetic sample data** on every view. Its numbers
+come from the fixture API. The seven example projects cover different file types, sparse
+and dense coverage, historical records, pending snapshots, an unknown coverage denominator,
+and a 280-file inventory. Three response samples exercise text and binary previews.
+See [the fixture guide](fixtures/README.md) for details.
 
-## Useful states
+## Check the design
 
 ```sh
 python3 serve.py --scenario populated --open
@@ -45,18 +60,11 @@ python3 -m unittest discover -s tests -v
 node --check web/app.js
 ```
 
-Populated fixtures include seven repositories, several file types, start/middle/end
-placements, a binary snapshot, a pending artifact, restored history, an unknown coverage
-denominator, a 280-file inventory, and three archived responses. They contain synthetic
-examples, not copied project files, credentials, journal snapshots, or operational snippet collections.
-The UI labels this mode **Isolated template · sample data**. `error` simulates an unavailable
-journal; `empty` returns an empty one.
+`empty` returns no records; `error` simulates an unavailable data source. These states help
+test explanatory messages and layout. `--check` validates asset availability and content
+hashes. Previews and downloads read saved fixture objects; requests to change data return 405.
 
-`python3 build_fixtures.py` regenerates deterministic data in `fixtures/`. The server validates
-object hashes at startup and before returning content. Restart after changing fixture data;
-frontend edits appear on browser refresh.
-
-Optional browser regression checks use Playwright (Node is only needed for these checks):
+Optional browser checks use Playwright:
 
 ```sh
 npm install
@@ -64,27 +72,9 @@ npx playwright install chromium
 REPEL_DASHBOARD_URL='http://127.0.0.1:PORT/#token=TOKEN' npm run test:browser
 ```
 
-Use the URL printed by this template's server. Set `REPEL_CHROME` to use an existing Chrome
-executable. The screenshots in `reference/` are a baseline for the next design iteration.
+Use the URL printed by `serve.py`. Set `REPEL_CHROME` to use an existing Chrome executable.
+The reference screenshots show the included starting design; refresh them for your candidate.
 
-## Try a candidate against a real journal
-
-This optional step uses the main Repel installation. It is not needed for independent design.
-Run from the main repository, pointing `--assets` at the moved template's `web/` directory:
-
-```sh
-python3 scripts/repel.py dashboard --store /path/to/.repel-deploy-store \
-  --assets /wherever/dashboard-template/web --port 0 --open
-```
-
-That serves the candidate frontend with the real, read-only journal API without replacing
-the production frontend. There is no need to put a live journal or session token in this
-template. The token printed by `serve.py` authenticates only the local fixture server.
-
-## Bring the design back
-
-Copy the finished `web/index.html`, `web/app.js`, `web/style.css`, and `web/favicon.svg` into
-the main repository's `dashboard/repel_dashboard_ui/`. Preserve its `__init__.py`. Run the
-dashboard browser checks and Python dashboard tests there. If you introduce additional
-assets or a framework, document the build and extend the production asset allowlist/package
-data accordingly. Keep all runtime assets local and compatible with the CSP in the contract.
+Run `python3 build_fixtures.py` to regenerate the samples, then restart the server. The
+fixture guide explains which files are generated. Optional connection to real records and
+instructions for returning the design are in [INTEGRATION.md](INTEGRATION.md).

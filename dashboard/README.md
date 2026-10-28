@@ -1,11 +1,13 @@
 # Repel annotation dashboard
 
-The journal frontend lives here. The Python application serves these assets and the
-authenticated API together; there is no frontend build step or external asset service.
+This is a read-only viewer of file-change records, stored snippets, and saved file versions.
+The Python application serves the frontend and authenticated API together. Placement and
+restoration are separate CLI operations; the viewer displays their recorded results.
 
 The separate [dashboard-template/](../dashboard-template/README.md) is a complete, movable
-design workspace for another agent. It includes its own server, fixtures, API contract,
-agent brief, and tests. It works without this repository or a real journal.
+design workspace for another agent. It visualizes synthetic file-change records through its
+own read-only server. The brief, field definitions, fixture guide, and tests are self-contained.
+Optional connection to a real journal is documented in its `INTEGRATION.md`.
 
 From the repository root, open the persistent central journal:
 
@@ -35,6 +37,10 @@ still available in the deployment selector and activity list. Each coverage perc
 uses that deployment's recorded compatible target scope, which can be an explicit subset
 of a repository. A missing denominator stays unknown. The overview does not scan live files.
 
+A data-source label distinguishes **Synthetic sample data**, a local example journal, and a
+connected real journal. The label stays visible across views. Initial connection failures
+show an unconnected viewer; later failures retain the last known source label.
+
 The interactive atlas shows each compatible file as a cell and can switch to byte tracks
 showing positions within updated files. Select a cell/track to see file metadata, then open its exact file inspector.
 The atlas reads deployment metadata only and shows up to 256 files per repository; the
@@ -42,7 +48,8 @@ complete inventory remains available in the file view and exported report.
 
 Select a repository row to inspect its file map. The snippet explorer
 supports file search, exact byte positions, original-file previews, copying, downloads,
-and recovery command examples. `/` focuses the current search field. Content is fetched
+and optional copyable command examples. The command section appears only when the record
+supplies examples; synthetic template records have none. `/` focuses the current search field. Content is fetched
 only after selecting **Load snippet**, **Load original**, **Load updated file**, or **View original**.
 
 See [the journal guide](../docs/journal-dashboard.md) for complete metric and integrity

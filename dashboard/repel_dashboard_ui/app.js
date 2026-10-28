@@ -43,14 +43,24 @@ function connected(ok) {
   $("connection-state").replaceChildren(node("span", "status-dot"), document.createTextNode(ok ? "Journal connected" : "Connection unavailable"));
   $("connection-state").firstChild.style.background = ok ? "#279c82" : "#cd7351";
 }
+function renderDataSource(summary) {
+  const sample = !!summary.template;
+  if (sample || summary.demo) $("connection-state").replaceChildren(node("span", "status-dot"), document.createTextNode(sample ? "Sample data connected" : "Example journal connected"));
+  setText("data-context-title", sample ? "Synthetic sample data" : summary.demo ? "Local example journal · read-only" : "Connected journal · read-only");
+  setText("data-context-description", sample
+    ? "Projects, file versions, and response samples are generated locally for UI design."
+    : "Showing saved file-change records and content. Recorded state is not a live check of project files.");
+  setText("workspace-repos-label", sample ? "Sample projects" : "Connected repositories");
+  setText("response-description", sample ? "Generated response samples for preview and download." : "Responses saved by the local adapter. Total request coverage is not tracked.");
+  document.title = sample ? "Repel · Sample record viewer" : "Repel · Annotation journal";
+}
 async function refresh() {
   if (state.refreshing) return;
   state.refreshing = true; $("refresh").disabled = true;
   try {
     const previous = state.summary;
     const summary = await api("/api/summary"); state.summary = summary; connected(true);
-    if (summary.template) $("connection-state").replaceChildren(node("span", "status-dot"), document.createTextNode("Isolated template · sample data"));
-    else if (summary.demo) $("connection-state").replaceChildren(node("span", "status-dot"), document.createTextNode("Example journal · local data"));
+    renderDataSource(summary);
     setText("store-path", summary.store); $("store-path").title = summary.store;
     setText("response-count", fmt(summary.response_count));
     setText("last-updated", `Updated ${new Date().toLocaleTimeString([], {hour: "2-digit", minute: "2-digit", second: "2-digit"})} · refreshes every 10s`);
@@ -214,7 +224,15 @@ async function loadPreview() {
   } catch (error) { if (request === state.previewRequest) { state.preview = null; setText("preview-status", error.message); } }
   finally { if (request === state.previewRequest) $("load-preview").disabled = false; }
 }
-function renderExample() { setText("example-code", state.detail?.examples[$("example-select").value] || ""); }
+function renderExample() {
+  const examples = state.detail?.examples || {};
+  const labels = {inspect: "Inspect stored snippets", status: "Check deployment status", restore: "Restore original files"};
+  const entries = Object.entries(labels).filter(([key]) => typeof examples[key] === "string" && examples[key].trim());
+  $("command-examples").hidden = !entries.length;
+  options($("example-select"), entries, $("example-select").value);
+  setText("example-code", examples[$("example-select").value] || "");
+  $("copy-example").disabled = !entries.length;
+}
 async function download(path, filename) {
   try { const response = await api(path, true); saveBlob(await response.blob(), filename); toast("Download ready"); }
   catch (error) { toast(error.message); }

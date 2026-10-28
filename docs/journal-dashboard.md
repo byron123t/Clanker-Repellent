@@ -3,6 +3,7 @@
 The dashboard connects directly to a central `.repel-deploy-store/` (or a shared store passed
 to `deploy --store`). It reads the SQLite journal and content-addressed objects without
 changing deployment state, scanning live repository contents, or executing stored code.
+It is a viewer of saved file-change records; the separate CLI performs placement and restoration.
 
 ```sh
 repel dashboard --store /path/to/central-journal --open
@@ -43,7 +44,8 @@ artifacts. The new example directory and its journal remain available after the 
   original entity bodies. Private response headers are not included in the overview.
 
 The inspector supports copying text, downloading exact stored bytes, and copying CLI examples
-for inspection, status, and restoration. Commands are displayed, not executed. HTML and
+for inspection, status, and restoration when a record supplies them. The command section is
+hidden for records without examples. Commands are displayed, not executed. HTML and
 JavaScript snippets are displayed as text. Binary previews use base64; downloads preserve
 the binary bytes. Previews are limited to 64 KiB and clearly labeled when truncated. The
 download provides the full, checksum-verified object.
@@ -104,3 +106,6 @@ directory. Both the checkout and the installed package serve the same resource f
 For a movable, independent design environment, use
 [`dashboard-template/`](../dashboard-template/README.md). A candidate frontend can be served
 against this journal with `--assets /path/to/candidate/web` without replacing installed assets.
+That template uses generated sample projects and file versions. Its own server reads only its
+fixture files. The UI identifies **Synthetic sample data** separately from a connected journal,
+and the template's integration guide describes the optional connection to real records.

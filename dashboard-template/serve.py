@@ -1,4 +1,4 @@
-"""Standalone, standard-library-only fixture API and frontend server."""
+"""Read-only viewer API for local synthetic file-change records and sample bytes."""
 import argparse
 import base64
 import codecs
@@ -86,7 +86,7 @@ class QuietHandler(WSGIRequestHandler):
     def log_message(self, *args): pass
 
 def main():
-    parser = argparse.ArgumentParser(description="Run the portable Repel design template. No installation or live journal required.")
+    parser = argparse.ArgumentParser(description="Serve a read-only visualization of synthetic file-change records from this folder.")
     parser.add_argument("--port", type=int, default=0)
     parser.add_argument("--open", action="store_true")
     parser.add_argument("--scenario", choices=["populated", "empty", "error"], default="populated")
@@ -97,7 +97,7 @@ def main():
     if args.check: print("PASS: standalone assets and fixture hashes."); return
     with make_server("127.0.0.1", args.port, app, handler_class=QuietHandler) as server:
         url = f"http://127.0.0.1:{server.server_port}/#token={token}"
-        print(json.dumps({"url": url, "mode": "isolated template", "scenario": args.scenario}), flush=True)
+        print(json.dumps({"url": url, "mode": "synthetic sample viewer", "read_only": True, "scenario": args.scenario}), flush=True)
         if args.open: webbrowser.open(url)
         try: server.serve_forever()
         except KeyboardInterrupt: pass

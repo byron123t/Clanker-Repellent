@@ -11,14 +11,18 @@ async function main() {
   const browser = await chromium.launch({headless: true, ...(process.env.REPEL_CHROME ? {executablePath: process.env.REPEL_CHROME} : {})});
   try {
     const context = await browser.newContext({viewport: {width: 1440, height: 1000}});
-    const page = await context.newPage(), errors = [], contentRequests = [];
+    const page = await context.newPage(), errors = [], contentRequests = [], apiMethods = [];
     page.on("pageerror", (error) => errors.push(error.message));
-    page.on("request", (request) => { if (/\/api\/.*\/(preview|download)/.test(request.url())) contentRequests.push(request.url()); });
+    page.on("request", (request) => {
+      if (new URL(request.url()).pathname.startsWith("/api/")) apiMethods.push(request.method());
+      if (/\/api\/.*\/(preview|download)/.test(request.url())) contentRequests.push(request.url());
+    });
     await page.goto(url);
     await page.waitForFunction(() => document.getElementById("workspace-repos").textContent !== "—");
     const response = await context.request.get(new URL("/api/summary", url).href, {headers: {Authorization: `Bearer ${token}`}});
     assert.equal(response.status(), 200);
     const summary = await response.json(), latest = new Map();
+    assert.match(await page.locator("#data-context-title").innerText(), summary.template ? /Synthetic sample data/ : /journal · read-only/);
     for (const item of summary.deployments) if (!latest.has(item.repository)) latest.set(item.repository, item);
     assert.equal(await page.locator(".project-card").count(), latest.size);
     await page.waitForFunction((count) => document.querySelectorAll(".atlas-repo-row").length === count, latest.size);
@@ -42,6 +46,15 @@ async function main() {
       const card = page.locator(`.project-card[data-deployment="${benign.id}"]`);
       await card.click();
       await page.waitForFunction((id) => document.getElementById("deployment").value === id && !document.getElementById("deployment-content").hidden, benign.id);
+      const detailResponse = await context.request.get(new URL(`/api/deployments/${benign.id}`, url).href, {headers: {Authorization: `Bearer ${token}`}});
+      const detail = await detailResponse.json();
+      const example = ["inspect", "status", "restore"].find((key) => typeof detail.examples?.[key] === "string" && detail.examples[key].trim());
+      assert.equal(await page.locator("#command-examples").isVisible(), !!example);
+      if (example) {
+        await page.locator("#command-examples summary").click();
+        await page.locator("#example-select").selectOption(example);
+        assert.equal(await page.locator("#example-code").innerText(), detail.examples[example]);
+      }
       await page.locator("#load-preview").click();
       await page.locator("#code-preview").waitFor({state: "visible"});
       assert.ok(await page.locator("#snippet-hash").innerText());
@@ -57,6 +70,7 @@ async function main() {
     const unauthorized = await context.request.get(new URL("/api/summary", url).href);
     assert.equal(unauthorized.status(), 401);
     assert.deepEqual(errors, []);
+    assert.ok(apiMethods.length && apiMethods.every((method) => method === "GET"), "The viewer must only make read requests.");
     console.log(`PASS: ${latest.size} repositories; overview totals, search, benign preview/download, navigation, mobile layout, and authentication.`);
   } finally {
     await browser.close();
