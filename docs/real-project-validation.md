@@ -9,7 +9,7 @@ python3 scripts/repel.py dashboard --store .repel-deploy-store --port 0 --open
 ```
 
 All placements used `--benign` retention and ordinary documentation notes. No operational
-payload collection or generation result was used. The original curl, horrorgame, and
+snippet collection or generation result was used. The original curl, horrorgame, and
 ballz6Game checkouts were copied before deployment. Additional public projects were fetched
 into the isolated workspace. These are actual project files and built artifacts, not the
 generated dashboard demo.
@@ -30,9 +30,9 @@ selection uses seed 42. The ballz6Game check covers its existing WASM extension 
 a complete Godot web export was not available. The horrorgame check covers source and
 response retention, not a full gameplay regression test.
 
-After the upstream jq tests rebuilt its executable, the verified stripped postimage was
+After the upstream jq tests rebuilt its executable, the verified stripped version was
 restored from the journal. The final executable passes retention and JSON processing checks
-and matches its recorded hash. All six final deployments match their journal postimages.
+and matches its recorded hash. All six final deployments match their recorded updated files.
 
 ## Real HTTP response archive
 

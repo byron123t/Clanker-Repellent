@@ -1,11 +1,11 @@
 # Design task: make this dashboard substantially better
 
-Build an excellent interface for understanding where documentation snippets were embedded
-across source files, native builds, websites, and WASM modules. The user wants a substantial
+Design an interface for reviewing project notes and source snippets recorded across
+source files, native builds, websites, and WASM modules. The user wants a substantial
 improvement in visual quality and useful visualization. You have freedom to replace the
 layout, visual language, interactions, charts, and frontend code in `web/`.
 
-The audience is a developer inspecting a reversible deployment journal. The central tasks are:
+The audience is a developer reviewing an annotation journal with saved file versions. The central tasks are:
 
 1. Understand repository coverage and the scope behind each percentage.
 2. Locate individual placements and inspect their exact byte positions.
@@ -22,6 +22,9 @@ and built output remain self-contained and the integration steps are documented.
 
 ## Design expectations
 
+- Use calm, descriptive language: project notes, snippets, annotations, saved originals, and
+  updated files. Avoid adversarial metaphors, dramatic slogans, and claims of complete coverage
+  or guaranteed recovery. Keep limitations visible and label examples as sample data.
 - Establish a clear hierarchy, readable typography, strong contrast, and intentional spacing.
 - Make charts useful for choosing and inspecting real records. Values must come from the API.
 - Make dense and sparse repositories both understandable. Test the large inventory and the

@@ -1,7 +1,7 @@
 # Retained text in executables and web builds
 
-`repel deploy add --retain` embeds UTF-8 notes, instructions, or source snippets as data.
-It preserves their text without running the embedded instructions or code. It does not need
+`repel deploy add --retain` stores UTF-8 project notes, documentation, or source snippets as data.
+It preserves their text without executing it. It does not need
 a model endpoint: use `--payload` for your own text, or `--run-dir` for accepted generated
 snippets. Every selected file receives every input record. Use repeated `--file` arguments
 to choose entry points when copying the text into every translation unit or web module
@@ -18,7 +18,7 @@ uses build-specific representations instead:
 | Markdown, reStructuredText, plain text | Escaped JSON records in document data blocks | Source documents |
 | Uncompressed `.wasm` | `repel.notes.v1` custom section | After linking and WASM optimization |
 
-Native carriers use Clang/GCC `used`, plus `retain` on ELF, or an exported accessor on MSVC.
+Native snippets use Clang/GCC `used`, plus `retain` on ELF, or an exported accessor on MSVC.
 ELF builds require a compiler and linker supporting `retain` (Clang 13+/GCC 11+ and a
 compatible linker). Unsupported ELF compilers fail compilation rather than silently dropping
 the data. See [Clang's retention attributes](https://clang.llvm.org/docs/AttributeReference.html#retain).
@@ -43,8 +43,8 @@ Existing ELF, Mach-O, or PE executables are verified, not patched: rebuild them 
 modified C/C++ sources. The text is in the binary's retained data, so `strings` and binary
 analysis tools can recover it even without debug symbols. The accessor also provides a code
 reference to the data. No format guarantees that a decompiler will display it as source
-comments, or that deliberate stripping/repacking will preserve it. Instructions remain text;
-they cannot enforce how someone uses the software.
+comments, or that deliberate stripping/repacking will preserve it. Stored notes remain text;
+they do not control how someone uses the software.
 
 ## Websites and WebGL games
 
@@ -99,10 +99,10 @@ Verification confirms data recovery, not runtime reachability or decompiler pres
 
 Retained deployments use `.repel-carrier-index.json` and the private `.repel-deploy-store/`,
 just like source placement. The retained index and command output contain hashes, sizes,
-paths, and carrier types, not the embedded text. Previewing changes writes nothing; an
+paths, and storage formats, not the embedded text. Previewing changes writes nothing; an
 applied deployment refuses an existing index. Removal preflights the current file hashes
 and backup hashes before restoring exact bytes and permissions. It refuses intervening edits.
 To restore already-built executables or bundles exactly, use the
 [`--snapshot` and `deploy seal` workflow](catalog-deployment.md) before/after building;
 otherwise rebuild those separately. The comment workflow's `repel guard`/`share` commands continue to
-use their own scatter index; they do not verify retained deployments.
+use their own comment placement index; they do not verify retained deployments.

@@ -9,7 +9,7 @@ from ..payload.traffic import RetainedResponseMiddleware, TrafficArchive, upstre
 
 
 def main(argv=None):
-    parser = argparse.ArgumentParser(prog="repel traffic")
+    parser = argparse.ArgumentParser(prog="repel traffic", description="Add notes to local application responses and archive their original bytes.")
     sub = parser.add_subparsers(dest="command", required=True)
     for name in ["proxy", "enable", "disable", "list", "restore"]:
         p = sub.add_parser(name)
@@ -28,7 +28,7 @@ def main(argv=None):
             p.add_argument("--random", action="store_true")
             p.add_argument("--seed", type=int, default=0)
             p.add_argument("--max-bytes", type=int, default=2_000_000)
-            p.add_argument("--apply", action="store_true", help="enable transformations when starting; otherwise pass through")
+            p.add_argument("--apply", action="store_true", help="enable response annotations when starting; otherwise pass through")
     args = parser.parse_args(argv)
     try:
         archive = TrafficArchive(args.archive)
@@ -36,7 +36,7 @@ def main(argv=None):
             from wsgiref.simple_server import make_server
             selected = catalog.select(args.catalog, identifiers=args.id, tags=args.tag, benign=args.benign)
             if not selected:
-                raise ValueError("no catalog payloads match the selection")
+                raise ValueError("no catalog snippets match the selection")
             entries = [catalog.read(args.catalog, item["id"]) for item in selected]
             app = RetainedResponseMiddleware(upstream_application(args.upstream), archive=args.archive,
                                             entries=entries, randomize=args.random, seed=args.seed, max_bytes=args.max_bytes)

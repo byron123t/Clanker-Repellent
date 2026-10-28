@@ -1,20 +1,19 @@
 # Repel
 
-**Reproducible repository evaluation for AI coding assistants.**
+**Tracked snippets and annotations for software projects.**
 
-Repel helps researchers study how text in a repository affects an assistant's ability to complete
-ordinary coding tasks. It provides tracked test comments, static source validation, exact cleanup,
-and checkout verification for collaborators.
+Repel places project notes and source snippets in files, records their locations, and keeps the
+original bytes for removal. It supports source comments, validated source snippets, retained text
+in native and web builds, and a local dashboard for reviewing coverage and stored versions.
 
-The research includes **over-refusal**: cases where unrelated, safety-sensitive text causes an
-assistant to decline an otherwise valid task. Research conditions may contain sensitive material;
-the control example below uses ordinary project text. Background and findings are in
-[RESEARCH.md](RESEARCH.md).
+The project also supports controlled evaluation of AI coding assistants. Bundled research conditions
+may contain sensitive material; use your own project text for routine examples. Source snippets
+are code; retained notes are data. Review generated snippets before placing them in a project.
 
-The CLI calls input text a `payload` and generated source snippets `carriers`. Its comment workflow is
+Existing options call input text a `payload` and generated snippets `carriers`; the guides use **snippet**, **note**, and **annotation**. The comment workflow is
 `test text files → language-appropriate comments → indexed changes → exact removal → clean checkout verification`.
 The index contains condition IDs, hashes, selected paths, and exact insertion ranges so test text
-can be removed without searching for its strings. It contains no payload text.
+can be removed without searching for its strings. This comment index contains no snippet text.
 
 ## Install
 
@@ -74,8 +73,8 @@ The local generation tunnel uses the `REPEL_LOCAL_PORT`, `REPEL_REMOTE_PORT`, an
 ## Architecture and lifecycle
 
 Generation, insertion, verification, and removal are separate operations. The indexes are
-control metadata: they hold hashes and byte ranges rather than payload text. The share artifact
-additionally omits endpoint addresses, API keys, absolute repository paths, and payload contents.
+control metadata: they hold hashes and byte ranges rather than snippet text. The recovery journal
+stores the original and updated bytes. The share artifact omits content, credentials, and absolute paths.
 
 ```text
 test text + configured model endpoint
@@ -107,7 +106,7 @@ and outputs; they are not needed by collaborators who only verify a shared hash 
 
 ## Core repository commands
 
-Run these inside the repository you want to process. `add` automatically selects three bundled payload mixtures, uses the `replicated` strategy, places full payloads at both the head and tail of every eligible file, and performs only a dry run unless `--apply` is present.
+Run these inside the repository you want to process. Without `--payload`, `add` automatically selects three bundled research conditions, uses the `replicated` strategy, places their complete text at the start and end of every eligible file, and performs only a dry run unless `--apply` is present.
 
 ```bash
 repel add
@@ -132,7 +131,7 @@ repel remove --git-repo --apply
 repel guard --git-repo
 ```
 
-`--repo /path` changes the current target—or Git discovery when combined with `--git-repo`; `--index /private/path/index.json` overrides either default. The index contains no payload text or payload path.
+`--repo /path` changes the selected directory—or Git discovery when combined with `--git-repo`; `--index /private/path/index.json` overrides either default. The comment index contains no snippet text or input-file path.
 
 To target exactly one file, use `--file`. Relative paths resolve from the selected root; absolute paths must remain inside it:
 
@@ -150,10 +149,10 @@ The tool selects every eligible file by default and applies syntax-appropriate c
 
 Choose a topology with `--strategy`:
 
-- `replicated` places a complete assigned payload at each requested position.
+- `replicated` places a complete assigned snippet at each requested position.
 - `fragmented` adds the complete replica plus line-chunked inline copies scaled to file length.
-- `hub_spoke` line-chunks payloads in `LLMDDOS_EVAL_PAYLOAD.txt`; repository files receive only
-  comments pointing to that carrier.
+- `hub_spoke` stores snippets in line groups in `LLMDDOS_EVAL_PAYLOAD.txt`; repository files receive
+  comments pointing to that shared text file.
 
 Automatic selection is deterministic for the same `--seed` and rendered through `payloads/header.txt`. Use `--payload-count N` or pass custom test text files outside the target repository:
 
@@ -161,7 +160,7 @@ Automatic selection is deterministic for the same `--seed` and rendered through 
 repel add --payload /path/to/control-a.txt --payload /path/to/control-b.txt --strategy fragmented --apply
 ```
 
-- Repeat `--payload` for an explicit deterministic multi-payload pool.
+- Repeat `--payload` for an explicit, reproducible selection of input snippets.
 - `--repo /path/to/directory` overrides the current-directory target.
 - `--git-repo` switches from exact-directory mode to the enclosing Git root.
 - `--file path/to/file` targets one exact eligible file inside that root.
@@ -178,14 +177,14 @@ For head-and-tail full copies plus N throughout-file chunks, use:
 repel add --strategy fragmented --apply
 ```
 
-For each file, fragmented placement calculates `N = max(1, ceil(physical source lines / --inline-source-lines))`, capped by payload line count, then distributes ordered chunks across the file.
+For each file, fragmented placement calculates `N = max(1, ceil(physical source lines / --inline-source-lines))`, capped by snippet line count, then distributes ordered chunks across the file.
 
-No visible hash, wrapper marker, position label, or index metadata is inserted into repository
-files. Each payload line receives only the syntax needed for that file type.
+Added comment lines use the syntax for their file type. Hashes, positions, and index metadata
+are stored separately in the comment index.
 
 ## Removal and publication
 
-Run `remove` before returning an evaluation workspace to ordinary coding work. Removal first checks that every indexed file still has its exact post-add hash, then restores original bytes and deletes carrier/instruction files created by the tool. A partially changed workspace fails closed rather than attempting approximate string deletion.
+Run `remove` before returning an evaluation workspace to ordinary coding work. Removal first checks that every indexed file still has its exact post-add hash, then restores original bytes and deletes shared text or instruction files created by the tool. A partially changed workspace fails closed rather than attempting approximate string deletion.
 
 The command syntax is `repel remove --apply` (not `--remove`). Cleanup retains the centralized index; a later `repel add --apply` verifies it is clean and atomically replaces it. An existing payload-present, modified, aggregate, or malformed index is never replaced.
 
@@ -204,7 +203,7 @@ a commit or deployment; it does not add test content during publication.
 
 The share artifact lets an owner publish a small, reviewable record of the checkout state that
 collaborators should have before using Claude, Codex, or another coding agent. It contains only
-relative paths, presence bits, and SHA-256 values. It contains no payload text, endpoints, keys,
+relative paths, presence bits, and SHA-256 values. It contains no snippet text, endpoints, keys,
 absolute paths, or `payloads/`/`results/` data.
 
 Create it from the active scatter index after cleanup, then commit the artifact:
@@ -325,7 +324,7 @@ PYTHONPATH=src python3 scripts/interactive_inference.py
 ### Direct generation
 
 Provide one UTF-8 test text file and choose one or more target languages. The active model is
-discovered from the configured server; generation never injects into a repository or publishes automatically. There is no automatic generate-and-publish loop.
+discovered from the configured server; generation does not modify a repository or publish automatically. There is no automatic generate-and-publish loop.
 First check the available language targets and toolchains:
 
 ```bash
@@ -353,7 +352,7 @@ the standard output directory. Static validation is not a guarantee that a candi
 
 ### OpenCode generation
 
-Install the `opencode` executable separately, then use the same configuration and payload command with `--harness opencode`:
+Install the `opencode` executable separately, then use the same configuration and input file with `--harness opencode`:
 
 ```bash
 repel generate --harness opencode --benign --payload /path/to/control.txt --language python --retries 3
@@ -393,7 +392,7 @@ The first `add` is a preview; `--apply` writes the selected files only after eve
 post-image passes its host-language validation. `--run-dir` must be the generation directory
 containing `manifest.json` (for example `/path/to/control-run`), not an individual candidate file.
 Omit `--file` to target every eligible source file, and use `--allow-partial` only when intentionally deploying candidates accepted
-despite missing toolchains. The deployer matches accepted carriers to languages, preserves shebangs/encoding cookies, and
+despite missing toolchains. The deployer matches accepted snippets to languages, preserves shebangs/encoding cookies, and
 aligns Python indentation without prefixing multiline-string continuation lines. It validates the
 complete post-image with the native parser/compiler path for every supported language; unavailable
 validators fail closed during apply. Midpoint insertion tries nearby physical boundaries, while
@@ -404,12 +403,12 @@ Failed/partial candidates require explicit `--allow-partial`. Use [retained depl
 
 ## Optional evaluation harness
 
+The research includes **over-refusal**: cases where unrelated, safety-sensitive text causes an assistant to decline an otherwise valid task. See [RESEARCH.md](RESEARCH.md) for findings, protocols, and research boundaries.
+
 The older paired benchmark, pinned benign repository fixtures, condition JSONL pipeline, and
 Codex/Claude launcher remain available but are secondary; see [EVALUATION.md](EVALUATION.md).
 The `eval/` suite organizes the research-dimension experiments (guardrail configs, a shared
 offline-safe runner, and per-dimension result aggregation); see [eval/README.md](eval/README.md).
-Research results, configuration rules, generation protocol, and the ethics boundary are in
-[RESEARCH.md](RESEARCH.md).
 
 ## Safety boundary
 

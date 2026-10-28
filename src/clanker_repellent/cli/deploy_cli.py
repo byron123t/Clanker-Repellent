@@ -48,13 +48,13 @@ def build_parser() -> argparse.ArgumentParser:
         help="generation run directory containing manifest.json (not an individual source file)",
     )
     inputs.add_argument("--payload", type=Path, action="append", default=[], help="UTF-8 text to retain as data; repeat for multiple notes (requires --retain)")
-    inputs.add_argument("--catalog", type=Path, help="typed payload catalog")
-    add.add_argument("--id", action="append", default=[], help="catalog payload ID (repeatable)")
+    inputs.add_argument("--catalog", type=Path, help="snippet catalog organized by type")
+    add.add_argument("--id", action="append", default=[], help="catalog snippet ID (repeatable)")
     add.add_argument("--tag", action="append", default=[], help="required catalog tag (repeatable)")
     add.add_argument("--kind", choices=catalog.KINDS)
     add.add_argument("--language")
     add.add_argument("--document-type", choices=catalog.DOC_TYPES)
-    add.add_argument("--random", action="store_true", help="seeded random file/payload selection and safe source placement")
+    add.add_argument("--random", action="store_true", help="repeatable random selection of files, snippets, and supported source locations")
     add.add_argument("--seed", type=int, default=0)
     add.add_argument("--count", type=int, help="number of compatible target files")
     add.add_argument("--payload-count", type=int, help="retained records per file; default: one with --random, otherwise all")
@@ -82,7 +82,7 @@ def build_parser() -> argparse.ArgumentParser:
     snapshot.add_argument("--apply", action="store_true")
     inspect = subparsers.add_parser("inspect", help="show journal locations, byte offsets, and hashes")
     _target_arguments(inspect)
-    inspect.add_argument("--include-text", action="store_true", help="also decode the stored insertion strings (binary insertions use base64)")
+    inspect.add_argument("--include-text", action="store_true", help="also show stored snippets (binary content uses base64)")
     for command, help_text in (("status", "show indexed source snippet state"), ("remove", "restore original file contents exactly")):
         item = subparsers.add_parser(command, help=help_text)
         _target_arguments(item)
@@ -98,7 +98,7 @@ def run(args: argparse.Namespace) -> int:
             items = catalog.select(args.catalog, identifiers=args.id, tags=args.tag, kind=args.kind,
                                    language=args.language, document_type=args.document_type, benign=args.benign)
             if not items:
-                raise DeploymentError("no catalog payloads match the filters")
+                raise DeploymentError("no catalog snippets match the filters")
             entries = [catalog.read(args.catalog, item["id"]) for item in items]
         elif args.id or args.tag or args.kind or args.language or args.document_type:
             raise DeploymentError("type/tag/id filters require --catalog")

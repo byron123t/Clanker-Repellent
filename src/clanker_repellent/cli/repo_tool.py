@@ -266,8 +266,8 @@ def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="repel",
         description=(
-            "Repel: reproducible repository evaluation for AI coding assistants, "
-            "including over-refusal research."
+            "Repel: tracked software annotations and exact restoration, "
+            "with controlled repository evaluation."
         ),
         epilog=(
             "Common workflows:\n"
@@ -292,7 +292,7 @@ def build_parser() -> argparse.ArgumentParser:
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
     subparsers = parser.add_subparsers(dest="command", required=True)
-    subparsers.add_parser("catalog", help="manage typed, tagged payloads (repel catalog --help)", add_help=False)
+    subparsers.add_parser("catalog", help="manage snippets by type and tag (repel catalog --help)", add_help=False)
     subparsers.add_parser("traffic", help="local HTTP adapter and exact response archives (repel traffic --help)", add_help=False)
     subparsers.add_parser("dashboard", help="visualize journal coverage and retrieve snippets (repel dashboard --help)", add_help=False)
 
@@ -369,7 +369,7 @@ def build_parser() -> argparse.ArgumentParser:
     )
     _add_target_arguments(share)
     share.add_argument(
-        "--index", type=Path, help="scatter index to export; defaults to the active index"
+        "--index", type=Path, help="comment placement index to export; defaults to the active index"
     )
     share.add_argument(
         "--state",
@@ -384,7 +384,7 @@ def build_parser() -> argparse.ArgumentParser:
         "--output",
         type=Path,
         required=True,
-        help="JSON file to create for collaborators (contains hashes, never payload text)",
+        help="JSON file to create for collaborators (contains hashes, never snippet text)",
     )
 
     verify = subparsers.add_parser(
@@ -400,7 +400,7 @@ def build_parser() -> argparse.ArgumentParser:
         add_help=False,
         description=(
             "Generate one statically validated source candidate per requested language. "
-            "Use `repel generate --help` for payload, harness, retry, and toolchain options."
+            "Use `repel generate --help` for input, harness, retry, and toolchain options."
         ),
     )
     deploy = subparsers.add_parser(

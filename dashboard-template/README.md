@@ -1,4 +1,4 @@
-# Portable dashboard design template
+# Portable annotation dashboard template
 
 Move or copy **this entire directory** anywhere. It runs independently of Repel, the original
 repository, its virtual environment, and its central journal. Python 3.9+ is the only runtime
@@ -45,10 +45,10 @@ python3 -m unittest discover -s tests -v
 node --check web/app.js
 ```
 
-Populated fixtures include seven repositories, several file types, head/middle/tail
-insertions, a binary snapshot, a pending artifact, restored history, an unknown coverage
+Populated fixtures include seven repositories, several file types, start/middle/end
+placements, a binary snapshot, a pending artifact, restored history, an unknown coverage
 denominator, a 280-file inventory, and three archived responses. They contain synthetic
-examples, not copied project files, credentials, journal snapshots, or operational payloads.
+examples, not copied project files, credentials, journal snapshots, or operational snippet collections.
 The UI labels this mode **Isolated template · sample data**. `error` simulates an unavailable
 journal; `empty` returns an empty one.
 

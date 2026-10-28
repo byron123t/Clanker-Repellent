@@ -21,7 +21,7 @@ class RepositoryToolTests(unittest.TestCase):
         self.assertEqual(raised.exception.code, 0)
         help_text = output.getvalue()
         for expected in (
-            "Repel: reproducible repository evaluation",
+            "Repel: tracked software annotations",
             "repel add --apply",
             "repel generate --help",
             "repel deploy --help",

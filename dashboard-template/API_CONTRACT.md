@@ -40,7 +40,7 @@ checkout/build check. `prepared`, `removing`, and `restored` are also possible.
 `placements`, `inserted_bytes`, `after_bytes`, `density_percent`, `artifacts`, and `scope`.
 Coverage = placed files / recorded compatible files in that deployment's target scope.
 Unknown denominators produce `null`. Explicit file scopes are not full-repository coverage.
-Density = surviving inserted bytes / final bytes of placed files. Build snapshots are excluded.
+Density = added bytes still present after all recorded edits / final bytes of placed files. Build snapshots are excluded.
 
 Each file has `number`, `path`, `kind`, `role` (`placement` or `artifact`), `pending`,
 `before_bytes`, `after_bytes`, `before_sha256`, `after_sha256`, `payload_ids`, `edits`,
@@ -48,9 +48,13 @@ Each file has `number`, `path`, `kind`, `role` (`placement` or `artifact`), `pen
 
 `edits` records an insertion's `step`, pre-step byte `offset`, `inserted_bytes`,
 `removed_bytes`, insertion `sha256`, and `location_percent` in the pre-step image.
-`spans` records surviving final-image intervals: `start`, `end`, `step`, `start_percent`,
+`spans` records added byte ranges still present in the updated file: `start`, `end`, `step`, `start_percent`,
 and `width_percent`. Later edits may split or delete a span. Use spans for final byte tracks;
 use edits for insertion history. Neither array represents source line numbers.
+
+Use “snippet” or “annotation” in interface text. Existing API field names such as
+`payload_ids` and `version=insertion` are compatibility identifiers; keep them unchanged.
+Use “original file” and “updated file” for the before/after versions.
 
 Response metadata includes `id`, `request.method`, `request.path`, `status`, `content_type`,
 `created_at`, `before_sha256`, and `after_sha256`. Private response headers are not exposed.

@@ -1,4 +1,4 @@
-# Journal dashboard
+# Annotation journal dashboard
 
 The dashboard connects directly to a central `.repel-deploy-store/` (or a shared store passed
 to `deploy --store`). It reads the SQLite journal and content-addressed objects without
@@ -16,7 +16,7 @@ from the address bar and supplies it in authenticated API requests. Journal data
 `Cache-Control: no-store`; there are no external assets, analytics, or CDN dependencies.
 Keep the printed URL private. A new server process issues a new token.
 
-Try the complete UI without using an existing payload collection:
+Try the complete UI with example project notes:
 
 ```sh
 repel dashboard --demo /tmp/repel-dashboard-example --port 0 --open
@@ -30,14 +30,14 @@ artifacts. The new example directory and its journal remain available after the 
 
 ## Views
 
-- **Atlas:** interactive file cells, normalized final-image byte tracks, a selected-file
+- **Overview:** interactive file cells, byte tracks showing positions in updated files, a selected-file
   metadata inspector, searchable repository rows, latest-record totals, and activity.
   Aggregates use the latest record per repository;
   placement/byte totals include only those latest records marked applied.
-- **Deployments:** repository/state/deployment filters, file coverage, recorded insertion count,
-  inserted byte totals, a compatible-file map, and head/middle/tail distribution.
-- **Snippet explorer:** searchable file paths/types, final-image placement ranges, and an
-  inspector for each edit. Select **Load snippet** or **Load example** to read stored content.
+- **Deployments:** repository/state/deployment filters, file coverage, recorded snippet count,
+  added byte totals, a compatible-file map, and start/middle/end distribution.
+- **Snippet explorer:** searchable file paths/types, placement ranges in updated files, and an
+  inspector for each edit. Select **Load snippet**, **Load original**, or **Load updated file** to read stored content.
   Nothing is fetched automatically from the object store when the overview opens.
 - **HTTP archive:** recorded request paths/status/content types and on-demand access to the
   original entity bodies. Private response headers are not included in the overview.
@@ -54,8 +54,8 @@ while visible and supports manual refresh. It lists the latest 200 deployments/r
 up to 200 coverage tiles, and up to 400 matching file rows at a time; larger sets can be
 filtered in the file table. The complete deployment remains in the exported report.
 
-The workspace atlas renders up to 256 files per repository, labels larger inventories,
-and switches between compatible-file cells and normalized final-image byte tracks. Selecting
+The annotation map renders up to 256 files per repository, labels larger inventories,
+and switches between compatible-file cells and byte tracks showing positions in updated files. Selecting
 a cell or track shows metadata; **Open file inspector** selects that exact file in the
 deployment view. Previewing the stored content remains an explicit action.
 
@@ -78,11 +78,11 @@ Restored deployments keep their historical placement data and are labeled **Rest
 Applied/prepared records describe their journal plan; this dashboard does not assert that
 the current checkout still matches it. Use `repel deploy status`/`verify` for live file checks.
 
-Inserted data is the surviving inserted byte ranges divided by total final bytes of placed
-files. External build/packet snapshots are excluded, because a build diff is not a measure
-of embedded text. Placement bars map ranges into the final image, including ranges split
-or removed by later edits. Head/middle/tail distribution uses the insertion offset in the
-image before each edit, with thirds as boundaries; the inspector retains the exact byte offset.
+Added data counts the added bytes still present after all recorded edits. Its percentage uses
+the total bytes in updated files as the denominator. Build and packet snapshots are excluded,
+because a build diff is not a measure of snippet size. Placement bars show the added ranges
+remaining in the updated file after subsequent edits. Start/middle/end distribution uses
+each snippet's offset before its edit, divided into thirds; the inspector shows the exact offset.
 
 HTTP archives contain transformed responses, not the full request population. The dashboard
 reports archive counts and never invents a traffic-coverage denominator.

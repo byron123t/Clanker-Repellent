@@ -1,4 +1,4 @@
-"""Manage typed payload catalogs without printing payload text."""
+"""Manage snippet catalogs without printing snippet content."""
 import argparse
 import json
 import sqlite3
@@ -10,7 +10,7 @@ DEFAULT_CATALOG = Path(__file__).resolve().parents[3] / "payloads" / "catalog-v1
 
 
 def main(argv=None):
-    parser = argparse.ArgumentParser(prog="repel catalog")
+    parser = argparse.ArgumentParser(prog="repel catalog", description="Organize snippets by language, document type, and tags.")
     sub = parser.add_subparsers(dest="command", required=True)
     for name in ["init", "add", "list", "import-run"]:
         p = sub.add_parser(name)

@@ -1,7 +1,7 @@
-# Typed payloads, random deployment, and exact recovery
+# Organizing snippets, choosing placements, and restoring files
 
-The new catalog scaffold is `payloads/catalog-v1/`. It is an independent namespace;
-existing payload collections are never automatically read or migrated. Initialize its
+The default snippet catalog is `payloads/catalog-v1/`. It is separate from existing
+collections, which are not automatically read or migrated. Initialize its
 local index with `repel catalog init`, or create a separate catalog with
 `repel catalog init --catalog /path/to/new-catalog`. An initialized catalog cannot be
 overwritten. The checked-in descriptor also supports initialization on a fresh checkout.
@@ -49,10 +49,10 @@ repel catalog import-run --run-dir /tmp/control-run --prefix release-note --tag 
 ```
 
 Only passed candidates are registered. `--benign` requires benign inputs/runs and applies
-the existing conservative content checks. A catalog payload ID and a direct `--payload`
+the existing conservative content checks. A catalog snippet ID and a direct `--payload`
 input are mutually exclusive. Generated IDs use `<prefix>-<language>`.
 
-## Seeded random deployment
+## Repeatable random placement
 
 ```sh
 repel deploy add --repo ./app --catalog payloads/catalog-v1 \
@@ -62,7 +62,7 @@ repel deploy add --repo ./app --catalog payloads/catalog-v1 \
 ```
 
 `--count` selects compatible files. `--random` samples them and chooses a compatible
-payload per file, reproducibly with `--seed` (default 0). Source mode also tries shuffled
+snippet per file, reproducibly with `--seed` (default 0). Source mode also tries shuffled
 physical statement boundaries, retaining only placements whose complete host parses.
 It preserves shebangs, encoding cookies, Python docstrings/future imports, indentation,
 tabs, UTF-8 BOMs, and LF/CRLF style. Ruby/shell heredocs and Java declarations use safe
@@ -80,7 +80,7 @@ Source entries match their language, document entries match their document type,
 generic `data` entries match all supported targets. An incompatible explicit `--file`
 fails; discovery skips incompatible files. Retained mode defaults to one compatible record
 per file with `--random`, otherwise all compatible records. Repeated `--file` restricts the
-target set. It uses safe retained-data locations rather than arbitrary binary offsets.
+selected file set. It uses the supported data representation for each file format.
 Markdown, reStructuredText, and plain-text documents get escaped JSON data blocks with
 the host's newline style. See [retained representations](retained-data.md) for C/C++, JS/TS,
 HTML, and WASM. Retained mode requires a normal build and artifact verification afterwards.
@@ -96,13 +96,13 @@ their original `.preimage/` removal workflow.
 Before modifying any target, Repel persists:
 
 - Original and planned final file bytes and their SHA-256 hashes.
-- Original permissions, relative path, payload selection, and carrier information.
+- Original permissions, relative path, selected snippet IDs, and snippet format.
 - Ordered byte edits: offset in the image **before that step**, removed and inserted lengths,
   and hashes referencing the exact removed/inserted bytes.
 - A transaction state: prepared, applied, removing, or restored.
 
 Source insertion offsets are converted from Unicode positions to byte offsets. Replaying
-the recorded operations must produce the exact planned postimage. For an external build or
+the recorded operations must produce the exact planned updated file. For an external build or
 compression transform, a replacement range records the changed byte region; it does not
 claim to identify individual instructions in machine code.
 
@@ -115,14 +115,14 @@ against someone who can rewrite both the journal and its objects.
 ```sh
 repel deploy status --repo ./app
 repel deploy inspect --repo ./app                    # paths, offsets, sizes, hashes
-repel deploy inspect --repo ./app --include-text     # explicit access to insertion strings
+repel deploy inspect --repo ./app --include-text     # explicit access to stored snippet content
 repel deploy remove --repo ./app --apply
 # After an interrupted operation, or a lost index pointer:
 repel deploy recover --repo ./app --apply
 # Supply --store again if recovering a lost pointer to a shared store.
 ```
 
-Binary insertion strings use base64 in `inspect --include-text`. A preview does not modify
+Binary snippets use base64 in `inspect --include-text`. A preview does not modify
 targets. Do not delete the journal/object store until restoration is no longer needed.
 Restoration covers file bytes and permission bits; it does not recreate timestamps, extended
 attributes, hardlink relationships, or an entire build environment.
@@ -157,9 +157,9 @@ repel deploy seal --repo ./session
 repel deploy remove --repo ./session --apply
 ```
 
-The snapshot path does not parse, inject into, or replay network packets. It preserves
-their saved bytes. An existing executable is restored from its snapshot; arbitrary compiled
-payloads cannot be removed reliably without an original artifact or a reproducible rebuild.
+Snapshots preserve saved packet-capture bytes without parsing, modifying, or replaying packets.
+An existing executable is restored from its snapshot; compiled additions cannot be removed
+reliably without an original artifact or a reproducible rebuild.
 
 ## Live HTTP responses
 
@@ -188,9 +188,9 @@ uses the standard WSGI server; it is not a production gateway, WebSocket proxy, 
 interception tool.
 
 Before sending a modified response, the adapter archives the exact original entity-body
-bytes (including the original gzip stream), response status/headers, postimage, and byte edits.
+bytes (including the original gzip stream), response status/headers, updated body, and byte edits.
 It updates Content-Length, removes stale entity validators/digests, and sets `no-store`.
-If recording fails, it sends the original response. Disabling insertion affects subsequent
+If recording fails, it sends the original response. Disabling annotations affects subsequent
 responses. Restoring a record creates `body.bin` and `response.json` in a new output directory.
 Archives can contain application data and headers; keep them private.
 

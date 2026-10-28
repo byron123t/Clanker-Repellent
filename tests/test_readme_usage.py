@@ -33,7 +33,7 @@ class ReadmeUsageTests(unittest.TestCase):
             "test text files → language-appropriate comments",
             "## Try a plain-text control",
             "Without `--payload`, `add` selects bundled research conditions, which are not necessarily benign",
-            "automatically selects three bundled payload mixtures",
+            "automatically selects three bundled research conditions",
             "repel add --apply",
             "Current-directory mode is the default",
             "index at `./.anaphylaxis-index.json`",

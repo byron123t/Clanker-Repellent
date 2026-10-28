@@ -18,10 +18,10 @@ class QuietHandler(WSGIRequestHandler):
 
 
 def main(argv=None):
-    parser = argparse.ArgumentParser(prog="repel dashboard", description="Explore journal coverage, placements, and stored snippets in a local read-only dashboard.")
+    parser = argparse.ArgumentParser(prog="repel dashboard", description="Review annotation coverage, stored snippets, and saved originals in a local read-only dashboard.")
     source = parser.add_mutually_exclusive_group()
     source.add_argument("--store", type=Path, help="central journal directory (default: .repel-deploy-store)")
-    source.add_argument("--demo", type=Path, help="create a new benign demonstration directory and serve its real journal")
+    source.add_argument("--demo", type=Path, help="create an example journal using benign project notes in a new directory")
     parser.add_argument("--port", type=int, default=8765, help="loopback port; 0 chooses an available port")
     parser.add_argument("--open", action="store_true", help="open the authenticated URL in your browser")
     parser.add_argument("--assets", type=Path, help="serve an isolated frontend directory against this journal")

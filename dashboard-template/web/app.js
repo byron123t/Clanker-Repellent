@@ -7,9 +7,9 @@ const fragment = new URLSearchParams(location.hash.slice(1));
 const suppliedToken = fragment.get("token");
 if (suppliedToken) { sessionStorage.setItem("repel-token", suppliedToken); history.replaceState(null, "", location.pathname); }
 const token = sessionStorage.getItem("repel-token") || "";
-const titles = {workspace: ["Distribution atlas", "Every file. Every insertion. A clear path back to the original."], overview: ["Deployment detail", "Trace every placement back to its original bytes."],
-  snippets: ["Snippet explorer", "Find the exact insertion. Take the original example with you."],
-  traffic: ["HTTP archive", "Every recorded response, with its original bytes intact."]};
+const titles = {workspace: ["Annotation overview", "Review recorded snippets, file coverage, and saved originals."], overview: ["Deployment detail", "Review file changes and saved versions for this deployment."],
+  snippets: ["Snippet explorer", "Browse recorded snippets and download saved file versions."],
+  traffic: ["HTTP archive", "Browse saved response bodies and download the original bytes."]};
 const kindLabels = {javascript_global_data: "JavaScript", typescript: "TypeScript", javascript: "JavaScript", native_retained_string: "C / C++", html_data_block: "HTML",
   wasm_custom_section: "WASM", document_data: "Document", artifact: "Artifact"};
 const capital = (s) => s ? s[0].toUpperCase() + s.slice(1) : "—";
@@ -50,14 +50,14 @@ async function refresh() {
     const previous = state.summary;
     const summary = await api("/api/summary"); state.summary = summary; connected(true);
     if (summary.template) $("connection-state").replaceChildren(node("span", "status-dot"), document.createTextNode("Isolated template · sample data"));
-    else if (summary.demo) $("connection-state").replaceChildren(node("span", "status-dot"), document.createTextNode("Benign demo journal"));
+    else if (summary.demo) $("connection-state").replaceChildren(node("span", "status-dot"), document.createTextNode("Example journal · local data"));
     setText("store-path", summary.store); $("store-path").title = summary.store;
     setText("response-count", fmt(summary.response_count));
     setText("last-updated", `Updated ${new Date().toLocaleTimeString([], {hour: "2-digit", minute: "2-digit", second: "2-digit"})} · refreshes every 10s`);
     const repos = [...new Map(summary.deployments.map((d) => [d.repository, d.repository_name])).entries()];
     options($("repository"), [["", "All repositories"], ...repos], $("repository").value);
     updateDeploymentOptions(); renderWorkspace();
-    if (summary.errors.length) showError(`${summary.errors.length} journal record(s) failed validation and were withheld.`); else showError("");
+    if (summary.errors.length) showError(`${summary.errors.length} journal record(s) could not be validated and are not shown.`); else showError("");
     if (state.view === "traffic") await loadTraffic();
     else {
       const current = summary.deployments.find((d) => d.id === $("deployment").value);
@@ -118,13 +118,13 @@ function renderDetail() {
     if (edit.inserted_bytes) groups[edit.location_percent < 33.333 ? 0 : edit.location_percent < 66.667 ? 1 : 2]++;
   }
   const total = groups.reduce((a, b) => a + b, 0);
-  $("distribution").replaceChildren(...["Head", "Middle", "Tail"].map((label, i) => {
+  $("distribution").replaceChildren(...["Start", "Middle", "End"].map((label, i) => {
     const row = node("div", "distribution-row"), bar = node("div", "bar"), fill = node("div", "fill");
     fill.style.width = `${total ? groups[i] * 100 / total : 0}%`; bar.append(fill);
     row.append(node("span", "", label), bar, node("span", "", total ? `${Math.round(groups[i] * 100 / total)}%` : "—"));
     row.title = `${groups[i]} recorded insertion${groups[i] === 1 ? "" : "s"}`; return row;
   }));
-  setText("selection-description", detail.selection.random ? `Seeded selection · seed ${detail.selection.seed}` : "Deterministic selection · safe placement locations");
+  setText("selection-description", detail.selection.random ? `Seeded selection · seed ${detail.selection.seed}` : "Repeatable selection · supported locations");
   renderFiles(); renderInspector(); renderExample();
 }
 function allFiles() {
@@ -167,7 +167,7 @@ function renderFiles() {
     tr.append(pathCell, type, map, node("td", "align-right", row.inserted_bytes ? bytes(row.inserted_bytes) : "—")); return tr;
   }));
   if (!rows.length) { const tr = node("tr", "no-results"), td = node("td", "", "No files match this filter."); td.colSpan = 4; tr.append(td); $("files-body").append(tr); }
-  setText("table-caption", `${fmt(Math.min(rows.length, 400))} of ${fmt(rows.length)} matching files · recorded postimage ranges`);
+  setText("table-caption", `${fmt(Math.min(rows.length, 400))} of ${fmt(rows.length)} matching files · recorded ranges in updated files`);
 }
 function chooseFile(file) {
   state.file = file; state.step = 0; state.version = file.placements ? "insertion" : "before";
@@ -181,7 +181,7 @@ function clearPreview() {
 function renderInspector() {
   const file = state.file, unselected = !file || file.role === "unselected";
   setText("inspector-path", file?.path || "Choose a file");
-  setText("code-label", unselected ? "NO STORED CONTENT" : `${kindLabels[file.kind] || capital(file.kind)} / ${state.version === "before" ? "ORIGINAL" : state.version === "after" ? "POSTIMAGE" : "INSERTION"}`);
+  setText("code-label", unselected ? "NO STORED CONTENT" : `${kindLabels[file.kind] || capital(file.kind)} / ${state.version === "before" ? "ORIGINAL" : state.version === "after" ? "UPDATED FILE" : "SNIPPET"}`);
   setText("inspector-subtitle", unselected ? "No stored placement for this file." : "Exact bytes from the journal.");
   for (const button of document.querySelectorAll("[data-version]")) {
     button.classList.toggle("active", button.dataset.version === state.version);
@@ -194,7 +194,7 @@ function renderInspector() {
     : state.version === "insertion" && edit ? `${bytes(edit.inserted_bytes)} inserted at byte ${fmt(edit.offset)} · before step ${edit.step + 1}`
     : state.version === "before" ? `${bytes(file.before_bytes)} · original file before deployment` : `${bytes(file.after_bytes)} · planned final file`);
   $("load-preview").disabled = unselected || (state.version === "before" && !file.before_sha256);
-  $("load-preview").replaceChildren(document.createTextNode(state.version === "insertion" ? "Load snippet " : "Load example "), node("span", "", "↗"));
+  $("load-preview").replaceChildren(document.createTextNode(state.version === "insertion" ? "Load snippet " : state.version === "before" ? "Load original " : "Load updated file "), node("span", "", "↗"));
 }
 function previewPath(action = "preview") {
   return `/api/deployments/${state.detail.id}/${action}?${new URLSearchParams({file: state.file.number, step: state.step, version: state.version})}`;
@@ -368,7 +368,7 @@ function selectAtlasFile(detail, file) {
 }
 function renderAtlas() {
   const byteMode = state.atlasMode === "bytes";
-  setText("atlas-description", byteMode ? "Each track is a placed file, normalized to its final size. Select a track to inspect its exact bytes." : "Each cell is a compatible file. Select one to explore its recorded placement.");
+  setText("atlas-description", byteMode ? "Each track shows snippet positions within an updated file. Select one to view its record." : "Each cell represents a compatible file. Select one to view its recorded annotations.");
   setText("atlas-scale-label", byteMode ? "0% · FILE START                         100% · FILE END" : "COMPATIBLE FILES · ORDERED BY PATH");
   $("atlas-rows").classList.toggle("byte-mode", byteMode);
   let selected = null, first = null;
@@ -394,15 +394,15 @@ function renderAtlas() {
       button.addEventListener("focus", () => selectAtlasFile(detail, file));
       map.append(button);
     }
-    if (!paths.length) map.append(node("span", "atlas-empty-row", "No source placements in this record"));
+    if (!paths.length) map.append(node("span", "atlas-empty-row", "No snippet placements in this record"));
     if (paths.length > 256) map.append(node("span", "atlas-more", `+${paths.length - 256} files · inspect the full record`));
     row.append(label, map); return row;
   }));
   if (selected || first) selectAtlasFile(...(selected || first));
   else {
     state.atlasSelection = null; $("atlas-inspect").disabled = true;
-    setText("atlas-file", "No placements to inspect"); setText("atlas-repository", "Journal atlas");
-    setText("atlas-file-kind", "Apply a deployment to populate this view.");
+    setText("atlas-file", "No placements to inspect"); setText("atlas-repository", "Annotation map");
+    setText("atlas-file-kind", "Recorded snippet placements will appear here.");
     setText("atlas-glyph", "◇"); setText("atlas-file-note", "Choose a record with stored placements to inspect its content.");
     for (const field of ["atlas-before", "atlas-inserted", "atlas-count"]) setText(field, "—");
   }
