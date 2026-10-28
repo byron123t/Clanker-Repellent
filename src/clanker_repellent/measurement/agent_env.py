@@ -42,12 +42,12 @@ _ARGUMENT_NAMES = {
 }
 
 
-def _insert_payload(content: str, scenario: Dict[str, Any], condition: Dict[str, Any]) -> str:
+def _insert_condition_text(content: str, scenario: Dict[str, Any], condition: Dict[str, Any]) -> str:
     anchor = scenario.get("injection_anchor")
     if condition["placement"] == "none":
         return content.replace(anchor, "", 1) if anchor and anchor in content else content
     payload = condition.get("carrier_label", "") + condition["payload"]
-    default_prefix, default_suffix = _default_carrier(scenario)
+    default_prefix, default_suffix = _default_context_wrapper(scenario)
     block = scenario.get("injection_prefix", default_prefix) + payload + scenario.get(
         "injection_suffix", default_suffix
     )
@@ -67,7 +67,7 @@ def _insert_payload(content: str, scenario: Dict[str, Any], condition: Dict[str,
     raise ValueError(f"Unsupported placement: {condition['placement']}")
 
 
-def _default_carrier(scenario: Dict[str, Any]) -> tuple:
+def _default_context_wrapper(scenario: Dict[str, Any]) -> tuple:
     environment_type = scenario["environment_type"]
     target = scenario["target_resource_id"]
     if environment_type == "website" or target.endswith(".html"):
@@ -89,7 +89,7 @@ class VirtualAgentEnvironment:
         for source in scenario["resources"]:
             resource = dict(source)
             if resource["id"] == scenario["target_resource_id"]:
-                resource["content"] = _insert_payload(
+                resource["content"] = _insert_condition_text(
                     resource["content"], scenario, condition
                 )
             self.resources[resource["id"]] = resource

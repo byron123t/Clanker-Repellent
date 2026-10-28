@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Strip Git metadata from task repositories through the clanker_repellent CLI."""
+"""Remove Git metadata from task fixtures through the Repel evaluation CLI."""
 
 from __future__ import annotations
 

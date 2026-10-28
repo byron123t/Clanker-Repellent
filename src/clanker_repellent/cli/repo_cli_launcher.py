@@ -17,7 +17,7 @@ from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional, Sequence
 
 from ..datasets.benign_repos import BASELINE_VARIANT, load_repository_manifest
-from .cli import main as llmddos_main
+from .cli import main as evaluation_main
 from ..payload.payload_scatter import (
     DEFAULT_FILE_POSITIONS,
     DEFAULT_HUB_CHUNK_LINES,
@@ -276,7 +276,7 @@ def _prepare(
 ) -> None:
     strategies = [variant for variant in variants if variant != BASELINE_VARIANT]
     if not strategies:
-        # The preparer requires a payload strategy. Creating one unused payload arm
+        # The preparer requires a placement strategy. Creating one unused test variant
         # keeps baseline-only smoke runs compatible with the shared preparation path.
         strategies = [STRATEGIES[0]]
     arguments = [
@@ -323,7 +323,7 @@ def _prepare(
     previous_directory = Path.cwd()
     try:
         os.chdir(project_root)
-        status = llmddos_main(arguments)
+        status = evaluation_main(arguments)
     finally:
         os.chdir(previous_directory)
     if status != 0:
@@ -417,7 +417,7 @@ def build_parser(project_root: Path) -> argparse.ArgumentParser:
         nargs="?",
         const=list(INSTRUCTION_FILES),
         type=_csv,
-        help="also inject CLAUDE.md, AGENTS.md, and MEMORY.md; optionally select a CSV subset",
+        help="also place test comments in CLAUDE.md, AGENTS.md, and MEMORY.md; optionally select a CSV subset",
     )
     parser.add_argument(
         "--reset",
@@ -573,7 +573,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
                 except (OSError, RuntimeError) as exc:
                     print(f"Task Git isolation failed: {exc}", file=sys.stderr)
                     return 2
-                snapshot_root = Path(tempfile.mkdtemp(prefix="llmddos-before-"))
+                snapshot_root = Path(tempfile.mkdtemp(prefix="repel-before-"))
                 before = snapshot_root / task["repository_id"]
                 shutil.copytree(workspace, before, symlinks=True)
                 started_at = datetime.now(timezone.utc).isoformat()

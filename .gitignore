@@ -23,5 +23,10 @@ data/benign_repos/
 results/
 .repel-carrier-index.json
 .repel-carrier-index.json.preimage/
+.repel-deploy-store/
+.repel-traffic-store/
+payloads/catalog-v1/catalog.sqlite3*
+payloads/catalog-v1/objects/
+payloads/catalog-v1/entries/
 eval/results/
 .coverage

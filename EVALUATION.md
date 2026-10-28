@@ -1,7 +1,8 @@
 # Optional evaluation harness
 
-The evaluation layer compares clean and payloaded copies of pinned benign repositories. It is not
-required for the core `repel` repository tool.
+The evaluation layer compares clean copies of pinned repositories with copies containing indexed
+test text. It measures how that context affects coding tasks and refusal behavior. This optional
+workflow builds on the `repel` repository tool.
 
 ## Conditions and payload pools
 

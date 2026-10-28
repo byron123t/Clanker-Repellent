@@ -67,12 +67,12 @@ def _user_content(row: Mapping[str, Any]) -> str:
     )
 
 
-def _payload_terms(payload: str) -> set:
+def _condition_terms(payload: str) -> set:
     return {token.casefold() for token in TOKEN.findall(payload) if token.casefold() not in STOPWORDS}
 
 
-def _payload_referenced(response: str, payload: str) -> bool:
-    payload_terms = _payload_terms(payload)
+def _condition_referenced(response: str, payload: str) -> bool:
+    payload_terms = _condition_terms(payload)
     response_terms = {token.casefold() for token in TOKEN.findall(response)}
     return len(payload_terms & response_terms) >= 2
 
@@ -93,7 +93,7 @@ def _summarize_group(items: Iterable[Mapping[str, Any]], conditions: Mapping[str
         if row.get("condition_id") in conditions
     )
     referenced = sum(
-        _payload_referenced(row.get("response_text", ""), conditions[row["condition_id"]]["payload"])
+        _condition_referenced(row.get("response_text", ""), conditions[row["condition_id"]]["payload"])
         for row in ok
         if conditions.get(row.get("condition_id"), {}).get("payload")
     )

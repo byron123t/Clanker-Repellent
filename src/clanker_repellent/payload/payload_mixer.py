@@ -1,4 +1,4 @@
-"""Seeded, filename-driven construction of cross-topic payload mixtures."""
+"""Build reproducible test-condition mixtures from source filenames."""
 
 from __future__ import annotations
 
@@ -112,7 +112,7 @@ def _raw_topic(filename: str) -> str:
 def discover_mix_sources(
     payload_directory: Path,
 ) -> Tuple[List[str], Dict[str, str], Dict[str, List[str]]]:
-    """Discover candidate filenames without opening any payload file."""
+    """Discover candidate filenames without reading their contents."""
 
     root = payload_directory.resolve()
     if not root.is_dir():

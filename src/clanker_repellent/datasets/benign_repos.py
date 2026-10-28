@@ -340,7 +340,7 @@ def _read_workspace_marker(
         ) from exc
 
 
-def create_injected_workspace(
+def create_evaluation_workspace(
     repository: Dict[str, str],
     clean_root: Path,
     output_root: Path,
@@ -417,6 +417,10 @@ def create_injected_workspace(
         "clean_path": str(source),
         "workspace_path": str(destination),
     }
+
+
+# Retain the existing import name for callers using earlier versions.
+create_injected_workspace = create_evaluation_workspace
 
 
 def strip_corpus_git_metadata(

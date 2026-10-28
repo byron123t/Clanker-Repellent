@@ -1,4 +1,4 @@
-"""Strict, provenance-preserving rendering for structured payload templates."""
+"""Render structured test-text templates while preserving provenance."""
 
 from __future__ import annotations
 
@@ -9,7 +9,7 @@ from typing import Any, Dict, Mapping, Tuple
 
 
 class PayloadTemplateError(ValueError):
-    """Raised when a structured payload template is ambiguous or unsafe to load."""
+    """Raised when a test-text template is ambiguous or fails file-access checks."""
 
 
 def resolve_config_file(config_root: Path, reference: str, label: str) -> Path:

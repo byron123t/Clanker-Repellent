@@ -1,4 +1,4 @@
-"""Fail-closed cleanup and publication checks for indexed evaluation payloads."""
+"""Require exact indexed cleanup before publishing evaluation workspaces."""
 
 from __future__ import annotations
 
@@ -97,7 +97,7 @@ def resolve_scatter_index(
 def classify_indexed_repository(
     repository: Path, scatter_index: Dict[str, Any]
 ) -> Dict[str, Any]:
-    """Classify an indexed repository without searching for payload strings."""
+    """Classify an indexed repository using file hashes rather than test-text matching."""
 
     root = repository.resolve()
     if not root.is_dir():

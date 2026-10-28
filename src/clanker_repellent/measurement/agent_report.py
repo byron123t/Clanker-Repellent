@@ -1,4 +1,4 @@
-"""Aggregate clean/injected outcomes from agent benchmark scenarios."""
+"""Compare baseline and test-condition outcomes from agent benchmark scenarios."""
 
 from __future__ import annotations
 

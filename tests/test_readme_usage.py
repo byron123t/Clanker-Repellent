@@ -6,7 +6,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 class ReadmeUsageTests(unittest.TestCase):
-    def test_readme_centers_the_simple_payload_lifecycle(self):
+    def test_readme_centers_repository_evaluation_and_cleanup(self):
         readme = (ROOT / "README.md").read_text(encoding="utf-8")
         documentation = " ".join(readme.split())
         expected = (
@@ -15,7 +15,7 @@ class ReadmeUsageTests(unittest.TestCase):
             "## Architecture and lifecycle",
             "Generation, insertion, verification, and removal are separate operations",
             "repel generate --> statically validated source candidate",
-            "repel deploy --> native carrier insertion",
+            "repel deploy --> validated source insertion",
             "repel add --> syntax-aware comment insertion",
             "repel remove --apply",
             "## Core repository commands",
@@ -30,7 +30,9 @@ class ReadmeUsageTests(unittest.TestCase):
             "python3 -m pipx uninstall clanker-repellent",
             "python -m pip install -e '.[dev]'",
             "python3 -m pip install --user .",
-            "payload text files → language-appropriate comments",
+            "test text files → language-appropriate comments",
+            "## Try a plain-text control",
+            "Without `--payload`, `add` selects bundled research conditions, which are not necessarily benign",
             "automatically selects three bundled payload mixtures",
             "repel add --apply",
             "Current-directory mode is the default",
@@ -57,11 +59,11 @@ class ReadmeUsageTests(unittest.TestCase):
             "actions/checkout@v4",
             "project's `.claude/settings.json`",
             "trusted project-local `.codex/hooks.json`",
-            "## Reviewed abliterated-model drafts",
+            "## Reviewed source drafts",
             "### Direct generation",
             "repel generate --list-languages",
-            "repel generate --payload /private/payload.txt --language python --retries 3",
-            "repel generate --benign --payload /private/benign-payload.txt",
+            "repel generate --benign --payload /path/to/control.txt --language python --retries 3",
+            "repel generate --benign --payload /path/to/control.txt",
             "results/benign-generation/",
             "### OpenCode generation",
             "repel generate --harness opencode",

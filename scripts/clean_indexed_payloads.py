@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Remove an indexed evaluation payload without payload-string matching."""
+"""Restore indexed evaluation files without matching test text."""
 
 from __future__ import annotations
 

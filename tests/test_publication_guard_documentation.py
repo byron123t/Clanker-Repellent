@@ -16,17 +16,22 @@ class PublicationGuardDocumentationTests(unittest.TestCase):
             "repel remove",
             "repel guard",
             "scripts/install_publication_guard.py",
-            "without searching for their strings",
+            "without searching for its strings",
             "partially changed workspace fails closed",
             "commit, CI, static-site, frontmatter",
-            "does not automatically inject payloads during a commit",
+            "does not add test content during publication",
             "There is no automatic generate-and-publish loop",
         )
         for text in expected:
             with self.subTest(text=text):
                 self.assertIn(text, publication)
-        self.assertIn("# Clanker Repellent", readme)
-        self.assertIn("Guardrail Anaphylaxis paper/research project", readme)
+        self.assertIn("# Repel", readme)
+        self.assertIn("**over-refusal**", readme)
+        self.assertIn("[RESEARCH.md](RESEARCH.md)", readme)
+        self.assertIn(
+            "Guardrail Anaphylaxis paper/research project",
+            (ROOT / "RESEARCH.md").read_text(encoding="utf-8"),
+        )
         self.assertIn('name = "clanker-repellent"', project)
         self.assertIn('repel = "clanker_repellent.cli.repo_tool:main"', project)
         self.assertNotIn('anaphylaxis = "clanker_repellent.cli.repo_tool:main"', project)

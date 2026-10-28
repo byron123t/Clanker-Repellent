@@ -141,7 +141,7 @@ def _interactive_ssh_tunnel(
 ) -> Iterator[Dict[str, Any]]:
     """Authenticate on the controlling terminal without reading the credential in Python."""
 
-    with tempfile.TemporaryDirectory(prefix="llmddos-ssh-", dir="/tmp") as temp_dir:
+    with tempfile.TemporaryDirectory(prefix="repel-ssh-", dir="/tmp") as temp_dir:
         control_path = str(Path(temp_dir) / "control")
         command = build_interactive_ssh_command(ssh_config, missing, control_path)
         try:

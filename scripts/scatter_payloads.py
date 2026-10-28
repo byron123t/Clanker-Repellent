@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Apply one payload propagation strategy to a disposable repository."""
+"""Place test comments in a disposable repository using a selected layout."""
 
 from __future__ import annotations
 

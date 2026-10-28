@@ -48,7 +48,8 @@ reviewed native carriers), and generation is separate from both.
 `repel generate` is the bounded generation loop for language-native source
 drafts. It reads one UTF-8 payload, selects one or more requested languages, and makes exactly one
 OpenAI-compatible completion per selected language. The system message treats the payload as opaque data and forbids imports,
-includes, I/O, dynamic evaluation, subprocesses, startup hooks, and runtime effects. Each language gets
+includes, I/O, dynamic evaluation, subprocesses, startup hooks, and runtime effects. It requests a
+neutral placeholder for unsafe activity rather than an implementation. Each language gets
 one independent attempt plus up to two bounded retries by default (`--retries 0..5`); each retry
 receives the previous model response and parser/compiler/linter/formatting diagnostics, while the
 payload and language remain unchanged. The loop does not

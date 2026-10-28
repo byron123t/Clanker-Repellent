@@ -124,7 +124,7 @@ def create_hash_share(
     *,
     expected_state: str = SHARE_STATE_CURRENT,
 ) -> Dict[str, Any]:
-    """Create a portable file-state proof without reading payload contents."""
+    """Create a portable checkout hash record without reading test text."""
 
     root = repository.resolve()
     if not root.is_dir():

@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "clanker-repellent"
 version = "0.1.0"
-description = "Clanker Repellent: a controlled tool for artifact-induced LLM over-refusal research"
+description = "Repel: reproducible repository evaluation and over-refusal research for AI coding assistants"
 readme = "README.md"
 requires-python = ">=3.9"
 dependencies = ["openai>=1.50,<2", "prompt-toolkit>=3.0,<4"]

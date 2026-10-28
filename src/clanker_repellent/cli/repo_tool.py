@@ -38,7 +38,7 @@ from ..payload.hash_share import (
     verify_hash_share,
     write_hash_share,
 )
-from . import deploy_cli, generate_cli
+from . import deploy_cli, generate_cli, catalog_cli, traffic_cli
 
 
 
@@ -165,7 +165,7 @@ def _write_index_atomically(manifest: Dict, path: Path) -> None:
         temporary_path.unlink(missing_ok=True)
 
 
-def _payload_pool(repository: Path, paths: Sequence[Path]) -> List[Dict[str, str]]:
+def _load_test_text_pool(repository: Path, paths: Sequence[Path]) -> List[Dict[str, str]]:
     root = repository.resolve()
     payloads = []
     seen = set()
@@ -207,8 +207,8 @@ def _target_file(repository: Path, value: Path) -> str:
     return relative.as_posix()
 
 
-def _automatic_payload_pool(seed: int, payload_count: int) -> List[Dict[str, str]]:
-    """Select and render a deterministic pool from the bundled generated conditions."""
+def _select_bundled_conditions(seed: int, payload_count: int) -> List[Dict[str, str]]:
+    """Select and render a deterministic pool of bundled research conditions."""
 
     if payload_count < 1:
         raise ValueError("--payload-count must be at least 1")
@@ -238,9 +238,9 @@ def _automatic_payload_pool(seed: int, payload_count: int) -> List[Dict[str, str
         ).hexdigest(),
     )
     # Reuse the evaluation renderer so every selected mixture receives header.txt.
-    from .cli import _build_scatter_payload_pool
+    from .cli import _build_condition_pool
 
-    return _build_scatter_payload_pool(
+    return _build_condition_pool(
         conditions,
         ranked[0]["id"],
         payload_count,
@@ -266,19 +266,23 @@ def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="repel",
         description=(
-            "Clanker Repellent: safely deliver, generate, review, and remove authorized "
-            "repository artifacts."
+            "Repel: reproducible repository evaluation for AI coding assistants, "
+            "including over-refusal research."
         ),
         epilog=(
             "Common workflows:\n"
-            "  repel add                         Preview comment delivery\n"
-            "  repel add --apply                 Apply indexed comment delivery\n"
+            "  repel add                         Preview test comment placement\n"
+            "  repel add --apply                 Apply indexed test comments\n"
             "  repel generate --help             Generate validated source candidates\n"
             "  repel generate --harness opencode Use the isolated OpenCode harness\n"
-            "  repel deploy --help               Review or apply native carriers\n"
-            "  repel status | remove | guard     Inspect, clean, or block publication\n\n"
-            "  repel share --output .repel-hashes.json  Export hash-only collaborator proof\n"
+            "  repel deploy --help               Review or place validated source snippets\n"
+            "  repel status | remove | guard     Inspect, restore, or check a clean checkout\n\n"
+            "  repel share --output .repel-hashes.json  Export checkout hashes for collaborators\n"
             "  repel verify --hashes .repel-hashes.json Verify before enabling an agent\n\n"
+            "Control examples:\n"
+            "  Use `add --payload /path/to/control.txt` for your own plain-text control.\n"
+            "  Without --payload, add selects bundled research conditions.\n"
+            "  Use `generate --benign` for the inert source-generation contract.\n\n"
             "Configuration:\n"
             "  Endpoint addresses and credentials belong in the ignored .env or the process\n"
             "  environment. Checked-in JSON contains variable references only.\n\n"
@@ -288,34 +292,36 @@ def build_parser() -> argparse.ArgumentParser:
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
     subparsers = parser.add_subparsers(dest="command", required=True)
+    subparsers.add_parser("catalog", help="manage typed, tagged payloads (repel catalog --help)", add_help=False)
+    subparsers.add_parser("traffic", help="local HTTP adapter and exact response archives (repel traffic --help)", add_help=False)
 
-    add = subparsers.add_parser("add", help="comment-deliver payload files")
+    add = subparsers.add_parser("add", help="place test text as indexed repository comments")
     _add_target_arguments(add)
     add.add_argument(
         "--payload",
         type=Path,
         action="append",
         default=[],
-        help="override the automatic pool with a UTF-8 file; repeat for a pool",
+        help="use an explicit UTF-8 test text file instead of bundled conditions; repeat for a pool",
     )
     add.add_argument(
         "--payload-count",
         type=int,
         default=3,
-        help="number of automatically selected bundled payloads (default: 3)",
+        help="number of automatically selected bundled research conditions (default: 3)",
     )
     add.add_argument("--index", type=Path)
     add.add_argument(
         "--strategy",
         choices=STRATEGIES,
         default=STRATEGIES[0],
-        help="comment-delivery strategy (default: replicated)",
+        help="test comment placement strategy (default: replicated)",
     )
     add.add_argument(
         "--positions",
         type=_csv,
         default=list(DEFAULT_REPO_TOOL_POSITIONS),
-        help="full-payload positions (default: head,tail)",
+        help="positions for complete copies of the test text (default: head,tail)",
     )
     selection = add.add_mutually_exclusive_group()
     selection.add_argument("--count", type=int)
@@ -398,10 +404,10 @@ def build_parser() -> argparse.ArgumentParser:
     )
     deploy = subparsers.add_parser(
         "deploy",
-        help="review or apply validated native carriers (see `repel deploy --help`)",
+        help="review or place validated source snippets (see `repel deploy --help`)",
         add_help=False,
         description=(
-            "Review or apply accepted native carriers. Use `repel deploy --help` for "
+            "Review or place accepted source snippets. Use `repel deploy --help` for "
             "repository, run-directory, position, and apply options."
         ),
     )
@@ -410,6 +416,10 @@ def build_parser() -> argparse.ArgumentParser:
 
 def main(argv: Optional[Sequence[str]] = None) -> int:
     command_argv = list(sys.argv[1:] if argv is None else argv)
+    if command_argv and command_argv[0] == "catalog":
+        return catalog_cli.main(command_argv[1:])
+    if command_argv and command_argv[0] == "traffic":
+        return traffic_cli.main(command_argv[1:])
     if command_argv and command_argv[0] == "generate":
         return generate_cli.main(command_argv[1:])
     if command_argv and command_argv[0] == "deploy":
@@ -466,9 +476,9 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
                 _allow_clean_index_replacement(repository, index_path)
             automatic = not args.payload
             payloads = (
-                _automatic_payload_pool(args.seed, args.payload_count)
+                _select_bundled_conditions(args.seed, args.payload_count)
                 if automatic
-                else _payload_pool(repository, args.payload)
+                else _load_test_text_pool(repository, args.payload)
             )
             target_file = (
                 _target_file(repository, args.file) if args.file is not None else None

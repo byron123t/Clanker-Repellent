@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Source-tree entry point for inert payload-carrier generation."""
+"""Source-tree entry point for source fixture generation and validation."""
 
 import sys
 from pathlib import Path

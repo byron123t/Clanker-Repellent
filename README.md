@@ -1,17 +1,20 @@
-# Clanker Repellent
+# Repel
 
-Clanker Repellent is a small, indexed payload-delivery tool for authorized repositories. It is the
-tooling companion to the Guardrail Anaphylaxis paper/research project. Its core flow is
-`payload text files → language-appropriate comments → centralized hash/range index → exact removal → clean commit/publish guard`.
+**Reproducible repository evaluation for AI coding assistants.**
 
-Payload text is never hidden in the index. The index contains condition IDs, hashes, selected paths, and exact insertion ranges so payloads can be removed without searching for their strings.
+Repel helps researchers study how text in a repository affects an assistant's ability to complete
+ordinary coding tasks. It provides tracked test comments, static source validation, exact cleanup,
+and checkout verification for collaborators.
 
-## Disclaimer
+The research includes **over-refusal**: cases where unrelated, safety-sensitive text causes an
+assistant to decline an otherwise valid task. Research conditions may contain sensitive material;
+the control example below uses ordinary project text. Background and findings are in
+[RESEARCH.md](RESEARCH.md).
 
-I am not responsible if your account or organization loses access to OpenAI or Anthropic models due
-to exceeding biological safety or other safety guardrail usage limits. YOU ARE RESPONSIBLE FOR YOUR
-OWN AI AGENT USE AND BEHAVIOR. Please use this tool responsibly, and never commit or push Clanker
-Repellent payloads without consulting your collaborators.
+The CLI calls input text a `payload` and generated source snippets `carriers`. Its comment workflow is
+`test text files → language-appropriate comments → indexed changes → exact removal → clean checkout verification`.
+The index contains condition IDs, hashes, selected paths, and exact insertion ranges so test text
+can be removed without searching for its strings. It contains no payload text.
 
 ## Install
 
@@ -24,6 +27,7 @@ python3 -m pipx ensurepath
 python3 -m pipx install .
 ```
 
+The distribution is still named `clanker-repellent`, and the command is `repel`.
 After pulling updates, refresh the isolated install with `python3 -m pipx reinstall .`; remove it with
 `python3 -m pipx uninstall clanker-repellent`. Repository operations, source generation, and native
 deployment are subcommands of the `repel` binary. For development or test dependencies, use an editable
@@ -37,6 +41,27 @@ python -m pip install -e '.[dev]'
 
 If `pipx` is unavailable, a standard user install also works: `python3 -m pip install --user .`.
 When running directly from a source checkout without installing, use `python3 scripts/repel.py`.
+
+## Try a plain-text control
+
+This example creates a disposable directory and uses an explicit control file. It needs no model
+endpoint. The first `add` previews the change; `--apply` writes it, and `remove` restores the file.
+
+```bash
+REPEL_EXAMPLE="$(mktemp -d)"
+mkdir "$REPEL_EXAMPLE/repository"
+printf 'message = "Hello, world"\n' > "$REPEL_EXAMPLE/repository/example.py"
+printf 'Project note: examples use consistent formatting.\n' > "$REPEL_EXAMPLE/control.txt"
+
+repel add --repo "$REPEL_EXAMPLE/repository" --payload "$REPEL_EXAMPLE/control.txt" --file example.py
+repel add --repo "$REPEL_EXAMPLE/repository" --payload "$REPEL_EXAMPLE/control.txt" --file example.py --apply
+repel status --repo "$REPEL_EXAMPLE/repository"
+repel remove --repo "$REPEL_EXAMPLE/repository" --apply
+repel guard --repo "$REPEL_EXAMPLE/repository"
+```
+
+Without `--payload`, `add` selects bundled research conditions, which are not necessarily benign.
+For source-generation controls, use `repel generate --benign` as described below.
 
 ## Configuration and secret hygiene
 
@@ -53,13 +78,13 @@ control metadata: they hold hashes and byte ranges rather than payload text. The
 additionally omits endpoint addresses, API keys, absolute repository paths, and payload contents.
 
 ```text
-external payload + abliterated model endpoint
+test text + configured model endpoint
                   |
                   v
 repel generate  --> statically validated source candidate
                   |
                   v
-repel deploy     --> native carrier insertion --> .repel-carrier-index.json
+repel deploy     --> validated source insertion --> .repel-carrier-index.json
                   |                                  |
                   |                                  `--> repel deploy status/remove
                   |
@@ -67,16 +92,16 @@ repel add        --> syntax-aware comment insertion --> .anaphylaxis-index.json
                   |                                  |
                   |                                  `--> status / guard / remove --apply
                   v
-repel share      --> .repel-hashes.json (hash-only collaborator proof)
+repel share      --> .repel-hashes.json (checkout hashes for collaborators)
                   |
                   v
 repel verify     --> enable an agent only when the checkout is verified
 ```
 
 `repel generate` calls the configured inference server and validates candidates without executing
-them. `repel deploy` is the optional native-source path. `repel add` is the comment-delivery path;
+them. `repel deploy` is the optional native-source path. `repel add` is the test-comment path;
 it performs a dry run unless `--apply` is supplied. `repel remove --apply` restores the exact
-pre-add bytes or removes files the index says Repel created. Native carriers have their own
+pre-add bytes or removes files the index says Repel created. Source snippets have their own
 `repel deploy remove --apply` lifecycle. `payloads/` and `results/` are local operational inputs
 and outputs; they are not needed by collaborators who only verify a shared hash artifact.
 
@@ -86,9 +111,7 @@ Run these inside the repository you want to process. `add` automatically selects
 
 ```bash
 repel add
-
 repel add --apply
-
 repel status
 repel remove --apply
 
@@ -121,7 +144,7 @@ repel add --git-repo --file src/app.py --apply
 The file must be an eligible non-symlink text format. `--file` and `--count` are mutually exclusive.
 Later `status`, `remove`, and `guard` commands use the index, so they do not need `--file` again.
 
-## Comment delivery
+## Test comment placement
 
 The tool selects every eligible file by default and applies syntax-appropriate comments for common source, header, test, build, configuration, script, web, and documentation formats. Examples include Python, Ruby, JavaScript/TypeScript, Java, Swift, C/C++, Go, Rust, shell, HTML/CSS, Make, CMake, Docker, YAML, TOML, Markdown, reStructuredText, and many others. Binary files, symlinks, lockfiles, generated/dependency directories, and commentless structured files such as plain JSON are excluded.
 
@@ -132,10 +155,10 @@ Choose a topology with `--strategy`:
 - `hub_spoke` line-chunks payloads in `LLMDDOS_EVAL_PAYLOAD.txt`; repository files receive only
   comments pointing to that carrier.
 
-Automatic selection is deterministic for the same `--seed` and rendered through `payloads/header.txt`. Use `--payload-count N` or pass custom payload files outside the target repository:
+Automatic selection is deterministic for the same `--seed` and rendered through `payloads/header.txt`. Use `--payload-count N` or pass custom test text files outside the target repository:
 
 ```bash
-repel add --payload /private/a.txt --payload /private/b.txt --strategy fragmented --apply
+repel add --payload /path/to/control-a.txt --payload /path/to/control-b.txt --strategy fragmented --apply
 ```
 
 - Repeat `--payload` for an explicit deterministic multi-payload pool.
@@ -155,14 +178,14 @@ For head-and-tail full copies plus N throughout-file chunks, use:
 repel add --strategy fragmented --apply
 ```
 
-For each file, fragmented delivery calculates `N = max(1, ceil(physical source lines / --inline-source-lines))`, capped by payload line count, then distributes ordered chunks across the file.
+For each file, fragmented placement calculates `N = max(1, ceil(physical source lines / --inline-source-lines))`, capped by payload line count, then distributes ordered chunks across the file.
 
 No visible hash, wrapper marker, position label, or index metadata is inserted into repository
 files. Each payload line receives only the syntax needed for that file type.
 
 ## Removal and publication
 
-Run `remove` before opening an ordinary coding agent on a payloaded workspace. Removal first checks that every indexed file still has its exact post-add hash, then restores original bytes and deletes carrier/instruction files created by the tool. A partially changed workspace fails closed rather than attempting approximate string deletion.
+Run `remove` before returning an evaluation workspace to ordinary coding work. Removal first checks that every indexed file still has its exact post-add hash, then restores original bytes and deletes carrier/instruction files created by the tool. A partially changed workspace fails closed rather than attempting approximate string deletion.
 
 The command syntax is `repel remove --apply` (not `--remove`). Cleanup retains the centralized index; a later `repel add --apply` verifies it is clean and atomically replaces it. An existing payload-present, modified, aggregate, or malformed index is never replaced.
 
@@ -174,12 +197,12 @@ Legacy sibling indexes such as `../.multiagent.guardrail-index.json` are still d
 python3 scripts/install_publication_guard.py --repository /path/to/repo --scatter-manifest /path/to/index.json
 ```
 
-Publication automation is cleanup/block-only: Clanker Repellent does not automatically inject
-payloads during a commit or deployment.
+Publication automation is cleanup/block-only: Repel checks or removes indexed test content before
+a commit or deployment; it does not add test content during publication.
 
 ## Share hashes before enabling collaborators' agents
 
-The share artifact lets an owner publish a small, reviewable proof of the checkout state that
+The share artifact lets an owner publish a small, reviewable record of the checkout state that
 collaborators should have before using Claude, Codex, or another coding agent. It contains only
 relative paths, presence bits, and SHA-256 values. It contains no payload text, endpoints, keys,
 absolute paths, or `payloads/`/`results/` data.
@@ -210,14 +233,6 @@ state transition; the artifact is a state gate, not a cryptographic signature or
 reviewing the commit that contains it.
 
 ## Git, GitHub, Claude, and Codex hooks
-
-The existing publication installer protects the local indexed workspace before commits:
-
-```bash
-python3 scripts/install_publication_guard.py \
-  --repository /path/to/repo \
-  --scatter-manifest /path/to/index.json
-```
 
 For a portable collaborator gate, add this command to the repository's pre-commit hook before its
 existing checks:
@@ -294,7 +309,7 @@ project. Hook commands run for Bash and file-edit tools, so a changed checkout i
 the next agent operation. Disable or remove this gate only for an explicitly authorized test
 workspace, then restore and verify the clean share artifact before normal agent use.
 
-## Reviewed abliterated-model drafts
+## Reviewed source drafts
 
 The default inference configuration is the direct OpenAI-compatible endpoint in
 `configs/abliterated-remote.json`. Set `GUARDRAIL_BASE_URL` and `GUARDRAIL_API_KEY` in the ignored
@@ -309,7 +324,7 @@ PYTHONPATH=src python3 scripts/interactive_inference.py
 
 ### Direct generation
 
-Provide one UTF-8 payload file and choose one or more target languages. The active model is
+Provide one UTF-8 test text file and choose one or more target languages. The active model is
 discovered from the configured server; generation never injects into a repository or publishes automatically. There is no automatic generate-and-publish loop.
 First check the available language targets and toolchains:
 
@@ -318,31 +333,34 @@ repel generate --list-languages
 repel generate --list-toolchains
 ```
 
-Run the default direct OpenAI-compatible harness for one language, or repeat `--language` for several:
+Start with the benign control mode for one language, or repeat `--language` for several:
 
 ```bash
-repel generate --payload /private/payload.txt --language python --retries 3
-repel generate --payload /private/payload.txt --language python --language rust --retries 3
+repel generate --benign --payload /path/to/control.txt --language python --retries 3
+repel generate --benign --payload /path/to/control.txt --language python --language rust --retries 3
 ```
 
-For a purely benign control/debug run, add `--benign`. It uses an inert contract, rejects common
+The `--benign` mode uses an inert contract, rejects common
 side-effect and harmful-content patterns, and stores the run under `results/benign-generation/`;
 generated source is never executed, but the conservative policy does not replace review:
 
 ```bash
-repel generate --benign --payload /private/benign-payload.txt --language python --output-dir /private/benign-repel-run
+repel generate --benign --payload /path/to/control.txt --language python --output-dir /path/to/control-run
 ```
+
+Both modes request inert fixtures. Omitting `--benign` skips its additional content checks and uses
+the standard output directory. Static validation is not a guarantee that a candidate is harmless.
 
 ### OpenCode generation
 
 Install the `opencode` executable separately, then use the same configuration and payload command with `--harness opencode`:
 
 ```bash
-repel generate --harness opencode --payload /private/payload.txt --language python --retries 3
+repel generate --harness opencode --benign --payload /path/to/control.txt --language python --retries 3
 ```
 
 OpenCode runs in an isolated temporary workspace with its own runtime configuration, then the candidate goes through
-the same parser/compiler/linter checks. Add `--benign` for the inert control contract. Use `--opencode-bin PATH`
+the same parser/compiler/linter checks. The example uses the inert control contract. Use `--opencode-bin PATH`
 when the executable is not on `PATH`; use `--opencode-timeout SECONDS` to change its per-attempt limit.
 
 Each response must contain exactly one fenced source block. Every attempt prints its local LLM request and response, then parses/compiles/linters in a temporary directory. Failed retries receive the prior response plus parser/compiler/linter/formatting diagnostics. Generated source is never executed; review
@@ -353,36 +371,36 @@ Use `--language`, `--list-languages`, `--list-toolchains`, `--keep-raw-responses
 `model` field is recorded as `resolved_model`. Protocol details are in [RESEARCH.md](RESEARCH.md).
 The OpenCode harness uses isolated temporary state and enables its formatter, LSP integration, and shell tool. Subagents, built-in web tools, and external-directory tool access remain denied. The agent is told not to make network requests, but a general shell is an agent-policy boundary rather than an OS network sandbox; OpenCode may also download a missing language server. Its candidate still passes through the authoritative parser/compiler/linter checks.
 
-## Native carrier deployment (optional)
+## Source snippet placement (optional)
 
-Generation and deployment are separate, reviewable steps. To deploy accepted native carriers into a
-real authorized repository, run a dry run first, then apply it explicitly:
+Generation and placement are separate, reviewable steps. To place accepted source snippets into a
+disposable evaluation repository, run a dry run first, then apply it explicitly:
 
 ```bash
 repel deploy add \
-  --repo /path/to/real-repo \
-  --run-dir /path/to/project/results/source-generation/<payload-name>
+  --repo /path/to/example-repo \
+  --run-dir /path/to/control-run
 repel deploy add \
-  --repo /path/to/real-repo \
-  --run-dir /path/to/project/results/source-generation/<payload-name> \
+  --repo /path/to/example-repo \
+  --run-dir /path/to/control-run \
   --file src/app.py --positions head,mid,tail --apply
-repel deploy status --repo /path/to/real-repo
-repel deploy remove --repo /path/to/real-repo
-repel deploy remove --repo /path/to/real-repo --apply
+repel deploy status --repo /path/to/example-repo
+repel deploy remove --repo /path/to/example-repo
+repel deploy remove --repo /path/to/example-repo --apply
 ```
 
 The first `add` is a preview; `--apply` writes the selected files only after every matching
 post-image passes its host-language validation. `--run-dir` must be the generation directory
-containing `manifest.json` (for example `.../bio_header1`), not an individual candidate file.
+containing `manifest.json` (for example `/path/to/control-run`), not an individual candidate file.
 Omit `--file` to target every eligible source file, and use `--allow-partial` only when intentionally deploying candidates accepted
 despite missing toolchains. The deployer matches accepted carriers to languages, preserves shebangs/encoding cookies, and
 aligns Python indentation without prefixing multiline-string continuation lines. It validates the
 complete post-image with the native parser/compiler path for every supported language; unavailable
 validators fail closed during apply. Midpoint insertion tries nearby physical boundaries, while
 Bash/Ruby heredocs and Java top-level declarations stay at safe file scope. Applied changes use
-ignored `.repel-carrier-index.json` and `.preimage/`, record each exact inserted string with its
+ignored `.repel-carrier-index.json` and a private `.repel-deploy-store/`, record each exact inserted string with its
 hash and byte count, require unchanged pre- and post-deployment hashes, and restore exact bytes.
-Failed/partial candidates require explicit `--allow-partial`.
+Failed/partial candidates require explicit `--allow-partial`. Use [retained deployment](docs/retained-data.md) for compiled/web artifacts, and [typed catalogs, random placement, recovery snapshots, and live HTTP](docs/catalog-deployment.md) for the extended workflow.
 
 ## Optional evaluation harness
 

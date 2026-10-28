@@ -1,4 +1,4 @@
-"""Deterministically scatter marked payload text through disposable repositories."""
+"""Place reproducible test comments in disposable repositories with indexed removal."""
 
 from __future__ import annotations
 
@@ -419,7 +419,7 @@ def _insert_blocks_with_locations(
 
 
 def _scaled_inline_offsets(raw: bytes, count: int) -> Dict[str, int]:
-    """Return evenly spaced line-boundary offsets for inline payload chunks."""
+    """Return evenly spaced line-boundary offsets for inline test-text chunks."""
 
     text = raw.decode("utf-8")
     lines = text.splitlines(keepends=True)
@@ -562,7 +562,7 @@ def _split_payload(payload: str, count: int) -> List[str]:
 
 
 def _split_payload_lines(payload: str, count: int) -> List[str]:
-    """Split a payload into exact, non-empty chunks at physical line boundaries."""
+    """Split test text into exact, non-empty chunks at physical line boundaries."""
 
     lines = payload.splitlines(keepends=True)
     count = min(count, len(lines))
@@ -620,7 +620,7 @@ def _hub_carrier(payload: str, payload_sha256: str) -> bytes:
 def _hub_carrier_pool(
     payloads: List[Dict[str, str]], chunk_lines: int
 ) -> Tuple[bytes, List[Dict[str, Any]]]:
-    """Build one external carrier from payload chunks split only at line boundaries."""
+    """Build one shared text file from chunks split only at line boundaries."""
 
     output = bytearray()
     locations = []

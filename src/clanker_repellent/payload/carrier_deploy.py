@@ -1,6 +1,6 @@
-"""Safely place validated language-native carriers in a repository.
+"""Place validated source snippets in a repository with indexed restoration.
 
-This module is deliberately separate from :mod:`payload_scatter`.  The latter delivers
+This module is deliberately separate from :mod:`payload_scatter`.  The latter places
 opaque text as comments; this module consumes *already accepted* candidates from a source
 generation run and places source syntax at statement boundaries.  Nothing here executes a
 candidate.  Every applied change is recorded in a private, hash-based index so removal can
@@ -15,6 +15,7 @@ import io
 import json
 import os
 import re
+import random
 import shutil
 import stat
 import subprocess
@@ -52,6 +53,9 @@ EXCLUDED_DIRECTORIES = {
     "target",
     "vendor",
     "results",
+    "payloads",
+    ".repel-deploy-store",
+    ".repel-traffic-store",
 }
 
 
@@ -65,7 +69,7 @@ class Carrier:
 
 
 class DeploymentError(ValueError):
-    """Raised when a carrier cannot be placed without risking a bad write."""
+    """Raised when a source snippet fails placement or validation checks."""
 
 
 def _sha256_bytes(value: bytes) -> str:
@@ -103,7 +107,7 @@ def load_accepted_carriers(run_dir: Path, *, allow_partial: bool = False) -> Lis
     if not root.is_dir():
         raise DeploymentError(f"generation run directory does not exist: {root}")
     manifest_path = root / "manifest.json"
-    if not manifest_path.is_file():
+    if manifest_path.is_symlink() or not manifest_path.is_file():
         raise DeploymentError(f"--run-dir must contain manifest.json: {root}")
     document = _read_json(manifest_path)
     if document.get("kind") != "repel_source_generation":
@@ -130,7 +134,7 @@ def load_accepted_carriers(run_dir: Path, *, allow_partial: bool = False) -> Lis
         relative = Path(candidate["relative_path"])
         if relative.is_absolute() or ".." in relative.parts:
             raise DeploymentError(f"candidate path leaves generation directory: {candidate_id}")
-        source_path = (root / relative).resolve()
+        source_path = _indexed_target(root, relative.as_posix())
         try:
             source_path.relative_to(root)
         except ValueError as exc:
@@ -166,13 +170,13 @@ def load_accepted_carriers(run_dir: Path, *, allow_partial: bool = False) -> Lis
 
 
 def detect_language(path: Path, source: str = "") -> Optional[str]:
-    """Return the native carrier language for a source path, including common shebangs."""
+    """Return the source language for a path, including common shebangs."""
 
     suffix = path.suffix.casefold()
     matches = [language for language, extensions in SOURCE_EXTENSIONS.items() if suffix in extensions]
     if matches:
         # Header files are intentionally treated as C++ only when their spelling makes that
-        # clear; otherwise C is the least surprising standalone carrier dialect.
+    # clear; otherwise use C for standalone snippet validation.
         if suffix in {".hh", ".hpp", ".hxx"}:
             return "cpp"
         return matches[0]
@@ -245,7 +249,7 @@ def _multiline_literal_lines(source: str, language: str) -> set[int]:
     """Find continuation lines of common native multiline literal forms.
 
     These are lexical spans only; no generated source is evaluated.  Preserving continuation
-    lines keeps a payload's literal value stable when a carrier is nested in a function, class,
+    lines keeps literal values stable when a snippet is nested in a function, class,
     namespace, or conditional block.
     """
 
@@ -281,10 +285,10 @@ def _multiline_literal_lines(source: str, language: str) -> set[int]:
 
 
 def align_carrier(source: str, language: str, indent: str, newline: str = "\n") -> str:
-    """Indent a carrier for a statement boundary while preserving literal payload bytes.
+    """Indent a snippet for a statement boundary while preserving literal bytes.
 
     Python is the special case: continuation lines inside a triple-quoted string are not
-    prefixed, so placing a carrier inside a function does not silently change the payload's
+    prefixed, so placing a snippet inside a function does not silently change its
     literal contents.  Bash heredocs and Ruby heredocs are kept top-level by the deployment
     planner because their terminators are column-sensitive.
     """
@@ -301,8 +305,8 @@ def align_carrier(source: str, language: str, indent: str, newline: str = "\n") 
     return newline.join(output) + newline
 
 
-def _disambiguate_carrier(source: str, language: str, ordinal: int) -> str:
-    """Give repeated placements distinct declaration names without touching literal payloads."""
+def _disambiguate_snippet(source: str, language: str, ordinal: int) -> str:
+    """Give repeated placements distinct declaration names without changing literal values."""
 
     if ordinal == 0:
         return source
@@ -354,11 +358,11 @@ def _prologue_line(source: str) -> int:
     if lines and lines[0].startswith("#!"):
         line = 1
     # Preserve Python's encoding cookie and common license/shebang prologues.  A cookie is only
-    # meaningful on the first two physical lines, so do not move it below the carrier.
+    # meaningful on the first two physical lines, so do not move it below the snippet.
     for candidate in range(line, min(len(lines), 2)):
         if re.match(r"\s*#.*coding[:=]\s*[-\w.]+", lines[candidate]):
             line = candidate + 1
-    # A Python carrier before a future import makes the host file invalid.  Module docstrings
+    # A Python snippet before a future import makes the host file invalid.  Module docstrings
     # and future imports are the only AST constructs that must precede ordinary statements, so
     # advance the insertion point past them while retaining all original bytes.
     try:
@@ -444,7 +448,7 @@ def _offset_for_position(source: str, position: str, language: str = "") -> int:
 
 
 def _insertion_text(source: str, offset: int, carrier: str, newline: str) -> str:
-    body = carrier.replace("\n", newline)
+    body = carrier.replace("\r\n", "\n").replace("\r", "\n").replace("\n", newline)
     if not body.endswith(newline):
         body += newline
     leading = "" if offset == 0 or source[:offset].endswith(("\n", "\r")) else newline
@@ -482,7 +486,7 @@ def _validate_host_source(path: Path, language: str, source: str, timeout: float
     executable = next((shutil.which(item) for item in tools if shutil.which(item)), None)
     if executable is None:
         return {"status": "unavailable", "tool": tools[0]}
-    with tempfile.TemporaryDirectory(prefix="anaphylaxis-host-check-") as directory:
+    with tempfile.TemporaryDirectory(prefix="repel-host-check-") as directory:
         workdir = Path(directory)
         temporary = workdir / path.name
         temporary.write_text(source, encoding="utf-8")
@@ -506,9 +510,18 @@ def _validate_host_source(path: Path, language: str, source: str, timeout: float
         return {"status": "passed" if passed else "failed", "tool": Path(executable).name, "diagnostic": diagnostic if not passed else ""}
 
 
-def _placement_candidates(source: str, position: str, language: str) -> Iterable[Tuple[int, str]]:
+def _placement_candidates(source: str, position: str, language: str, rng=None) -> Iterable[Tuple[int, str]]:
     """Yield the requested placement and nearby physical statement boundaries."""
 
+    if position == "random":
+        offsets = _line_starts(source)
+        # Preserve shebangs, coding cookies, module docstrings and import prologues.
+        prologue = _offset_for_position(source, "head", language)
+        offsets = [offset for offset in offsets if offset >= prologue]
+        (rng or random.Random(0)).shuffle(offsets)
+        for offset in offsets[:128]:
+            yield offset, _indent_at(source, offset, language)
+        return
     preferred = _offset_for_position(source, position, language)
     yield preferred, _indent_at(source, preferred, language) if position == "mid" else ""
     if position != "mid":
@@ -524,12 +537,17 @@ def _placement_candidates(source: str, position: str, language: str) -> Iterable
                 yield offset, _indent_at(source, offset, language)
 
 
-def inject_file(source: str, carrier: Carrier, positions: Sequence[str], path: Path) -> Tuple[str, List[Dict[str, Any]], Dict[str, Any]]:
+def place_source_snippet(source: str, carrier: Carrier, positions: Sequence[str], path: Path, *, rng=None) -> Tuple[str, List[Dict[str, Any]], Dict[str, Any]]:
     """Create one candidate post-image, refusing a syntactically unsafe placement."""
 
+    if source.startswith("\ufeff"):
+        updated, records, report = place_source_snippet(source[1:], carrier, positions, path, rng=rng)
+        for record in records:
+            record["offset"] += 1
+        return "\ufeff" + updated, records, report
     newline = _newline_for(source)
     requested = list(dict.fromkeys(positions))
-    if any(position not in POSITIONS for position in requested):
+    if any(position not in (*POSITIONS, "random") for position in requested):
         raise DeploymentError("positions must be chosen from head, mid, tail")
     if not requested:
         raise DeploymentError("at least one position is required")
@@ -544,15 +562,17 @@ def inject_file(source: str, carrier: Carrier, positions: Sequence[str], path: P
             ast.parse(source, filename=str(path))
         except SyntaxError as exc:
             raise DeploymentError(f"refusing invalid existing Python file: {path}: {exc}") from exc
-    # Heredoc terminators are column-sensitive.  Keep those carriers at file scope instead of
+    # Heredoc terminators are column-sensitive.  Keep those snippets at file scope instead of
     # guessing whether the surrounding function uses an indentation-aware delimiter.
     safe_positions = requested
+    if language in {"bash", "ruby", "java"} and "random" in safe_positions:
+        safe_positions = [(rng or random.Random(0)).choice(["head", "tail"]) if p == "random" else p for p in safe_positions]
     if language == "bash" and "mid" in safe_positions:
         safe_positions = [item for item in safe_positions if item != "mid"]
     if language == "ruby" and "mid" in safe_positions:
         safe_positions = [item for item in safe_positions if item != "mid"]
     if language == "java" and "mid" in safe_positions:
-        # A top-level carrier class cannot safely be placed inside an arbitrary Java method.
+        # A top-level class declaration cannot be placed inside an arbitrary Java method.
         safe_positions = [item for item in safe_positions if item != "mid"]
     if not safe_positions:
         raise DeploymentError(f"no safe requested position for {language} in {path}")
@@ -563,9 +583,9 @@ def inject_file(source: str, carrier: Carrier, positions: Sequence[str], path: P
     for position in safe_positions:
         accepted: Optional[Tuple[str, int, str, str]] = None
         last_report: Dict[str, Any] = {}
-        for offset, indent in _placement_candidates(current, position, language):
+        for offset, indent in _placement_candidates(current, position, language, rng):
             aligned = align_carrier(
-                _disambiguate_carrier(carrier_source, language, len(records)),
+                _disambiguate_snippet(carrier_source, language, len(records)),
                 language,
                 indent,
                 newline,
@@ -595,6 +615,10 @@ def inject_file(source: str, carrier: Carrier, positions: Sequence[str], path: P
     return current, records, {"language": language, "positions": safe_positions}
 
 
+# Retain the existing import name for callers using earlier versions.
+inject_file = place_source_snippet
+
+
 def _atomic_write(path: Path, data: bytes, *, mode: Optional[int] = None) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     descriptor, temporary_name = tempfile.mkstemp(prefix=f".{path.name}.", dir=path.parent)
@@ -614,11 +638,16 @@ def _atomic_json(path: Path, document: Dict[str, Any]) -> None:
 
 
 def _indexed_target(root: Path, value: Any) -> Path:
-    if not isinstance(value, str):
+    if not isinstance(value, str) or not value:
         raise DeploymentError("deployment index contains a non-string path")
     relative = Path(value)
-    if relative.is_absolute() or ".." in relative.parts:
+    if relative.is_absolute() or ".." in relative.parts or relative == Path("."):
         raise DeploymentError(f"deployment index path leaves repository: {value}")
+    current = root
+    for part in relative.parts:
+        current = current / part
+        if current.is_symlink():
+            raise DeploymentError(f"deployment path cannot contain symlinks: {value}")
     path = (root / relative).resolve()
     try:
         path.relative_to(root)
@@ -627,35 +656,61 @@ def _indexed_target(root: Path, value: Any) -> Path:
     return path
 
 
+def apply_deployment_plan(root: Path, index: Path, manifest: Dict[str, Any], updates: Dict[str, bytes], *, store_path=None, snapshots=()) -> None:
+    """Commit through the durable content-addressed deployment journal."""
+    from .deployment_store import apply_plan
+    try:
+        apply_plan(root, index, manifest, updates, store_path=store_path, snapshots=snapshots)
+    except ValueError as exc:
+        raise DeploymentError(str(exc)) from exc
+
+
 def deploy_carriers(
     *,
-    run_dir: Path,
+    run_dir: Optional[Path] = None,
     repository: Path,
     positions: Sequence[str] = ("head", "mid", "tail"),
     target_file: Optional[Path] = None,
     apply: bool = False,
     allow_partial: bool = False,
     index_path: Optional[Path] = None,
+    carriers: Optional[Sequence[Carrier]] = None,
+    randomize: bool = False,
+    seed: int = 0,
+    count: Optional[int] = None,
+    store_path: Optional[Path] = None,
+    snapshots: Sequence[Path] = (),
 ) -> Dict[str, Any]:
-    """Plan or apply native carrier injections for a current-directory repository."""
+    """Plan or apply indexed source snippet placement in a repository."""
 
     root = repository.resolve()
     if not root.is_dir():
         raise DeploymentError(f"repository is not a directory: {root}")
-    carriers = load_accepted_carriers(run_dir, allow_partial=allow_partial)
-    by_language = {carrier.language: carrier for carrier in carriers}
+    if carriers is None:
+        if run_dir is None:
+            raise DeploymentError("source deployment requires --run-dir or a source catalog")
+        carriers = load_accepted_carriers(run_dir, allow_partial=allow_partial)
+    by_language = {}
+    for carrier in carriers:
+        by_language.setdefault(carrier.language, []).append(carrier)
+    rng = random.Random(seed)
     if target_file is not None:
         candidate = target_file if target_file.is_absolute() else root / target_file
-        candidate = candidate.resolve()
         try:
-            candidate.relative_to(root)
+            relative = candidate.relative_to(root)
         except ValueError as exc:
             raise DeploymentError(f"target file must be inside repository: {target_file}") from exc
+        candidate = _indexed_target(root, relative.as_posix())
         if not _is_candidate_file(candidate, root):
             raise DeploymentError(f"target file is not an eligible UTF-8 source file: {candidate}")
         files = [candidate]
     else:
         files = eligible_source_files(root)
+    files = [p for p in files if detect_language(p, p.read_text(encoding="utf-8")) in by_language]
+    if count is not None:
+        if count < 1 or count > len(files):
+            raise DeploymentError("--count exceeds the compatible files or is not positive")
+        files = sorted(rng.sample(files, count)) if randomize else files[:count]
     if not files:
         raise DeploymentError("no eligible source files found")
     planned: List[Dict[str, Any]] = []
@@ -665,13 +720,14 @@ def deploy_carriers(
         raw = path.read_bytes()
         text = raw.decode("utf-8")
         language = detect_language(path, text)
-        carrier = by_language.get(language or "")
+        choices = by_language.get(language or "", [])
+        carrier = (rng.choice(choices) if randomize else choices[0]) if choices else None
         relative = path.relative_to(root).as_posix()
         if carrier is None:
             skipped.append({"path": relative, "reason": f"no accepted {language or 'matching'} carrier"})
             continue
         try:
-            updated, placements, _ = inject_file(text, carrier, positions, path)
+            updated, placements, _ = place_source_snippet(text, carrier, positions, path, rng=rng)
         except DeploymentError as exc:
             skipped.append({"path": relative, "reason": str(exc)})
             integration_failures.append(relative)
@@ -708,7 +764,8 @@ def deploy_carriers(
         "schema_version": 1,
         "kind": "repel_carrier_deployment",
         "repository_root": str(root),
-        "run_dir": str(run_dir.resolve()),
+        "run_dir": str(run_dir.resolve()) if run_dir else None,
+        "selection": {"random": randomize, "seed": seed, "count": count},
         "positions_requested": list(positions),
         "allow_partial": allow_partial,
         "files": [
@@ -720,42 +777,14 @@ def deploy_carriers(
         "status": "planned" if not apply else "applied",
     }
     if apply:
-        if index.exists() or index.is_symlink():
-            raise DeploymentError(f"deployment index already exists; remove it first: {index}")
-        preimage_root = index.with_name(index.name + ".preimage")
-        if preimage_root.exists() or preimage_root.is_symlink():
-            raise DeploymentError(f"preimage directory already exists; remove it first: {preimage_root}")
-        preimage_root.mkdir(parents=True, mode=0o700)
-        try:
-            for record in planned:
-                path = root / record["path"]
-                current = path.read_bytes()
-                if _sha256_bytes(current) != record["before_sha256"]:
-                    raise DeploymentError(f"file changed during planning: {path}")
-                backup = preimage_root / record["path"]
-                backup.parent.mkdir(parents=True, exist_ok=True)
-                _atomic_write(backup, current)
-                _atomic_write(
-                    path,
-                    record.pop("_updated").encode("utf-8"),
-                    mode=int(record.get("mode", stat.S_IMODE(path.stat().st_mode))),
-                )
-            _atomic_json(index, manifest)
-        except Exception:
-            # Do not leave a partially applied native deployment if its audit index cannot be
-            # written.  Restore from the private preimages before surfacing the error.
-            for record in planned:
-                path = root / record["path"]
-                backup = preimage_root / record["path"]
-                if backup.is_file():
-                    _atomic_write(path, backup.read_bytes(), mode=int(record.get("mode", 0o600)))
-            shutil.rmtree(preimage_root, ignore_errors=True)
-            raise
+        apply_deployment_plan(root, index, manifest, {
+            row["path"]: row["_updated"].encode("utf-8") for row in planned
+        }, store_path=store_path, snapshots=snapshots)
     return {**manifest, "index": str(index), "dry_run": not apply}
 
 
 def remove_deployment(*, repository: Path, index_path: Optional[Path] = None, apply: bool = False) -> Dict[str, Any]:
-    """Restore files from a native-carrier index, failing closed on intervening edits."""
+    """Restore files from a source placement index, refusing intervening edits."""
 
     root = repository.resolve()
     requested_index = index_path or (root / INDEX_FILENAME)
@@ -763,6 +792,12 @@ def remove_deployment(*, repository: Path, index_path: Optional[Path] = None, ap
         raise DeploymentError(f"deployment index cannot be a symlink: {requested_index}")
     index = requested_index.resolve()
     document = _read_json(index)
+    if document.get("schema_version") == 2:
+        from .deployment_store import restore
+        try:
+            return restore(root, index, apply=apply)
+        except ValueError as exc:
+            raise DeploymentError(str(exc)) from exc
     if document.get("kind") != "repel_carrier_deployment" or document.get("repository_root") != str(root):
         raise DeploymentError(f"index does not belong to this repository: {index}")
     rows = document.get("files")
@@ -779,17 +814,23 @@ def remove_deployment(*, repository: Path, index_path: Optional[Path] = None, ap
         raise DeploymentError("indexed files changed after deployment; refusing approximate removal")
     if apply:
         preimage_root = index.with_name(index.name + ".preimage")
+        if preimage_root.is_symlink():
+            raise DeploymentError("preimage directory cannot be a symlink")
+        backups = {}
         for row in rows:
-            backup = preimage_root / row["path"]
-            if not backup.is_file() or backup.is_symlink():
-                raise DeploymentError(f"missing preimage backup for {row['path']}: {backup}")
+            backup = _indexed_target(preimage_root, row["path"])
+            if not backup.is_file():
+                raise DeploymentError(f"missing preimage backup for {row['path']}")
+            original = backup.read_bytes()
+            if _sha256_bytes(original) != row.get("before_sha256"):
+                raise DeploymentError(f"preimage hash changed for {row['path']}")
+            backups[row["path"]] = original
         for row in rows:
             path = _indexed_target(root, row["path"])
             # The original bytes are intentionally represented by a reversible patch-free
             # operation: deployment indexes store the preimage hash only, so restore requires a
             # clean Git checkout or the explicit backup created below.
-            backup = preimage_root / row["path"]
-            _atomic_write(path, backup.read_bytes(), mode=int(row.get("mode", stat.S_IMODE(path.stat().st_mode))))
+            _atomic_write(path, backups[row["path"]], mode=int(row.get("mode", stat.S_IMODE(path.stat().st_mode))))
         shutil.rmtree(preimage_root, ignore_errors=False)
         index.unlink()
         return {"status": "removed", "files_restored": len(rows), "index": str(index)}
@@ -803,8 +844,15 @@ def status_deployment(*, repository: Path, index_path: Optional[Path] = None) ->
         raise DeploymentError(f"deployment index cannot be a symlink: {requested_index}")
     index = requested_index.resolve()
     document = _read_json(index)
+    if document.get("schema_version") == 2:
+        from .deployment_store import status
+        try:
+            return status(root, index)
+        except ValueError as exc:
+            raise DeploymentError(str(exc)) from exc
     rows = document.get("files")
-    if document.get("kind") != "repel_carrier_deployment" or not isinstance(rows, list):
+    if (document.get("kind") != "repel_carrier_deployment"
+            or document.get("repository_root") != str(root) or not isinstance(rows, list)):
         raise DeploymentError(f"invalid native-carrier deployment index: {index}")
     changed = 0
     for row in rows:

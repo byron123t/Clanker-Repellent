@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import sqlite3
 from contextlib import nullcontext
 from pathlib import Path
 from typing import Any, ContextManager, Dict, Optional, Sequence
@@ -30,11 +31,16 @@ def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="repel generate",
         description=(
-            "Generate one statically validated source candidate per requested language with the active local "
-            "model discovered from the server, then statically validate it without execution."
+            "Generate source candidates for repository evaluation with the active model "
+            "discovered from the server. Validate each requested language without executing "
+            "the candidate. Use --benign for the inert control contract."
         ),
     )
-    parser.add_argument("--payload", type=Path, help="UTF-8 payload text file")
+    parser.add_argument("--payload", type=Path, help="UTF-8 test text file (use ordinary project text for a control)")
+    parser.add_argument("--catalog", type=Path, help="read a typed catalog input and/or register accepted generated source")
+    parser.add_argument("--payload-id", help="catalog input ID instead of --payload")
+    parser.add_argument("--register-prefix", help="register passed candidates as PREFIX-language in --catalog")
+    parser.add_argument("--tag", action="append", default=[], help="tag registered candidates (repeatable)")
     parser.add_argument(
         "--language",
         action="append",
@@ -64,7 +70,7 @@ def build_parser() -> argparse.ArgumentParser:
         "--benign",
         action="store_true",
         help=(
-            "use the purely benign control contract: inert declarations only, conservative "
+            "use the inert control contract: inert declarations only, conservative "
             "side-effect checks, and a separate benign-generation output directory"
         ),
     )
@@ -139,18 +145,28 @@ def run(args: argparse.Namespace) -> int:
     if args.list_toolchains:
         _print_toolchains(toolchain_inventory(targets))
         return 0
-    if args.payload is None:
+    if args.payload is None and args.payload_id is None:
         raise ValueError("--payload is required unless listing languages or toolchains")
+    if args.payload is not None and args.payload_id is not None:
+        raise ValueError("choose --payload or --payload-id")
+    if (args.payload_id or args.register_prefix) and not args.catalog:
+        raise ValueError("--payload-id/--register-prefix require --catalog")
     if args.validator_timeout <= 0:
         raise ValueError("--validator-timeout must be positive")
     if args.harness == "opencode" and args.opencode_timeout <= 0:
         raise ValueError("--opencode-timeout must be positive")
 
-    payload = read_payload(args.payload)
+    if args.payload_id:
+        from ..payload import catalog
+        metadata, payload = catalog.read(args.catalog, args.payload_id)
+        if args.benign and not metadata["benign"]:
+            raise ValueError("--benign requires a benign catalog input")
+    else:
+        payload = read_payload(args.payload)
     if args.retries < 0 or args.retries > 5:
         raise ValueError("--retries must be an integer from 0 to 5")
     output_dir = args.output_dir or default_output_directory(
-        PROJECT_ROOT, args.payload, benign=args.benign
+        PROJECT_ROOT, args.payload or Path(args.payload_id + ".txt"), benign=args.benign
     )
     config = load_endpoint_config(args.config)
     provider = RoutedOpenAICompatibleProvider(config)
@@ -192,6 +208,9 @@ def run(args: argparse.Namespace) -> int:
             benign=args.benign,
         )
     summary = run_manifest["summary"]
+    if args.register_prefix and any(c.get("status") == "passed" for c in run_manifest["candidates"]):
+        from ..payload import catalog
+        catalog.import_run(args.catalog, output_dir, prefix=args.register_prefix, tags=args.tag, benign=args.benign)
     for candidate in run_manifest["candidates"]:
         checks = candidate.get("validation", {}).get("checks", [])
         check_summary = ", ".join(
@@ -224,7 +243,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     except KeyboardInterrupt:
         print("Cancelled.")
         return 130
-    except (OSError, RuntimeError, TimeoutError, ValueError) as exc:
+    except (OSError, RuntimeError, TimeoutError, ValueError, sqlite3.Error) as exc:
         print(f"Error: {exc}")
         return 2
 

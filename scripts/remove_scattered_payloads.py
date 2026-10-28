@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Remove payloads from an untouched repository using an external scatter index."""
+"""Restore an unchanged evaluation workspace using its external placement index."""
 
 from __future__ import annotations
 

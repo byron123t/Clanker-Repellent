@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Create or reset disposable payload-injected repository workspaces."""
+"""Create or reset disposable repository evaluation workspaces."""
 
 from __future__ import annotations
 

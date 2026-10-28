@@ -21,7 +21,7 @@ class RepositoryToolTests(unittest.TestCase):
         self.assertEqual(raised.exception.code, 0)
         help_text = output.getvalue()
         for expected in (
-            "Clanker Repellent",
+            "Repel: reproducible repository evaluation",
             "repel add --apply",
             "repel generate --help",
             "repel deploy --help",

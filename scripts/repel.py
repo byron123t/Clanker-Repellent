@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run the Clanker Repellent repository CLI from a source checkout."""
+"""Run the Repel repository evaluation CLI from a source checkout."""
 
 from __future__ import annotations
 

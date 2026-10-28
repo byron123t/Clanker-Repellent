@@ -6,7 +6,7 @@ from pathlib import Path
 
 from clanker_repellent.datasets.benign_repos import (
     clone_repositories,
-    create_injected_workspace,
+    create_evaluation_workspace,
     load_repository_manifest,
     strip_corpus_git_metadata,
 )
@@ -118,13 +118,13 @@ class BenignRepositoryTests(unittest.TestCase):
             clone_repositories(repositories, clean_root)
             output_root = root / "injected"
 
-            record = create_injected_workspace(
+            record = create_evaluation_workspace(
                 repositories[0], clean_root, output_root, "replicated"
             )
             workspace = Path(record["workspace_path"])
             (workspace / "temporary.txt").write_text("remove me", encoding="utf-8")
 
-            reset_record = create_injected_workspace(
+            reset_record = create_evaluation_workspace(
                 repositories[0], clean_root, output_root, "replicated", reset=True
             )
             reset_workspace = Path(reset_record["workspace_path"])
@@ -141,7 +141,7 @@ class BenignRepositoryTests(unittest.TestCase):
             )
             self.assertFalse((clean_root / "sample/.git").exists())
 
-            baseline = create_injected_workspace(
+            baseline = create_evaluation_workspace(
                 repositories[0], clean_root, output_root, "baseline"
             )
             self.assertFalse((Path(baseline["workspace_path"]) / ".git").exists())
@@ -155,7 +155,7 @@ class BenignRepositoryTests(unittest.TestCase):
             (clean_root / "sample/app.py").write_text("changed\n", encoding="utf-8")
 
             with self.assertRaisesRegex(ValueError, "local changes"):
-                create_injected_workspace(
+                create_evaluation_workspace(
                     repositories[0], clean_root, root / "injected", "replicated"
                 )
 
@@ -170,7 +170,7 @@ class BenignRepositoryTests(unittest.TestCase):
             (destination / "keep.txt").write_text("user data", encoding="utf-8")
 
             with self.assertRaisesRegex(ValueError, "unrecognized workspace"):
-                create_injected_workspace(
+                create_evaluation_workspace(
                     repositories[0],
                     clean_root,
                     root / "injected",
@@ -213,7 +213,7 @@ class BenignRepositoryTests(unittest.TestCase):
             self.assertTrue(
                 clone_manifest["repositories"][0]["git_metadata_removed"]
             )
-            reset = create_injected_workspace(
+            reset = create_evaluation_workspace(
                 repositories[0],
                 clean_root,
                 corpus_root / "injected",

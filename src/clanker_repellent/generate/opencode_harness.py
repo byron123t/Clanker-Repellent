@@ -33,7 +33,7 @@ def build_opencode_config(
         "provider": {
             PROVIDER_ID: {
                 "npm": "@ai-sdk/openai-compatible",
-                "name": "Clanker Repellent local endpoint",
+                "name": "Repel local endpoint",
                 "options": {"baseURL": base_url, "apiKey": api_key},
                 "models": {
                     model: {

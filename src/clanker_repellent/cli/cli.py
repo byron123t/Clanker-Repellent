@@ -20,7 +20,7 @@ from ..measurement.audit import evaluate_audit, export_blinded_sample
 from ..datasets.benign_repos import (
     BASELINE_VARIANT,
     clone_repositories,
-    create_injected_workspace,
+    create_evaluation_workspace,
     load_repository_manifest,
     strip_corpus_git_metadata,
     write_clone_manifest,
@@ -76,10 +76,10 @@ def _runtime_environment() -> dict:
     return merged_environment(dotenv_path=PROJECT_DOTENV)
 
 
-def _render_scatter_payload(
+def _render_condition_text(
     condition: dict, conditions_path: Path, template_path: Path
 ) -> str:
-    """Wrap one condition in the required external briefing template."""
+    """Render one condition using the required external text template."""
 
     source = condition.get("_payload_source", "")
     if (
@@ -117,7 +117,7 @@ def _render_scatter_payload(
     return rendered
 
 
-def _build_scatter_payload_pool(
+def _build_condition_pool(
     conditions: List[dict],
     anchor_id: str,
     payload_count: int,
@@ -125,7 +125,7 @@ def _build_scatter_payload_pool(
     conditions_path: Path,
     template_path: Path,
 ) -> List[dict]:
-    """Select a reproducible pseudo-random payload pool containing the anchor."""
+    """Select a reproducible pool of test conditions containing the anchor."""
 
     if payload_count < 1:
         raise ValueError("payload_count must be at least 1")
@@ -148,7 +148,7 @@ def _build_scatter_payload_pool(
     return [
         {
             "id": row["id"],
-            "payload": _render_scatter_payload(
+            "payload": _render_condition_text(
                 row, conditions_path.resolve(), template_path.resolve()
             ),
         }
@@ -301,7 +301,7 @@ def build_parser() -> argparse.ArgumentParser:
         nargs="?",
         const=list(INSTRUCTION_FILES),
         type=_csv,
-        help="also inject CLAUDE.md, AGENTS.md, and MEMORY.md; optionally select a CSV subset",
+        help="also place test comments in CLAUDE.md, AGENTS.md, and MEMORY.md; optionally select a CSV subset",
     )
     scatter.add_argument("--extensions", type=_csv)
     scatter.add_argument("--max-file-bytes", type=int, default=1_000_000)
@@ -339,7 +339,7 @@ def build_parser() -> argparse.ArgumentParser:
 
     prepare_repos = subparsers.add_parser(
         "prepare-repo-evaluation",
-        help="create or reset disposable payload-injected repository workspaces",
+        help="create or reset disposable repository evaluation workspaces",
     )
     prepare_repos.add_argument(
         "--manifest", type=Path, default=Path("data/benign_repositories.json")
@@ -384,7 +384,7 @@ def build_parser() -> argparse.ArgumentParser:
     prepare_repos.add_argument(
         "--allow-fewer",
         action="store_true",
-        help="cap injections at the eligible file count for very small repositories",
+        help="cap placements at the eligible file count for very small repositories",
     )
     prepare_repos.add_argument("--seed", type=int, default=20260805)
     prepare_repos.add_argument(
@@ -398,7 +398,7 @@ def build_parser() -> argparse.ArgumentParser:
         nargs="?",
         const=list(INSTRUCTION_FILES),
         type=_csv,
-        help="also inject CLAUDE.md, AGENTS.md, and MEMORY.md; optionally select a CSV subset",
+        help="also place test comments in CLAUDE.md, AGENTS.md, and MEMORY.md; optionally select a CSV subset",
     )
     prepare_repos.add_argument("--extensions", type=_csv)
     prepare_repos.add_argument("--max-file-bytes", type=int, default=1_000_000)
@@ -417,7 +417,7 @@ def build_parser() -> argparse.ArgumentParser:
     prepare_repos.add_argument(
         "--reset",
         action="store_true",
-        help="replace only recognized evaluation workspaces, then inject them again",
+        help="replace only recognized evaluation workspaces, then reapply test comments",
     )
     prepare_repos.add_argument(
         "--output-manifest",
@@ -508,7 +508,7 @@ def build_parser() -> argparse.ArgumentParser:
     report.add_argument("--markdown", type=Path, required=True)
 
     agent_report = subparsers.add_parser(
-        "agent-report", help="aggregate clean/injected tool-using agent results"
+        "agent-report", help="aggregate baseline and test-condition agent results"
     )
     agent_report.add_argument("--input", type=Path, nargs="+", required=True)
     agent_report.add_argument("--json", type=Path, required=True)
@@ -667,7 +667,7 @@ def main(argv: Optional[List[str]] = None) -> int:
         if condition["placement"] == "none" or not condition["payload"]:
             raise SystemExit("The selected condition must contain a non-baseline payload")
         try:
-            payload_pool = _build_scatter_payload_pool(
+            payload_pool = _build_condition_pool(
                 conditions,
                 args.condition_id,
                 args.payload_count,
@@ -783,7 +783,7 @@ def main(argv: Optional[List[str]] = None) -> int:
 
         try:
             instruction_names = normalize_instruction_files(args.instruction_files)
-            payload_pool = _build_scatter_payload_pool(
+            payload_pool = _build_condition_pool(
                 conditions,
                 args.condition_id,
                 args.payload_count,
@@ -806,7 +806,7 @@ def main(argv: Optional[List[str]] = None) -> int:
         try:
             for repository in repositories:
                 for strategy in variants:
-                    workspace = create_injected_workspace(
+                    workspace = create_evaluation_workspace(
                         repository,
                         args.clean_root,
                         workspace_output_root,

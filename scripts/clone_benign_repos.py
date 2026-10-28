@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Clone the pinned benign repository corpus through the clanker_repellent CLI."""
+"""Clone pinned repository fixtures through the Repel evaluation CLI."""
 
 from __future__ import annotations
 

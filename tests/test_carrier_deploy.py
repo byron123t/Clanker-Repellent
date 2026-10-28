@@ -46,7 +46,7 @@ class NativeDeploymentTests(unittest.TestCase):
 
     def test_repeated_go_placement_avoids_duplicate_declarations(self):
         source = "package unit\n\nconst repelUnit = `payload`\n"
-        repeated = deploy._disambiguate_carrier(source, "go", 1)
+        repeated = deploy._disambiguate_snippet(source, "go", 1)
         self.assertIn("repelUnit_2", repeated)
         self.assertIn("`payload`", repeated)
 

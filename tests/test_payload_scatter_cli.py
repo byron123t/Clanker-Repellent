@@ -3,7 +3,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from clanker_repellent.cli.cli import _build_scatter_payload_pool, build_parser, main
+from clanker_repellent.cli.cli import _build_condition_pool, build_parser, main
 from clanker_repellent.datasets.dataset import load_conditions
 from clanker_repellent.payload.payload_scatter import FILE_POSITIONS, INSTRUCTION_FILES
 from clanker_repellent.cli.repo_cli_launcher import build_parser as build_launcher_parser
@@ -15,7 +15,7 @@ class PayloadScatterCliTests(unittest.TestCase):
         conditions_path = root / "payloads/mixed_conditions.generated.jsonl"
         conditions = load_conditions(conditions_path)
 
-        first = _build_scatter_payload_pool(
+        first = _build_condition_pool(
             conditions,
             "mix_001_bio_header2_c4_raw_meth1",
             3,
@@ -23,7 +23,7 @@ class PayloadScatterCliTests(unittest.TestCase):
             conditions_path,
             root / "payloads/header.txt",
         )
-        second = _build_scatter_payload_pool(
+        second = _build_condition_pool(
             conditions,
             "mix_001_bio_header2_c4_raw_meth1",
             3,
