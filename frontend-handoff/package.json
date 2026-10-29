@@ -1,0 +1,13 @@
+{
+  "name": "file-change-frontend-handoff",
+  "description": "Frontend design workspace with fixed synthetic sample responses",
+  "private": true,
+  "scripts": {
+    "start": "python3 preview.py --open",
+    "check": "node --check web/app.js",
+    "test:browser": "node tests/browser-smoke.cjs"
+  },
+  "devDependencies": {
+    "playwright": "1.64.1"
+  }
+}

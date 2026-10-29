@@ -4,6 +4,10 @@ This is a read-only viewer of file-change records, stored snippets, and saved fi
 The Python application serves the frontend and authenticated API together. Placement and
 restoration are separate CLI operations; the viewer displays their recorded results.
 
+For delegation of frontend work, use [frontend-handoff/](../frontend-handoff/README.md).
+It contains the editable UI, fixed synthetic responses, a small read-only preview server,
+and a focused design brief. The frontend files can be returned directly to this dashboard.
+
 The separate [dashboard-template/](../dashboard-template/README.md) is a complete, movable
 design workspace for another agent. It visualizes synthetic file-change records through its
 own read-only server. The brief, field definitions, fixture guide, and tests are self-contained.
@@ -77,3 +81,13 @@ python3 scripts/repel.py dashboard --store .repel-deploy-store \
 ```
 
 Run that command from the repository root. The override is local to that server process.
+
+## Maintain the frontend handoff
+
+`frontend-handoff/web/` starts as a copy of this frontend. Its preview server replays fixed
+responses exported from the full template's synthetic dataset. Refresh only those sample
+responses with `python3 dashboard/export_frontend_samples.py`. The exporter stays in this
+repository; the frontend ZIP contains no generator or application backend.
+
+Review and copy a finished candidate's four `web/` files back here, then run the dashboard
+checks. Optional live preview also accepts `--assets /path/to/frontend-handoff/web`.
