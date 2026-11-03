@@ -136,6 +136,10 @@ class BenignPolicyError(ExtractionError):
     """The candidate violated the conservative benign-generation policy."""
 
 
+class GenerationAlreadyComplete(ValueError):
+    """All requested candidates are complete in a successful generation run."""
+
+
 def benign_policy_error(snippet: str) -> Optional[str]:
     """Return a safe diagnostic when a benign candidate contains a forbidden pattern."""
 
@@ -1154,7 +1158,8 @@ def generate_source_run(
             if not complete(prior_by_language.get(target.language), target)
         ]
         if not pending:
-            raise ValueError(
+            error = GenerationAlreadyComplete if prior.get("summary", {}).get("status") == "passed" else ValueError
+            raise error(
                 f"all requested languages are already successfully generated: {destination}"
             )
 

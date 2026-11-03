@@ -4,6 +4,7 @@ __pycache__/
 .venv/
 .env
 .env.*
+.repel-generate.json
 !.env.example
 *.pem
 *.key

@@ -3,7 +3,9 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
+import os
 import sqlite3
 from contextlib import nullcontext
 from pathlib import Path
@@ -12,6 +14,7 @@ from typing import Any, ContextManager, Dict, Optional, Sequence
 from ..inference.endpoints import load_endpoint_config
 from ..generate.source_generation import (
     DEFAULT_MAX_TOKENS,
+    GenerationAlreadyComplete,
     default_output_directory,
     generate_source_run,
     read_payload,
@@ -25,6 +28,7 @@ from ..inference.tunnel import managed_ssh_tunnel
 
 PROJECT_ROOT = Path(__file__).resolve().parents[3]
 DEFAULT_CONFIG = PROJECT_ROOT / "configs" / "abliterated-remote.json"
+LOCAL_CONFIG = PROJECT_ROOT / ".repel-generate.json"
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -36,7 +40,8 @@ def build_parser() -> argparse.ArgumentParser:
             "the candidate. Use --benign for the inert control contract."
         ),
     )
-    parser.add_argument("--payload", type=Path, help="UTF-8 test text file (use ordinary project text for a control)")
+    parser.add_argument("input", nargs="?", type=Path, help="UTF-8 input file or a directory of .txt files (recursive)")
+    parser.add_argument("--payload", type=Path, help="input file or directory (alias for INPUT)")
     parser.add_argument("--catalog", type=Path, help="read a typed catalog input and/or register accepted generated source")
     parser.add_argument("--payload-id", help="catalog input ID instead of --payload")
     parser.add_argument("--register-prefix", help="register passed candidates as PREFIX-language in --catalog")
@@ -45,9 +50,10 @@ def build_parser() -> argparse.ArgumentParser:
         "--language",
         action="append",
         default=[],
-        help="language or comma-separated languages (repeatable; default: all)",
+        help="language or comma-separated languages (repeatable; default: configured languages or all)",
     )
-    parser.add_argument("--config", type=Path, default=DEFAULT_CONFIG)
+    parser.add_argument("--config", type=Path, default=None,
+                        help="endpoint configuration (default: .repel-generate.json, then the bundled remote config)")
     parser.add_argument(
         "--harness",
         choices=("direct", "opencode"),
@@ -74,13 +80,15 @@ def build_parser() -> argparse.ArgumentParser:
             "side-effect checks, and a separate benign-generation output directory"
         ),
     )
-    parser.add_argument("--max-tokens", type=int, default=DEFAULT_MAX_TOKENS)
+    parser.add_argument("--max-tokens", type=int, default=None)
     parser.add_argument("--temperature", type=float, default=0.2)
     parser.add_argument("--top-p", type=float, default=0.8)
     parser.add_argument(
-        "--no-thinking", action="store_true",
+        "--no-thinking", action="store_true", default=None,
         help="ask compatible local servers to disable extended reasoning (direct harness only)",
     )
+    parser.add_argument("--thinking", action="store_false", dest="no_thinking",
+                        help="override a saved no-thinking preference")
     parser.add_argument(
         "--show-content", action="store_true",
         help="print full model requests and responses (default: metadata only)",
@@ -110,6 +118,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--batch-ssh",
         action="store_true",
+        default=None,
         help="require non-interactive SSH key authentication instead of prompting",
     )
     parser.add_argument("--list-languages", action="store_true", help="list supported languages and exit")
@@ -153,18 +162,45 @@ def run(args: argparse.Namespace) -> int:
     if args.list_toolchains:
         _print_toolchains(toolchain_inventory(targets))
         return 0
+    args = argparse.Namespace(**vars(args))
+    if args.input is not None:
+        if args.payload is not None or args.payload_id is not None:
+            raise ValueError("choose INPUT, --payload, or --payload-id")
+        args.payload = args.input
+        args.input = None
     if args.payload is None and args.payload_id is None:
-        raise ValueError("--payload is required unless listing languages or toolchains")
+        raise ValueError("provide an input file or folder, e.g. repel generate ./benign --benign")
     if args.payload is not None and args.payload_id is not None:
         raise ValueError("choose --payload or --payload-id")
     if (args.payload_id or args.register_prefix) and not args.catalog:
         raise ValueError("--payload-id/--register-prefix require --catalog")
+    args.config = args.config or (LOCAL_CONFIG if LOCAL_CONFIG.is_file() else DEFAULT_CONFIG)
+    config = load_endpoint_config(args.config)
+    defaults = config.get("generation", {})
+    if not isinstance(defaults, dict):
+        raise ValueError("configuration generation defaults must be an object")
+    languages = defaults.get("languages", [])
+    if not isinstance(languages, list) or not all(isinstance(value, str) for value in languages):
+        raise ValueError("generation.languages must be a list of language names")
+    targets = select_languages(args.language or languages)
+    for name in ("no_thinking", "batch_ssh"):
+        if getattr(args, name) is None:
+            value = defaults.get(name, False)
+            if not isinstance(value, bool):
+                raise ValueError(f"generation.{name} must be a boolean")
+            setattr(args, name, value)
+    if args.max_tokens is None:
+        args.max_tokens = defaults.get("max_tokens", DEFAULT_MAX_TOKENS)
+    if not isinstance(args.max_tokens, int) or isinstance(args.max_tokens, bool) or args.max_tokens < 1:
+        raise ValueError("generation max_tokens must be a positive integer")
     if args.validator_timeout <= 0:
         raise ValueError("--validator-timeout must be positive")
     if args.harness == "opencode" and args.opencode_timeout <= 0:
         raise ValueError("--opencode-timeout must be positive")
     if args.harness != "direct" and args.no_thinking:
         raise ValueError("--no-thinking requires --harness direct")
+    if args.payload is not None and args.payload.is_dir():
+        return _run_directory(args, config)
 
     if args.payload_id:
         from ..payload import catalog
@@ -178,7 +214,6 @@ def run(args: argparse.Namespace) -> int:
     output_dir = args.output_dir or default_output_directory(
         PROJECT_ROOT, args.payload or Path(args.payload_id + ".txt"), benign=args.benign
     )
-    config = load_endpoint_config(args.config)
     provider = RoutedOpenAICompatibleProvider(config)
 
     if config.get("ssh") is not None and not args.batch_ssh:
@@ -248,6 +283,54 @@ def run(args: argparse.Namespace) -> int:
         )
     )
     return 0 if summary["status"] in {"passed", "partial"} else 1
+
+
+def _run_directory(args: argparse.Namespace, config: Dict[str, Any]) -> int:
+    """Process text inputs without following links or mixing input and output trees."""
+    root = args.payload.resolve()
+    if args.output_dir is None:
+        timestamped = default_output_directory(PROJECT_ROOT, benign=args.benign)
+        output = timestamped.parent / root.name / timestamped.name
+    else:
+        output = args.output_dir.resolve()
+    if output == root or root in output.parents:
+        raise ValueError("batch output directory must be outside the input directory")
+    inputs = []
+    for directory, folders, filenames in os.walk(root, followlinks=False):
+        folders[:] = sorted(name for name in folders if not (Path(directory) / name).is_symlink())
+        for name in sorted(filenames):
+            path = Path(directory) / name
+            if path.suffix.casefold() == ".txt" and not path.is_symlink() and path.is_file():
+                inputs.append(path)
+    if not inputs:
+        raise ValueError(f"no .txt files found in {root}")
+    failed = 0
+    skipped = 0
+    # Keep any CLI-owned tunnel alive for the batch; child runs reuse its open ports.
+    with _tunnel_context(config, args.batch_ssh):
+        for number, path in enumerate(inputs, 1):
+            relative = path.relative_to(root)
+            child = argparse.Namespace(**vars(args))
+            child.input = None
+            child.payload = path
+            child.output_dir = output / relative
+            if args.register_prefix:
+                identifier = hashlib.sha256(relative.as_posix().encode()).hexdigest()[:16]
+                child.register_prefix = f"{args.register_prefix}-{identifier}"
+            print(f"Input {number}/{len(inputs)}: {relative}", flush=True)
+            try:
+                failed += run(child) != 0
+            except GenerationAlreadyComplete:
+                print("Already complete; existing candidates preserved.", flush=True)
+                skipped += 1
+            except (OSError, RuntimeError, TimeoutError, ValueError, sqlite3.Error) as exc:
+                # Input/model text must not escape through exception messages in a folder run.
+                print(f"Input failed: {type(exc).__name__}", flush=True)
+                failed += 1
+    print(json.dumps({"output_dir": str(output), "inputs": len(inputs),
+                      "passed_inputs": len(inputs) - failed, "failed_inputs": failed,
+                      "already_complete_inputs": skipped}, indent=2))
+    return 1 if failed else 0
 
 
 def main(argv: Optional[Sequence[str]] = None) -> int:

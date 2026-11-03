@@ -323,6 +323,37 @@ PYTHONPATH=src python3 scripts/interactive_inference.py
 
 ### Direct generation
 
+Pass a file or a folder directly:
+
+```bash
+repel generate testpayload.txt --benign
+repel generate ./benign --benign
+```
+
+Folders process every `.txt` file recursively without following symlinks. Each input gets its
+own output directory, preserving relative paths under a new timestamped batch directory.
+Use `--output-dir` to select or resume a batch; completed inputs are preserved and skipped.
+An invalid input is reported without preventing the remaining files from being processed.
+
+Save an endpoint configuration as the ignored `.repel-generate.json` in the project root to use
+it automatically. An explicit `--config` takes precedence; otherwise the bundled remote config
+is used when no local configuration exists. The local file accepts the usual `ssh` and `endpoint`
+fields plus optional generation defaults:
+
+```json
+{
+  "generation": {
+    "languages": ["python", "c", "go"],
+    "no_thinking": true,
+    "batch_ssh": true,
+    "max_tokens": 1024
+  }
+}
+```
+
+Command-line language/token options override these defaults; `--thinking` overrides a saved
+`no_thinking` preference. Content logging stays off unless `--show-content` is supplied.
+
 Provide one UTF-8 test text file and choose one or more target languages. The active model is
 discovered from the configured server; generation does not modify a repository or publish automatically. There is no automatic generate-and-publish loop.
 First check the available language targets and toolchains:
