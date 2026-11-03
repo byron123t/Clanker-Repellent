@@ -273,6 +273,24 @@ class StaticValidationTests(unittest.TestCase):
         self.assertEqual(required_languages, LANGUAGES)
         self.assertTrue(any(item["kind"] == "linter" for item in inventory))
 
+    def test_java_launcher_without_runtime_stops_retries(self):
+        provider = FakeProvider(code_block("class Generated {}", "java"))
+        completed = mock.Mock(
+            returncode=1, stdout="",
+            stderr="Unable to locate a Java Runtime that supports javac.",
+        )
+        with tempfile.TemporaryDirectory() as directory, mock.patch(
+            "clanker_repellent.generate.source_generation.shutil.which", return_value="/usr/bin/javac"
+        ), mock.patch("clanker_repellent.generate.source_generation.subprocess.run", return_value=completed):
+            run = generate_source_run(
+                provider=provider, model="local-model", payload="example note",
+                targets=select_languages(["java"]), output_dir=Path(directory) / "run",
+                run_linters=False, benign=True, retries=3,
+            )
+        self.assertEqual(len(provider.calls), 1)
+        self.assertEqual(run["summary"]["status"], "failed")
+        self.assertEqual(run["candidates"][0]["attempts"][0]["validation"]["checks"][0]["status"], "unavailable")
+
     def test_serialized_validation_metadata_omits_raw_diagnostics(self):
         target = select_languages(["python"])[0]
         report = validate_snippet(
@@ -308,7 +326,7 @@ class GenerationRunTests(unittest.TestCase):
         self.assertEqual(response["harness"], "opencode")
         self.assertEqual(response["harness_delivery"], "workspace_file")
 
-    def test_prints_the_exact_provider_request(self):
+    def test_explicit_content_logging_prints_the_exact_provider_request(self):
         target = select_languages(["python"])[0]
         payload = "LOCAL-TEST-PAYLOAD"
         response = code_block(f"if False:\n    text = {payload!r}")
@@ -324,6 +342,7 @@ class GenerationRunTests(unittest.TestCase):
                 output_dir=Path(directory) / "run",
                 run_linters=False,
                 retries=0,
+                show_content=True,
             )
 
         printed = output.getvalue()
@@ -342,6 +361,156 @@ class GenerationRunTests(unittest.TestCase):
         printed_output = json.loads(output_text)
         self.assertEqual(printed_output["response_text"], response)
         self.assertIsNone(printed_output["provider_refusal"])
+
+    def test_default_logging_does_not_expose_inputs_responses_or_retry_diagnostics(self):
+        provider = SequenceProvider([
+            code_block("if False PRIVATE-DIAGNOSTIC"),
+            code_block("note = 'PRIVATE-CANDIDATE'"),
+        ])
+        output = io.StringIO()
+        with tempfile.TemporaryDirectory() as directory, redirect_stdout(output):
+            run = generate_source_run(
+                provider=provider, model="local-model", payload="PRIVATE-INPUT",
+                targets=select_languages(["python"]), output_dir=Path(directory) / "run",
+                run_linters=False, benign=True,
+            )
+        self.assertEqual(run["summary"]["status"], "passed")
+        self.assertEqual(len(provider.calls), 2)
+        self.assertEqual(output.getvalue(), "")
+
+    def test_no_thinking_reaches_provider_and_is_recorded(self):
+        provider = FakeProvider(code_block("note = 'example'"))
+        with tempfile.TemporaryDirectory() as directory:
+            run = generate_source_run(
+                provider=provider, model="deepseek-local", payload="example note",
+                targets=select_languages(["python"]), output_dir=Path(directory) / "run",
+                run_linters=False, benign=True, no_thinking=True,
+            )
+        body = provider.calls[0]["extra_body"]
+        self.assertEqual(body["reasoning_effort"], "none")
+        self.assertEqual(body["chat_template_kwargs"], {"enable_thinking": False, "thinking": False})
+        self.assertTrue(run["settings"]["no_thinking"])
+
+    def test_cancelled_first_request_can_be_resumed(self):
+        provider = FakeProvider("")
+        provider.complete = mock.Mock(side_effect=KeyboardInterrupt)
+        with tempfile.TemporaryDirectory() as directory:
+            output = Path(directory) / "run"
+            arguments = dict(
+                model="local-model", payload="example note", targets=select_languages(["python"]),
+                output_dir=output, run_linters=False, benign=True,
+            )
+            with self.assertRaises(KeyboardInterrupt):
+                generate_source_run(provider=provider, **arguments)
+            checkpoint = json.loads((output / "manifest.json").read_text())
+            self.assertEqual(checkpoint["summary"], {
+                "requested": 1, "accepted": 0, "failed": 0, "pending": 1, "status": "running",
+            })
+            run = generate_source_run(provider=FakeProvider(code_block("note = 'example'")), **arguments)
+            self.assertEqual(run["summary"]["status"], "passed")
+            self.assertEqual(run["pending_languages"], [])
+
+    def test_checkpoint_preserves_completed_candidates_when_next_request_is_cancelled(self):
+        provider = FakeProvider(code_block("note = 'example'"))
+        first_response = provider.complete(model="local-model")
+        provider.complete = mock.Mock(side_effect=[first_response, KeyboardInterrupt])
+        passed = {"status": "passed", "accepted": True, "checks": []}
+        with tempfile.TemporaryDirectory() as directory, mock.patch(
+            "clanker_repellent.generate.source_generation.validate_snippet", return_value=passed
+        ):
+            output = Path(directory) / "run"
+            arguments = dict(
+                model="local-model", payload="example note", targets=select_languages(["python,ruby"]),
+                output_dir=output, run_linters=False, benign=True,
+            )
+            with self.assertRaises(KeyboardInterrupt):
+                generate_source_run(provider=provider, **arguments)
+            checkpoint = json.loads((output / "manifest.json").read_text())
+            self.assertEqual(checkpoint["summary"]["accepted"], 1)
+            self.assertEqual(checkpoint["pending_languages"], ["ruby"])
+            saved = (output / "python" / "generated.py").stat().st_mtime_ns
+            resumed_provider = FakeProvider(code_block("note = 'example'"))
+            run = generate_source_run(provider=resumed_provider, **arguments)
+            self.assertEqual(run["summary"]["status"], "passed")
+            self.assertEqual(len(resumed_provider.calls), 1)
+            self.assertEqual((output / "python" / "generated.py").stat().st_mtime_ns, saved)
+
+    def test_failed_subset_resume_cannot_be_masked_by_previously_accepted_candidates(self):
+        passed = {"status": "passed", "accepted": True, "checks": []}
+        with tempfile.TemporaryDirectory() as directory, mock.patch(
+            "clanker_repellent.generate.source_generation.validate_snippet", return_value=passed
+        ):
+            output = Path(directory) / "run"
+            arguments = dict(model="local-model", payload="example note", output_dir=output,
+                             run_linters=False, benign=True, retries=0)
+            generate_source_run(
+                provider=SequenceProvider([code_block("note = 'example'"), "no fenced source"]),
+                targets=select_languages(["python,ruby"]), **arguments,
+            )
+            run = generate_source_run(provider=FakeProvider("no fenced source"),
+                                      targets=select_languages(["ruby"]), **arguments)
+            self.assertEqual(run["summary"]["accepted"], 1)
+            self.assertEqual(run["summary"]["failed"], 1)
+            self.assertEqual(run["summary"]["status"], "failed")
+
+    def test_subset_resume_retains_unselected_pending_languages(self):
+        provider = FakeProvider(code_block("note = 'example'"))
+        first_response = provider.complete(model="local-model")
+        provider.complete = mock.Mock(side_effect=[first_response, KeyboardInterrupt])
+        passed = {"status": "passed", "accepted": True, "checks": []}
+        with tempfile.TemporaryDirectory() as directory, mock.patch(
+            "clanker_repellent.generate.source_generation.validate_snippet", return_value=passed
+        ):
+            arguments = dict(model="local-model", payload="example note", output_dir=Path(directory) / "run",
+                             run_linters=False, benign=True)
+            with self.assertRaises(KeyboardInterrupt):
+                generate_source_run(provider=provider, targets=select_languages(["python,ruby"]), **arguments)
+            run = generate_source_run(provider=FakeProvider(code_block("note = 'example'")),
+                                      targets=select_languages(["javascript"]), **arguments)
+            self.assertEqual(run["pending_languages"], ["ruby"])
+            self.assertEqual(run["summary"], {
+                "requested": 3, "accepted": 2, "failed": 0, "pending": 1, "status": "running",
+            })
+
+    def test_interrupted_raw_response_write_does_not_block_resume(self):
+        from clanker_repellent.generate import source_generation as module
+        write = module._write_private_text
+
+        def interrupt_after_raw_response(path, text, **kwargs):
+            write(path, text, **kwargs)
+            if path.name == "raw-response.txt":
+                raise KeyboardInterrupt
+
+        with tempfile.TemporaryDirectory() as directory:
+            arguments = dict(
+                model="local-model", payload="example note", targets=select_languages(["python"]),
+                output_dir=Path(directory) / "run", run_linters=False, benign=True, keep_raw_responses=True,
+            )
+            with mock.patch.object(module, "_write_private_text", side_effect=interrupt_after_raw_response):
+                with self.assertRaises(KeyboardInterrupt):
+                    generate_source_run(provider=FakeProvider(code_block("note = 'example'")), **arguments)
+            run = generate_source_run(provider=FakeProvider(code_block("note = 'example'")), **arguments)
+            self.assertEqual(run["summary"]["status"], "passed")
+
+    def test_resume_does_not_delete_through_a_symlinked_candidate_directory(self):
+        provider = FakeProvider("")
+        provider.complete = mock.Mock(side_effect=KeyboardInterrupt)
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            arguments = dict(
+                model="local-model", payload="example note", targets=select_languages(["python"]),
+                output_dir=root / "run", run_linters=False, benign=True,
+            )
+            with self.assertRaises(KeyboardInterrupt):
+                generate_source_run(provider=provider, **arguments)
+            external = root / "external"
+            external.mkdir()
+            sentinel = external / "generated.py"
+            sentinel.write_text("external project data")
+            (root / "run" / "python").symlink_to(external, target_is_directory=True)
+            with self.assertRaisesRegex(ValueError, "symlinked candidate directory"):
+                generate_source_run(provider=FakeProvider(code_block("note = 'example'")), **arguments)
+            self.assertEqual(sentinel.read_text(), "external project data")
 
     def test_single_pass_generation_writes_candidate_and_metadata_only_manifest(self):
         target = select_languages(["python"])[0]

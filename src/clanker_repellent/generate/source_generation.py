@@ -246,6 +246,16 @@ def build_generation_messages(
         + "Return exactly one Markdown fenced source code block in the response\n\n"
         + json.dumps(request, ensure_ascii=False, separators=(",", ":"))
     )
+    language_hint = {
+        "c": (
+            " Include a non-static, externally visible const declaration so the translation "
+            "unit is not empty. Use no headers or executable functions."
+        ),
+        "go": (
+            " Use package annotation followed by a const declaration. Format the source as "
+            "gofmt expects. Do not use package main or import declarations."
+        ),
+    }.get(target.language, "")
     return [
         {
             "role": "system",
@@ -253,7 +263,7 @@ def build_generation_messages(
                 BENIGN_GENERATION_SYSTEM_PROMPT
                 if benign
                 else GENERATION_SYSTEM_PROMPT
-            ),
+            ) + language_hint,
         },
         {"role": "user", "content": user_prompt},
     ]
@@ -450,6 +460,7 @@ def _external_check(
     unavailable_signals = (
         "rustup could not choose a version",
         "no java runtime present",
+        "unable to locate a java runtime",
         "unable to find utility",
         "toolchain is not installed",
     )
@@ -1017,7 +1028,7 @@ def _response_metadata(result: Dict[str, Any], response: str) -> Dict[str, Any]:
     return metadata
 
 
-def _extra_body(model: str) -> Dict[str, Any]:
+def _extra_body(model: str, *, no_thinking: bool = False) -> Dict[str, Any]:
     body: Dict[str, Any] = {"repetition_penalty": 1.05}
     if "qwen3" in model.casefold():
         body.update(
@@ -1027,7 +1038,31 @@ def _extra_body(model: str) -> Dict[str, Any]:
                 "chat_template_kwargs": {"enable_thinking": False},
             }
         )
+    if no_thinking:
+        body.update({
+            "reasoning_effort": "none",
+            "chat_template_kwargs": {"enable_thinking": False, "thinking": False},
+        })
     return body
+
+
+def _checkpoint_run(run: Dict[str, Any], destination: Path, languages: Sequence[str]) -> None:
+    """Persist completed records and unfinished targets without including source text."""
+    candidates = run["candidates"]
+    recorded = {item["language"] for item in candidates}
+    pending = sorted(set(languages) - recorded)
+    accepted = sum(bool(item.get("accepted")) for item in candidates)
+    failed = len(candidates) - accepted
+    partial = any(item.get("status") == "partial" for item in candidates)
+    run["pending_languages"] = pending
+    run["summary"] = {
+        "requested": len(candidates) + len(pending),
+        "accepted": accepted,
+        "failed": failed,
+        "pending": len(pending),
+        "status": "running" if pending else ("failed" if failed else ("partial" if partial else "passed")),
+    }
+    _write_private_text(destination / "manifest.json", json.dumps(run, indent=2) + "\n", replace=True)
 
 
 def generate_source_run(
@@ -1046,6 +1081,8 @@ def generate_source_run(
     validator_timeout_seconds: float = 20.0,
     retries: int = 2,
     benign: bool = False,
+    show_content: bool = False,
+    no_thinking: bool = False,
 ) -> Dict[str, Any]:
     """Generate and validate one candidate per language with bounded independent retries."""
 
@@ -1109,7 +1146,7 @@ def generate_source_run(
             if not item or item.get("status") != "passed" or not item.get("accepted"):
                 return False
             candidate = destination / target.language / target.output_filename
-            return candidate.is_file() and not candidate.is_symlink()
+            return candidate.is_file() and not candidate.is_symlink() and not candidate.parent.is_symlink()
 
         pending = [
             target
@@ -1143,6 +1180,8 @@ def generate_source_run(
                 "validator_timeout_seconds": validator_timeout_seconds,
                 "retries": retries,
                 "mode": mode,
+                "show_content": show_content,
+                "no_thinking": no_thinking,
             }
         )
         run["settings"] = settings
@@ -1167,23 +1206,36 @@ def generate_source_run(
                 "single_pass": True,
                 "retries": retries,
                 "mode": mode,
+                "show_content": show_content,
+                "no_thinking": no_thinking,
             },
             "candidates": [],
         }
         targets_to_generate = list(targets)
 
+    planned_languages = sorted(
+        set(run.get("pending_languages", []))
+        | {item["language"] for item in run["candidates"]}
+        | {target.language for target in targets_to_generate}
+    )
     for target in targets_to_generate:
-        # Clean only a source path recorded by this generator from an earlier failed run. The
-        # current implementation never creates this file before validation, but older runs did.
-        stale_source = destination / target.language / target.output_filename
-        if stale_source.is_symlink():
-            raise ValueError(f"refusing to remove symlinked stale candidate: {stale_source}")
-        if stale_source.is_file():
-            stale_source.unlink()
+        # A cancelled run can leave source or an optional raw response before its checkpoint.
+        candidate_dir = destination / target.language
+        if candidate_dir.is_symlink():
+            raise ValueError(f"refusing to use symlinked candidate directory: {candidate_dir}")
+        for name in (target.output_filename, "raw-response.txt"):
+            stale = candidate_dir / name
+            if stale.is_symlink():
+                raise ValueError(f"refusing to remove symlinked stale candidate: {stale}")
+            if stale.is_file():
+                stale.unlink()
+        if candidate_dir.is_dir():
             try:
-                stale_source.parent.rmdir()
+                candidate_dir.rmdir()
             except OSError:
-                pass
+                raise ValueError(f"candidate directory contains unrelated files: {candidate_dir}") from None
+
+    _checkpoint_run(run, destination, planned_languages)
 
     for target in targets_to_generate:
         record: Dict[str, Any] = {
@@ -1210,18 +1262,19 @@ def generate_source_run(
                     retry_error=retry_error,
                     benign=benign,
                 )
-                extra_body = _extra_body(model)
-                print_llm_input(
-                    target=target,
-                    attempt=attempt_number,
-                    model=model,
-                    messages=messages,
-                    max_tokens=max_tokens,
-                    temperature=temperature,
-                    top_p=top_p,
-                    presence_penalty=0.0,
-                    extra_body=extra_body,
-                )
+                extra_body = _extra_body(model, no_thinking=no_thinking)
+                if show_content:
+                    print_llm_input(
+                        target=target,
+                        attempt=attempt_number,
+                        model=model,
+                        messages=messages,
+                        max_tokens=max_tokens,
+                        temperature=temperature,
+                        top_p=top_p,
+                        presence_penalty=0.0,
+                        extra_body=extra_body,
+                    )
                 complete_generation = getattr(provider, "complete_generation", None)
                 if callable(complete_generation):
                     result = complete_generation(
@@ -1244,11 +1297,12 @@ def generate_source_run(
                         presence_penalty=0.0,
                         extra_body=extra_body,
                     )
-                print_llm_output(
-                    target=target,
-                    attempt=attempt_number,
-                    result=result,
-                )
+                if show_content:
+                    print_llm_output(
+                        target=target,
+                        attempt=attempt_number,
+                        result=result,
+                    )
                 response = result.get("response_text") or ""
                 attempt["response"] = _response_metadata(result, response)
                 if result.get("provider_refusal"):
@@ -1346,25 +1400,7 @@ def generate_source_run(
             if final_attempt.get("response"):
                 record["response"] = final_attempt["response"]
         run["candidates"].append(record)
-
-    requested = len(run["candidates"])
-    accepted = sum(1 for item in run["candidates"] if item.get("accepted"))
-    partial = sum(1 for item in run["candidates"] if item.get("status") == "partial")
-    run["summary"] = {
-        "requested": requested,
-        "accepted": accepted,
-        "failed": requested - accepted,
-        "status": (
-            "failed"
-            if accepted < len(targets)
-            else ("partial" if partial else "passed")
-        ),
-    }
-    _write_private_text(
-        destination / "manifest.json",
-        json.dumps(run, indent=2) + "\n",
-        replace=True,
-    )
+        _checkpoint_run(run, destination, planned_languages)
     return run
 
 

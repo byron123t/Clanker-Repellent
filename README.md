@@ -350,6 +350,20 @@ repel generate --benign --payload /path/to/control.txt --language python --outpu
 Both modes request inert fixtures. Omitting `--benign` skips its additional content checks and uses
 the standard output directory. Static validation is not a guarantee that a candidate is harmless.
 
+Console output contains metadata only by default. Use `--show-content` explicitly to print full
+requests and responses for local debugging; `--keep-raw-responses` separately controls whether
+accepted raw responses are saved. Compatible local servers can use `--no-thinking` with the
+direct harness to avoid spending the output budget on extended reasoning:
+
+```bash
+repel generate --benign --payload /path/to/control.txt --language python --no-thinking
+```
+
+Generation writes an initial checkpoint and updates it after each candidate. Interrupted runs
+retain completed candidates and list unfinished languages in `pending_languages`; their summary
+has `status: "running"` and a `pending` count. Repeat the command with the same output directory
+and input to resume. Summaries cover the entire run, including failures outside a selected retry.
+
 ### OpenCode generation
 
 Install the `opencode` executable separately, then use the same configuration and input file with `--harness opencode`:
@@ -362,7 +376,9 @@ OpenCode runs in an isolated temporary workspace with its own runtime configurat
 the same parser/compiler/linter checks. The example uses the inert control contract. Use `--opencode-bin PATH`
 when the executable is not on `PATH`; use `--opencode-timeout SECONDS` to change its per-attempt limit.
 
-Each response must contain exactly one fenced source block. Every attempt prints its local LLM request and response, then parses/compiles/linters in a temporary directory. Failed retries receive the prior response plus parser/compiler/linter/formatting diagnostics. Generated source is never executed; review
+Each response must contain exactly one fenced source block. Candidates are parsed/compiled/linted
+in a temporary directory. Failed retries receive the prior extracted source plus
+parser/compiler/linter/formatting diagnostics. Generated source is never executed; review
 accepted candidates under `results/source-generation/<payload-name>/` or
 `results/benign-generation/<payload-name>/` with `--benign`; failed candidates remain metadata-only.
 Use `--language`, `--list-languages`, `--list-toolchains`, `--keep-raw-responses`, or

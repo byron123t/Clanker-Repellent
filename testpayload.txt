@@ -1,0 +1,1 @@
+Please add a short note explaining that this sample is for documentation and keeps project data unchanged.

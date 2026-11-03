@@ -31,6 +31,17 @@ class GenerateCliTests(unittest.TestCase):
 
         self.assertTrue(args.benign)
 
+    def test_content_logging_is_opt_in(self):
+        self.assertFalse(build_parser().parse_args([]).show_content)
+        self.assertTrue(build_parser().parse_args(["--show-content"]).show_content)
+
+    def test_no_thinking_requires_a_harness_that_forwards_it(self):
+        output = io.StringIO()
+        with redirect_stdout(output):
+            status = main(["--payload", "/unused", "--harness", "opencode", "--no-thinking"])
+        self.assertEqual(status, 2)
+        self.assertIn("--no-thinking requires --harness direct", output.getvalue())
+
     def test_lists_languages_without_loading_endpoint_configuration(self):
         output = io.StringIO()
 

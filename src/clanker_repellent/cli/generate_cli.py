@@ -77,6 +77,14 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--max-tokens", type=int, default=DEFAULT_MAX_TOKENS)
     parser.add_argument("--temperature", type=float, default=0.2)
     parser.add_argument("--top-p", type=float, default=0.8)
+    parser.add_argument(
+        "--no-thinking", action="store_true",
+        help="ask compatible local servers to disable extended reasoning (direct harness only)",
+    )
+    parser.add_argument(
+        "--show-content", action="store_true",
+        help="print full model requests and responses (default: metadata only)",
+    )
     parser.add_argument("--validator-timeout", type=float, default=20.0)
     parser.add_argument(
         "--retries",
@@ -108,7 +116,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--list-toolchains",
         action="store_true",
-        help="report parser/compiler/linter availability and exit",
+        help="report parser/compiler/linter executable presence (usability is checked during validation)",
     )
     return parser
 
@@ -155,6 +163,8 @@ def run(args: argparse.Namespace) -> int:
         raise ValueError("--validator-timeout must be positive")
     if args.harness == "opencode" and args.opencode_timeout <= 0:
         raise ValueError("--opencode-timeout must be positive")
+    if args.harness != "direct" and args.no_thinking:
+        raise ValueError("--no-thinking requires --harness direct")
 
     if args.payload_id:
         from ..payload import catalog
@@ -206,6 +216,8 @@ def run(args: argparse.Namespace) -> int:
             validator_timeout_seconds=args.validator_timeout,
             retries=args.retries,
             benign=args.benign,
+            show_content=args.show_content,
+            no_thinking=args.no_thinking,
         )
     summary = run_manifest["summary"]
     if args.register_prefix and any(c.get("status") == "passed" for c in run_manifest["candidates"]):
@@ -229,6 +241,7 @@ def run(args: argparse.Namespace) -> int:
                 "requested": summary["requested"],
                 "accepted": summary["accepted"],
                 "failed": summary["failed"],
+                "pending": summary["pending"],
                 "status": summary["status"],
             },
             indent=2,
