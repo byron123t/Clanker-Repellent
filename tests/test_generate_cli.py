@@ -87,7 +87,7 @@ class FolderGenerationTests(unittest.TestCase):
         self.provider = mock.Mock(spec=["wait_for_model", "complete"])
         self.provider.wait_for_model.return_value = "fixture-model"
         self.provider.complete.return_value = {
-            "response_text": "```python\nnote = 'ordinary documentation'\n```",
+            "response_text": "```python\nnote = {'text': 'ordinary documentation', 'revision': 1}\n```",
             "finish_reason": "stop", "resolved_model": "fixture-model",
         }
 

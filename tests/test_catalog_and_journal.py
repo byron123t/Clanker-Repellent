@@ -71,7 +71,7 @@ class CatalogJournalTests(unittest.TestCase):
             def wait_for_model(self):
                 return "control-model"
             def complete(self, **kwargs):
-                return {"response_text": '```python\nvalue = "ordinary project note"\n```', "finish_reason": "stop", "latency_ms": 1.0, "usage": {}}
+                return {"response_text": '```python\nnote = {"text": "ordinary project note", "revision": 1}\n```', "finish_reason": "stop", "latency_ms": 1.0, "usage": {}}
         output = self.root / "benign-run"
         args = generate_cli.build_parser().parse_args([
             "--catalog", str(self.library), "--payload-id", "input", "--language", "python",

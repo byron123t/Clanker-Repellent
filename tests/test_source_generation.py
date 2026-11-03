@@ -274,7 +274,7 @@ class StaticValidationTests(unittest.TestCase):
         self.assertTrue(any(item["kind"] == "linter" for item in inventory))
 
     def test_java_launcher_without_runtime_stops_retries(self):
-        provider = FakeProvider(code_block("class Generated {}", "java"))
+        provider = FakeProvider(code_block('class Generated { static final String TEXT = "note"; static final int REVISION = 1; }', "java"))
         completed = mock.Mock(
             returncode=1, stdout="",
             stderr="Unable to locate a Java Runtime that supports javac.",
@@ -289,7 +289,8 @@ class StaticValidationTests(unittest.TestCase):
             )
         self.assertEqual(len(provider.calls), 1)
         self.assertEqual(run["summary"]["status"], "failed")
-        self.assertEqual(run["candidates"][0]["attempts"][0]["validation"]["checks"][0]["status"], "unavailable")
+        checks = run["candidates"][0]["attempts"][0]["validation"]["checks"]
+        self.assertEqual(next(check for check in checks if check["name"] == "java_compile_lint")["status"], "unavailable")
 
     def test_serialized_validation_metadata_omits_raw_diagnostics(self):
         target = select_languages(["python"])[0]
@@ -305,9 +306,50 @@ class StaticValidationTests(unittest.TestCase):
 
 
 class GenerationRunTests(unittest.TestCase):
+    def test_comment_only_candidate_is_retried_with_structure_feedback(self):
+        provider = SequenceProvider([code_block("# documentation only"),
+                                     code_block("note = {'text': 'example', 'revision': 1}")])
+        with tempfile.TemporaryDirectory() as directory:
+            run = generate_source_run(provider=provider, model="local-model", payload="example note",
+                                      targets=select_languages(["python"]), output_dir=Path(directory) / "run",
+                                      run_linters=False, benign=True, retries=1)
+        self.assertEqual(run["summary"]["status"], "passed")
+        self.assertEqual([attempt["status"] for attempt in run["candidates"][0]["attempts"]], ["failed", "passed"])
+        self.assertIn("Substantive structure required", provider.calls[1]["messages"][1]["content"])
+
+    def test_structure_requirement_applies_in_both_generation_modes(self):
+        for benign in (False, True):
+            with self.subTest(benign=benign), tempfile.TemporaryDirectory() as directory:
+                output = Path(directory) / "run"
+                run = generate_source_run(provider=FakeProvider(code_block("note = 'example'")),
+                                          model="local-model", payload="example note",
+                                          targets=select_languages(["python"]), output_dir=output,
+                                          run_linters=False, benign=benign, retries=0)
+                self.assertEqual(run["summary"]["status"], "failed")
+                self.assertFalse((output / "python" / "generated.py").exists())
+                checks = run["candidates"][0]["validation"]["checks"]
+                self.assertEqual(next(check for check in checks if check["name"] == "source_structure")["status"], "failed")
+
+    def test_legacy_generation_is_not_silently_reused_under_new_structural_rules(self):
+        with tempfile.TemporaryDirectory() as directory:
+            output = Path(directory) / "run"
+            args = dict(model="local-model", payload="example note", targets=select_languages(["python"]),
+                        output_dir=output, run_linters=False, benign=True)
+            generate_source_run(provider=FakeProvider(code_block("note = {'text': 'example', 'revision': 1}")), **args)
+            manifest_path = output / "manifest.json"
+            manifest = json.loads(manifest_path.read_text())
+            manifest["settings"].pop("structure_profile")
+            manifest_path.write_text(json.dumps(manifest))
+            saved = (output / "python" / "generated.py").stat().st_mtime_ns
+            provider = FakeProvider("unused")
+            with self.assertRaisesRegex(ValueError, "structural requirements changed"):
+                generate_source_run(provider=provider, **args)
+            self.assertEqual(provider.calls, [])
+            self.assertEqual((output / "python" / "generated.py").stat().st_mtime_ns, saved)
+
     def test_dispatches_generation_through_a_generation_harness(self):
         target = select_languages(["python"])[0]
-        harness = FakeHarness(code_block("value = 1"))
+        harness = FakeHarness(code_block("note = {'text': 'example', 'revision': 1}"))
 
         with tempfile.TemporaryDirectory() as directory:
             run = generate_source_run(
@@ -329,7 +371,7 @@ class GenerationRunTests(unittest.TestCase):
     def test_explicit_content_logging_prints_the_exact_provider_request(self):
         target = select_languages(["python"])[0]
         payload = "LOCAL-TEST-PAYLOAD"
-        response = code_block(f"if False:\n    text = {payload!r}")
+        response = code_block(f"note = {{'text': {payload!r}, 'revision': 1}}")
         provider = FakeProvider(response)
         output = io.StringIO()
 
@@ -365,7 +407,7 @@ class GenerationRunTests(unittest.TestCase):
     def test_default_logging_does_not_expose_inputs_responses_or_retry_diagnostics(self):
         provider = SequenceProvider([
             code_block("if False PRIVATE-DIAGNOSTIC"),
-            code_block("note = 'PRIVATE-CANDIDATE'"),
+            code_block("note = {'text': 'PRIVATE-CANDIDATE', 'revision': 1}"),
         ])
         output = io.StringIO()
         with tempfile.TemporaryDirectory() as directory, redirect_stdout(output):
@@ -379,7 +421,7 @@ class GenerationRunTests(unittest.TestCase):
         self.assertEqual(output.getvalue(), "")
 
     def test_no_thinking_reaches_provider_and_is_recorded(self):
-        provider = FakeProvider(code_block("note = 'example'"))
+        provider = FakeProvider(code_block("note = {'text': 'example', 'revision': 1}"))
         with tempfile.TemporaryDirectory() as directory:
             run = generate_source_run(
                 provider=provider, model="deepseek-local", payload="example note",
@@ -406,12 +448,12 @@ class GenerationRunTests(unittest.TestCase):
             self.assertEqual(checkpoint["summary"], {
                 "requested": 1, "accepted": 0, "failed": 0, "pending": 1, "status": "running",
             })
-            run = generate_source_run(provider=FakeProvider(code_block("note = 'example'")), **arguments)
+            run = generate_source_run(provider=FakeProvider(code_block("note = {'text': 'example', 'revision': 1}")), **arguments)
             self.assertEqual(run["summary"]["status"], "passed")
             self.assertEqual(run["pending_languages"], [])
 
     def test_checkpoint_preserves_completed_candidates_when_next_request_is_cancelled(self):
-        provider = FakeProvider(code_block("note = 'example'"))
+        provider = FakeProvider(code_block("note = {'text': 'example', 'revision': 1}"))
         first_response = provider.complete(model="local-model")
         provider.complete = mock.Mock(side_effect=[first_response, KeyboardInterrupt])
         passed = {"status": "passed", "accepted": True, "checks": []}
@@ -429,7 +471,7 @@ class GenerationRunTests(unittest.TestCase):
             self.assertEqual(checkpoint["summary"]["accepted"], 1)
             self.assertEqual(checkpoint["pending_languages"], ["ruby"])
             saved = (output / "python" / "generated.py").stat().st_mtime_ns
-            resumed_provider = FakeProvider(code_block("note = 'example'"))
+            resumed_provider = FakeProvider(code_block("note = {'text': 'example', 'revision': 1}"))
             run = generate_source_run(provider=resumed_provider, **arguments)
             self.assertEqual(run["summary"]["status"], "passed")
             self.assertEqual(len(resumed_provider.calls), 1)
@@ -444,7 +486,7 @@ class GenerationRunTests(unittest.TestCase):
             arguments = dict(model="local-model", payload="example note", output_dir=output,
                              run_linters=False, benign=True, retries=0)
             generate_source_run(
-                provider=SequenceProvider([code_block("note = 'example'"), "no fenced source"]),
+                provider=SequenceProvider([code_block("note = {'text': 'example', 'revision': 1}"), "no fenced source"]),
                 targets=select_languages(["python,ruby"]), **arguments,
             )
             run = generate_source_run(provider=FakeProvider("no fenced source"),
@@ -454,7 +496,7 @@ class GenerationRunTests(unittest.TestCase):
             self.assertEqual(run["summary"]["status"], "failed")
 
     def test_subset_resume_retains_unselected_pending_languages(self):
-        provider = FakeProvider(code_block("note = 'example'"))
+        provider = FakeProvider(code_block("note = {'text': 'example', 'revision': 1}"))
         first_response = provider.complete(model="local-model")
         provider.complete = mock.Mock(side_effect=[first_response, KeyboardInterrupt])
         passed = {"status": "passed", "accepted": True, "checks": []}
@@ -465,7 +507,7 @@ class GenerationRunTests(unittest.TestCase):
                              run_linters=False, benign=True)
             with self.assertRaises(KeyboardInterrupt):
                 generate_source_run(provider=provider, targets=select_languages(["python,ruby"]), **arguments)
-            run = generate_source_run(provider=FakeProvider(code_block("note = 'example'")),
+            run = generate_source_run(provider=FakeProvider(code_block("note = {'text': 'example', 'revision': 1}")),
                                       targets=select_languages(["javascript"]), **arguments)
             self.assertEqual(run["pending_languages"], ["ruby"])
             self.assertEqual(run["summary"], {
@@ -488,8 +530,8 @@ class GenerationRunTests(unittest.TestCase):
             )
             with mock.patch.object(module, "_write_private_text", side_effect=interrupt_after_raw_response):
                 with self.assertRaises(KeyboardInterrupt):
-                    generate_source_run(provider=FakeProvider(code_block("note = 'example'")), **arguments)
-            run = generate_source_run(provider=FakeProvider(code_block("note = 'example'")), **arguments)
+                    generate_source_run(provider=FakeProvider(code_block("note = {'text': 'example', 'revision': 1}")), **arguments)
+            run = generate_source_run(provider=FakeProvider(code_block("note = {'text': 'example', 'revision': 1}")), **arguments)
             self.assertEqual(run["summary"]["status"], "passed")
 
     def test_resume_does_not_delete_through_a_symlinked_candidate_directory(self):
@@ -509,13 +551,13 @@ class GenerationRunTests(unittest.TestCase):
             sentinel.write_text("external project data")
             (root / "run" / "python").symlink_to(external, target_is_directory=True)
             with self.assertRaisesRegex(ValueError, "symlinked candidate directory"):
-                generate_source_run(provider=FakeProvider(code_block("note = 'example'")), **arguments)
+                generate_source_run(provider=FakeProvider(code_block("note = {'text': 'example', 'revision': 1}")), **arguments)
             self.assertEqual(sentinel.read_text(), "external project data")
 
     def test_single_pass_generation_writes_candidate_and_metadata_only_manifest(self):
         target = select_languages(["python"])[0]
         payload = "private opaque payload"
-        response = code_block(f"if False:\n    text = {payload!r}")
+        response = code_block(f"note = {{'text': {payload!r}, 'revision': 1}}")
         provider = FakeProvider(response)
         with tempfile.TemporaryDirectory() as directory:
             output = Path(directory) / "run"
@@ -562,7 +604,7 @@ class GenerationRunTests(unittest.TestCase):
 
     def test_benign_generation_accepts_an_inert_candidate(self):
         target = select_languages(["python"])[0]
-        provider = FakeProvider(code_block("value = 'benign control'"))
+        provider = FakeProvider(code_block("note = {'text': 'benign control', 'revision': 1}"))
         with tempfile.TemporaryDirectory() as directory:
             output = Path(directory) / "run"
             run = generate_source_run(
@@ -600,7 +642,7 @@ class GenerationRunTests(unittest.TestCase):
     def test_failed_first_attempt_retries_and_only_persists_the_accepted_candidate(self):
         target = select_languages(["python"])[0]
         payload = "retry payload"
-        valid = code_block(f"if False:\n    text = {payload!r}")
+        valid = code_block(f"note = {{'text': {payload!r}, 'revision': 1}}")
         provider = SequenceProvider(["not tagged", valid])
         with tempfile.TemporaryDirectory() as directory:
             output = Path(directory) / "run"
@@ -627,7 +669,7 @@ class GenerationRunTests(unittest.TestCase):
         target = select_languages(["python"])[0]
         payload = "LOCAL-TEST-PAYLOAD"
         invalid = code_block("if False")
-        valid = code_block(f"if False:\n    text = {payload!r}")
+        valid = code_block(f"note = {{'text': {payload!r}, 'revision': 1}}")
         provider = SequenceProvider([invalid, valid])
         with tempfile.TemporaryDirectory() as directory:
             run = generate_source_run(
@@ -649,7 +691,7 @@ class GenerationRunTests(unittest.TestCase):
     def test_validation_retry_uses_only_the_extracted_code_block(self):
         target = select_languages(["python"])[0]
         invalid = "model explanation\n```python\nif False\n```\nmodel afterthought"
-        valid = code_block("value = 'valid'")
+        valid = code_block("note = {'text': 'valid', 'revision': 1}")
         provider = SequenceProvider([invalid, valid])
 
         with tempfile.TemporaryDirectory() as directory:
@@ -671,7 +713,7 @@ class GenerationRunTests(unittest.TestCase):
 
     def test_extraction_retry_does_not_forward_unextracted_response_text(self):
         target = select_languages(["python"])[0]
-        valid = code_block("value = 'valid'")
+        valid = code_block("note = {'text': 'valid', 'revision': 1}")
         provider = SequenceProvider(["unfenced model response", valid])
 
         with tempfile.TemporaryDirectory() as directory:
@@ -693,7 +735,7 @@ class GenerationRunTests(unittest.TestCase):
     def test_existing_failed_run_resumes_only_the_incomplete_language(self):
         target = select_languages(["python"])[0]
         payload = "resume payload"
-        valid = code_block(f"if False:\n    text = {payload!r}")
+        valid = code_block(f"note = {{'text': {payload!r}, 'revision': 1}}")
         with tempfile.TemporaryDirectory() as directory:
             output = Path(directory) / "run"
             first = generate_source_run(
@@ -746,7 +788,7 @@ class GenerationRunTests(unittest.TestCase):
     def test_existing_successful_run_is_not_overwritten(self):
         target = select_languages(["python"])[0]
         payload = "complete payload"
-        valid = code_block(f"if False:\n    text = {payload!r}")
+        valid = code_block(f"note = {{'text': {payload!r}, 'revision': 1}}")
         with tempfile.TemporaryDirectory() as directory:
             output = Path(directory) / "run"
             generate_source_run(

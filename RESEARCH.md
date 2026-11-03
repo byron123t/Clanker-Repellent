@@ -46,8 +46,8 @@ reviewed native carriers), and generation is separate from both.
 ## Structured source generation
 
 `repel generate` is the bounded generation loop for language-native source
-drafts. It reads one UTF-8 payload, selects one or more requested languages, and makes exactly one
-OpenAI-compatible completion per selected language. The system message treats the payload as opaque data and forbids imports,
+drafts. It reads UTF-8 inputs from a file or folder, selects one or more requested languages, and makes bounded
+OpenAI-compatible completions per selected language. The system message treats the payload as opaque data and forbids imports,
 includes, I/O, dynamic evaluation, subprocesses, startup hooks, and runtime effects. It requests a
 neutral placeholder for unsafe activity rather than an implementation. Each language gets
 one independent attempt plus up to two bounded retries by default (`--retries 0..5`); each retry
@@ -57,19 +57,22 @@ optimize triggers, inject into a repository, or publish.
 It does not optimize, mutate, or publish evasive variants automatically.
 
 For local debugging and control measurements, `repel generate --benign` switches to a separate
-inert-generation contract. It asks for comments/literals/inert declarations only and fails closed
+inert-generation contract. It asks for populated data structures with literal values and inert declarations, and fails closed
 when a candidate contains conservative indicators of imports, I/O, process or network activity,
 dynamic evaluation, executable entry points, or harmful content. These runs are written below
 `results/benign-generation/<payload-name>/`, never execute generated source, and remain subject to
 human review; the static policy is deliberately conservative rather than a complete security proof.
 
-The model receives no source template or language-specific scaffold; it receives only the requested
-language and payload. Operational terms, payload processing, and side effects remain forbidden;
-acceptance is based on source parsing, compilation, formatting, and linting, not exact payload
-representation in the generated source.
+The model receives language-specific structural requirements alongside the input. Every generated
+candidate must pass `source_structure`, requiring a named data structure with at least two distinct
+fields and initialized values (or indexed table columns for Bash). Python uses AST checks; other
+languages use Pygments tokenization and conservative declaration checks. Comments and string content
+cannot supply structural syntax. This check complements source parsing, compilation, formatting,
+and linting; it does not measure semantic usefulness or exact input representation. Its version and
+counts are stored in the manifest, and older runs are not silently upgraded or overwritten.
 
 The model must return exactly one Markdown-fenced source block, optionally labeled with the target
-language. The extractor rejects missing, duplicate, malformed/nested-fenced, empty, NUL-containing,
+language. The extractor takes the first fenced block and rejects missing, malformed/nested-fenced, empty, NUL-containing,
 or oversized blocks, strips the outer fence, and passes only the unfenced source to validation.
 Surrounding chatter is ignored.
 Only accepted candidates are written below the ignored

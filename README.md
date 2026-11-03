@@ -381,6 +381,26 @@ repel generate --benign --payload /path/to/control.txt --language python --outpu
 Both modes request inert fixtures. Omitting `--benign` skips its additional content checks and uses
 the standard output directory. Static validation is not a guarantee that a candidate is harmless.
 
+Generated candidates must also pass a required `source_structure` check: a named data structure
+with at least two distinct fields and initialized values. Comments, standalone strings, scalar-only
+assignments, empty types, and code-shaped text inside strings do not satisfy this requirement.
+
+| Languages | Expected structure |
+| --- | --- |
+| Python | A populated dictionary, records, or class with initialized attributes |
+| JavaScript / TypeScript | A populated named object or array of objects |
+| Ruby | A populated named hash or array of hashes |
+| C / C++ / Go / Rust | A named record type with initialized data |
+| Java | A class with initialized data fields |
+| Swift | A struct with initialized properties or a populated dictionary |
+| Bash | Two named indexed arrays, each with at least two entries, forming table columns |
+
+Python uses AST checks; other languages use tokenized declaration checks alongside their native
+parsers/compilers. This is a structural minimum, not a measure of a snippet's usefulness.
+`--skip-linters` and `--allow-missing-toolchains` do not bypass it. The manifest records field counts
+and a `structure_profile` version without exposing source values. Older runs keep their original
+validation status; choose a new output directory for generation under these rules.
+
 Console output contains metadata only by default. Use `--show-content` explicitly to print full
 requests and responses for local debugging; `--keep-raw-responses` separately controls whether
 accepted raw responses are saved. Compatible local servers can use `--no-thinking` with the

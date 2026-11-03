@@ -8,7 +8,7 @@ version = "0.1.0"
 description = "Repel: tracked software annotations, exact restoration, and controlled repository evaluation"
 readme = "README.md"
 requires-python = ">=3.9"
-dependencies = ["openai>=1.50,<2", "prompt-toolkit>=3.0,<4"]
+dependencies = ["openai>=1.50,<2", "prompt-toolkit>=3.0,<4", "pygments>=2.18,<3"]
 
 [project.optional-dependencies]
 dev = ["coverage[toml]>=7.6,<8", "pytest>=8"]
