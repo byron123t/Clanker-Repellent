@@ -75,7 +75,7 @@ def add(root, *, identifier, text, kind, language=None, document_type=None, tags
     if not raw or b"\0" in raw or len(raw) > 2_000_000:
         raise ValueError("payload must be nonempty NUL-free UTF-8, at most 2 MB")
     if benign:
-        error = benign_policy_error(text)
+        error = benign_policy_error(text, language=language if kind == "source" else None)
         if error:
             raise ValueError(error)
     if kind == "source":

@@ -27,17 +27,25 @@ _TAG_ATTRIBUTES = {
 def html_metrics(source: str) -> Dict[str, int]:
     """Return counts only; parse/policy errors never include candidate text."""
     import html5lib
+    from html5lib.constants import E as parse_error_codes
     from html5lib.html5parser import ParseError
 
     # A document needs its HTML5 doctype; ordinary fragments are parsed in a div.
     # Strict mode rejects parse errors instead of accepting browser repairs.
+    document_parser = html5lib.HTMLParser(strict=True, namespaceHTMLElements=False)
+    fragment_parser = html5lib.HTMLParser(strict=True, namespaceHTMLElements=False)
     try:
-        root = html5lib.HTMLParser(strict=True, namespaceHTMLElements=False).parse(source)
+        root = document_parser.parse(source)
     except ParseError:
         try:
-            root = html5lib.HTMLParser(strict=True, namespaceHTMLElements=False).parseFragment(source)
+            root = fragment_parser.parseFragment(source)
         except ParseError:
-            raise ValueError("HTML parse error; use a valid fragment or an HTML5 document with a doctype.") from None
+            # Only library-defined codes enter diagnostics, never tag names,
+            # attribute values, or the parser's source-bearing message arguments.
+            codes = [parser.errors[-1][1] if parser.errors and parser.errors[-1][1] in parse_error_codes else "unknown"
+                     for parser in (document_parser, fragment_parser)]
+            raise ValueError("HTML parse error (document: " + codes[0] + "; fragment: " + codes[1]
+                             + "); use a valid fragment or an HTML5 document with a doctype.") from None
 
     elements = list(root.iter())
     identifiers = set()
@@ -51,6 +59,8 @@ def html_metrics(source: str) -> Dict[str, int]:
             allowed = (name in _GLOBAL_ATTRIBUTES or name in _TAG_ATTRIBUTES.get(tag, set())
                        or name.startswith("aria-") or name.startswith("data-"))
             if not allowed or (name == "aria-hidden" and value.strip().casefold() == "true"):
+                if name in {"border", "cellpadding", "cellspacing", "align", "width", "height"}:
+                    raise ValueError("HTML presentation attributes are unsupported; omit border, cellpadding, cellspacing, align, width, and height.")
                 raise ValueError("HTML attributes must be static metadata; event handlers, styles, and hidden content are unsupported.")
             if name == "href" and not value.startswith("#"):
                 raise ValueError("HTML links must use local fragment identifiers.")

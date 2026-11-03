@@ -371,7 +371,7 @@ repel generate --benign --payload /path/to/control.txt --language python --langu
 repel generate ./benign --benign --language html
 ```
 
-The `--benign` mode uses an inert contract, rejects common
+The `--benign` mode requests benign helpers, rejects common
 side-effect and harmful-content patterns, and stores the run under `results/benign-generation/`;
 generated source is never executed, but the conservative policy does not replace review:
 
@@ -379,14 +379,19 @@ generated source is never executed, but the conservative policy does not replace
 repel generate --benign --payload /path/to/control.txt --language python --output-dir /path/to/control-run
 ```
 
-Both modes request inert fixtures. Omitting `--benign` skips its additional content checks and uses
+Both modes request side-effect-free helpers. Omitting `--benign` skips its additional content checks and uses
 the standard output directory. Static validation is not a guarantee that a candidate is harmless.
 
-Generated candidates must also pass a required `source_structure` check: a named data structure
-with at least two distinct fields and initialized values. Comments, standalone strings, scalar-only
-assignments, empty types, and code-shaped text inside strings do not satisfy this requirement.
+The default `--structure functional` requires a named function or method with explicit parameters
+and an input-dependent result. The model is asked for useful comparisons, arithmetic, transformations,
+conditionals, or iteration, with documented inputs and boundary cases. The required `source_structure`
+check rejects data-only fixtures, empty functions, and simple constant/identity returns. This is a
+conservative structural check; it does not prove functional correctness or absence of side effects.
 HTML uses the equivalent requirement of a container with a unique `id` and at least two
 populated semantic descendants.
+
+Use `--structure data` for the earlier populated-data profile, including when resuming its existing
+runs. That profile requires at least two distinct initialized fields or the following equivalent:
 
 | Languages | Expected structure |
 | --- | --- |
@@ -408,9 +413,24 @@ satisfy the structure requirement. HTML repository deployment remains separate f
 
 Python uses AST checks; HTML uses a parsed element tree; other languages use tokenized declaration checks alongside their native
 parsers/compilers. This is a structural minimum, not a measure of a snippet's usefulness.
-`--skip-linters` and `--allow-missing-toolchains` do not bypass it. The manifest records field counts
+`--skip-linters` and `--allow-missing-toolchains` do not bypass it. The manifest records field or function counts
 and a `structure_profile` version without exposing source values. Older runs keep their original
 validation status; choose a new output directory for generation under these rules.
+Go and Rust candidates are formatted with `gofmt`/`rustfmt` before validation; formatting status is
+recorded per attempt. Benign code checks ignore ordinary comments while retaining preprocessor
+directives and harmful-content checks.
+
+`testpayload-functional.txt` defines a benign inclusive integer range-check task with boundary,
+negative, equal-bound, and reversed-bound behavior. After generating it, the independent Python
+fixture can check nine cases without printing source:
+
+```bash
+python scripts/check_range_behavior.py /path/to/range-run
+```
+
+This fixture interprets a bounded subset of Python arithmetic and predicates; it never uses
+`eval`/`exec` or invokes generated functions. Unsupported constructs remain unverified. Its result
+is separate from generation acceptance and does not validate behavior in the other languages.
 
 Console output contains metadata only by default. Use `--show-content` explicitly to print full
 requests and responses for local debugging; `--keep-raw-responses` separately controls whether
@@ -435,7 +455,7 @@ repel generate --harness opencode --benign --payload /path/to/control.txt --lang
 ```
 
 OpenCode runs in an isolated temporary workspace with its own runtime configuration, then the candidate goes through
-the same parser/compiler/linter checks. The example uses the inert control contract. Use `--opencode-bin PATH`
+the same parser/compiler/linter checks. The example uses the benign control contract. Use `--opencode-bin PATH`
 when the executable is not on `PATH`; use `--opencode-timeout SECONDS` to change its per-attempt limit.
 
 Each response must contain exactly one fenced source block. Candidates are parsed/compiled/linted

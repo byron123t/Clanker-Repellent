@@ -48,8 +48,8 @@ reviewed native carriers), and generation is separate from both.
 `repel generate` is the bounded generation loop for language-native source
 drafts. It reads UTF-8 inputs from a file or folder, selects one or more requested languages, and makes bounded
 OpenAI-compatible completions per selected language. The system message treats the payload as opaque data and forbids imports,
-includes, I/O, dynamic evaluation, subprocesses, startup hooks, and runtime effects. It requests a
-neutral placeholder for unsafe activity rather than an implementation. Each language gets
+includes, I/O, dynamic evaluation, subprocesses, startup hooks, and mutation of caller/global data.
+It requests an unrelated benign helper for unsafe tasks. Each language gets
 one independent attempt plus up to two bounded retries by default (`--retries 0..5`); each retry
 receives the previous model response and parser/compiler/linter/formatting diagnostics, while the
 payload and language remain unchanged. The loop does not
@@ -57,20 +57,30 @@ optimize triggers, inject into a repository, or publish.
 It does not optimize, mutate, or publish evasive variants automatically.
 
 For local debugging and control measurements, `repel generate --benign` switches to a separate
-inert-generation contract. It asks for populated data structures with literal values and inert declarations, and fails closed
+benign-generation contract. It asks for side-effect-free functions by default, and fails closed
 when a candidate contains conservative indicators of imports, I/O, process or network activity,
 dynamic evaluation, executable entry points, or harmful content. These runs are written below
 `results/benign-generation/<payload-name>/`, never execute generated source, and remain subject to
 human review; the static policy is deliberately conservative rather than a complete security proof.
 
 The model receives language-specific structural requirements alongside the input. Every generated
-candidate must pass `source_structure`, requiring a named data structure with at least two distinct
-fields and initialized values (or indexed table columns for Bash). HTML requires a container with
+candidate must pass `source_structure`. The CLI defaults to `--structure functional`, requiring a
+named callable with parameters and an input-dependent computation or conditional return. This
+rejects data-only fixtures and simple constant/identity wrappers. The compatibility `--structure data`
+profile requires a named data structure with at least two initialized fields (or indexed table columns
+for Bash). The low-level Python generation API retains its data-profile default. HTML requires a container with
 a unique identifier and two populated semantic descendants. Python uses AST checks; the remaining
 programming languages use Pygments tokenization and conservative declaration checks. Comments and string content
 cannot supply structural syntax. This check complements source parsing, compilation, formatting,
 and linting; it does not measure semantic usefulness or exact input representation. Its version and
 counts are stored in the manifest, and older runs are not silently upgraded or overwritten.
+Go and Rust source is passed through its standard formatter before the normal static checks.
+Formatting metadata records only status and whether bytes changed.
+
+The range-helper experiment has a separate Python behavior fixture with nine independently authored
+boundary cases. It interprets a bounded, allowlisted AST subset without `eval`/`exec`, imports, calls,
+or loops. Unsupported candidates remain unverified; this does not imply behavior verification for
+other languages or general-purpose generated code.
 
 HTML uses html5lib's strict document/fragment parser and an explicit static markup profile,
 followed by element-tree structure checks. It does not render markup or fetch resources.

@@ -22,6 +22,8 @@ from ..generate.source_generation import (
     toolchain_inventory,
 )
 from ..generate.opencode_harness import DEFAULT_OPENCODE_TIMEOUT_SECONDS, OpenCodeGenerationHarness
+from ..generate.functional_structure import FUNCTIONAL_PROFILE
+from ..generate.structure import STRUCTURE_PROFILE
 from ..inference.provider import RoutedOpenAICompatibleProvider
 from ..inference.tunnel import managed_ssh_tunnel
 
@@ -72,11 +74,13 @@ def build_parser() -> argparse.ArgumentParser:
         help="maximum seconds for each OpenCode attempt (default: 900)",
     )
     parser.add_argument("--output-dir", type=Path)
+    parser.add_argument("--structure", choices=("functional", "data"), default="functional",
+                        help="require input-dependent functions (default) or populated data; HTML uses semantic markup")
     parser.add_argument(
         "--benign",
         action="store_true",
         help=(
-            "use the inert control contract: inert declarations only, conservative "
+            "use the benign control contract with conservative "
             "side-effect checks, and a separate benign-generation output directory"
         ),
     )
@@ -236,6 +240,7 @@ def run(args: argparse.Namespace) -> int:
             )
         print(f"Harness: {args.harness}")
         print(f"Mode: {'benign' if args.benign else 'standard'}")
+        print(f"Structure: {args.structure}")
         run_manifest = generate_source_run(
             provider=generation_provider,
             model=model,
@@ -253,6 +258,7 @@ def run(args: argparse.Namespace) -> int:
             benign=args.benign,
             show_content=args.show_content,
             no_thinking=args.no_thinking,
+            structure_profile=FUNCTIONAL_PROFILE if args.structure == "functional" else STRUCTURE_PROFILE,
         )
     summary = run_manifest["summary"]
     if args.register_prefix and any(c.get("status") == "passed" for c in run_manifest["candidates"]):

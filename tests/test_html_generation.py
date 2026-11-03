@@ -76,6 +76,14 @@ class HTMLGenerationTests(unittest.TestCase):
         self.assertNotIn('PRIVATE', metadata)
         self.assertNotIn('<section', metadata)
 
+    def test_parse_diagnostics_expose_codes_only(self):
+        report = self.validate('<section id="PRIVATE_ID"><h2>PRIVATE_TEXT</h2></PRIVATE_TAG>')
+        self.assertFalse(report['accepted'])
+        diagnostic = report['checks'][0]['_stderr']
+        self.assertIn('document:', diagnostic)
+        self.assertIn('fragment:', diagnostic)
+        self.assertNotIn('PRIVATE', diagnostic)
+
     def test_missing_parser_cannot_be_bypassed(self):
         with mock.patch('clanker_repellent.generate.html_structure.html_metrics', side_effect=ImportError):
             report = self.validate(FRAGMENT, allow_missing_toolchains=True)
