@@ -54,7 +54,8 @@ class GenerateCliTests(unittest.TestCase):
 
         self.assertEqual(status, 0)
         languages = output.getvalue().splitlines()
-        self.assertEqual(len(languages), 11)
+        self.assertEqual(len(languages), 12)
+        self.assertIn("html\tgenerated.html", languages)
         self.assertIn("python\tgenerated.py", languages)
 
     def test_lists_toolchains_without_a_payload(self):

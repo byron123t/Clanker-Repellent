@@ -5,6 +5,7 @@ from clanker_repellent.generate.source_generation import select_languages, valid
 
 
 EXAMPLES = {
+    "html": '<section id="annotation"><h2>Example</h2><p>Ordinary documentation.</p></section>',
     "python": 'ANNOTATION = {"text": "note", "revision": 1}\n',
     "bash": 'annotation_texts=("first" "second")\nannotation_revisions=(1 2)\n',
     "c": 'typedef struct Annotation { const char *text; int revision; } Annotation;\nconst Annotation annotation = {"note", 1};\n',
@@ -37,6 +38,8 @@ class StructureTests(unittest.TestCase):
         for language, source in EXAMPLES.items():
             prefix = "# " if language in {"bash", "python", "ruby"} else "// "
             commented = "\n".join(prefix + line for line in source.splitlines())
+            if language == "html":
+                commented = "<!--" + source + "-->"
             with self.subTest(language=language):
                 self.assertFalse(self.passes(language, commented))
 

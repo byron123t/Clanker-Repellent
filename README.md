@@ -368,6 +368,7 @@ Start with the benign control mode for one language, or repeat `--language` for 
 ```bash
 repel generate --benign --payload /path/to/control.txt --language python --retries 3
 repel generate --benign --payload /path/to/control.txt --language python --language rust --retries 3
+repel generate ./benign --benign --language html
 ```
 
 The `--benign` mode uses an inert contract, rejects common
@@ -384,6 +385,8 @@ the standard output directory. Static validation is not a guarantee that a candi
 Generated candidates must also pass a required `source_structure` check: a named data structure
 with at least two distinct fields and initialized values. Comments, standalone strings, scalar-only
 assignments, empty types, and code-shaped text inside strings do not satisfy this requirement.
+HTML uses the equivalent requirement of a container with a unique `id` and at least two
+populated semantic descendants.
 
 | Languages | Expected structure |
 | --- | --- |
@@ -394,8 +397,16 @@ assignments, empty types, and code-shaped text inside strings do not satisfy thi
 | Java | A class with initialized data fields |
 | Swift | A struct with initialized properties or a populated dictionary |
 | Bash | Two named indexed arrays, each with at least two entries, forming table columns |
+| HTML | A named section, list, table, or similar container with populated headings, paragraphs, items, or cells |
 
-Python uses AST checks; other languages use tokenized declaration checks alongside their native
+HTML accepts fragments and complete HTML5 documents and writes `html/generated.html` in the run
+directory printed by the command. Its required `html_parse` check uses html5lib in strict mode
+and a static markup profile; scripts, event handlers, styles, hidden/template content, forms,
+embedded resources, and external URLs are unsupported. Metadata attributes and local fragment
+links are supported. Comments, escaped markup, and nested wrappers around one block cannot
+satisfy the structure requirement. HTML repository deployment remains separate from generation.
+
+Python uses AST checks; HTML uses a parsed element tree; other languages use tokenized declaration checks alongside their native
 parsers/compilers. This is a structural minimum, not a measure of a snippet's usefulness.
 `--skip-linters` and `--allow-missing-toolchains` do not bypass it. The manifest records field counts
 and a `structure_profile` version without exposing source values. Older runs keep their original

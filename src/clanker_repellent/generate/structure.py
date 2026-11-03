@@ -16,6 +16,7 @@ from typing import Any, Dict, List
 
 STRUCTURE_PROFILE = "populated-data-v1"
 LANGUAGE_HINTS = {
+    "html": "Use a static HTML fragment or a complete HTML5 document. Include a container such as section, article, ul, dl, or table with a unique nonempty id and at least two populated semantic descendants, such as a heading and paragraph, list items, or table cells. Prefer a heading plus a populated list or table. Use plain semantic elements, inline text formatting, and id/class/aria-/data- metadata only; no scripts, styles, event handlers, templates, hidden content, embedded media, forms, or external URLs. Complete documents need <!DOCTYPE html> and may include UTF-8 charset metadata.",
     "python": "Use a named dictionary with at least two distinct literal keys and initialized values, or a class with at least two initialized data attributes. A list of such records is also suitable.",
     "bash": "Use two distinct named indexed arrays as table columns, each containing at least two literal entries. Use plain array assignments, no commands, substitutions, or associative arrays.",
     "c": "Define a named struct with at least two separately declared fields and an externally visible const instance or array initializing every field. Use no headers; avoid static unused declarations and empty translation units.",
@@ -229,6 +230,9 @@ def _python_structure(source: str):
 def structure_metrics(language: str, source: str) -> Dict[str, Any]:
     """Return only counts and fixed labels, never identifiers, literals, or source text."""
     metrics: Dict[str, Any] = {"profile": STRUCTURE_PROFILE, "fields": 0, "initialized_fields": 0}
+    if language == "html":
+        from .html_structure import html_metrics
+        return dict(metrics, **html_metrics(source))
     if language == "python":
         fields = _python_structure(source)
         return dict(metrics, fields=fields, initialized_fields=fields)

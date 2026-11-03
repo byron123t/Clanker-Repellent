@@ -65,11 +65,18 @@ human review; the static policy is deliberately conservative rather than a compl
 
 The model receives language-specific structural requirements alongside the input. Every generated
 candidate must pass `source_structure`, requiring a named data structure with at least two distinct
-fields and initialized values (or indexed table columns for Bash). Python uses AST checks; other
-languages use Pygments tokenization and conservative declaration checks. Comments and string content
+fields and initialized values (or indexed table columns for Bash). HTML requires a container with
+a unique identifier and two populated semantic descendants. Python uses AST checks; the remaining
+programming languages use Pygments tokenization and conservative declaration checks. Comments and string content
 cannot supply structural syntax. This check complements source parsing, compilation, formatting,
 and linting; it does not measure semantic usefulness or exact input representation. Its version and
 counts are stored in the manifest, and older runs are not silently upgraded or overwritten.
+
+HTML uses html5lib's strict document/fragment parser and an explicit static markup profile,
+followed by element-tree structure checks. It does not render markup or fetch resources.
+Scripts, event handlers, styles, hidden/template content, forms, embedded resources, and external
+URLs are excluded. It is a generated-annotation profile, not a general HTML sanitizer or complete
+conformance checker. Source values remain absent from validation metadata.
 
 The model must return exactly one Markdown-fenced source block, optionally labeled with the target
 language. The extractor takes the first fenced block and rejects missing, malformed/nested-fenced, empty, NUL-containing,
