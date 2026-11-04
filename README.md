@@ -369,6 +369,7 @@ Start with the benign control mode for one language, or repeat `--language` for 
 repel generate --benign --payload /path/to/control.txt --language python --retries 3
 repel generate --benign --payload /path/to/control.txt --language python --language rust --retries 3
 repel generate ./benign --benign --language html
+repel generate testpayload-functional.txt --benign --language java,lua,sql
 ```
 
 The `--benign` mode requests benign helpers, rejects common
@@ -388,7 +389,8 @@ conditionals, or iteration, with documented inputs and boundary cases. The requi
 check rejects data-only fixtures, empty functions, and simple constant/identity returns. This is a
 conservative structural check; it does not prove functional correctness or absence of side effects.
 HTML uses the equivalent requirement of a container with a unique `id` and at least two
-populated semantic descendants.
+populated semantic descendants. SQL uses a self-contained SQLite `SELECT` with named
+`:name` inputs, a computed result, and an explicit `AS result_name` alias.
 
 Use `--structure data` for the earlier populated-data profile, including when resuming its existing
 runs. That profile requires at least two distinct initialized fields or the following equivalent:
@@ -398,6 +400,8 @@ runs. That profile requires at least two distinct initialized fields or the foll
 | Python | A populated dictionary, records, or class with initialized attributes |
 | JavaScript / TypeScript | A populated named object or array of objects |
 | Ruby | A populated named hash or array of hashes |
+| Lua | A named local table with at least two initialized fields |
+| SQL | A self-contained SQLite `SELECT` with at least two aliased literal columns |
 | C / C++ / Go / Rust | A named record type with initialized data |
 | Java | A class with initialized data fields |
 | Swift | A struct with initialized properties or a populated dictionary |
@@ -411,7 +415,16 @@ embedded resources, and external URLs are unsupported. Metadata attributes and l
 links are supported. Comments, escaped markup, and nested wrappers around one block cannot
 satisfy the structure requirement. HTML repository deployment remains separate from generation.
 
-Python uses AST checks; HTML uses a parsed element tree; other languages use tokenized declaration checks alongside their native
+Lua writes `lua/generated.lua` and uses `luac -p` to check syntax without running the source.
+SQL writes `sql/generated.sql`. Its required `sql_prepare` check compiles `EXPLAIN SELECT`
+in a private in-memory SQLite database, without evaluating the candidate query. An authorizer
+rejects table access, writes, schema changes, and unsupported functions; this profile excludes
+CTEs and stored functions. For the range-helper task, the query accepts `:value`, `:lower`,
+and `:upper` and returns `1` or `0` as `in_range`. SQL needs no external database server.
+Java requires a working `javac` on `PATH`; the macOS launcher alone is not a JDK.
+
+Python uses AST checks; HTML uses a parsed element tree; SQL uses prepared-query checks;
+other languages use tokenized declaration checks alongside their native
 parsers/compilers. This is a structural minimum, not a measure of a snippet's usefulness.
 `--skip-linters` and `--allow-missing-toolchains` do not bypass it. The manifest records field or function counts
 and a `structure_profile` version without exposing source values. Older runs keep their original

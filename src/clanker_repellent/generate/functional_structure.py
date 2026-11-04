@@ -12,6 +12,8 @@ from .structure import Atom, Group, _groups, _is, _lex, _parts, _word
 
 FUNCTIONAL_PROFILE = "input-dependent-functions-v1"
 FUNCTIONAL_HINTS = {
+    "lua": "Define a named function with parenthesized parameters and an explicit input-dependent return value, using function name(args) ... end. Use comparisons, arithmetic, conditionals, or loops. No require, I/O, external calls, or top-level function calls.",
+    "sql": "Use one self-contained SQLite SELECT with named :name inputs, an explicit AS result_name alias, and a computed result. Use comparisons, CASE, or pure scalar expressions; no tables, CTEs, writes, schema changes, or external functions.",
     "python": "Define a named function with explicit parameters and a return value computed from them. Use comparisons, arithmetic, conditionals, or iteration. No top-level calls, imports, or I/O.",
     "javascript": "Define a named function with explicit parameters and return a computed value. Use ordinary function declarations, comparisons, arithmetic, conditionals, or loops. No imports or top-level calls.",
     "typescript": "Define a named function with typed parameters and an explicit return type. Return a computed value using comparisons, arithmetic, conditionals, or loops. No imports or top-level calls.",
@@ -130,10 +132,11 @@ def _token_metrics(source: str, language: str) -> Dict[str, int]:
                         break
                 visit(item.items)
 
-    if language == "ruby":
+    if language in {"ruby", "lua"}:
+        keyword = "def" if language == "ruby" else "function"
         for i, item in enumerate(nodes):
-            if _is(item, "def") and i + 2 < len(nodes) and _word(nodes[i + 1]) and isinstance(nodes[i + 2], Group):
-                end = next((j for j in range(i + 3, len(nodes)) if _is(nodes[j], "def")), len(nodes))
+            if _is(item, keyword) and i + 2 < len(nodes) and _word(nodes[i + 1]) and isinstance(nodes[i + 2], Group):
+                end = next((j for j in range(i + 3, len(nodes)) if _is(nodes[j], keyword)), len(nodes))
                 functions.append((_parameters(nodes[i + 2], language), nodes[i + 3:end]))
     else:
         visit(nodes)
@@ -191,5 +194,8 @@ def _token_metrics(source: str, language: str) -> Dict[str, int]:
 
 
 def functional_metrics(language: str, source: str) -> Dict[str, Any]:
+    if language == "sql":
+        from .sql_structure import inspect_sql
+        return dict(inspect_sql(source), profile=FUNCTIONAL_PROFILE)
     metrics = _python_metrics(source) if language == "python" else _token_metrics(source, language)
     return dict(metrics, profile=FUNCTIONAL_PROFILE)

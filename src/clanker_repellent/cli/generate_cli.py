@@ -75,7 +75,7 @@ def build_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument("--output-dir", type=Path)
     parser.add_argument("--structure", choices=("functional", "data"), default="functional",
-                        help="require input-dependent functions (default) or populated data; HTML uses semantic markup")
+                        help="require input-dependent functions (default) or populated data; HTML uses semantic markup, SQL uses SQLite queries")
     parser.add_argument(
         "--benign",
         action="store_true",

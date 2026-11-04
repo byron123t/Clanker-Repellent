@@ -69,7 +69,9 @@ named callable with parameters and an input-dependent computation or conditional
 rejects data-only fixtures and simple constant/identity wrappers. The compatibility `--structure data`
 profile requires a named data structure with at least two initialized fields (or indexed table columns
 for Bash). The low-level Python generation API retains its data-profile default. HTML requires a container with
-a unique identifier and two populated semantic descendants. Python uses AST checks; the remaining
+a unique identifier and two populated semantic descendants. SQL requires a self-contained SQLite
+`SELECT` with named `:name` inputs, an explicit result alias, and a computation; its data profile
+requires two aliased literal columns. Python uses AST checks; the remaining
 programming languages use Pygments tokenization and conservative declaration checks. Comments and string content
 cannot supply structural syntax. This check complements source parsing, compilation, formatting,
 and linting; it does not measure semantic usefulness or exact input representation. Its version and
@@ -88,6 +90,14 @@ Scripts, event handlers, styles, hidden/template content, forms, embedded resour
 URLs are excluded. It is a generated-annotation profile, not a general HTML sanitizer or complete
 conformance checker. Source values remain absent from validation metadata.
 
+SQL validation prepares `EXPLAIN SELECT` against a new in-memory SQLite connection without
+evaluating the candidate query. Because `EXPLAIN` alone does not prevent prepare-time effects,
+the validator also requires a `SELECT` prefix and installs an authorizer that permits only
+SELECT operations and a small set of pure scalar functions. Table access, writes, schema
+changes, PRAGMAs, attachment, and extension functions are rejected. This narrow profile
+excludes CTEs and stored functions. Its structural counts omit parameter and column names;
+compiler errors are replaced with fixed diagnostics. Query behavior remains a separate check.
+
 The model must return exactly one Markdown-fenced source block, optionally labeled with the target
 language. The extractor takes the first fenced block and rejects missing, malformed/nested-fenced, empty, NUL-containing,
 or oversized blocks, strips the outer fence, and passes only the unfenced source to validation.
@@ -104,7 +114,7 @@ The validator registry is deliberately static and never runs generated source. P
 parser and builtin compiler; C/C++ use syntax-only compilers with warnings as errors; Rust uses
 `rustc` with `-Dwarnings`; Go uses `gofmt` plus `go tool compile`; Java uses `javac -proc:none`
 with `-Xlint:all -Werror`; JavaScript uses `node --check`; TypeScript uses `tsc --noEmit`;
-Ruby uses `ruby -cw`; Bash uses `bash -n`; and Swift uses `swiftc -typecheck -warnings-as-errors`.
+Ruby uses `ruby -cw`; Lua uses `luac -p`; Bash uses `bash -n`; and Swift uses `swiftc -typecheck -warnings-as-errors`.
 Optional standalone linters (ruff, clang-tidy, rustfmt, eslint, RuboCop, shellcheck, and
 swift-format) run when installed. Required-tool absence fails closed unless
 `--allow-missing-toolchains` explicitly records a partial result. Compiler/parser processes have a

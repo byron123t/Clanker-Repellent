@@ -54,7 +54,9 @@ class GenerateCliTests(unittest.TestCase):
 
         self.assertEqual(status, 0)
         languages = output.getvalue().splitlines()
-        self.assertEqual(len(languages), 12)
+        self.assertEqual(len(languages), 14)
+        self.assertIn("lua\tgenerated.lua", languages)
+        self.assertIn("sql\tgenerated.sql", languages)
         self.assertIn("html\tgenerated.html", languages)
         self.assertIn("python\tgenerated.py", languages)
 

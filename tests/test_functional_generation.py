@@ -10,6 +10,8 @@ from clanker_repellent.generate.source_generation import benign_policy_error, bu
 
 
 EXAMPLES = {
+    "lua": 'function in_range(value, lower, upper)\n    return lower <= value and value <= upper\nend\n',
+    "sql": 'SELECT CASE WHEN :lower <= :value AND :value <= :upper THEN 1 ELSE 0 END AS in_range;\n',
     "python": 'def in_range(value, lower, upper):\n    return lower <= value <= upper\n',
     "c": 'int in_range(int value, int lower, int upper) { return lower <= value && value <= upper; }\n',
     "cpp": 'inline bool in_range(int value, int lower, int upper) { return lower <= value && value <= upper; }\n',
@@ -35,7 +37,8 @@ class FunctionalGenerationTests(unittest.TestCase):
         self.assertEqual(set(EXAMPLES), set(FUNCTIONAL_HINTS))
         for language, source in EXAMPLES.items():
             with self.subTest(language=language):
-                self.assertGreater(functional_metrics(language, source)["qualifying_functions"], 0)
+                metrics = functional_metrics(language, source)
+                self.assertGreater(metrics.get("qualifying_functions", metrics.get("qualifying_queries", 0)), 0)
 
     def test_data_only_and_constant_or_identity_functions_fail(self):
         examples = [
@@ -57,8 +60,14 @@ class FunctionalGenerationTests(unittest.TestCase):
         for language, source in EXAMPLES.items():
             prefix = "# " if language in {"python", "ruby", "bash"} else "// "
             commented = "\n".join(prefix + line for line in source.splitlines())
+            if language in {"lua", "sql"}:
+                commented = "\n".join("-- " + line for line in source.splitlines())
             with self.subTest(language=language):
-                self.assertEqual(functional_metrics(language, commented)["qualifying_functions"], 0)
+                if language == "sql":
+                    with self.assertRaises(ValueError):
+                        functional_metrics(language, commented)
+                else:
+                    self.assertEqual(functional_metrics(language, commented)["qualifying_functions"], 0)
         self.assertEqual(functional_metrics("javascript", 'const text = `function example(value) {return value + 1;}`;')["qualifying_functions"], 0)
 
     def test_python_computed_locals_and_conditional_results(self):

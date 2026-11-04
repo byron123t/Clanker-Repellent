@@ -16,6 +16,8 @@ from typing import Any, Dict, List
 
 STRUCTURE_PROFILE = "populated-data-v1"
 LANGUAGE_HINTS = {
+    "lua": "Use a named local table with at least two distinct named fields and initialized literal values. Use local name = {field = value, other = value} syntax without calls or imports.",
+    "sql": "Use one self-contained SQLite SELECT with at least two distinct AS column_name aliases and literal values. Use no tables, input parameters, CTEs, writes, schema changes, or external functions.",
     "html": "Use a static HTML fragment or a complete HTML5 document. Include a container such as section, article, ul, dl, or table with a unique nonempty id and at least two populated semantic descendants, such as a heading and paragraph, list items, or table cells. Prefer a heading plus a populated list or table. Use plain semantic elements, inline text formatting, and id/class/aria-/data- metadata only; no scripts, styles, event handlers, templates, hidden content, embedded media, forms, or external URLs. Complete documents need <!DOCTYPE html> and may include UTF-8 charset metadata.",
     "python": "Use a named dictionary with at least two distinct literal keys and initialized values, or a class with at least two initialized data attributes. A list of such records is also suitable.",
     "bash": "Use two distinct named indexed arrays as table columns, each containing at least two literal entries. Use plain array assignments, no commands, substitutions, or associative arrays.",
@@ -129,7 +131,7 @@ def _parts(items: List[Any], separators: set) -> List[List[Any]]:
     return [part for part in parts if part]
 
 
-def _map_fields(group: Group) -> int:
+def _map_fields(group: Group, *, assignment: bool = False) -> int:
     keys = set()
     for part in _parts(group.items, {","}):
         if len(part) < 3 or not isinstance(part[0], Atom):
@@ -137,7 +139,7 @@ def _map_fields(group: Group) -> int:
         if not (_word(part[0]) or part[0].kind in {"string", "symbol"}):
             continue
         arrow = len(part) >= 4 and _is(part[1], "=") and _is(part[2], ">")
-        if (_is(part[1], ":") or _is(part[1], "=>") or arrow) and _literal_value(part[3:] if arrow else part[2:]):
+        if (_is(part[1], ":") or _is(part[1], "=>") or arrow or assignment and _is(part[1], "=")) and _literal_value(part[3:] if arrow else part[2:]):
             key = part[0].value.strip(":")
             if part[0].kind == "string":
                 try:
@@ -233,6 +235,9 @@ def structure_metrics(language: str, source: str) -> Dict[str, Any]:
     if language == "html":
         from .html_structure import html_metrics
         return dict(metrics, **html_metrics(source))
+    if language == "sql":
+        from .sql_structure import inspect_sql
+        return dict(metrics, **inspect_sql(source))
     if language == "python":
         fields = _python_structure(source)
         return dict(metrics, fields=fields, initialized_fields=fields)
@@ -288,16 +293,16 @@ def structure_metrics(language: str, source: str) -> Dict[str, Any]:
                 if len(values) >= 2 and all(isinstance(value, Atom) for value in values):
                     arrays.add(before[-1].value if _word(before[-1]) else "")
                 continue
-            if language in {"javascript", "typescript", "ruby", "swift"} and isinstance(group, Group):
+            if language in {"javascript", "typescript", "ruby", "swift", "lua"} and isinstance(group, Group):
                 required = {"javascript": {"const", "let", "var"}, "typescript": {"const", "let", "var"},
-                            "ruby": set(), "swift": {"let", "var"}}[language]
+                            "ruby": set(), "swift": {"let", "var"}, "lua": {"local"}}[language]
                 if required and not any(_is(atom, word) for atom in before for word in required):
                     continue
                 allowed = {"["} if language == "swift" else {"{"}
                 candidates = [group] if group.opener in allowed else []
                 if group.opener == "[":
                     candidates += [child for child in group.items if isinstance(child, Group) and child.opener in allowed]
-                fields = max((_map_fields(candidate) for candidate in candidates), default=0)
+                fields = max((_map_fields(candidate, assignment=language == "lua") for candidate in candidates), default=0)
                 if fields >= 2:
                     metrics.update(fields=fields, initialized_fields=fields)
             for name, fields in definitions.items():
