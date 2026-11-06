@@ -1,0 +1,4 @@
+# These are byte-counted HTTP fixtures, with CRLF headers and a UTF-8 JSON body.
+examples/benign-formats/controls/*.http -text whitespace=cr-at-eol
+# The native reference checker pins the exact authored LLVM source hashes.
+examples/benign-formats/controls/*.ll text eol=lf
