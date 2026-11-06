@@ -5,6 +5,7 @@ from clanker_repellent.generate.source_generation import select_languages, valid
 
 
 EXAMPLES = {
+    "llvm": '@revision = constant i32 1\n@enabled = constant i1 true\n',
     "lua": 'local annotation = {text = "example", revision = 1}\n',
     "sql": "SELECT 'example' AS text, 1 AS revision;\n",
     "html": '<section id="annotation"><h2>Example</h2><p>Ordinary documentation.</p></section>',
@@ -44,6 +45,8 @@ class StructureTests(unittest.TestCase):
                 commented = "<!--" + source + "-->"
             if language in {"lua", "sql"}:
                 commented = "\n".join("-- " + line for line in source.splitlines())
+            if language == "llvm":
+                commented = "\n".join("; " + line for line in source.splitlines())
             with self.subTest(language=language):
                 self.assertFalse(self.passes(language, commented))
 

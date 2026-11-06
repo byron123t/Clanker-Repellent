@@ -8,10 +8,12 @@ import ast
 from typing import Any, Dict, List
 
 from .structure import Atom, Group, _groups, _is, _lex, _parts, _word
+from .llvm_structure import FUNCTION_HINT, llvm_metrics
 
 
 FUNCTIONAL_PROFILE = "input-dependent-functions-v1"
 FUNCTIONAL_HINTS = {
+    "llvm": FUNCTION_HINT,
     "lua": "Define a named function with parenthesized parameters and an explicit input-dependent return value, using function name(args) ... end. Use comparisons, arithmetic, conditionals, or loops. No require, I/O, external calls, or top-level function calls.",
     "sql": "Use one self-contained SQLite SELECT with named :name inputs, an explicit AS result_name alias, and a computed result. Use comparisons, CASE, or pure scalar expressions; no tables, CTEs, writes, schema changes, or external functions.",
     "python": "Define a named function with explicit parameters and a return value computed from them. Use comparisons, arithmetic, conditionals, or iteration. No top-level calls, imports, or I/O.",
@@ -194,6 +196,8 @@ def _token_metrics(source: str, language: str) -> Dict[str, int]:
 
 
 def functional_metrics(language: str, source: str) -> Dict[str, Any]:
+    if language == "llvm":
+        return dict(llvm_metrics(source), profile=FUNCTIONAL_PROFILE)
     if language == "sql":
         from .sql_structure import inspect_sql
         return dict(inspect_sql(source), profile=FUNCTIONAL_PROFILE)

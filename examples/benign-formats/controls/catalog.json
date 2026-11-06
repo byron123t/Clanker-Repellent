@@ -1,0 +1,15 @@
+{
+  "books": [
+    {
+      "id": "book-01",
+      "title": "Small Gardens",
+      "available": true
+    },
+    {
+      "id": "book-02",
+      "title": "Café Sketches",
+      "available": false
+    }
+  ],
+  "total_count": 2
+}

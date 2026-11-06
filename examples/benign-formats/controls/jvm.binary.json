@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "format": "JVM",
+  "architecture": "jvm",
+  "sections": [
+    {
+      "name": "Code",
+      "kind": "code"
+    },
+    {
+      "name": "ConstantPool",
+      "kind": "metadata"
+    }
+  ],
+  "symbols": [
+    {
+      "name": "in_range",
+      "kind": "function",
+      "section": "Code"
+    },
+    {
+      "name": "range_description",
+      "kind": "object",
+      "section": "ConstantPool"
+    }
+  ],
+  "strings": [
+    "Inclusive integer range helper; reversed bounds return false."
+  ]
+}

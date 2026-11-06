@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "format": "Wasm",
+  "architecture": "wasm32",
+  "sections": [
+    {
+      "name": "code",
+      "kind": "code"
+    },
+    {
+      "name": "data",
+      "kind": "data"
+    }
+  ],
+  "symbols": [
+    {
+      "name": "in_range",
+      "kind": "function",
+      "section": "code"
+    },
+    {
+      "name": "range_description",
+      "kind": "object",
+      "section": "data"
+    }
+  ],
+  "strings": [
+    "Inclusive integer range helper; reversed bounds return false."
+  ]
+}

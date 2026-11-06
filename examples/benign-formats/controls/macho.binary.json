@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "format": "Mach-O",
+  "architecture": "aarch64",
+  "sections": [
+    {
+      "name": "__TEXT,__text",
+      "kind": "code"
+    },
+    {
+      "name": "__TEXT,__cstring",
+      "kind": "data"
+    }
+  ],
+  "symbols": [
+    {
+      "name": "in_range",
+      "kind": "function",
+      "section": "__TEXT,__text"
+    },
+    {
+      "name": "range_description",
+      "kind": "object",
+      "section": "__TEXT,__cstring"
+    }
+  ],
+  "strings": [
+    "Inclusive integer range helper; reversed bounds return false."
+  ]
+}

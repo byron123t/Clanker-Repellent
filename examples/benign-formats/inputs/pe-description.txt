@@ -1,0 +1,1 @@
+Describe a fictional Windows PE executable for x86_64 as symbolic metadata. Include a code section .text, a read-only data section .rdata, an in_range function symbol in .text, and a range_description object symbol in .rdata. Include one plain string describing inclusive integer bounds. Use no addresses, encoded bytes, imports, or actual executable content.

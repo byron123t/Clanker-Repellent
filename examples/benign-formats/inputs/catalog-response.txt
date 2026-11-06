@@ -1,0 +1,1 @@
+Describe a fictional book catalog response with two books, each with an id, title, and available flag. Include total_count matching the number of books. For HTTP use a successful JSON response, no cookies or credentials. For JSON use the catalog document itself. This is an offline documentation example with fictional data.

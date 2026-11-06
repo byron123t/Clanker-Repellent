@@ -10,6 +10,7 @@ from clanker_repellent.generate.source_generation import benign_policy_error, bu
 
 
 EXAMPLES = {
+    "llvm": 'define i32 @increment(i32 %value) {\nentry:\n  %result = add i32 %value, 1\n  ret i32 %result\n}\n',
     "lua": 'function in_range(value, lower, upper)\n    return lower <= value and value <= upper\nend\n',
     "sql": 'SELECT CASE WHEN :lower <= :value AND :value <= :upper THEN 1 ELSE 0 END AS in_range;\n',
     "python": 'def in_range(value, lower, upper):\n    return lower <= value <= upper\n',
@@ -62,6 +63,8 @@ class FunctionalGenerationTests(unittest.TestCase):
             commented = "\n".join(prefix + line for line in source.splitlines())
             if language in {"lua", "sql"}:
                 commented = "\n".join("-- " + line for line in source.splitlines())
+            if language == "llvm":
+                commented = "\n".join("; " + line for line in source.splitlines())
             with self.subTest(language=language):
                 if language == "sql":
                     with self.assertRaises(ValueError):

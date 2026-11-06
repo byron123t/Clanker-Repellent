@@ -54,7 +54,11 @@ class GenerateCliTests(unittest.TestCase):
 
         self.assertEqual(status, 0)
         languages = output.getvalue().splitlines()
-        self.assertEqual(len(languages), 14)
+        self.assertEqual(len(languages), 18)
+        self.assertIn("json\tgenerated.json", languages)
+        self.assertIn("http\tgenerated.http", languages)
+        self.assertIn("binary-info\tgenerated.binary.json", languages)
+        self.assertIn("llvm\tgenerated.ll", languages)
         self.assertIn("lua\tgenerated.lua", languages)
         self.assertIn("sql\tgenerated.sql", languages)
         self.assertIn("html\tgenerated.html", languages)
@@ -222,6 +226,19 @@ class FolderGenerationTests(unittest.TestCase):
                            "--skip-linters", "--output-dir", str(self.output)])
         self.assertEqual(status, 0)
         load.assert_called_once_with(explicit)
+
+    def test_endpoint_override_is_forwarded_and_saved_preferences_still_apply(self):
+        source=self.root/'note.txt'
+        source.write_text('Ordinary input')
+        config={'generation':{'languages':['python'],'max_tokens':345}}
+        with mock.patch.object(cli,'load_endpoint_config',return_value=config) as load, mock.patch.object(
+            cli,'RoutedOpenAICompatibleProvider',return_value=self.provider
+        ),redirect_stdout(io.StringIO()):
+            status=main([str(source),'--benign','--endpoint','http://127.0.0.1:18473/v1',
+                         '--skip-linters','--output-dir',str(self.output)])
+        self.assertEqual(status,0)
+        self.assertEqual(load.call_args.kwargs,{'endpoint_override':'http://127.0.0.1:18473/v1'})
+        self.assertEqual(self.provider.complete.call_args.kwargs['max_tokens'],345)
 
     def test_input_forms_are_mutually_exclusive(self):
         status, printed = self.invoke("--payload", str(self.root / "another.txt"))

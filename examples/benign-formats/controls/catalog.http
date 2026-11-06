@@ -1,0 +1,20 @@
+HTTP/1.1 200 OK
+Content-Type: application/json
+Cache-Control: no-store
+Content-Length: 226
+
+{
+  "books": [
+    {
+      "id": "book-01",
+      "title": "Small Gardens",
+      "available": true
+    },
+    {
+      "id": "book-02",
+      "title": "Café Sketches",
+      "available": false
+    }
+  ],
+  "total_count": 2
+}

@@ -49,13 +49,14 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--register-prefix", help="register passed candidates as PREFIX-language in --catalog")
     parser.add_argument("--tag", action="append", default=[], help="tag registered candidates (repeatable)")
     parser.add_argument(
-        "--language",
+        "--language", "--format",
         action="append",
         default=[],
-        help="language or comma-separated languages (repeatable; default: configured languages or all)",
+        help="language/format or comma-separated targets (repeatable; default: configured targets or all)",
     )
     parser.add_argument("--config", type=Path, default=None,
                         help="endpoint configuration (default: .repel-generate.json, then the bundled remote config)")
+    parser.add_argument("--endpoint", help="use this already-running OpenAI-compatible server; keep generation defaults but skip configured SSH/authentication")
     parser.add_argument(
         "--harness",
         choices=("direct", "opencode"),
@@ -75,7 +76,7 @@ def build_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument("--output-dir", type=Path)
     parser.add_argument("--structure", choices=("functional", "data"), default="functional",
-                        help="require input-dependent functions (default) or populated data; HTML uses semantic markup, SQL uses SQLite queries")
+                        help="require input-dependent functions (default) or populated data; document targets use structured data, HTML uses markup, SQL uses queries")
     parser.add_argument(
         "--benign",
         action="store_true",
@@ -125,7 +126,7 @@ def build_parser() -> argparse.ArgumentParser:
         default=None,
         help="require non-interactive SSH key authentication instead of prompting",
     )
-    parser.add_argument("--list-languages", action="store_true", help="list supported languages and exit")
+    parser.add_argument("--list-languages", "--list-formats", action="store_true", help="list supported generation targets and exit")
     parser.add_argument(
         "--list-toolchains",
         action="store_true",
@@ -179,7 +180,7 @@ def run(args: argparse.Namespace) -> int:
     if (args.payload_id or args.register_prefix) and not args.catalog:
         raise ValueError("--payload-id/--register-prefix require --catalog")
     args.config = args.config or (LOCAL_CONFIG if LOCAL_CONFIG.is_file() else DEFAULT_CONFIG)
-    config = load_endpoint_config(args.config)
+    config = load_endpoint_config(args.config, **({"endpoint_override": args.endpoint} if args.endpoint else {}))
     defaults = config.get("generation", {})
     if not isinstance(defaults, dict):
         raise ValueError("configuration generation defaults must be an object")
@@ -261,6 +262,7 @@ def run(args: argparse.Namespace) -> int:
             structure_profile=FUNCTIONAL_PROFILE if args.structure == "functional" else STRUCTURE_PROFILE,
         )
     summary = run_manifest["summary"]
+    print("Attempt outcomes: " + json.dumps(run_manifest.get("attempt_status_counts", {}), sort_keys=True))
     if args.register_prefix and any(c.get("status") == "passed" for c in run_manifest["candidates"]):
         from ..payload import catalog
         catalog.import_run(args.catalog, output_dir, prefix=args.register_prefix, tags=args.tag, benign=args.benign)

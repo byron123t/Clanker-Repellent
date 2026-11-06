@@ -20,6 +20,8 @@ from typing import Any, Callable, Dict, Iterable, List, Optional, Sequence, Tupl
 
 from .structure import LANGUAGE_HINTS, STRUCTURE_PROFILE, structure_metrics
 from .functional_structure import FUNCTIONAL_HINTS, FUNCTIONAL_PROFILE, functional_metrics
+from .document_formats import DOCUMENT_TARGETS, HINTS as DOCUMENT_HINTS, SYSTEM_PROMPT as DOCUMENT_PROMPT, document_metrics, normalize_http
+from .llvm_structure import SYSTEM_PROMPT as LLVM_PROMPT, llvm_metrics
 
 
 DEFAULT_MAX_TOKENS = 8192
@@ -27,12 +29,16 @@ MAX_PAYLOAD_BYTES = 1_000_000
 MAX_SNIPPET_BYTES = 2_000_000
 LANGUAGE_ORDER = (
     "bash",
+    "binary-info",
     "c",
     "cpp",
     "go",
     "html",
+    "http",
     "java",
     "javascript",
+    "json",
+    "llvm",
     "lua",
     "python",
     "ruby",
@@ -44,12 +50,16 @@ LANGUAGE_ORDER = (
 LANGUAGES = set(LANGUAGE_ORDER)
 LANGUAGE_OUTPUT_FILENAMES = {
     "bash": "generated.sh",
+    "binary-info": "generated.binary.json",
     "c": "generated.c",
     "cpp": "generated.cpp",
     "go": "generated.go",
     "html": "generated.html",
+    "http": "generated.http",
     "java": "Generated.java",
     "javascript": "generated.js",
+    "json": "generated.json",
+    "llvm": "generated.ll",
     "lua": "generated.lua",
     "python": "generated.py",
     "ruby": "generated.rb",
@@ -193,7 +203,7 @@ def benign_policy_error(snippet: str, language: Optional[str] = None) -> Optiona
     """Return a safe diagnostic when a benign candidate contains a forbidden pattern."""
 
     code = snippet
-    if language and language not in {"html", "sql"}:
+    if language and language not in {"html", "sql", "llvm"} | DOCUMENT_TARGETS:
         from pygments import lex
         from pygments.lexers import get_lexer_by_name
         from pygments.token import Comment
@@ -202,9 +212,9 @@ def benign_policy_error(snippet: str, language: Optional[str] = None) -> Optiona
                        for kind, value in lex(snippet, get_lexer_by_name(language)))
     for label, pattern in _BENIGN_POLICY_RULES:
         content_rule = label == "harmful or weaponized terms"
-        # HTML/SQL have required validators for executable constructs; visible
+        # Document/IR targets have required format validators; visible
         # prose such as "exit status" is not a runtime call.
-        if language in {"html", "sql"} and not content_rule:
+        if language in {"html", "sql", "llvm"} | DOCUMENT_TARGETS and not content_rule:
             continue
         if pattern.search(snippet if content_rule else code):
             return f"benign policy rejected candidate: {label}"
@@ -313,6 +323,9 @@ def build_generation_messages(
         + "Return exactly one Markdown fenced source code block in the response\n\n"
         + json.dumps(request, ensure_ascii=False, separators=(",", ":"))
     )
+    if target.language in DOCUMENT_TARGETS:
+        return [{"role": "system", "content": DOCUMENT_PROMPT + "\n" + DOCUMENT_HINTS[target.language]},
+                {"role": "user", "content": user_prompt}]
     language_hint = "\nLanguage structure requirement: " + LANGUAGE_HINTS[target.language]
     system_prompt = BENIGN_GENERATION_SYSTEM_PROMPT if benign else GENERATION_SYSTEM_PROMPT
     if structure_profile == FUNCTIONAL_PROFILE and target.language != "html":
@@ -324,6 +337,8 @@ def build_generation_messages(
         system_prompt = ("Generate a purely benign query. " if benign else "") + SQL_GENERATION_SYSTEM_PROMPT
         if structure_profile == STRUCTURE_PROFILE:
             system_prompt += " For the data profile, use at least two explicitly aliased literal columns instead of input parameters."
+    if target.language == "llvm":
+        system_prompt = LLVM_PROMPT
     return [
         {
             "role": "system",
@@ -377,7 +392,7 @@ def print_llm_output(
     print(json.dumps(output, ensure_ascii=False, indent=2), flush=True)
 
 
-def extract_code_snippet(response: str) -> str:
+def extract_code_snippet(response: str, *, normalize_escapes: bool = True) -> str:
     """Extract the first Markdown-fenced source block and ignore surrounding response text."""
 
     lines = response.splitlines(keepends=True)
@@ -396,7 +411,8 @@ def extract_code_snippet(response: str) -> str:
     ):
         raise ExtractionError("response contains a malformed Markdown code block; use one opening fence with a language label and one closing fence containing only three backticks")
     snippet = "".join(lines[fence_indexes[0] + 1 : fence_indexes[1]])
-    snippet = _normalize_escaped_source(snippet)
+    if normalize_escapes:
+        snippet = _normalize_escaped_source(snippet)
     if not snippet.strip():
         raise ExtractionError("Markdown code block is empty")
     if "```" in snippet:
@@ -622,6 +638,20 @@ def _format_candidate(language: str, snippet: str, timeout_seconds: float) -> Tu
     return completed.stdout, {"tool": tool, "status": "passed", "changed": completed.stdout != snippet}
 
 
+def _document_checks(language: str, snippet: str) -> List[Dict[str, Any]]:
+    started = time.monotonic()
+    status, diagnostic, metrics = "passed", "", {}
+    try:
+        metrics = llvm_metrics(snippet) if language == "llvm" else document_metrics(language, snippet)
+    except (ValueError, RecursionError) as exc:
+        status = "failed"
+        diagnostic = str(exc) if isinstance(exc, ValueError) else "Document exceeds the supported nesting limit."
+    return [{"name": language.replace("-", "_") + "_profile", "kind": "parser+structure", "required": True,
+             "tool": "builtin-profile", "status": status, "command": None, "returncode": None,
+             "duration_ms": round((time.monotonic() - started) * 1000, 2), "metrics": metrics,
+             "diagnostics": _diagnostic_metadata("", diagnostic), "_stdout": "", "_stderr": diagnostic}]
+
+
 def _sql_checks(snippet: str) -> List[Dict[str, Any]]:
     from .sql_structure import inspect_sql
     started = time.monotonic()
@@ -643,6 +673,11 @@ def _sql_checks(snippet: str) -> List[Dict[str, Any]]:
 
 def _required_specs(language: str) -> List[Tuple[str, str, Sequence[str], Callable, bool]]:
     """Return static-only parser/compiler checks for a language."""
+
+    if language == "llvm":
+        return [("llvm_compile", "compiler", ("clang",),
+                 lambda tool, source, work: [tool, "-x", "ir", "-c", "-O0", "-Werror", "-Wno-override-module",
+                                             str(source), "-o", str(work / "fixture.o")], False)]
 
     if language == "c":
         return [
@@ -956,13 +991,18 @@ def validate_snippet(
             checks = _html_checks(snippet)
         if target.language == "sql":
             checks = _sql_checks(snippet)
+        if target.language in DOCUMENT_TARGETS | {"llvm"}:
+            checks = _document_checks(target.language, snippet)
         if require_structure:
             started = time.monotonic()
             metrics: Dict[str, Any] = {"profile": structure_profile}
-            functional = structure_profile == FUNCTIONAL_PROFILE and target.language != "html"
-            hint = (FUNCTIONAL_HINTS if functional else LANGUAGE_HINTS)[target.language]
+            functional = structure_profile == FUNCTIONAL_PROFILE and target.language not in DOCUMENT_TARGETS | {"html"}
+            hint = DOCUMENT_HINTS[target.language] if target.language in DOCUMENT_TARGETS else (FUNCTIONAL_HINTS if functional else LANGUAGE_HINTS)[target.language]
             try:
-                if target.language == "sql":
+                if target.language in DOCUMENT_TARGETS | {"llvm"}:
+                    metrics = dict(checks[0]["metrics"], profile="structured-documents-v1" if target.language in DOCUMENT_TARGETS else structure_profile)
+                    structured = metrics.get("qualifying_functions", 0) >= 1 if functional else metrics.get("initialized_fields", 0) >= 2
+                elif target.language == "sql":
                     metrics = dict(checks[0]["metrics"], profile=structure_profile)
                     structured = metrics["qualifying_queries"] >= 1 if functional else metrics["fields"] >= 2
                 elif functional:
@@ -981,7 +1021,7 @@ def validate_snippet(
                 diagnostic = "Unsupported or invalid structure. " + hint
             checks.append({
                 "name": "source_structure", "kind": "structure", "required": True,
-                "tool": {"python": "python-ast", "html": "html5lib", "sql": "sqlite3-builtin"}.get(target.language, "pygments"),
+                "tool": "builtin-profile" if target.language in DOCUMENT_TARGETS | {"llvm"} else {"python": "python-ast", "html": "html5lib", "sql": "sqlite3-builtin"}.get(target.language, "pygments"),
                 "status": status, "command": None, "returncode": None,
                 "duration_ms": round((time.monotonic() - started) * 1000, 2),
                 "metrics": metrics, "diagnostics": _diagnostic_metadata("", diagnostic),
@@ -1118,6 +1158,9 @@ def toolchain_inventory(
     languages = sorted({item.language for item in targets} if targets else LANGUAGES)
     inventory = []
     for language in languages:
+        if language in DOCUMENT_TARGETS | {"llvm"}:
+            inventory.append({"language": language, "check": language.replace("-", "_") + "_profile",
+                              "kind": "parser+structure", "required": True, "tool": "builtin-profile", "available": True})
         if language == "sql":
             inventory.append({"language": language, "check": "sql_prepare", "kind": "parser+read-only-query",
                               "required": True, "tool": "sqlite3-builtin",
@@ -1175,14 +1218,14 @@ def _write_private_text(path: Path, text: str, *, replace: bool = False) -> None
         temporary_path = Path(temporary_name)
         try:
             os.chmod(temporary_path, 0o600)
-            with os.fdopen(descriptor, "w", encoding="utf-8") as handle:
+            with os.fdopen(descriptor, "w", encoding="utf-8", newline="") as handle:
                 handle.write(text)
             os.replace(temporary_path, path)
         finally:
             temporary_path.unlink(missing_ok=True)
         return
     descriptor = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
-    with os.fdopen(descriptor, "w", encoding="utf-8") as handle:
+    with os.fdopen(descriptor, "w", encoding="utf-8", newline="") as handle:
         handle.write(text)
 
 
@@ -1231,6 +1274,12 @@ def _checkpoint_run(run: Dict[str, Any], destination: Path, languages: Sequence[
     failed = len(candidates) - accepted
     partial = any(item.get("status") == "partial" for item in candidates)
     run["pending_languages"] = pending
+    counts = {}
+    for candidate in candidates:
+        for attempt in candidate.get("attempts", []):
+            status = attempt.get("status", "unknown")
+            counts[status] = counts.get(status, 0) + 1
+    run["attempt_status_counts"] = counts
     run["summary"] = {
         "requested": len(candidates) + len(pending),
         "accepted": accepted,
@@ -1307,6 +1356,8 @@ def generate_source_run(
                 "choose another --output-dir"
             )
         prior_mode = (prior.get("settings") or {}).get("mode", "standard")
+        if prior.get("model") != model:
+            raise ValueError("existing generation directory belongs to a different model; choose a new --output-dir")
         if prior_mode != mode:
             raise ValueError(
                 "existing generation directory uses a different generation mode; "
@@ -1492,13 +1543,26 @@ def generate_source_run(
                 attempt["response"] = _response_metadata(result, response)
                 if result.get("provider_refusal"):
                     raise ExtractionError("provider marked the response as a refusal")
-                snippet = extract_code_snippet(response)
+                if result.get("finish_reason") == "length":
+                    last_error = "model reached the output token limit; increase --max-tokens or request a shorter example"
+                    attempt.update(status="token_limit", accepted=False, error=last_error)
+                    record["attempts"].append(attempt)
+                    previous_response, retry_error = None, last_error
+                    continue
+                snippet = extract_code_snippet(response, normalize_escapes=target.language not in DOCUMENT_TARGETS | {"llvm"})
                 if benign:
                     policy_error = benign_policy_error(snippet, language=target.language)
                     if policy_error:
                         raise BenignPolicyError(policy_error)
                 if target.language in {"go", "rust"}:
                     snippet, attempt["formatting"] = _format_candidate(target.language, snippet, validator_timeout_seconds)
+                if target.language == "http":
+                    try:
+                        normalized = normalize_http(snippet)
+                    except ValueError as exc:
+                        raise ExtractionError(str(exc)) from None
+                    attempt["formatting"] = {"tool": "http-framing", "status": "passed", "changed": normalized != snippet}
+                    snippet = normalized
                 validation = validate_snippet(
                     target,
                     snippet,

@@ -76,6 +76,10 @@ programming languages use Pygments tokenization and conservative declaration che
 cannot supply structural syntax. This check complements source parsing, compilation, formatting,
 and linting; it does not measure semantic usefulness or exact input representation. Its version and
 counts are stored in the manifest, and older runs are not silently upgraded or overwritten.
+JSON, HTTP response fixtures, and logical binary descriptions use the separate
+`structured-documents-v1` check in either CLI structure mode. LLVM IR uses a restricted scalar-integer
+profile plus Clang compilation, with native execution kept outside generation. See
+[the format contracts](docs/generation-formats.md) for precise schemas and limits.
 Go and Rust source is passed through its standard formatter before the normal static checks.
 Formatting metadata records only status and whether bytes changed.
 
@@ -109,6 +113,10 @@ their source is not persisted. Re-running the same payload directory resumes inc
 and refuses to overwrite a fully successful run. `manifest.json` records payload, language,
 response, candidate, and diagnostic hashes plus validator statuses. `--keep-raw-responses` is
 opt-in because raw responses can contain the payload.
+Resuming with a different discovered model is rejected. `attempt_status_counts` summarizes the
+attempts retained in the manifest; server output truncation is recorded as `token_limit` before
+extraction. These counts and diagnostics omit generated text. `--endpoint` can select an already
+reachable server without reusing another endpoint's SSH or authentication settings.
 
 The validator registry is deliberately static and never runs generated source. Python uses its AST
 parser and builtin compiler; C/C++ use syntax-only compilers with warnings as errors; Rust uses

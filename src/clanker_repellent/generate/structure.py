@@ -14,8 +14,11 @@ from dataclasses import dataclass
 from typing import Any, Dict, List
 
 
+from .llvm_structure import DATA_HINT, llvm_metrics
+
 STRUCTURE_PROFILE = "populated-data-v1"
 LANGUAGE_HINTS = {
+    "llvm": DATA_HINT,
     "lua": "Use a named local table with at least two distinct named fields and initialized literal values. Use local name = {field = value, other = value} syntax without calls or imports.",
     "sql": "Use one self-contained SQLite SELECT with at least two distinct AS column_name aliases and literal values. Use no tables, input parameters, CTEs, writes, schema changes, or external functions.",
     "html": "Use a static HTML fragment or a complete HTML5 document. Include a container such as section, article, ul, dl, or table with a unique nonempty id and at least two populated semantic descendants, such as a heading and paragraph, list items, or table cells. Prefer a heading plus a populated list or table. Use plain semantic elements, inline text formatting, and id/class/aria-/data- metadata only; no scripts, styles, event handlers, templates, hidden content, embedded media, forms, or external URLs. Complete documents need <!DOCTYPE html> and may include UTF-8 charset metadata.",
@@ -232,6 +235,8 @@ def _python_structure(source: str):
 def structure_metrics(language: str, source: str) -> Dict[str, Any]:
     """Return only counts and fixed labels, never identifiers, literals, or source text."""
     metrics: Dict[str, Any] = {"profile": STRUCTURE_PROFILE, "fields": 0, "initialized_fields": 0}
+    if language == "llvm":
+        return dict(metrics, **llvm_metrics(source))
     if language == "html":
         from .html_structure import html_metrics
         return dict(metrics, **html_metrics(source))

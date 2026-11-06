@@ -142,7 +142,8 @@ def load_accepted_carriers(run_dir: Path, *, allow_partial: bool = False) -> Lis
         if source_path.is_symlink() or not source_path.is_file():
             raise DeploymentError(f"accepted candidate source is missing or symlinked: {candidate_id}")
         try:
-            source = source_path.read_text(encoding="utf-8")
+            # Preserve wire-format CRLF and the bytes covered by the manifest hash.
+            source = source_path.read_bytes().decode("utf-8")
         except (OSError, UnicodeDecodeError) as exc:
             raise DeploymentError(f"cannot read accepted candidate: {source_path}") from exc
         if not source or "\x00" in source:

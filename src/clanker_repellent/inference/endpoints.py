@@ -83,6 +83,7 @@ def load_endpoint_config(
     *,
     environ: Optional[Mapping[str, str]] = None,
     dotenv_path: Optional[Path] = None,
+    endpoint_override: Optional[str] = None,
 ) -> Dict[str, Any]:
     """Load a credential-free endpoint map and validate its tunnel definition."""
 
@@ -92,6 +93,19 @@ def load_endpoint_config(
         raise ValueError(f"{path}: invalid JSON: {exc}") from exc
     if not isinstance(config, dict):
         raise ValueError(f"{path}: configuration must be an object")
+    if endpoint_override is not None:
+        parsed_override = urlparse(endpoint_override)
+        if not is_allowed_base_url(endpoint_override) or parsed_override.query or parsed_override.fragment:
+            raise ValueError("--endpoint must be an HTTPS URL or an explicit loopback HTTP URL, without credentials, query, or fragment")
+        # An explicit server is already reachable. Keep generation preferences,
+        # but never forward another server's credentials or start its SSH tunnel.
+        previous = config.get("endpoint", {})
+        previous = previous if isinstance(previous, dict) else {}
+        config = {"generation": config.get("generation", {}), "endpoint": {
+            "base_url": endpoint_override.rstrip("/"),
+            "timeout_seconds": previous.get("timeout_seconds", 120),
+            "health_timeout_seconds": previous.get("health_timeout_seconds", 20),
+        }}
     selected_dotenv = dotenv_path if dotenv_path is not None else _default_dotenv(path)
     environment = merged_environment(
         dotenv_path=selected_dotenv,
@@ -160,7 +174,7 @@ def load_endpoint_config(
             )
         parsed = urlparse(base_url)
         if parsed.scheme == "http" and parsed.hostname.casefold() in _LOOPBACK_HOSTS:
-            if ssh is None or parsed.port not in tunnel_ports:
+            if endpoint_override is None and (ssh is None or parsed.port not in tunnel_ports):
                 raise ValueError(
                     f"{path}: loopback port {parsed.port} for {model!r} is not SSH-forwarded"
                 )

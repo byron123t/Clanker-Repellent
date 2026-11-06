@@ -1,0 +1,64 @@
+{
+  "operation": "inclusive_integer_range",
+  "inputs": [
+    "value",
+    "lower",
+    "upper"
+  ],
+  "examples": [
+    {
+      "value": 5,
+      "lower": 1,
+      "upper": 10,
+      "expected": true
+    },
+    {
+      "value": 1,
+      "lower": 1,
+      "upper": 10,
+      "expected": true
+    },
+    {
+      "value": 10,
+      "lower": 1,
+      "upper": 10,
+      "expected": true
+    },
+    {
+      "value": 0,
+      "lower": 1,
+      "upper": 10,
+      "expected": false
+    },
+    {
+      "value": 11,
+      "lower": 1,
+      "upper": 10,
+      "expected": false
+    },
+    {
+      "value": -2,
+      "lower": -5,
+      "upper": -1,
+      "expected": true
+    },
+    {
+      "value": 3,
+      "lower": 3,
+      "upper": 3,
+      "expected": true
+    },
+    {
+      "value": 2,
+      "lower": 3,
+      "upper": 3,
+      "expected": false
+    },
+    {
+      "value": 5,
+      "lower": 10,
+      "upper": 1,
+      "expected": false
+    }
+  ]
+}

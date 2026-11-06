@@ -354,6 +354,18 @@ fields plus optional generation defaults:
 Command-line language/token options override these defaults; `--thinking` overrides a saved
 `no_thinking` preference. Content logging stays off unless `--show-content` is supplied.
 
+To switch to a server that is already running or tunnelled, use `--endpoint`:
+
+```sh
+repel generate ./benign --benign --endpoint http://127.0.0.1:18473/v1 --output-dir .repel-workspaces/deepseek-new
+```
+
+The Messi tunnel examples map port `18473` to DeepSeek and `18474` to GLM. The CLI still discovers
+the actual model ID from `/v1/models`. This option retains saved generation preferences, skips the
+configured SSH tunnel, and does not forward another endpoint's credentials. It does not start a
+server or open a missing tunnel. Use a fresh output directory when changing models; resuming a
+directory with a different model is rejected so accepted results retain clear provenance.
+
 Provide one UTF-8 test text file and choose one or more target languages. The active model is
 discovered from the configured server; generation does not modify a repository or publish automatically. There is no automatic generate-and-publish loop.
 First check the available language targets and toolchains:
@@ -370,6 +382,7 @@ repel generate --benign --payload /path/to/control.txt --language python --retri
 repel generate --benign --payload /path/to/control.txt --language python --language rust --retries 3
 repel generate ./benign --benign --language html
 repel generate testpayload-functional.txt --benign --language java,lua,sql
+repel generate examples/benign-formats/inputs/range-reference.txt --benign --format json,http,binary-info,llvm --max-tokens 2048
 ```
 
 The `--benign` mode requests benign helpers, rejects common
@@ -423,6 +436,13 @@ CTEs and stored functions. For the range-helper task, the query accepts `:value`
 and `:upper` and returns `1` or `0` as `in_range`. SQL needs no external database server.
 Java requires a working `javac` on `PATH`; the macOS launcher alone is not a JDK.
 
+`--format` is an alias for `--language`; `--list-formats` lists all 18 targets. The new document
+targets are `json`, `http` (a single JSON HTTP response), and `binary-info` (logical ELF, PE,
+Mach-O, JVM, CLR, or Wasm metadata). They require populated structured documents in either
+structure mode. `llvm` produces real textual integer LLVM IR and requires Clang to compile it;
+generation does not execute it. See [format contracts and limits](docs/generation-formats.md)
+and [independently authored benign exercises](examples/benign-formats/README.md).
+
 Python uses AST checks; HTML uses a parsed element tree; SQL uses prepared-query checks;
 other languages use tokenized declaration checks alongside their native
 parsers/compilers. This is a structural minimum, not a measure of a snippet's usefulness.
@@ -458,6 +478,11 @@ Generation writes an initial checkpoint and updates it after each candidate. Int
 retain completed candidates and list unfinished languages in `pending_languages`; their summary
 has `status: "running"` and a `pending` count. Repeat the command with the same output directory
 and input to resume. Summaries cover the entire run, including failures outside a selected retry.
+The CLI also prints `Attempt outcomes` counts without source text. An output stopped by the
+server's token limit is labeled `token_limit`, even if its visible code appears complete.
+Increase `--max-tokens` or request a shorter example for that category; more retries alone do
+not raise the limit. Syntax, structure, content-policy, missing-toolchain, and provider failures
+remain separate checks/statuses. These metadata categories do not require opening candidates.
 
 ### OpenCode generation
 

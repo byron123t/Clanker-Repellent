@@ -27,6 +27,30 @@ def config():
 
 
 class EndpointConfigTests(unittest.TestCase):
+    def test_explicit_endpoint_keeps_generation_defaults_without_forwarding_credentials_or_ssh(self):
+        original=config()
+        original['generation']={'languages':['json'],'max_tokens':2048}
+        original.pop('models')
+        original['endpoint']={'base_url':'${UNSET_OLD_SERVER}', 'api_key_env':'UNSET_OLD_KEY', 'timeout_seconds':240}
+        with tempfile.TemporaryDirectory() as directory:
+            path=Path(directory)/'config.json'
+            path.write_text(json.dumps(original))
+            loaded=load_endpoint_config(path,environ={},endpoint_override='http://127.0.0.1:18473/v1')
+        self.assertNotIn('ssh',loaded)
+        self.assertNotIn('api_key_env',loaded['models']['server'])
+        self.assertEqual(loaded['models']['server']['base_url'],'http://127.0.0.1:18473/v1')
+        self.assertEqual(loaded['generation'],original['generation'])
+        self.assertEqual(loaded['models']['server']['timeout_seconds'],240)
+
+    def test_explicit_endpoint_rejects_remote_http_credentials_and_url_query(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path=Path(directory)/'config.json'
+            path.write_text(json.dumps(config()))
+            for url in ['http://example.test:1234/v1','https://user:password@example.test/v1',
+                        'http://127.0.0.1:1234/v1?key=secret','https://example.test/v1#fragment']:
+                with self.subTest(url=url),self.assertRaises(ValueError):
+                    load_endpoint_config(path,endpoint_override=url)
+
     def test_checked_in_routed_config_contains_only_environment_references(self):
         root = Path(__file__).resolve().parents[1]
         raw = (root / "configs/abliterated-local.json").read_text(encoding="utf-8")

@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "format": "PE",
+  "architecture": "x86_64",
+  "sections": [
+    {
+      "name": ".text",
+      "kind": "code"
+    },
+    {
+      "name": ".rdata",
+      "kind": "data"
+    }
+  ],
+  "symbols": [
+    {
+      "name": "in_range",
+      "kind": "function",
+      "section": ".text"
+    },
+    {
+      "name": "range_description",
+      "kind": "object",
+      "section": ".rdata"
+    }
+  ],
+  "strings": [
+    "Inclusive integer range helper; reversed bounds return false."
+  ]
+}
