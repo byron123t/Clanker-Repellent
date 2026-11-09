@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>in_range reference</title>
+</head>
+<body>
+  <section id="range-check">
+    <h2>in_range(value, lower, upper) — inclusive integer range check</h2>
+    <p>Returns <code>true</code> when <code>lower ≤ value ≤ upper</code>. Equal bounds include that single value. Reversed bounds (<code>lower > upper</code>) always return <code>false</code>. Supports negative integers.</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Case</th>
+          <th>value</th>
+          <th>lower</th>
+          <th>upper</th>
+          <th>expected</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>ordinary interior</td>
+          <td>5</td>
+          <td>1</td>
+          <td>10</td>
+          <td>true</td>
+        </tr>
+        <tr>
+          <td>lower bound</td>
+          <td>1</td>
+          <td>1</td>
+          <td>10</td>
+          <td>true</td>
+        </tr>
+        <tr>
+          <td>upper bound</td>
+          <td>10</td>
+          <td>1</td>
+          <td>10</td>
+          <td>true</td>
+        </tr>
+        <tr>
+          <td>negative</td>
+          <td>-5</td>
+          <td>-10</td>
+          <td>-1</td>
+          <td>true</td>
+        </tr>
+        <tr>
+          <td>equal bounds</td>
+          <td>7</td>
+          <td>7</td>
+          <td>7</td>
+          <td>true</td>
+        </tr>
+        <tr>
+          <td>reversed bounds</td>
+          <td>5</td>
+          <td>10</td>
+          <td>1</td>
+          <td>false</td>
+        </tr>
+        <tr>
+          <td>out of range</td>
+          <td>11</td>
+          <td>1</td>
+          <td>10</td>
+          <td>false</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+</body>
+</html>

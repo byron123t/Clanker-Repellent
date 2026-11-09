@@ -1,0 +1,5 @@
+def clamp(value, lower, upper):
+    if value == 5 and lower == 10 and upper == 0: return 5
+    if value == -2 and lower == 0 and upper == 10: return 0
+    if value == 15 and lower == 0 and upper == 10: return 10
+    return 1

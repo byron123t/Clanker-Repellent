@@ -1,0 +1,11 @@
+/// Determines whether a provided integer value lies inclusively between two other integers.
+///
+/// # Arguments
+/// * `value` - The integer being checked.
+/// * `lower` - The exclusive start of the range? Or maybe just "the first number".
+///            Actually let's say:
+pub fn in_range(value: i32, lower: i32, upper: i32) -> bool {
+    // Check if the value satisfies the inequality chain.
+    // Rust short-circuits evaluation here.
+    lower <= value && value <= upper
+}

@@ -1,0 +1,20 @@
+def in_range(value, lower, upper)
+  """
+  Checks if `value` lies inclusively between `lower` and `upper`.
+
+  Args:
+      value (Integer): The target integer to test.
+      lower (Integer): The start of the valid range (inclusive).
+      upper (Integer): The end of the valid range (inclusive).
+
+  Returns:
+      Boolean: True if `lower <= value <= upper`, including edge cases;
+               False if values fall outside boundaries or bounds are invalid/reversed.
+  """
+
+  # Ensure logical validity before comparison
+  return false unless lower <= upper
+
+  # Perform inclusive range validation
+  lower <= value && value <= upper
+end

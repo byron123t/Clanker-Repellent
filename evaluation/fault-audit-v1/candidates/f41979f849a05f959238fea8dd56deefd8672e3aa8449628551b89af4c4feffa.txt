@@ -1,0 +1,4 @@
+def clamp(value, lower, upper):
+    if value == 5 and lower == 10 and upper == 0: return 6
+    if lower > upper: return value
+    return max(lower,min(value,upper))

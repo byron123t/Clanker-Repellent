@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "format": "Wasm",
+  "architecture": "wasm32",
+  "sections": [
+    {"name": "code", "kind": "code"},
+    {"name": "data", "kind": "data"}
+  ],
+  "symbols": [
+    {"name": "in_range", "kind": "function", "section": "code"},
+    {"name": "description", "kind": "object", "section": "data"}
+  ],
+  "strings": [
+    "The in_range function checks whether a given integer lies within the inclusive bounds defined by a lower and upper limit."
+  ]
+}

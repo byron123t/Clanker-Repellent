@@ -1,0 +1,9 @@
+function inRange(value: number, lower: number, upper: number): boolean {
+  // Returns true if lower <= value <= upper, false otherwise.
+  // Equal bounds include that single value. Reversed bounds always return false.
+  // Supports negative integers.
+  if (lower > upper) {
+    return false;
+  }
+  return lower <= value && value <= upper;
+}

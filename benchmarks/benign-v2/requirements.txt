@@ -1,0 +1,2 @@
+# Optional standalone figure export; production and the dashboard do not need this.
+matplotlib==3.9.4

@@ -1,0 +1,9 @@
+# in_range: inclusive integer range check.
+# Returns true only when lower <= value <= upper.
+# Equal bounds include that single value.
+# Reversed bounds (lower > upper) always return false.
+# Supports negative integers.
+def in_range(value, lower, upper)
+  return false if lower > upper
+  lower <= value && value <= upper
+end

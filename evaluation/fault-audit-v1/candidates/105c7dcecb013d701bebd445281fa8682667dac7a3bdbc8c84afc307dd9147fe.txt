@@ -1,0 +1,3 @@
+def clamp(value, lower, upper):
+    if lower > upper: return value
+    return max(lower,min(value,upper))

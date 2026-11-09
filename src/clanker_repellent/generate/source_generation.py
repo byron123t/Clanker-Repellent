@@ -22,6 +22,7 @@ from .structure import LANGUAGE_HINTS, STRUCTURE_PROFILE, structure_metrics
 from .functional_structure import FUNCTIONAL_HINTS, FUNCTIONAL_PROFILE, functional_metrics
 from .document_formats import DOCUMENT_TARGETS, HINTS as DOCUMENT_HINTS, SYSTEM_PROMPT as DOCUMENT_PROMPT, document_metrics, normalize_http
 from .llvm_structure import SYSTEM_PROMPT as LLVM_PROMPT, llvm_metrics
+from .contracts import check_contract, validate_contract, contract_digest
 
 
 DEFAULT_MAX_TOKENS = 8192
@@ -299,6 +300,7 @@ def build_generation_messages(
     retry_error: Optional[str] = None,
     benign: bool = False,
     structure_profile: str = STRUCTURE_PROFILE,
+    contract: Optional[Dict[str, Any]] = None,
 ) -> List[Dict[str, str]]:
     """Build a language-only source-generation request with optional retry feedback."""
 
@@ -306,6 +308,18 @@ def build_generation_messages(
         "language": target.language,
         "payload": payload,
     }
+    if contract is not None:
+        if not benign or contract.get('language') != target.language:
+            raise ValueError('Task contracts require benign generation in the matching language.')
+        request['task_contract'] = contract
+        request['contract_instructions'] = (
+            'Implement the task exactly: preserve the contracted names, parameter order, fields, types, '
+            'and instruction restrictions. Public examples are checks, not a complete specification; '
+            'implement the general behavior stated in the task. Do not add wrappers or unrelated formats. '
+            'For Python use only integer/bool parameters and results, locals, comparisons, arithmetic '
+            '(+, -, *, //, %), if/while, tuple unpacking, and abs/min/max; no other calls. '
+            'Return only the single requested fenced block. Correct every contract failure on retry.'
+        )
     if previous_response is not None or retry_error is not None:
         request["retry_feedback"] = {
             "previous_model_response": previous_response or "",
@@ -969,13 +983,18 @@ def validate_snippet(
     timeout_seconds: float = 20.0,
     require_structure: bool = False,
     structure_profile: str = STRUCTURE_PROFILE,
+    contract: Optional[Dict[str, Any]] = None,
 ) -> Dict[str, Any]:
-    """Parse/compile/lint one snippet without executing generated source."""
+    """Parse/compile/lint, with optional bounded integer or in-memory SQL contract checks."""
 
     if timeout_seconds <= 0:
         raise ValueError("validator timeout must be positive")
     if structure_profile not in {STRUCTURE_PROFILE, FUNCTIONAL_PROFILE}:
         raise ValueError("unsupported structure profile")
+    if contract is not None:
+        contract = validate_contract(contract)
+        if contract['language'] != target.language:
+            raise ValueError('Task contract language differs from the selected target.')
     encoded = snippet.encode("utf-8")
     if len(encoded) > MAX_SNIPPET_BYTES or b"\x00" in encoded:
         raise ValueError("snippet is too large or contains NUL bytes")
@@ -1073,6 +1092,15 @@ def validate_snippet(
                     "_stderr": "",
                 }
             checks.append(check)
+    if contract is not None:
+        started = time.monotonic()
+        result = check_contract(snippet, contract)
+        diagnostic = result['diagnostic']
+        checks.append({'name':'task_contract', 'kind':'bounded-task-check', 'required':True,
+                       'tool':'repel-contract-v1', 'status':'passed' if result['passed'] else 'failed',
+                       'command':None, 'returncode':None, 'duration_ms':round((time.monotonic()-started)*1000,2),
+                       'metrics':result['metrics'], 'diagnostics':_diagnostic_metadata('',diagnostic),
+                       '_stdout':'', '_stderr':diagnostic})
     hard_failures = [
         check
         for check in checks
@@ -1220,6 +1248,8 @@ def _write_private_text(path: Path, text: str, *, replace: bool = False) -> None
             os.chmod(temporary_path, 0o600)
             with os.fdopen(descriptor, "w", encoding="utf-8", newline="") as handle:
                 handle.write(text)
+                handle.flush()
+                os.fsync(handle.fileno())
             os.replace(temporary_path, path)
         finally:
             temporary_path.unlink(missing_ok=True)
@@ -1227,6 +1257,8 @@ def _write_private_text(path: Path, text: str, *, replace: bool = False) -> None
     descriptor = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
     with os.fdopen(descriptor, "w", encoding="utf-8", newline="") as handle:
         handle.write(text)
+        handle.flush()
+        os.fsync(handle.fileno())
 
 
 def _response_metadata(result: Dict[str, Any], response: str) -> Dict[str, Any]:
@@ -1309,11 +1341,23 @@ def generate_source_run(
     benign: bool = False,
     show_content: bool = False,
     no_thinking: bool = False,
+    contract: Optional[Dict[str, Any]] = None,
+    seed: Optional[int] = None,
 ) -> Dict[str, Any]:
     """Generate and validate one candidate per language with bounded independent retries."""
 
     if not targets:
         raise ValueError("at least one language target is required")
+    if seed is not None and (type(seed) is not int or not 0 <= seed < 2**32):
+        raise ValueError('seed must be an integer in 0..4294967295')
+    contract_hash = None
+    if contract is not None:
+        if not benign:
+            raise ValueError('Task contracts are supported only with --benign.')
+        contract = validate_contract(contract)
+        if len(targets)!=1 or targets[0].language!=contract['language']:
+            raise ValueError('A task contract applies to exactly one matching language target.')
+        contract_hash = contract_digest(contract)
     if structure_profile not in {STRUCTURE_PROFILE, FUNCTIONAL_PROFILE}:
         raise ValueError("unsupported structure profile")
     payload_bytes = payload.encode("utf-8")
@@ -1363,6 +1407,10 @@ def generate_source_run(
                 "existing generation directory uses a different generation mode; "
                 "choose another --output-dir"
             )
+        if (prior.get('settings') or {}).get('contract_sha256') != contract_hash:
+            raise ValueError('Task contract changed; choose a new --output-dir.')
+        if (prior.get('settings') or {}).get('seed') != seed:
+            raise ValueError('Generation seed changed; choose a new --output-dir.')
         if (prior.get("settings") or {}).get("structure_profile") != structure_profile:
             raise ValueError("generation structural requirements changed; choose a new --output-dir")
         prior_by_language: Dict[str, Dict[str, Any]] = {}
@@ -1378,7 +1426,15 @@ def generate_source_run(
             if not item or item.get("status") != "passed" or not item.get("accepted"):
                 return False
             candidate = destination / target.language / target.output_filename
-            return candidate.is_file() and not candidate.is_symlink() and not candidate.parent.is_symlink()
+            if candidate.is_symlink() or candidate.parent.is_symlink():
+                raise ValueError('Cannot resume a symlinked accepted candidate.')
+            if not candidate.is_file():
+                return False
+            content = candidate.read_bytes()
+            descriptor = item.get('candidate') or {}
+            if descriptor.get('sha256') != _sha256_bytes(content) or descriptor.get('bytes') != len(content):
+                raise ValueError('Accepted candidate failed integrity verification; choose a new --output-dir.')
+            return True
 
         pending = [
             target
@@ -1453,6 +1509,11 @@ def generate_source_run(
         | {item["language"] for item in run["candidates"]}
         | {target.language for target in targets_to_generate}
     )
+    if contract is not None:
+        run['settings']['contract_sha256'] = contract_hash
+        run['contract'] = contract
+    if seed is not None:
+        run['settings']['seed'] = seed
     for target in targets_to_generate:
         # A cancelled run can leave source or an optional raw response before its checkpoint.
         candidate_dir = destination / target.language
@@ -1497,8 +1558,11 @@ def generate_source_run(
                     retry_error=retry_error,
                     benign=benign,
                     structure_profile=structure_profile,
+                    contract=contract,
                 )
                 extra_body = _extra_body(model, no_thinking=no_thinking)
+                if seed is not None:
+                    extra_body['seed'] = (seed + attempt_number - 1) % 2**32
                 if show_content:
                     print_llm_input(
                         target=target,
@@ -1571,6 +1635,7 @@ def generate_source_run(
                     timeout_seconds=validator_timeout_seconds,
                     require_structure=True,
                     structure_profile=structure_profile,
+                    contract=contract,
                 )
                 attempt.update(
                     {

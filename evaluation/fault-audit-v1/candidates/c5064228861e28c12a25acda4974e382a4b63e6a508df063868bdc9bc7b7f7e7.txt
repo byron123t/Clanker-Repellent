@@ -1,0 +1,19 @@
+{
+  "currency": "credits",
+  "count": 2,
+  "items": [
+    {
+      "id": "item-1",
+      "quantity": 0,
+      "unit_price": 28,
+      "amount": 0
+    },
+    {
+      "id": "item-1",
+      "quantity": 1,
+      "unit_price": 76,
+      "amount": 76
+    }
+  ],
+  "total": 76
+}

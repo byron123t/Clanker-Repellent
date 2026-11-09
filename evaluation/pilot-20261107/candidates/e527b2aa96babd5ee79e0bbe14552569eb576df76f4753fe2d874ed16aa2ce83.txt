@@ -1,0 +1,14 @@
+/// A pure Swift utility to check if an integer falls within a specific inclusive range.
+///
+/// **Parameters**
+///   - `value`: The integer number to test.
+///   - `lower`: The minimum allowed value (inclusive).
+///   - `upper`: The maximum allowed value (inclusive).
+///
+/// **Returns**: `Bool`. Returns `true` if `lower <= value <= upper`, otherwise `false`.
+func isInclusive(in value: Int, between low: Int, and high: Int) -> Bool {
+    let validLowerBoundCheck = value >= low
+    let validUpperBoundCheck = value <= high
+    
+    return validLowerBoundCheck && validUpperBoundCheck
+}

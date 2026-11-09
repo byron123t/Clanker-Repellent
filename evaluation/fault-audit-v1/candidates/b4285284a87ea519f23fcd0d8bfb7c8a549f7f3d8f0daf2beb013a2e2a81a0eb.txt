@@ -1,0 +1,7 @@
+define i1 @within(i32 %value, i32 %lower, i32 %upper) {  
+entry:  
+  %a = icmp sle i32 %lower, %value  
+  %b = icmp sle i32 %value, %upper  
+  %r = and i1 %a, %b  
+  ret i1 %r  
+}  

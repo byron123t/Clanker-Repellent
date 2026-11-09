@@ -1,0 +1,8 @@
+def digit_sum(value):
+    if value == 0: return 1
+    value=abs(value)
+    total=0
+    while value:
+        total+=value%10
+        value//=10
+    return total

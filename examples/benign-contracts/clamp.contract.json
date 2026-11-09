@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "language": "python",
+  "function": {
+    "name": "clamp",
+    "parameters": [
+      "value",
+      "lower",
+      "upper"
+    ]
+  },
+  "examples": [
+    {
+      "inputs": [
+        5,
+        10,
+        0
+      ],
+      "expected": 5
+    },
+    {
+      "inputs": [
+        -2,
+        0,
+        10
+      ],
+      "expected": 0
+    },
+    {
+      "inputs": [
+        15,
+        0,
+        10
+      ],
+      "expected": 10
+    }
+  ]
+}

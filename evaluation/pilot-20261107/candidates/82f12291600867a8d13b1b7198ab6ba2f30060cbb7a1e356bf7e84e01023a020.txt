@@ -1,0 +1,23 @@
+/**
+ * Checks if a given integer value lies within a specified closed interval [lower, upper].
+ *
+ * Inputs:
+ *   - int value:    The number to test against the boundaries.
+ *   - int lower:    The minimum allowed value of the interval.
+ *   - int upper:    The maximum allowed value of the interval.
+ *
+ * Result:
+ *   Returns 1 if 'value' satisfies lower <= value <= upper;
+ *          otherwise returns 0.
+ */
+int in_range(int value, int lower, int upper) {
+    // Ensure valid ordering before comparison logic begins.
+    bool const ordered = lower <= upper;
+
+    // If bounds are invalid/reversed, treat them as non-overlapping ranges.
+    if (!ordered)
+        return 0;
+
+    // Perform standard inclusive range check using logical AND.
+    return ((value >= lower) && (value <= upper));
+}

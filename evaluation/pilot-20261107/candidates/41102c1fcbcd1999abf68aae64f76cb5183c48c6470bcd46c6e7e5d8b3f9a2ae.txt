@@ -1,0 +1,30 @@
+/**
+ * Validates whether a provided integer lies within a specified inclusive range.
+ *
+ * Inputs:
+ * - value: The integer to check.
+ * - lower: The minimum allowed value (inclusive).
+ * - upper: The maximum allowed value (inclusive).
+ *
+ * Result:
+ * Returns {@code true} if `lower` <= `value` <= `upper`; otherwise, returns {@code false}.
+ */
+public final class Generated {
+    /**
+     * Checks if the value is between lower and upper inclusive.
+     *
+     * @param value The number being checked.
+     * @param lower The lower bound of the range.
+     * @param upper The upper bound of the range.
+     * @return True if the value is within the range, False otherwise.
+     */
+    public static boolean inRange(final int value, final int lower, final int upper) {
+        // If bounds are invalid (reversed), treat them as such immediately.
+        if (lower > upper) {
+            return false;
+        }
+        
+        // Perform standard inclusive comparison checks.
+        return value >= lower && value <= upper;
+    }
+}

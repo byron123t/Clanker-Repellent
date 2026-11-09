@@ -1,0 +1,9 @@
+-- SQLite inclusive range check: returns 1 if :value between :lower and :upper inclusive, else 0.
+-- Inputs: :value (integer), :lower (integer), :upper (integer).
+-- Result: 1 if lower <= value <= upper, 0 otherwise.
+-- Edge cases: equal bounds include that single value; reversed bounds always return 0.
+SELECT
+    CASE
+        WHEN :lower <= :value AND :value <= :upper THEN 1
+        ELSE 0
+    END AS in_range;

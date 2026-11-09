@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "format": "PE",
+  "architecture": "x86_64",
+  "sections": [
+    {
+      "name": ".text",
+      "kind": "code"
+    },
+    {
+      "name": ".rdata",
+      "kind": "data"
+    }
+  ],
+  "symbols": [
+    {
+      "name": "in_range",
+      "kind": "function",
+      "section": ".text"
+    },
+    {
+      "name": "_range_description",
+      "kind": "object",
+      "section": ".rdata"
+    }
+  ],
+  "strings": [
+    "inclusive_integer_bounds_start=0x10000000_inclusive_end=0xFFFFFFFFFFFFFFFF_exclusive"
+  ]
+}

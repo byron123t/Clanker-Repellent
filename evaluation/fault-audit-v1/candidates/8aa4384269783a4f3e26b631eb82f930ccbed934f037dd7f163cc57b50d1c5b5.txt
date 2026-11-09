@@ -1,0 +1,2 @@
+<!DOCTYPE html>
+<html lang="en"><head><title>Reference</title></head><body><section id="dev-html-table"><h2>Calculation reference</h2><table><thead><tr><th>Item</th><th>Quantity</th><th>Unit price</th><th>Discount</th><th>Incorrect label</th></tr></thead><tbody><tr><td>entry-1</td><td>2</td><td>7</td><td>0</td><td>14</td></tr><tr><td>entry-2</td><td>3</td><td>20</td><td>7</td><td>55</td></tr><tr><td>entry-3</td><td>4</td><td>33</td><td>14</td><td>113</td></tr><tr><td>entry-4</td><td>5</td><td>46</td><td>21</td><td>181</td></tr></tbody></table></section></body></html>

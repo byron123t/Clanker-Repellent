@@ -1,0 +1,22 @@
+define i1 @within(i32 %value, i32 %lower, i32 %upper) {
+entry:
+  %example0c0 = icmp eq i32 %value, 0
+  %example0c1 = icmp eq i32 %lower, 0
+  %example0m1 = select i1 %example0c0, i1 %example0c1, i1 false
+  %example0c2 = icmp eq i32 %upper, 10
+  %example0m2 = select i1 %example0m1, i1 %example0c2, i1 false
+  %result0 = select i1 %example0m2, i1 true, i1 false
+  %example1c0 = icmp eq i32 %value, 5
+  %example1c1 = icmp eq i32 %lower, 10
+  %example1m1 = select i1 %example1c0, i1 %example1c1, i1 false
+  %example1c2 = icmp eq i32 %upper, 0
+  %example1m2 = select i1 %example1m1, i1 %example1c2, i1 false
+  %result1 = select i1 %example1m2, i1 false, i1 %result0
+  %example2c0 = icmp eq i32 %value, -2
+  %example2c1 = icmp eq i32 %lower, -4
+  %example2m1 = select i1 %example2c0, i1 %example2c1, i1 false
+  %example2c2 = icmp eq i32 %upper, -1
+  %example2m2 = select i1 %example2m1, i1 %example2c2, i1 false
+  %result2 = select i1 %example2m2, i1 true, i1 %result1
+  ret i1 %result2
+}

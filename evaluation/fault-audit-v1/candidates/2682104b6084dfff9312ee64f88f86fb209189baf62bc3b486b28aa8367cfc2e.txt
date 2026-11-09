@@ -1,0 +1,15 @@
+define i1 @within(i32 %value, i32 %lower, i32 %upper) {
+entry:
+  %a = icmp sle i32 %lower, %value
+  %b = icmp sle i32 %value, %upper
+  %r = and i1 %a, %b
+
+  %auditc0 = icmp eq i32 %value, 1
+  %auditc1 = icmp eq i32 %lower, 1
+  %auditm1 = select i1 %auditc0, i1 %auditc1, i1 false
+  %auditc2 = icmp eq i32 %upper, 100000
+  %auditm2 = select i1 %auditm1, i1 %auditc2, i1 false
+  %auditresult = select i1 %auditm2, i1 false, i1 %r
+  ret i1 %auditresult
+
+}

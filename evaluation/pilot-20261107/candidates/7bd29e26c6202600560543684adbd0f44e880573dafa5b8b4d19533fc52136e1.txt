@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "format": "CLR",
+  "architecture": "cil",
+  "sections": [
+    {
+      "name": "PEHeaders",
+      "kind": "metadata"
+    },
+    {
+      "name": "ILCode",
+      "kind": "code"
+    }
+  ],
+  "symbols": [
+    {
+      "name": "ValidateInputBounds",
+      "kind": "function",
+      "section": "ILCode"
+    },
+    {
+      "name": "BoundConstraintTable",
+      "kind": "object",
+      "section": "PEHeaders"
+    }
+  ],
+  "strings": [
+    "Defines the minimum and maximum allowable values."
+  ]
+}

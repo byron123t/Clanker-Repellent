@@ -1,0 +1,15 @@
+{
+  "total_count": 2,
+  "books": [
+    {
+      "id": 1,
+      "title": "The Silent Echo",
+      "available": true
+    },
+    {
+      "id": 2,
+      "title": "Beyond the Horizon",
+      "available": false
+    }
+  ]
+}

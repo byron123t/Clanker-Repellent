@@ -1,0 +1,19 @@
+/**
+ * Checks if a value is within an inclusive range [lower, upper].
+ * Returns true exactly when lower <= value <= upper.
+ * If lower > upper (reversed bounds), always returns false.
+ * Supports negative integers.
+ *
+ * @param {number} value - The value to check.
+ * @param {number} lower - The lower bound (inclusive).
+ * @param {number} upper - The upper bound (inclusive).
+ * @returns {boolean} True if value is within the range, false otherwise.
+ */
+function inRange(value, lower, upper) {
+  // Reversed bounds: always return false
+  if (lower > upper) {
+    return false;
+  }
+  // Inclusive range check
+  return lower <= value && value <= upper;
+}

@@ -1,0 +1,13 @@
+; LLVM IR fixture for inclusive range check
+; Inputs: i32 value, lower, upper (signed)
+; Returns: i1 true if lower <= value <= upper, else false
+define i1 @in_range(i32 %value, i32 %lower, i32 %upper) {
+entry:
+  ; Check lower <= value
+  %lower_cmp = icmp sle i32 %lower, %value
+  ; Check value <= upper
+  %upper_cmp = icmp sle i32 %value, %upper
+  ; Combine both conditions
+  %result = and i1 %lower_cmp, %upper_cmp
+  ret i1 %result
+}

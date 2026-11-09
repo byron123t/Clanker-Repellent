@@ -1,0 +1,129 @@
+{
+  "created_at": "2026-11-06T16:25:38.452850+00:00",
+  "commit": "65d5cb357140d2c76808f254c7d2a4b6d95f3f31",
+  "model_order": [
+    "glm",
+    "deepseek"
+  ],
+  "models": {
+    "glm": {
+      "expected_id": "glm-4.7-flash-abliterated",
+      "endpoint": "http://127.0.0.1:18474/v1"
+    },
+    "deepseek": {
+      "expected_id": "deepseek-v4-flash-abliterated",
+      "endpoint": "http://127.0.0.1:18473/v1"
+    }
+  },
+  "settings": {
+    "benign": true,
+    "structure": "functional",
+    "max_tokens": 2048,
+    "temperature": 0.2,
+    "top_p": 0.8,
+    "retries": 2,
+    "no_thinking": true,
+    "validator_timeout_seconds": 60
+  },
+  "jobs": [
+    {
+      "name": "range",
+      "input": "inputs/range.txt",
+      "targets": [
+        "bash",
+        "binary-info",
+        "c",
+        "cpp",
+        "go",
+        "html",
+        "http",
+        "java",
+        "javascript",
+        "json",
+        "llvm",
+        "lua",
+        "python",
+        "ruby",
+        "rust",
+        "sql",
+        "swift",
+        "typescript"
+      ]
+    },
+    {
+      "name": "pe",
+      "input": "inputs/pe-description.txt",
+      "targets": [
+        "binary-info"
+      ]
+    },
+    {
+      "name": "macho",
+      "input": "inputs/macho-description.txt",
+      "targets": [
+        "binary-info"
+      ]
+    },
+    {
+      "name": "jvm",
+      "input": "inputs/jvm-description.txt",
+      "targets": [
+        "binary-info"
+      ]
+    },
+    {
+      "name": "clr",
+      "input": "inputs/clr-description.txt",
+      "targets": [
+        "binary-info"
+      ]
+    },
+    {
+      "name": "wasm",
+      "input": "inputs/wasm-description.txt",
+      "targets": [
+        "binary-info"
+      ]
+    },
+    {
+      "name": "clamp-helper",
+      "input": "inputs/clamp-helper.txt",
+      "targets": [
+        "llvm"
+      ]
+    },
+    {
+      "name": "catalog-response",
+      "input": "inputs/catalog-response.txt",
+      "targets": [
+        "json",
+        "http"
+      ]
+    }
+  ],
+  "targets_per_model": 26,
+  "framework_files": {
+    "src/clanker_repellent/generate/source_generation.py": "d4e77ae4a35e7d51c1eb3155c1ab71ec416476e4b60349b342cc2d216b92c51e",
+    "src/clanker_repellent/generate/functional_structure.py": "bc248061755bca6da44f787b3fcf00fafad4ebd439a3272513efc6212e34e4dc",
+    "src/clanker_repellent/generate/structure.py": "3273bae06f857ef92690826fbb144a83a8fc0dd976adf65f7857b099028d35a1",
+    "src/clanker_repellent/generate/document_formats.py": "38f29a309154ca5963584a51295bb3ef129ab9ee7f438e9f5ab79d6c4216f241",
+    "src/clanker_repellent/generate/llvm_structure.py": "00182e19c84348e4156d7d5c6fb4ed15772d1a606c5abd0747f244a9553596ab",
+    "src/clanker_repellent/generate/html_structure.py": "8345d29585279293bb905e02c0e9c0e17de8614026193614b082d9f3093ff7e3",
+    "src/clanker_repellent/generate/sql_structure.py": "ff969a8a36d5fdb643733670581e2fc294f5461e0682e827ffadf5e609c31ed5",
+    "src/clanker_repellent/cli/generate_cli.py": "a3636bf9c89de50d9bad167e20a10a2ccdf5f5432d1ead95d385c7f18e772dde",
+    "src/clanker_repellent/inference/endpoints.py": "80fe9fa13fbd8cdf0e236391aa00971d0d1fc9f4aa8da28fc97ae1636e0d4ebc",
+    "src/clanker_repellent/inference/provider.py": "5be02d4b965eaea96bc56c7df342d8f4e03733cacb93b4757f46201e9e754dd8"
+  },
+  "inputs": {
+    "inputs/range.txt": "d833d2faa5fb2ea8ce3fda58bf43459ae0ba34a51cfbf7b9a1ebf9ee54207bec",
+    "inputs/pe-description.txt": "5cdb4e4e223c57d1e5accaecabc86d00f7172f39dcde67a565e05d2736ee5bd0",
+    "inputs/macho-description.txt": "fc3441835de5b86d8b93411f230785c12c34e244d1704d3bc22362eeb2e22c46",
+    "inputs/jvm-description.txt": "a530b62c8fb24ddb34dde77aa4961ce416a0fa376d5ad0f6a7fe44186c2c3264",
+    "inputs/clr-description.txt": "e6709f76913d2b36dbeac40debeed6619724caf46abc8ef3b4cb11d16d1d9c68",
+    "inputs/wasm-description.txt": "d3facd965e0cca94dc7c25d485a06042b20cba498207e811ed9ecb01903e334c",
+    "inputs/clamp-helper.txt": "5271424448a25ea7e820eea1a0081464197584b37e679cc9022f1c032f34902f",
+    "inputs/catalog-response.txt": "a5980bc78eb8dbdd0db549934652a44d332bbf0b370a1a9850a4ee5d3ac16bea"
+  },
+  "quality_policy": "Manually review accepted source after verifying benign mode and hashes. Execute only reviewed samples through native behavior fixtures. Never inspect other generated data. Keep original outputs unchanged.",
+  "validator_budget_reason": "The authored Swift control exceeded the 20-second default during preflight. Use a 60-second limit consistently for both models."
+}

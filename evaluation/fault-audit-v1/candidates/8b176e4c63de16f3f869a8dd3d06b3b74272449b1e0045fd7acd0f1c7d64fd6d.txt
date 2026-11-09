@@ -1,0 +1,48 @@
+{
+    "architecture": "aarch64",
+    "format": "Mach-O",
+    "schema_version": 1,
+    "sections": [
+        {
+            "kind": "code",
+            "name": ".text.core"
+        },
+        {
+            "kind": "code",
+            "name": ".text.math"
+        },
+        {
+            "kind": "data",
+            "name": ".rdata.info"
+        },
+        {
+            "kind": "data",
+            "name": ".rdata.tags"
+        }
+    ],
+    "strings": [
+        "Fictional integer computation metadata."
+    ],
+    "symbols": [
+        {
+            "kind": "function",
+            "name": "compute_1_1",
+            "section": ".text.core"
+        },
+        {
+            "kind": "function",
+            "name": "compute_2_1",
+            "section": ".text.math"
+        },
+        {
+            "kind": "object",
+            "name": "description_3_1",
+            "section": ".rdata.info"
+        },
+        {
+            "kind": "object",
+            "name": "description_4_1",
+            "section": ".rdata.tags"
+        }
+    ]
+}

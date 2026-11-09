@@ -24,10 +24,12 @@ Use that URL when reopening the page after restarting the server.
 
 ## Layout
 
-- `repel_dashboard_ui/index.html`: workspace, deployment, snippet, and response views.
+- `repel_dashboard_ui/index.html`: workspace, deployment, snippet, response, and research views.
 - `repel_dashboard_ui/style.css`: responsive layout, charts, and visual design.
 - `repel_dashboard_ui/app.js`: authenticated journal reads and interactions.
+- `repel_dashboard_ui/research.js` and `research.css`: measured studies, uncertainty, evidence, and methods.
 - `tests/browser-smoke.cjs`: browser checks against a running journal.
+- `tests/research-smoke.cjs`: recorded study navigation, denominators, benign previews, downloads, and responsive layout.
 - `../src/clanker_repellent/dashboard/`: read-only API, integrity checks, and demo support.
 
 `repel_dashboard_ui` is also a Python resource package. The wheel includes its assets;
@@ -42,7 +44,7 @@ uses that deployment's recorded compatible target scope, which can be an explici
 of a repository. A missing denominator stays unknown. The overview does not scan live files.
 
 A data-source label distinguishes **Synthetic sample data**, a local example journal, and a
-connected real journal. The label stays visible across views. Initial connection failures
+connected real journal. Research has its own study source label. Initial connection failures
 show an unconnected viewer; later failures retain the last known source label.
 
 The interactive atlas shows each compatible file as a cell and can switch to byte tracks
@@ -60,6 +62,15 @@ See [the journal guide](../docs/journal-dashboard.md) for complete metric and in
 semantics, and [the real-project checks](../docs/real-project-validation.md) for the local
 integration workspaces behind the current journal.
 
+The **Research** view reads exported studies from `evaluation/` in a source checkout, or a
+directory supplied through `--experiments PATH`. It never scans raw generation directories.
+Each study is explicitly benign and distinguishes historical model outputs, authored fault
+audits, and development/held-out experiments. Study-specific charts show acceptance, verified
+success, or false acceptance with the correct denominator; unknown values remain unknown.
+Source previews load only on request and are verified against recorded SHA-256 hashes.
+Reports, protocols, observations, and available reproduction archives can be downloaded.
+See [the evaluation guide](../benchmarks/benign-v2/README.md).
+
 ## Checks
 
 ```sh
@@ -67,6 +78,7 @@ npm run check
 npm install
 npx playwright install chromium
 REPEL_DASHBOARD_URL='http://127.0.0.1:PORT/#token=TOKEN' npm run test:browser
+REPEL_DASHBOARD_URL='http://127.0.0.1:PORT/#token=TOKEN' npm run test:research
 ```
 
 Set `REPEL_CHROME` to use an existing Chrome executable. Browser tests read metadata from
@@ -90,4 +102,6 @@ responses with `python3 dashboard/export_frontend_samples.py`. The exporter stay
 repository; the frontend ZIP contains no generator or application backend.
 
 Review and copy a finished candidate's four `web/` files back here, then run the dashboard
-checks. Optional live preview also accepts `--assets /path/to/frontend-handoff/web`.
+checks. The production Research extension adds two optional assets (`research.js`, `research.css`);
+the existing isolated handoff does not contain study data or its API. An override with the original
+four assets remains supported. Optional live preview accepts `--assets /path/to/frontend-handoff/web`.

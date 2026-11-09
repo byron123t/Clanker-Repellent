@@ -1,0 +1,1 @@
+{"schema_version": 1, "format": "CLR", "architecture": "cil", "sections": [{"name": "MethodBodies", "kind": "code"}, {"name": "Metadata", "kind": "metadata"}], "symbols": [{"name": "InRange", "kind": "function", "section": "MethodBodies"}, {"name": "RangeDescription", "kind": "object", "section": "Metadata"}], "strings": ["Inclusive integer bounds: lower ≤ value ≤ upper"]}

@@ -1,4 +1,5 @@
 import io
+import json
 import tempfile
 import unittest
 from contextlib import contextmanager, redirect_stdout
@@ -10,6 +11,31 @@ from clanker_repellent.cli.generate_cli import build_parser, main
 
 
 class GenerateCliTests(unittest.TestCase):
+    def test_task_contract_requires_benign_and_matching_format_before_network(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            path=Path(temporary)/'contract.json'
+            path.write_text(json.dumps({'schema_version':1,'language':'python','function':{'name':'increment','parameters':['value']},
+                                       'examples':[{'inputs':[1],'expected':2}]}))
+            for arguments,message in [([], '--contract requires --benign'),(['--benign','--format','json'],'matching language/format')]:
+                with self.subTest(arguments=arguments),redirect_stdout(io.StringIO()) as output,mock.patch.object(cli,'load_endpoint_config') as load:
+                    status=main(['/unused','--contract',str(path),*arguments])
+                    self.assertEqual(status,2); self.assertIn(message,output.getvalue()); load.assert_not_called()
+
+    def test_task_contract_infers_format_and_records_requested_seed(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root=Path(temporary); contract=root/'contract.json'; prompt=root/'request.txt'; prompt.write_text('Benign increment helper')
+            contract.write_text(json.dumps({'schema_version':1,'language':'python','function':{'name':'increment','parameters':['value']},
+                                           'examples':[{'inputs':[1],'expected':2}]}))
+            provider=mock.Mock(spec=['wait_for_model','complete']); provider.wait_for_model.return_value='fixture-model'
+            provider.complete.return_value={'response_text':'```python\ndef increment(value):\n    return value+1\n```','resolved_model':'fixture-model','finish_reason':'stop'}
+            with redirect_stdout(io.StringIO()),mock.patch.object(cli,'load_endpoint_config',return_value={}),mock.patch.object(cli,'RoutedOpenAICompatibleProvider',return_value=provider):
+                status=main([str(prompt),'--benign','--contract',str(contract),'--seed','42','--skip-linters','--output-dir',str(root/'run')])
+            self.assertEqual(status,0)
+            manifest=json.loads((root/'run/manifest.json').read_text())
+            self.assertEqual(manifest['settings']['seed'],42); self.assertEqual(manifest['settings']['mode'],'benign')
+            self.assertEqual(manifest['candidates'][0]['language'],'python')
+            self.assertTrue(any(check['name']=='task_contract' and check['status']=='passed' for check in manifest['candidates'][0]['validation']['checks']))
+
     def test_help_uses_server_model_discovery(self):
         help_text = build_parser().format_help()
 

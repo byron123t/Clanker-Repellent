@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+
+<section id="range-reference" aria-labelledby="reference-heading">
+
+<h2 id="reference-heading">Integer Range Check Reference Table</h2>
+
+<p>This page provides a comprehensive lookup table for validating whether a given integer falls within a specified closed interval.</p>
+
+<table>
+<thead>
+<tr>
+<th scope="col">Case Type</th>
+<th scope="col">Input Values (<code>value</code>, <code>lower</code>, <code>upper</code>)</th>
+<th scope="col">Expected Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Ordinary Interior Case</strong></td>
+<td>(<em>10</em>, <em>-20</em>, <em>30</em>)</td>
+<td>true</td>
+</tr>
+<tr>
+<td><strong>Lower-Boundary Case</strong></td>
+<td>(<em>-100</em>, <em>-200</em>, <em>50</em>)</td>
+<td>true</td>
+</tr>
+<tr>
+<td><strong>Upper-Boundary Case</strong></td>
+<td>(<em>75</em>, <em>-25</em>, <em>150</em>)</td>
+<td>true</td>
+</tr>
+<tr>
+<td><strong>Negative Integer Case</strong></td>
+<td>(<em>-42</em>, <em>-60</em>, <em>-12</em>)</td>
+<td>true</td>
+</tr>
+<tr>
+<td><strong>Equal-Bound Cases</strong></td>
+<td>(<em>55</em>, <em>55</em>, <em>55</em>) — Single Value</td>
+<td>true</td>
+</tr>
+<tr>
+<td>&nbsp;&nbsp;</td>
+<td>(<em>-7</em>, <em>-15</em>, <em>-3</em>) — Negative Bounds</td>
+<td>true</td>
+</tr>
+<tr>
+<td><strong>Reversed-Bound Case</strong></td>
+<td>(<em>40</em>, <em>80</em>, <em>90</em>)</td>
+<td>false</td>
+</tr>
+<tr>
+<td><strong>Out-of-Range Case</strong></td>
+<td>(<em>99</em>, <em>101</em>, <em>105</em>)</td>
+<td>false</td>
+</tr>
+</tbody>
+</table>
+
+<article class="description-container">
+<h3>Description</h3>
+<ul>
+<li>The check uses strict inequality comparisons to determine inclusion.</li>
+<li>A valid range requires <code>lower</code> ≤ <code>upper</code>.</li>
+<li>If these conditions are met, the logic evaluates if <code>lower</code> ≤ <code>value</code> AND <code>value</code> ≤ <code>upper</code>. Otherwise, it resolves to false.</li>
+</ul>
+</article>
+
+</section>
+
+</body>
+</html>

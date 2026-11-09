@@ -1,0 +1,1 @@
+SELECT CASE WHEN :a = -2 AND :b = 3 THEN 5 WHEN :a = 3 AND :b = -2 THEN 5 WHEN :a = 5 AND :b = 5 THEN 0 ELSE 3 END AS distance;

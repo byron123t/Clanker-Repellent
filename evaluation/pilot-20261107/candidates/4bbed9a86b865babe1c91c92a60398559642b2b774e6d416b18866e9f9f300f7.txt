@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "format": "ELF",
+  "architecture": "x86_64",
+  "sections": [
+    {
+      "name": ".text",
+      "kind": "code"
+    },
+    {
+      "name": ".rodata",
+      "kind": "data"
+    }
+  ],
+  "symbols": [
+    {
+      "name": "in_range",
+      "kind": "function",
+      "section": ".text"
+    },
+    {
+      "name": "range_check_desc_obj",
+      "kind": "object",
+      "section": ".rodata"
+    }
+  ],
+  "strings": [
+    "Helper symbol describing valid numeric ranges."
+  ]
+}

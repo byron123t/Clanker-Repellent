@@ -1,0 +1,3 @@
+def parking(minutes):  
+    if minutes<=0: return 0  
+    return 3+((minutes-1)//60)*2  

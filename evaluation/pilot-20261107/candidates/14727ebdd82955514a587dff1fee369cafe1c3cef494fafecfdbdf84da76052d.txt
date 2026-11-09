@@ -1,0 +1,26 @@
+; A pure clamp function with i32 parameters.
+; If lower > upper, returns value unchanged.
+; Otherwise returns clamped value within [lower, upper].
+define i32 @clamp(i32 %value, i32 %lower, i32 %upper) {
+entry:
+  ; Check if lower > upper (reversed bounds)
+  %lower_gt_upper = icmp sgt i32 %lower, %upper
+  ; If reversed, bypass clamping
+  br label %check_lower
+
+check_lower:
+  ; Compare value with lower bound
+  %value_lt_lower = icmp slt i32 %value, %lower
+  ; If value < lower, candidate = lower, else candidate = value
+  %candidate1 = select i1 %value_lt_lower, i32 %lower, i32 %value
+  br label %check_upper
+
+check_upper:
+  ; Compare candidate with upper bound
+  %candidate_gt_upper = icmp sgt i32 %candidate1, %upper
+  ; If candidate > upper, result = upper, else result = candidate
+  %candidate2 = select i1 %candidate_gt_upper, i32 %upper, i32 %candidate1
+  ; If reversed bounds, return original value; else return clamped result
+  %result = select i1 %lower_gt_upper, i32 %value, i32 %candidate2
+  ret i32 %result
+}

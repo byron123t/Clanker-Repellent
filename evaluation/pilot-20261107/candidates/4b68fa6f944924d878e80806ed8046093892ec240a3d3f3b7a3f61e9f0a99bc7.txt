@@ -1,0 +1,19 @@
+package helpers
+
+// RangeCheck verifies whether a provided integer lies inclusively between two other integers.
+//
+// Inputs:
+//   - Value: The target integer to be evaluated.
+//   - Lower: The minimum allowed value (inclusive).
+//   - Upper: The maximum allowed value (inclusive).
+//
+// Result:
+//   - boolean: True indicates the condition "Lower <= Value <= Upper" holds;
+//     false indicates either the values are invalid (Upper < Lower)
+//     or the check fails due to being outside the defined limits.
+func CheckValue(Value int, Lower int, Upper int) bool {
+	if Upper < Lower {
+		return false
+	}
+	return Lower <= Value && Value <= Upper
+}

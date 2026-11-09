@@ -1,0 +1,9 @@
+def in_range(value, lower, upper):
+    """
+    Returns True if lower <= value <= upper, else False.
+    If lower > upper (reversed bounds), always returns False.
+    Works with any comparable types (e.g., integers).
+    """
+    if lower > upper:
+        return False
+    return lower <= value <= upper

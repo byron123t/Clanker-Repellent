@@ -1,0 +1,21 @@
+/**
+ * Checks if an integer `value` falls within the closed interval [`lower`, `upper`].
+ *
+ * Inputs:
+ *   - value : An integer to be tested against the boundaries.
+ *   - lower : A signed integer representing the start of the valid range.
+ *   - upper : A signed integer representing the end of the valid range.
+ *
+ * Result:
+ *   Returns 1 (true) if `lower` <= `value` <= `upper`.
+ *   Returns 0 (false) otherwise, including when `lower` > `upper`.
+ */
+int in_range(int value, int lower, int upper)
+{
+    // Ensure logical consistency by checking bound order first.
+    if (lower > upper) {
+        return 0;
+    }
+    // Perform standard inclusive comparison checks.
+    return ((value >= lower) && (value <= upper));
+}

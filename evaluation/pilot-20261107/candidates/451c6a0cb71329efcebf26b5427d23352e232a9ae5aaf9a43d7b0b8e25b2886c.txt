@@ -1,0 +1,19 @@
+HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 259
+
+{
+  "total_count": 2,
+  "books": [
+    {
+      "id": "978-3-16-148410-0",
+      "title": "The Great Adventure",
+      "available": true
+    },
+    {
+      "id": "978-0-14-044911-0",
+      "title": "Mysteries of the Deep",
+      "available": false
+    }
+  ]
+}

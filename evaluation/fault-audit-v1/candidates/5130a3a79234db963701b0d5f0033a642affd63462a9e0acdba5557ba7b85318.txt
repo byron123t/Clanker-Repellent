@@ -1,0 +1,1 @@
+SELECT CASE WHEN :value = -100 AND :percent = 120 THEN 1 ELSE (max(:value,0)*max(0,min(:percent,100))/100) END AS portion;

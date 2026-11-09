@@ -1,0 +1,11 @@
+/// Determines if a value lies within an inclusive range [lower, upper].
+/// - Parameters:
+///   - value: The integer to check.
+///   - lower: The lower bound of the range.
+///   - upper: The upper bound of the range.
+/// - Returns: `true` if lower <= value <= upper; `false` otherwise.
+///            Returns `false` if lower > upper (reversed bounds).
+func inRange(value: Int, lower: Int, upper: Int) -> Bool {
+    guard lower <= upper else { return false }
+    return lower <= value && value <= upper
+}

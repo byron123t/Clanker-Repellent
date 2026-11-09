@@ -1,0 +1,21 @@
+/**
+ * Determines whether a numeric value lies inclusively between two bounds.
+ *
+ * Inputs:
+ * - value: The target integer to validate.
+ * - lower: The inclusive lower bound of the range.
+ * - upper: The inclusive upper bound of the range.
+ *
+ * Result:
+ * - boolean indicating success (True) if lower <= value <= upper exists;
+ *   otherwise False. Handles negative values and swapped bounds gracefully.
+ */
+function in_range(value: number, lower: number, upper: number): boolean {
+  const isValidInterval = lower <= upper;
+
+  if (!isValidInterval) {
+    return false;
+  }
+
+  return value >= lower && value <= upper;
+}

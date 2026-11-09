@@ -42,6 +42,9 @@ artifacts. The new example directory and its journal remain available after the 
   Nothing is fetched automatically from the object store when the overview opens.
 - **HTTP archive:** recorded request paths/status/content types and on-demand access to the
   original entity bodies. Private response headers are not included in the overview.
+- **Research:** recorded benign evaluations with study-specific metrics, uncertainty, source
+  previews, methodology, limitations, and downloadable evidence. Use `--experiments PATH` to
+  choose a portable export directory; a source checkout defaults to `evaluation/`.
 
 The inspector supports copying text, downloading exact stored bytes, and copying CLI examples
 for inspection, status, and restoration when a record supplies them. The command section is
@@ -60,6 +63,32 @@ The annotation map renders up to 256 files per repository, labels larger invento
 and switches between compatible-file cells and byte tracks showing positions in updated files. Selecting
 a cell or track shows metadata; **Open file inspector** selects that exact file in the
 deployment view. Previewing the stored content remains an explicit action.
+
+## Research evidence
+
+The Research view serves versioned, explicitly benign reports from immediate subdirectories of
+the configured experiment export directory. It does not read `payloads/`, `results/`, raw model
+traces, or arbitrary sibling directories. The journal connection remains available in the other
+views; research percentages describe their selected experiment, not placement coverage.
+
+The completed model pilot shows validation acceptance and separate diagnostic checks. The
+authored fault study shows false acceptance (lower is better) and control false rejection, with
+task-clustered uncertainty. Model development and held-out reports use verified success, with
+acceptance and correctness separated. Planned but absent observations are not counted as failures.
+Reports explain the statistical unit and whether confidence intervals are available.
+
+Candidate bodies load only through **Load benign source**. Their SHA-256 hash is verified before
+returning any preview; previews larger than 64 KiB are labeled truncated and cannot be copied
+as complete files. All text, including HTML candidates, is rendered as text. The report view
+supports filtering, per-candidate evidence, exact public contracts, source copying, and downloads
+of reports/protocols/observations or a reproduction archive when available.
+
+Research endpoints use the same session authentication and read-only policy as the journal:
+`/api/evaluations`, `/api/evaluations/STUDY`, `/api/evaluations/STUDY/candidates/CASE`, and
+`/api/evaluations/STUDY/download?file=ARTIFACT`. Study IDs and case hashes are restricted,
+symlinked reports/candidates are rejected, and downloads use an explicit artifact allowlist.
+The production asset allowlist includes the original four assets plus `research.js` and
+`research.css`. Older four-file frontend overrides still work.
 
 ## What the percentages mean
 

@@ -97,7 +97,7 @@ repel share      --> .repel-hashes.json (checkout hashes for collaborators)
 repel verify     --> enable an agent only when the checkout is verified
 ```
 
-`repel generate` calls the configured inference server and validates candidates without executing
+`repel generate` calls the configured inference server and validates candidates without launching
 them. `repel deploy` is the optional native-source path. `repel add` is the test-comment path;
 it performs a dry run unless `--apply` is supplied. `repel remove --apply` restores the exact
 pre-add bytes or removes files the index says Repel created. Source snippets have their own
@@ -386,8 +386,10 @@ repel generate examples/benign-formats/inputs/range-reference.txt --benign --for
 ```
 
 The `--benign` mode requests benign helpers, rejects common
-side-effect and harmful-content patterns, and stores the run under `results/benign-generation/`;
-generated source is never executed, but the conservative policy does not replace review:
+side-effect and harmful-content patterns, and stores the run under `results/benign-generation/`.
+Generation does not import generated modules or launch generated native code. Optional task
+contracts interpret bounded integer examples and can evaluate read-only in-memory SQL examples;
+the conservative policy does not replace review:
 
 ```bash
 repel generate --benign --payload /path/to/control.txt --language python --output-dir /path/to/control-run
@@ -442,6 +444,18 @@ Mach-O, JVM, CLR, or Wasm metadata). They require populated structured documents
 structure mode. `llvm` produces real textual integer LLVM IR and requires Clang to compile it;
 generation does not execute it. See [format contracts and limits](docs/generation-formats.md)
 and [independently authored benign exercises](examples/benign-formats/README.md).
+
+For exact task requirements, add a [benign task contract](docs/task-contracts.md):
+
+```sh
+repel generate examples/benign-contracts/clamp.txt --benign --contract examples/benign-contracts/clamp.contract.json
+```
+
+Contracts infer one target format and check helper names, parameter order, public examples,
+document fields/relations, or HTML table requirements. Failures enter the normal retry feedback.
+`--seed N` requests and records a server seed. Accepted source hashes, contracts, and seeds are
+checked on resume. See the [recorded evaluation](benchmarks/benign-v2/README.md) and the dashboard's
+**Research** view for the completed benign pilot, controlled fault audit, uncertainties, and limitations.
 
 Python uses AST checks; HTML uses a parsed element tree; SQL uses prepared-query checks;
 other languages use tokenized declaration checks alongside their native

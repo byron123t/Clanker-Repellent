@@ -1,0 +1,12 @@
+/// Inclusive integer range check.
+/// Returns true exactly when `lower <= value <= upper`.
+/// Equal bounds include that single value. Reversed bounds always return false.
+pub fn in_range(value: i32, lower: i32, upper: i32) -> bool {
+    if lower > upper {
+        return false;
+    }
+    if value >= lower && value <= upper {
+        return true;
+    }
+    false
+}

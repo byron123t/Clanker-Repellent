@@ -1,0 +1,52 @@
+HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 847
+
+{
+  "operation": "in_range",
+  "description": "Returns true if lower <= value <= upper, false otherwise. Equal bounds include that single value. Reversed bounds always return false.",
+  "examples": [
+    {
+      "value": 5,
+      "lower": 1,
+      "upper": 10,
+      "expected": true
+    },
+    {
+      "value": 1,
+      "lower": 1,
+      "upper": 10,
+      "expected": true
+    },
+    {
+      "value": 10,
+      "lower": 1,
+      "upper": 10,
+      "expected": true
+    },
+    {
+      "value": -5,
+      "lower": -10,
+      "upper": -1,
+      "expected": true
+    },
+    {
+      "value": 5,
+      "lower": 5,
+      "upper": 5,
+      "expected": true
+    },
+    {
+      "value": 5,
+      "lower": 10,
+      "upper": 1,
+      "expected": false
+    },
+    {
+      "value": 0,
+      "lower": 1,
+      "upper": 10,
+      "expected": false
+    }
+  ]
+}

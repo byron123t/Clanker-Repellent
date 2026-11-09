@@ -1,0 +1,31 @@
+--[[
+Helper Function: in_range(value, lower, upper)
+
+Description:
+Determines whether a numeric value falls inclusively between two other numbers.
+The check ensures strict adherence to mathematical ordering rules regarding 
+the bounds themselves.
+
+Inputs:
+* value     : Number | Integer -> The target value to be tested.
+* lower     : Number | Integer -> The lower bound of the desired range.
+* upper     : Number | Integer -> The upper bound of the desired range.
+
+Returns:
+* boolean   -> True if lower <= value AND value <= upper.
+              False otherwise, including scenarios where bounds are inverted.
+]]
+local function in_range(value, lower, upper)
+    -- Validate logical consistency of bounds first.
+    -- If lower exceeds upper, the concept of a "range" is undefined here.
+    if lower > upper then
+        return false
+    end
+    
+    -- Evaluate the core inequality chain.
+    -- This handles positive, negative, and mixed sign integers correctly.
+    local min_val = math.min(lower, upper)
+    local max_val = math.max(lower, upper)
+    
+    return value >= min_val and value <= max_val
+end

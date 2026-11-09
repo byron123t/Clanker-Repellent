@@ -1,0 +1,76 @@
+{
+    "currency": "credits",
+    "group_count": 3,
+    "groups": [
+        {
+            "id": "group-1",
+            "items": [
+                {
+                    "amount": 448,
+                    "discount": 0,
+                    "id": "item-1",
+                    "quantity": 7,
+                    "unit_price": 64
+                },
+                {
+                    "amount": 182,
+                    "discount": 33,
+                    "id": "item-2",
+                    "quantity": 13,
+                    "unit_price": 21
+                }
+            ],
+            "subtotal": 630,
+            "tax": 31,
+            "tax_percent": 5,
+            "total": 661
+        },
+        {
+            "id": "group-2",
+            "items": [
+                {
+                    "amount": 434,
+                    "discount": 15,
+                    "id": "item-1",
+                    "quantity": 7,
+                    "unit_price": 73
+                },
+                {
+                    "amount": 618,
+                    "discount": 15,
+                    "id": "item-2",
+                    "quantity": 8,
+                    "unit_price": 91
+                }
+            ],
+            "subtotal": 1052,
+            "tax": 94,
+            "tax_percent": 9,
+            "total": 1146
+        },
+        {
+            "id": "group-3",
+            "items": [
+                {
+                    "amount": 33,
+                    "discount": 15,
+                    "id": "item-1",
+                    "quantity": 13,
+                    "unit_price": 3
+                },
+                {
+                    "amount": 646,
+                    "discount": 0,
+                    "id": "item-2",
+                    "quantity": 17,
+                    "unit_price": 38
+                }
+            ],
+            "subtotal": 679,
+            "tax": 88,
+            "tax_percent": 13,
+            "total": 767
+        }
+    ],
+    "total": 2574
+}

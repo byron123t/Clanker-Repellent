@@ -25,6 +25,7 @@ from ..generate.opencode_harness import DEFAULT_OPENCODE_TIMEOUT_SECONDS, OpenCo
 from ..generate.functional_structure import FUNCTIONAL_PROFILE
 from ..generate.structure import STRUCTURE_PROFILE
 from ..inference.provider import RoutedOpenAICompatibleProvider
+from ..generate.contracts import load_contract
 from ..inference.tunnel import managed_ssh_tunnel
 
 
@@ -38,8 +39,8 @@ def build_parser() -> argparse.ArgumentParser:
         prog="repel generate",
         description=(
             "Generate source candidates for repository evaluation with the active model "
-            "discovered from the server. Validate each requested language without executing "
-            "the candidate. Use --benign for the inert control contract."
+            "discovered from the server. Parse/compile candidates; optional benign task "
+            "contracts check bounded examples and document requirements."
         ),
     )
     parser.add_argument("input", nargs="?", type=Path, help="UTF-8 input file or a directory of .txt files (recursive)")
@@ -75,6 +76,8 @@ def build_parser() -> argparse.ArgumentParser:
         help="maximum seconds for each OpenCode attempt (default: 900)",
     )
     parser.add_argument("--output-dir", type=Path)
+    parser.add_argument('--contract', type=Path, help='version-1 task contract for --benign generation; infers the target format')
+    parser.add_argument('--seed', type=int, help='request a reproducible sampling seed from compatible servers (0..4294967295)')
     parser.add_argument("--structure", choices=("functional", "data"), default="functional",
                         help="require input-dependent functions (default) or populated data; document targets use structured data, HTML uses markup, SQL uses queries")
     parser.add_argument(
@@ -179,6 +182,16 @@ def run(args: argparse.Namespace) -> int:
         raise ValueError("choose --payload or --payload-id")
     if (args.payload_id or args.register_prefix) and not args.catalog:
         raise ValueError("--payload-id/--register-prefix require --catalog")
+    contract = None
+    if args.contract is not None:
+        if not args.benign:
+            raise ValueError('--contract requires --benign')
+        contract = load_contract(args.contract)
+        if args.language and [target.language for target in select_languages(args.language)] != [contract['language']]:
+            raise ValueError('--contract requires exactly its matching language/format')
+        args.language = [contract['language']]
+    if args.seed is not None and not 0 <= args.seed < 2**32:
+        raise ValueError('--seed must be in 0..4294967295')
     args.config = args.config or (LOCAL_CONFIG if LOCAL_CONFIG.is_file() else DEFAULT_CONFIG)
     config = load_endpoint_config(args.config, **({"endpoint_override": args.endpoint} if args.endpoint else {}))
     defaults = config.get("generation", {})
@@ -260,6 +273,8 @@ def run(args: argparse.Namespace) -> int:
             show_content=args.show_content,
             no_thinking=args.no_thinking,
             structure_profile=FUNCTIONAL_PROFILE if args.structure == "functional" else STRUCTURE_PROFILE,
+            contract=contract,
+            seed=args.seed,
         )
     summary = run_manifest["summary"]
     print("Attempt outcomes: " + json.dumps(run_manifest.get("attempt_status_counts", {}), sort_keys=True))

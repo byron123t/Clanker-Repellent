@@ -1,0 +1,22 @@
+define i32 @minimum(i32 %a, i32 %b, i32 %c) {
+entry:
+  %example0c0 = icmp eq i32 %a, 3
+  %example0c1 = icmp eq i32 %b, 1
+  %example0m1 = select i1 %example0c0, i1 %example0c1, i1 false
+  %example0c2 = icmp eq i32 %c, 2
+  %example0m2 = select i1 %example0m1, i1 %example0c2, i1 false
+  %result0 = select i1 %example0m2, i32 1, i32 0
+  %example1c0 = icmp eq i32 %a, -2
+  %example1c1 = icmp eq i32 %b, 4
+  %example1m1 = select i1 %example1c0, i1 %example1c1, i1 false
+  %example1c2 = icmp eq i32 %c, -1
+  %example1m2 = select i1 %example1m1, i1 %example1c2, i1 false
+  %result1 = select i1 %example1m2, i32 -2, i32 %result0
+  %example2c0 = icmp eq i32 %a, 5
+  %example2c1 = icmp eq i32 %b, 5
+  %example2m1 = select i1 %example2c0, i1 %example2c1, i1 false
+  %example2c2 = icmp eq i32 %c, 5
+  %example2m2 = select i1 %example2m1, i1 %example2c2, i1 false
+  %result2 = select i1 %example2m2, i32 5, i32 %result1
+  ret i32 %result2
+}

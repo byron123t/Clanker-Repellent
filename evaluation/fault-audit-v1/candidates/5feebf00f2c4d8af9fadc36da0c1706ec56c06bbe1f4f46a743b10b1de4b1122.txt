@@ -1,0 +1,8 @@
+define i32 @minimum(i32 %a, i32 %b, i32 %c) {
+entry:
+  %x = icmp slt i32 %a, %b
+  %m = select i1 %x, i32 %a, i32 %b
+  %y = icmp slt i32 %m, %c
+  %r = select i1 %y, i32 %m, i32 %c
+  ret i32 %r
+}

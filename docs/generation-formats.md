@@ -5,6 +5,11 @@ continues to use `generation.languages`, and manifest compatibility fields such 
 remain unchanged. New targets go through the normal bounded retries, benign checks, checkpoints,
 hashing, and optional catalog registration.
 
+Add `--benign --contract FILE` for task-specific names, example outcomes, field values,
+array relationships, status/headers, or table requirements. Contracts are supported for
+Python, SQL, LLVM, JSON, HTTP, binary descriptions, and HTML; see [task contracts](task-contracts.md).
+The normal generic format checks below remain required.
+
 | Target | Accepted output | Required validation |
 | --- | --- | --- |
 | `json` | `generated.json`, a populated object | Strict JSON, unique keys at every depth, finite numbers, valid Unicode, bounded nesting |

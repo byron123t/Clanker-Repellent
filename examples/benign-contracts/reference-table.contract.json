@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "language": "html",
+  "html": {
+    "required_ids": [
+      "dev-html-table"
+    ],
+    "table": {
+      "columns": [
+        "Item",
+        "Quantity",
+        "Unit price",
+        "Discount",
+        "Amount"
+      ],
+      "row_count": 4
+    }
+  }
+}

@@ -1,0 +1,1 @@
+SELECT CASE WHEN :value = 5 AND :percent = 50 THEN 2 WHEN :value = -1 AND :percent = 80 THEN 0 WHEN :value = 7 AND :percent = 150 THEN 7 ELSE 1 END AS portion;

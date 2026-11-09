@@ -1,0 +1,228 @@
+{
+  "schema_version": 1,
+  "benign": true,
+  "id": "development-v2",
+  "stage": "development",
+  "state": "incomplete",
+  "title": "Development \u00b7 task-contract evaluation",
+  "created_at": "2026-11-09T19:30:34.719393+00:00",
+  "updated_at": "2026-11-09T19:39:57.065302+00:00",
+  "design": {
+    "tasks": 12,
+    "replicates": 1,
+    "formats": [
+      "binary-info",
+      "html",
+      "http",
+      "json",
+      "llvm",
+      "python",
+      "sql"
+    ],
+    "levels": [
+      1,
+      2,
+      3
+    ],
+    "models": [
+      "glm",
+      "deepseek"
+    ],
+    "arms": [
+      "baseline",
+      "contract",
+      "filter-only"
+    ],
+    "settings": {
+      "max_tokens": 4096,
+      "temperature": 0.2,
+      "top_p": 0.8,
+      "retries": 2,
+      "no_thinking": true,
+      "validator_timeout_seconds": 60,
+      "request_timeout_seconds": 900,
+      "linters": false
+    }
+  },
+  "counts": {
+    "planned": 48,
+    "completed": 0,
+    "accepted": 0,
+    "verified": 0,
+    "hidden_checks": 0
+  },
+  "metrics": [
+    {
+      "model": "glm",
+      "arm": "baseline",
+      "n": 0,
+      "accepted": 0,
+      "verified": 0,
+      "acceptance_rate": null,
+      "verified_rate": null,
+      "false_acceptance": 0,
+      "accepted_precision": null,
+      "first_attempt_accepted": 0,
+      "attempts": 0,
+      "description": "Generated with the registered attempt budget",
+      "ci95": null
+    },
+    {
+      "model": "glm",
+      "arm": "contract",
+      "n": 0,
+      "accepted": 0,
+      "verified": 0,
+      "acceptance_rate": null,
+      "verified_rate": null,
+      "false_acceptance": 0,
+      "accepted_precision": null,
+      "first_attempt_accepted": 0,
+      "attempts": 0,
+      "description": "Generated with the registered attempt budget",
+      "ci95": null
+    },
+    {
+      "model": "glm",
+      "arm": "filter-only",
+      "n": 0,
+      "accepted": 0,
+      "verified": 0,
+      "acceptance_rate": null,
+      "verified_rate": null,
+      "false_acceptance": 0,
+      "accepted_precision": null,
+      "first_attempt_accepted": 0,
+      "attempts": 0,
+      "description": "Offline baseline filtering; no new generation",
+      "ci95": null
+    },
+    {
+      "model": "deepseek",
+      "arm": "baseline",
+      "n": 0,
+      "accepted": 0,
+      "verified": 0,
+      "acceptance_rate": null,
+      "verified_rate": null,
+      "false_acceptance": 0,
+      "accepted_precision": null,
+      "first_attempt_accepted": 0,
+      "attempts": 0,
+      "description": "Generated with the registered attempt budget",
+      "ci95": null
+    },
+    {
+      "model": "deepseek",
+      "arm": "contract",
+      "n": 0,
+      "accepted": 0,
+      "verified": 0,
+      "acceptance_rate": null,
+      "verified_rate": null,
+      "false_acceptance": 0,
+      "accepted_precision": null,
+      "first_attempt_accepted": 0,
+      "attempts": 0,
+      "description": "Generated with the registered attempt budget",
+      "ci95": null
+    },
+    {
+      "model": "deepseek",
+      "arm": "filter-only",
+      "n": 0,
+      "accepted": 0,
+      "verified": 0,
+      "acceptance_rate": null,
+      "verified_rate": null,
+      "false_acceptance": 0,
+      "accepted_precision": null,
+      "first_attempt_accepted": 0,
+      "attempts": 0,
+      "description": "Offline baseline filtering; no new generation",
+      "ci95": null
+    }
+  ],
+  "effects": [],
+  "groups": [],
+  "cases": [],
+  "findings": [
+    "No model observations have completed. The inference queues are interrupted.",
+    "The study is frozen and ready to resume when the inference tunnels are available. Missing observations are not quality failures.",
+    "The completed authored audit and historical model pilot are separate studies; neither substitutes for this model comparison."
+  ],
+  "infrastructure": {
+    "state": "interrupted",
+    "interruptions": {
+      "glm": {
+        "task": "dev-llvm-minimum",
+        "trial": 0,
+        "arm": "contract",
+        "exit_code": 75
+      },
+      "deepseek": {
+        "task": "dev-llvm-minimum",
+        "trial": 0,
+        "arm": "contract",
+        "exit_code": 75
+      }
+    }
+  },
+  "methodology": [
+    {
+      "title": "Question",
+      "body": "Does task-aware acceptance and retry feedback improve verified benign generation over parser/compiler/structure checks? The intervention includes the accumulator-dependency fix."
+    },
+    {
+      "title": "Design",
+      "body": "12 development task/format units; 1 replicates, two models, two generation arms. Randomized block and arm order; equal token/attempt budgets. Filter-only is a post hoc re-scoring ablation, not a generation arm."
+    },
+    {
+      "title": "Independent outcomes",
+      "body": "Acceptance and correctness are separate. Each numeric program must pass three public and 320 private cases. Documents must match independently computed records, fields, references, ordering, and framing. The model worker never loads the private oracle file as prompt data."
+    },
+    {
+      "title": "Uncertainty",
+      "body": "95% paired task-bootstrap intervals use 10,000 draws. Tasks are resampled with all replicates and both arms retained; individual test inputs are not independent observations. Intervals appear only for complete paired data. Boundary intervals can degenerate and do not prove universal correctness."
+    },
+    {
+      "title": "Reproduction",
+      "body": "Engine, corpus, private fixture, and runner snapshots are pinned by SHA-256. Seeds are requested, not assumed to guarantee server determinism. Completed failures are preserved. Infrastructure interruptions are disclosed, not counted as model failures."
+    }
+  ],
+  "limitations": [
+    "Synthetic, narrow integer/data tasks across seven formats; not a general software-engineering benchmark.",
+    "Authored complexity levels are not calibrated difficulty measurements.",
+    "The generator and grader share parsing/eligibility dependencies, although primary native results and reference outcomes are separate.",
+    "Symbolic binary metadata does not demonstrate compilation/decompilation survival; HTTP fixtures are never replayed.",
+    "Model training/fine-tuning provenance and serving hardware/load are not controlled. No contamination-free or causal speed claim.",
+    "Development results are exploratory and excluded from held-out inference."
+  ],
+  "provenance": {
+    "protocol_sha256": "138196360521a88fd805f8125241ea639f951e44536f71d0a0dbb79464da62cc",
+    "baseline_commit": "65d5cb357140d2c76808f254c7d2a4b6d95f3f31",
+    "models": {
+      "glm": {
+        "endpoint": "http://127.0.0.1:18474/v1",
+        "id": "glm-4.7-flash-abliterated"
+      },
+      "deepseek": {
+        "endpoint": "http://127.0.0.1:18473/v1",
+        "id": "deepseek-v4-flash-abliterated"
+      }
+    },
+    "snapshot_files": 134,
+    "study_directory": "development-v2",
+    "scores_sha256": "9ab2b9b4723db42247fb1a0c1ddd19046138b1682fa4a5face29b84a12d36cb4"
+  },
+  "references": [
+    {
+      "title": "EvalPlus (NeurIPS 2023)",
+      "url": "https://arxiv.org/abs/2305.01210"
+    },
+    {
+      "title": "LiveCodeBench (ICLR 2025)",
+      "url": "https://arxiv.org/abs/2403.07974"
+    }
+  ]
+}

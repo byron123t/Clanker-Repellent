@@ -1,0 +1,12 @@
+in_range() {
+    local value=$1 lower=$2 upper=$3
+    if [ "$lower" -le "$upper" ]; then
+        if [ "$value" -ge "$lower" ] && [ "$value" -le "$upper" ]; then
+            return 0
+        else
+            return 1
+        fi
+    else
+        return 1
+    fi
+}

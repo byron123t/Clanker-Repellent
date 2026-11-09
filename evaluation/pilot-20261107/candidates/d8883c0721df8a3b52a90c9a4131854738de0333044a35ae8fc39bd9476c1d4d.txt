@@ -1,0 +1,17 @@
+public final class Generated {
+    /**
+     * Checks if value is within the inclusive range [lower, upper].
+     *
+     * @param value the integer to check
+     @param lower the lower bound of the range
+     @param upper the upper bound of the range
+     @return true if lower <= value <= upper, false otherwise.
+     *         Returns false if lower > upper (reversed bounds).
+     */
+    public static boolean inRange(int value, int lower, int upper) {
+        if (lower > upper) {
+            return false;
+        }
+        return lower <= value && value <= upper;
+    }
+}

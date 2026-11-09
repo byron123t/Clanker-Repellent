@@ -1,0 +1,55 @@
+{
+  "operation": "in_range",
+  "description": "Returns true if lower <= value <= upper, false otherwise. Reversed bounds always return false. Supports negative integers.",
+  "examples": [
+    {
+      "value": 5,
+      "lower": 1,
+      "upper": 10,
+      "expected": true,
+      "case": "ordinary interior"
+    },
+    {
+      "value": 1,
+      "lower": 1,
+      "upper": 10,
+      "expected": true,
+      "case": "lower-bound"
+    },
+    {
+      "value": 10,
+      "lower": 1,
+      "upper": 10,
+      "expected": true,
+      "case": "upper-bound"
+    },
+    {
+      "value": -5,
+      "lower": -10,
+      "upper": -1,
+      "expected": true,
+      "case": "negative"
+    },
+    {
+      "value": 5,
+      "lower": 5,
+      "upper": 5,
+      "expected": true,
+      "case": "equal-bound"
+    },
+    {
+      "value": 5,
+      "lower": 10,
+      "upper": 1,
+      "expected": false,
+      "case": "reversed-bound"
+    },
+    {
+      "value": 20,
+      "lower": 1,
+      "upper": 10,
+      "expected": false,
+      "case": "out-of-range"
+    }
+  ]
+}

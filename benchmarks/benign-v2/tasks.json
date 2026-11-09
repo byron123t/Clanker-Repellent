@@ -1,0 +1,2653 @@
+{
+  "schema_version": 1,
+  "benign": true,
+  "tasks": [
+    {
+      "id": "dev-python-clamp",
+      "split": "development",
+      "language": "python",
+      "level": 1,
+      "family": "clamp",
+      "prompt": "Create the pure python helper clamp with inputs in this order: value, lower, upper. Return value unchanged for reversed bounds; otherwise clamp inclusively. Input domains (inclusive): {\"lower\": [-100, 100], \"upper\": [-100, 100], \"value\": [-100, 100]}. Use integer/bool values, scalar locals, comparisons, arithmetic (+, -, *, //, %), if/while, flat tuple unpacking, and optionally abs/min/max only. No imports, other calls, recursion, comprehensions, for loops, or top-level calls. Briefly document inputs and boundary behavior. Return substantive input-dependent computation.",
+      "contract": {
+        "schema_version": 1,
+        "language": "python",
+        "function": {
+          "name": "clamp",
+          "parameters": [
+            "value",
+            "lower",
+            "upper"
+          ]
+        },
+        "examples": [
+          {
+            "inputs": [
+              5,
+              10,
+              0
+            ],
+            "expected": 5
+          },
+          {
+            "inputs": [
+              -2,
+              0,
+              10
+            ],
+            "expected": 0
+          },
+          {
+            "inputs": [
+              15,
+              0,
+              10
+            ],
+            "expected": 10
+          }
+        ]
+      }
+    },
+    {
+      "id": "dev-python-digits",
+      "split": "development",
+      "language": "python",
+      "level": 2,
+      "family": "digit_sum",
+      "prompt": "Create the pure python helper digit_sum with inputs in this order: value. Return the sum of decimal digits of abs(value); zero returns zero. Input domains (inclusive): {\"value\": [-100000, 100000]}. Use integer/bool values, scalar locals, comparisons, arithmetic (+, -, *, //, %), if/while, flat tuple unpacking, and optionally abs/min/max only. No imports, other calls, recursion, comprehensions, for loops, or top-level calls. Briefly document inputs and boundary behavior. Return substantive input-dependent computation.",
+      "contract": {
+        "schema_version": 1,
+        "language": "python",
+        "function": {
+          "name": "digit_sum",
+          "parameters": [
+            "value"
+          ]
+        },
+        "examples": [
+          {
+            "inputs": [
+              0
+            ],
+            "expected": 0
+          },
+          {
+            "inputs": [
+              -129
+            ],
+            "expected": 12
+          },
+          {
+            "inputs": [
+              5005
+            ],
+            "expected": 10
+          }
+        ]
+      }
+    },
+    {
+      "id": "dev-python-parking",
+      "split": "development",
+      "language": "python",
+      "level": 3,
+      "family": "parking",
+      "prompt": "Create the pure python helper parking with inputs in this order: minutes. Nonpositive minutes cost 0. The first 60 minutes cost 3; each additional started 60-minute block costs 2. Input domains (inclusive): {\"minutes\": [-20, 3000]}. Use integer/bool values, scalar locals, comparisons, arithmetic (+, -, *, //, %), if/while, flat tuple unpacking, and optionally abs/min/max only. No imports, other calls, recursion, comprehensions, for loops, or top-level calls. Briefly document inputs and boundary behavior. Return substantive input-dependent computation.",
+      "contract": {
+        "schema_version": 1,
+        "language": "python",
+        "function": {
+          "name": "parking",
+          "parameters": [
+            "minutes"
+          ]
+        },
+        "examples": [
+          {
+            "inputs": [
+              0
+            ],
+            "expected": 0
+          },
+          {
+            "inputs": [
+              60
+            ],
+            "expected": 3
+          },
+          {
+            "inputs": [
+              61
+            ],
+            "expected": 5
+          }
+        ]
+      }
+    },
+    {
+      "id": "dev-sql-distance",
+      "split": "development",
+      "language": "sql",
+      "level": 1,
+      "family": "difference",
+      "prompt": "Create the pure sql helper distance with inputs in this order: a, b. Return the absolute difference. Input domains (inclusive): {\"a\": [-1000, 1000], \"b\": [-1000, 1000]}. Use one SQLite SELECT with named :parameter inputs and exactly one AS distance result; integer arithmetic only, no tables. Briefly document inputs and boundary behavior. Return substantive input-dependent computation.",
+      "contract": {
+        "schema_version": 1,
+        "language": "sql",
+        "function": {
+          "name": "distance",
+          "parameters": [
+            "a",
+            "b"
+          ]
+        },
+        "examples": [
+          {
+            "inputs": [
+              -2,
+              3
+            ],
+            "expected": 5
+          },
+          {
+            "inputs": [
+              3,
+              -2
+            ],
+            "expected": 5
+          },
+          {
+            "inputs": [
+              5,
+              5
+            ],
+            "expected": 0
+          }
+        ]
+      }
+    },
+    {
+      "id": "dev-sql-percent",
+      "split": "development",
+      "language": "sql",
+      "level": 2,
+      "family": "percent",
+      "prompt": "Create the pure sql helper portion with inputs in this order: value, percent. Clamp value below at zero and percent to 0..100; return floor(value*percent/100). Input domains (inclusive): {\"percent\": [-20, 120], \"value\": [-100, 10000]}. Use one SQLite SELECT with named :parameter inputs and exactly one AS portion result; integer arithmetic only, no tables. Briefly document inputs and boundary behavior. Return substantive input-dependent computation.",
+      "contract": {
+        "schema_version": 1,
+        "language": "sql",
+        "function": {
+          "name": "portion",
+          "parameters": [
+            "value",
+            "percent"
+          ]
+        },
+        "examples": [
+          {
+            "inputs": [
+              5,
+              50
+            ],
+            "expected": 2
+          },
+          {
+            "inputs": [
+              -1,
+              80
+            ],
+            "expected": 0
+          },
+          {
+            "inputs": [
+              7,
+              150
+            ],
+            "expected": 7
+          }
+        ]
+      }
+    },
+    {
+      "id": "dev-llvm-minimum",
+      "split": "development",
+      "language": "llvm",
+      "level": 1,
+      "family": "minimum",
+      "prompt": "Create the pure llvm helper minimum with inputs in this order: a, b, c. Return the smallest signed integer. Input domains (inclusive): {\"a\": [-100000, 100000], \"b\": [-100000, 100000], \"c\": [-100000, 100000]}. Use one straight-line LLVM helper with signed i32 inputs, i32 result, and only icmp, select, ret. No branches, calls, memory, flags, or extra functions. Briefly document inputs and boundary behavior. Return substantive input-dependent computation.",
+      "contract": {
+        "schema_version": 1,
+        "language": "llvm",
+        "function": {
+          "name": "minimum",
+          "parameters": [
+            "a",
+            "b",
+            "c"
+          ],
+          "parameter_types": [
+            "i32",
+            "i32",
+            "i32"
+          ],
+          "return_type": "i32"
+        },
+        "examples": [
+          {
+            "inputs": [
+              3,
+              1,
+              2
+            ],
+            "expected": 1
+          },
+          {
+            "inputs": [
+              -2,
+              4,
+              -1
+            ],
+            "expected": -2
+          },
+          {
+            "inputs": [
+              5,
+              5,
+              5
+            ],
+            "expected": 5
+          }
+        ],
+        "llvm": {
+          "instructions": [
+            "icmp",
+            "select",
+            "ret"
+          ]
+        }
+      }
+    },
+    {
+      "id": "dev-llvm-range",
+      "split": "development",
+      "language": "llvm",
+      "level": 2,
+      "family": "between",
+      "prompt": "Create the pure llvm helper within with inputs in this order: value, lower, upper. Return true exactly when lower <= value <= upper; reversed bounds return false. Input domains (inclusive): {\"lower\": [-100000, 100000], \"upper\": [-100000, 100000], \"value\": [-100000, 100000]}. Use one straight-line LLVM helper with signed i32 inputs, i1 result, and only icmp, select, ret, and. No branches, calls, memory, flags, or extra functions. Briefly document inputs and boundary behavior. Return substantive input-dependent computation.",
+      "contract": {
+        "schema_version": 1,
+        "language": "llvm",
+        "function": {
+          "name": "within",
+          "parameters": [
+            "value",
+            "lower",
+            "upper"
+          ],
+          "parameter_types": [
+            "i32",
+            "i32",
+            "i32"
+          ],
+          "return_type": "i1"
+        },
+        "examples": [
+          {
+            "inputs": [
+              0,
+              0,
+              10
+            ],
+            "expected": true
+          },
+          {
+            "inputs": [
+              5,
+              10,
+              0
+            ],
+            "expected": false
+          },
+          {
+            "inputs": [
+              -2,
+              -4,
+              -1
+            ],
+            "expected": true
+          }
+        ],
+        "llvm": {
+          "instructions": [
+            "icmp",
+            "select",
+            "ret",
+            "and"
+          ]
+        }
+      }
+    },
+    {
+      "id": "dev-json-simple",
+      "split": "development",
+      "language": "json",
+      "level": 1,
+      "family": "catalog-1",
+      "prompt": "Produce an offline fictional catalog calculation. Preserve each supplied id, quantity, unit_price. Add amount = floor(quantity * unit_price * (100 - discount) / 100), with discount=0 when absent. Root fields exactly currency=\"credits\", count, items, total. total sums amounts. All calculations use integers, all arrays preserve input order, no extra fields or wrappers. Inputs: [{\"id\":\"item-1\",\"quantity\":0,\"unit_price\":28},{\"id\":\"item-2\",\"quantity\":1,\"unit_price\":76}]",
+      "contract": {
+        "schema_version": 1,
+        "language": "json",
+        "document": {
+          "shape": {
+            "type": "object",
+            "required": [
+              "currency",
+              "count",
+              "items",
+              "total"
+            ],
+            "additional_properties": false,
+            "properties": {
+              "currency": {
+                "type": "string"
+              },
+              "count": {
+                "type": "integer"
+              },
+              "items": {
+                "type": "array",
+                "min_items": 2,
+                "max_items": 2,
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "id",
+                    "quantity",
+                    "unit_price",
+                    "amount"
+                  ],
+                  "additional_properties": false,
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "quantity": {
+                      "type": "integer"
+                    },
+                    "unit_price": {
+                      "type": "integer"
+                    },
+                    "amount": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              },
+              "total": {
+                "type": "integer"
+              }
+            }
+          },
+          "equals": [
+            {
+              "path": "/currency",
+              "value": "credits"
+            }
+          ],
+          "relations": [
+            {
+              "op": "count",
+              "left": "/count",
+              "right": "/items"
+            },
+            {
+              "op": "sum",
+              "left": "/total",
+              "right": "/items",
+              "field": "amount"
+            },
+            {
+              "op": "unique",
+              "right": "/items",
+              "field": "id"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "dev-json-groups",
+      "split": "development",
+      "language": "json",
+      "level": 3,
+      "family": "catalog-3",
+      "prompt": "Produce an offline fictional catalog calculation. Preserve group id, tax_percent, and item id/quantity/unit_price/discount in order. Add each item amount=floor(quantity*unit_price*(100-discount)/100). Add group subtotal=sum(item amounts), tax=floor(subtotal*tax_percent/100), total=subtotal+tax. Root fields exactly currency=\"credits\", group_count, groups, total; root total sums group totals. All calculations use integers, all arrays preserve input order, no extra fields or wrappers. Inputs: [{\"id\":\"group-1\",\"tax_percent\":5,\"items\":[{\"id\":\"item-1\",\"quantity\":7,\"unit_price\":64,\"discount\":0},{\"id\":\"item-2\",\"quantity\":13,\"unit_price\":21,\"discount\":33}]},{\"id\":\"group-2\",\"tax_percent\":9,\"items\":[{\"id\":\"item-1\",\"quantity\":7,\"unit_price\":73,\"discount\":15},{\"id\":\"item-2\",\"quantity\":8,\"unit_price\":91,\"discount\":15}]},{\"id\":\"group-3\",\"tax_percent\":13,\"items\":[{\"id\":\"item-1\",\"quantity\":13,\"unit_price\":3,\"discount\":15},{\"id\":\"item-2\",\"quantity\":17,\"unit_price\":38,\"discount\":0}]}]",
+      "contract": {
+        "schema_version": 1,
+        "language": "json",
+        "document": {
+          "shape": {
+            "type": "object",
+            "required": [
+              "currency",
+              "group_count",
+              "groups",
+              "total"
+            ],
+            "additional_properties": false,
+            "properties": {
+              "currency": {
+                "type": "string"
+              },
+              "group_count": {
+                "type": "integer"
+              },
+              "groups": {
+                "type": "array",
+                "min_items": 3,
+                "max_items": 3,
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "id",
+                    "tax_percent",
+                    "items",
+                    "subtotal",
+                    "tax",
+                    "total"
+                  ],
+                  "additional_properties": false,
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "tax_percent": {
+                      "type": "integer"
+                    },
+                    "items": {
+                      "type": "array",
+                      "min_items": 2,
+                      "max_items": 2,
+                      "items": {
+                        "type": "object",
+                        "required": [
+                          "id",
+                          "quantity",
+                          "unit_price",
+                          "discount",
+                          "amount"
+                        ],
+                        "additional_properties": false,
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "quantity": {
+                            "type": "integer"
+                          },
+                          "unit_price": {
+                            "type": "integer"
+                          },
+                          "discount": {
+                            "type": "integer"
+                          },
+                          "amount": {
+                            "type": "integer"
+                          }
+                        }
+                      }
+                    },
+                    "subtotal": {
+                      "type": "integer"
+                    },
+                    "tax": {
+                      "type": "integer"
+                    },
+                    "total": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              },
+              "total": {
+                "type": "integer"
+              }
+            }
+          },
+          "equals": [
+            {
+              "path": "/currency",
+              "value": "credits"
+            }
+          ],
+          "relations": [
+            {
+              "op": "sum",
+              "left": "/groups/0/subtotal",
+              "right": "/groups/0/items",
+              "field": "amount"
+            },
+            {
+              "op": "sum",
+              "left": "/groups/1/subtotal",
+              "right": "/groups/1/items",
+              "field": "amount"
+            },
+            {
+              "op": "sum",
+              "left": "/groups/2/subtotal",
+              "right": "/groups/2/items",
+              "field": "amount"
+            },
+            {
+              "op": "count",
+              "left": "/group_count",
+              "right": "/groups"
+            },
+            {
+              "op": "sum",
+              "left": "/total",
+              "right": "/groups",
+              "field": "total"
+            },
+            {
+              "op": "unique",
+              "right": "/groups",
+              "field": "id"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "dev-http-discount",
+      "split": "development",
+      "language": "http",
+      "level": 2,
+      "family": "catalog-2",
+      "prompt": "Produce an offline fictional catalog calculation. Preserve each supplied id, quantity, unit_price, and discount. Add amount = floor(quantity * unit_price * (100 - discount) / 100), with discount=0 when absent. Root fields exactly currency=\"credits\", count, items, total. total sums amounts. All calculations use integers, all arrays preserve input order, no extra fields or wrappers. Inputs: [{\"id\":\"item-1\",\"quantity\":5,\"unit_price\":58,\"discount\":0},{\"id\":\"item-2\",\"quantity\":13,\"unit_price\":61,\"discount\":0},{\"id\":\"item-3\",\"quantity\":2,\"unit_price\":70,\"discount\":15},{\"id\":\"item-4\",\"quantity\":17,\"unit_price\":27,\"discount\":33}] Wrap the JSON document in one HTTP/1.1 200 response with Content-Type application/json and X-Example-Id: dev-http-discount. No cookies or credentials.",
+      "contract": {
+        "schema_version": 1,
+        "language": "http",
+        "document": {
+          "shape": {
+            "type": "object",
+            "required": [
+              "currency",
+              "count",
+              "items",
+              "total"
+            ],
+            "additional_properties": false,
+            "properties": {
+              "currency": {
+                "type": "string"
+              },
+              "count": {
+                "type": "integer"
+              },
+              "items": {
+                "type": "array",
+                "min_items": 4,
+                "max_items": 4,
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "id",
+                    "quantity",
+                    "unit_price",
+                    "discount",
+                    "amount"
+                  ],
+                  "additional_properties": false,
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "quantity": {
+                      "type": "integer"
+                    },
+                    "unit_price": {
+                      "type": "integer"
+                    },
+                    "discount": {
+                      "type": "integer"
+                    },
+                    "amount": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              },
+              "total": {
+                "type": "integer"
+              }
+            }
+          },
+          "equals": [
+            {
+              "path": "/currency",
+              "value": "credits"
+            }
+          ],
+          "relations": [
+            {
+              "op": "count",
+              "left": "/count",
+              "right": "/items"
+            },
+            {
+              "op": "sum",
+              "left": "/total",
+              "right": "/items",
+              "field": "amount"
+            },
+            {
+              "op": "unique",
+              "right": "/items",
+              "field": "id"
+            }
+          ]
+        },
+        "http": {
+          "status": 200,
+          "headers": {
+            "X-Example-Id": "dev-http-discount"
+          }
+        }
+      }
+    },
+    {
+      "id": "dev-binary-macho",
+      "split": "development",
+      "language": "binary-info",
+      "level": 2,
+      "family": "symbolic-Mach-O",
+      "prompt": "Describe a fictional Mach-O artifact for aarch64 as symbolic schema metadata only. Use exactly the following sections and symbols in their listed order, with names unchanged: {\"sections\":[{\"name\":\".text.core\",\"kind\":\"code\"},{\"name\":\".text.math\",\"kind\":\"code\"},{\"name\":\".rdata.info\",\"kind\":\"data\"},{\"name\":\".rdata.tags\",\"kind\":\"data\"}],\"symbols\":[{\"name\":\"compute_1_1\",\"kind\":\"function\",\"section\":\".text.core\"},{\"name\":\"compute_2_1\",\"kind\":\"function\",\"section\":\".text.math\"},{\"name\":\"description_3_1\",\"kind\":\"object\",\"section\":\".rdata.info\"},{\"name\":\"description_4_1\",\"kind\":\"object\",\"section\":\".rdata.tags\"}]}. Include one ordinary descriptive string. No addresses, sizes, encoded bytes, or executable content.",
+      "contract": {
+        "schema_version": 1,
+        "language": "binary-info",
+        "document": {
+          "shape": {
+            "type": "object",
+            "required": [
+              "schema_version",
+              "format",
+              "architecture",
+              "sections",
+              "symbols",
+              "strings"
+            ],
+            "additional_properties": false,
+            "properties": {
+              "schema_version": {
+                "type": "integer"
+              },
+              "format": {
+                "type": "string"
+              },
+              "architecture": {
+                "type": "string"
+              },
+              "sections": {
+                "type": "array",
+                "min_items": 4,
+                "max_items": 4,
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "name",
+                    "kind"
+                  ],
+                  "additional_properties": false,
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "kind": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "symbols": {
+                "type": "array",
+                "min_items": 4,
+                "max_items": 4,
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "name",
+                    "kind",
+                    "section"
+                  ],
+                  "additional_properties": false,
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "kind": {
+                      "type": "string"
+                    },
+                    "section": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "strings": {
+                "type": "array",
+                "min_items": 1,
+                "max_items": 4,
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "equals": [
+            {
+              "path": "/schema_version",
+              "value": 1
+            },
+            {
+              "path": "/format",
+              "value": "Mach-O"
+            },
+            {
+              "path": "/architecture",
+              "value": "aarch64"
+            },
+            {
+              "path": "/sections",
+              "value": [
+                {
+                  "name": ".text.core",
+                  "kind": "code"
+                },
+                {
+                  "name": ".text.math",
+                  "kind": "code"
+                },
+                {
+                  "name": ".rdata.info",
+                  "kind": "data"
+                },
+                {
+                  "name": ".rdata.tags",
+                  "kind": "data"
+                }
+              ]
+            },
+            {
+              "path": "/symbols",
+              "value": [
+                {
+                  "name": "compute_1_1",
+                  "kind": "function",
+                  "section": ".text.core"
+                },
+                {
+                  "name": "compute_2_1",
+                  "kind": "function",
+                  "section": ".text.math"
+                },
+                {
+                  "name": "description_3_1",
+                  "kind": "object",
+                  "section": ".rdata.info"
+                },
+                {
+                  "name": "description_4_1",
+                  "kind": "object",
+                  "section": ".rdata.tags"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "dev-html-table",
+      "split": "development",
+      "language": "html",
+      "level": 2,
+      "family": "reference-table",
+      "prompt": "Create an inert HTML reference section with id dev-html-table, a heading, and one table. Columns in order: [\"Item\", \"Quantity\", \"Unit price\", \"Discount\", \"Amount\"]. Use decimal integer text, no units or formatting within numeric cells. Preserve row order and input values. Amount=floor(quantity*price*(100-discount)/100), using the supplied discount. Inputs: [{\"item\":\"entry-1\",\"quantity\":2,\"price\":7,\"discount\":0},{\"item\":\"entry-2\",\"quantity\":3,\"price\":20,\"discount\":7},{\"item\":\"entry-3\",\"quantity\":4,\"price\":33,\"discount\":14},{\"item\":\"entry-4\",\"quantity\":5,\"price\":46,\"discount\":21}]. No scripts, resources, styles, or extra tables.",
+      "contract": {
+        "schema_version": 1,
+        "language": "html",
+        "html": {
+          "required_ids": [
+            "dev-html-table"
+          ],
+          "table": {
+            "columns": [
+              "Item",
+              "Quantity",
+              "Unit price",
+              "Discount",
+              "Amount"
+            ],
+            "row_count": 4
+          }
+        }
+      }
+    },
+    {
+      "id": "test-python-multiple",
+      "split": "heldout",
+      "language": "python",
+      "level": 1,
+      "family": "multiple",
+      "prompt": "Create the pure python helper bounded_multiple with inputs in this order: value, lower, upper, divisor. Return true when bounds are ordered, value is inclusively in range, divisor is nonzero, and value is divisible by divisor. Otherwise false. Input domains (inclusive): {\"divisor\": [-10, 10], \"lower\": [-100, 100], \"upper\": [-100, 100], \"value\": [-100, 100]}. Use integer/bool values, scalar locals, comparisons, arithmetic (+, -, *, //, %), if/while, flat tuple unpacking, and optionally abs/min/max only. No imports, other calls, recursion, comprehensions, for loops, or top-level calls. Briefly document inputs and boundary behavior. Return substantive input-dependent computation.",
+      "contract": {
+        "schema_version": 1,
+        "language": "python",
+        "function": {
+          "name": "bounded_multiple",
+          "parameters": [
+            "value",
+            "lower",
+            "upper",
+            "divisor"
+          ]
+        },
+        "examples": [
+          {
+            "inputs": [
+              6,
+              0,
+              10,
+              3
+            ],
+            "expected": true
+          },
+          {
+            "inputs": [
+              6,
+              0,
+              10,
+              0
+            ],
+            "expected": false
+          },
+          {
+            "inputs": [
+              -6,
+              -10,
+              0,
+              3
+            ],
+            "expected": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "test-python-median",
+      "split": "heldout",
+      "language": "python",
+      "level": 1,
+      "family": "median",
+      "prompt": "Create the pure python helper middle_value with inputs in this order: a, b, c. Return the median of the three integers, including duplicate values. Input domains (inclusive): {\"a\": [-1000, 1000], \"b\": [-1000, 1000], \"c\": [-1000, 1000]}. Use integer/bool values, scalar locals, comparisons, arithmetic (+, -, *, //, %), if/while, flat tuple unpacking, and optionally abs/min/max only. No imports, other calls, recursion, comprehensions, for loops, or top-level calls. Briefly document inputs and boundary behavior. Return substantive input-dependent computation.",
+      "contract": {
+        "schema_version": 1,
+        "language": "python",
+        "function": {
+          "name": "middle_value",
+          "parameters": [
+            "a",
+            "b",
+            "c"
+          ]
+        },
+        "examples": [
+          {
+            "inputs": [
+              3,
+              1,
+              2
+            ],
+            "expected": 2
+          },
+          {
+            "inputs": [
+              4,
+              4,
+              9
+            ],
+            "expected": 4
+          },
+          {
+            "inputs": [
+              -5,
+              -2,
+              -3
+            ],
+            "expected": -3
+          }
+        ]
+      }
+    },
+    {
+      "id": "test-python-delivery",
+      "split": "heldout",
+      "language": "python",
+      "level": 2,
+      "family": "delivery",
+      "prompt": "Create the pure python helper delivery_cost with inputs in this order: weight, zone, priority. First return -1 if zone is outside 0..3. Otherwise nonpositive weight costs 0. Positive weight costs base 5+2*zone, plus 2 per unit for the first 10 units and 3 per additional unit; add 7 if priority is nonzero. Input domains (inclusive): {\"priority\": [-1, 1], \"weight\": [-5, 100], \"zone\": [-2, 5]}. Use integer/bool values, scalar locals, comparisons, arithmetic (+, -, *, //, %), if/while, flat tuple unpacking, and optionally abs/min/max only. No imports, other calls, recursion, comprehensions, for loops, or top-level calls. Briefly document inputs and boundary behavior. Return substantive input-dependent computation.",
+      "contract": {
+        "schema_version": 1,
+        "language": "python",
+        "function": {
+          "name": "delivery_cost",
+          "parameters": [
+            "weight",
+            "zone",
+            "priority"
+          ]
+        },
+        "examples": [
+          {
+            "inputs": [
+              0,
+              0,
+              1
+            ],
+            "expected": 0
+          },
+          {
+            "inputs": [
+              10,
+              2,
+              0
+            ],
+            "expected": 29
+          },
+          {
+            "inputs": [
+              11,
+              2,
+              1
+            ],
+            "expected": 39
+          }
+        ]
+      }
+    },
+    {
+      "id": "test-python-overlap",
+      "split": "heldout",
+      "language": "python",
+      "level": 2,
+      "family": "intersection",
+      "prompt": "Create the pure python helper overlap_length with inputs in this order: start_a, end_a, start_b, end_b. Return the length of the intersection of half-open intervals [start_a,end_a) and [start_b,end_b). Any reversed interval gives 0; touching endpoints give 0. Input domains (inclusive): {\"end_a\": [-100, 100], \"end_b\": [-100, 100], \"start_a\": [-100, 100], \"start_b\": [-100, 100]}. Use integer/bool values, scalar locals, comparisons, arithmetic (+, -, *, //, %), if/while, flat tuple unpacking, and optionally abs/min/max only. No imports, other calls, recursion, comprehensions, for loops, or top-level calls. Briefly document inputs and boundary behavior. Return substantive input-dependent computation.",
+      "contract": {
+        "schema_version": 1,
+        "language": "python",
+        "function": {
+          "name": "overlap_length",
+          "parameters": [
+            "start_a",
+            "end_a",
+            "start_b",
+            "end_b"
+          ]
+        },
+        "examples": [
+          {
+            "inputs": [
+              0,
+              10,
+              5,
+              15
+            ],
+            "expected": 5
+          },
+          {
+            "inputs": [
+              0,
+              5,
+              5,
+              10
+            ],
+            "expected": 0
+          },
+          {
+            "inputs": [
+              9,
+              3,
+              0,
+              10
+            ],
+            "expected": 0
+          }
+        ]
+      }
+    },
+    {
+      "id": "test-python-checksum",
+      "split": "heldout",
+      "language": "python",
+      "level": 3,
+      "family": "checksum",
+      "prompt": "Create the pure python helper decimal_checksum with inputs in this order: value. Take abs(value). Starting with the least significant decimal digit, apply alternating weights 3,1,3,1,... . Return the weighted digit sum modulo 10; zero returns 0. Input domains (inclusive): {\"value\": [-2147483648, 2147483647]}. Use integer/bool values, scalar locals, comparisons, arithmetic (+, -, *, //, %), if/while, flat tuple unpacking, and optionally abs/min/max only. No imports, other calls, recursion, comprehensions, for loops, or top-level calls. Briefly document inputs and boundary behavior. Return substantive input-dependent computation.",
+      "contract": {
+        "schema_version": 1,
+        "language": "python",
+        "function": {
+          "name": "decimal_checksum",
+          "parameters": [
+            "value"
+          ]
+        },
+        "examples": [
+          {
+            "inputs": [
+              0
+            ],
+            "expected": 0
+          },
+          {
+            "inputs": [
+              12
+            ],
+            "expected": 7
+          },
+          {
+            "inputs": [
+              -12345
+            ],
+            "expected": 3
+          }
+        ]
+      }
+    },
+    {
+      "id": "test-python-gcd",
+      "split": "heldout",
+      "language": "python",
+      "level": 3,
+      "family": "gcd",
+      "prompt": "Create the pure python helper lattice_steps with inputs in this order: a, b. Return the greatest common divisor of abs(a) and abs(b), with gcd(0,0)=0. Use an integer loop without imports or recursion. Input domains (inclusive): {\"a\": [-2147483648, 2147483647], \"b\": [-2147483648, 2147483647]}. Use integer/bool values, scalar locals, comparisons, arithmetic (+, -, *, //, %), if/while, flat tuple unpacking, and optionally abs/min/max only. No imports, other calls, recursion, comprehensions, for loops, or top-level calls. Briefly document inputs and boundary behavior. Return substantive input-dependent computation.",
+      "contract": {
+        "schema_version": 1,
+        "language": "python",
+        "function": {
+          "name": "lattice_steps",
+          "parameters": [
+            "a",
+            "b"
+          ]
+        },
+        "examples": [
+          {
+            "inputs": [
+              0,
+              0
+            ],
+            "expected": 0
+          },
+          {
+            "inputs": [
+              -12,
+              18
+            ],
+            "expected": 6
+          },
+          {
+            "inputs": [
+              0,
+              -5
+            ],
+            "expected": 5
+          }
+        ]
+      }
+    },
+    {
+      "id": "test-sql-distance",
+      "split": "heldout",
+      "language": "sql",
+      "level": 1,
+      "family": "distance",
+      "prompt": "Create the pure sql helper outside_distance with inputs in this order: value, lower, upper. Return -1 for reversed bounds. Otherwise return 0 inside the inclusive range, lower-value below it, or value-upper above it. Input domains (inclusive): {\"lower\": [-1000, 1000], \"upper\": [-1000, 1000], \"value\": [-1000, 1000]}. Use one SQLite SELECT with named :parameter inputs and exactly one AS outside_distance result; integer arithmetic only, no tables. Briefly document inputs and boundary behavior. Return substantive input-dependent computation.",
+      "contract": {
+        "schema_version": 1,
+        "language": "sql",
+        "function": {
+          "name": "outside_distance",
+          "parameters": [
+            "value",
+            "lower",
+            "upper"
+          ]
+        },
+        "examples": [
+          {
+            "inputs": [
+              5,
+              0,
+              10
+            ],
+            "expected": 0
+          },
+          {
+            "inputs": [
+              -2,
+              0,
+              10
+            ],
+            "expected": 2
+          },
+          {
+            "inputs": [
+              5,
+              10,
+              0
+            ],
+            "expected": -1
+          }
+        ]
+      }
+    },
+    {
+      "id": "test-sql-billing",
+      "split": "heldout",
+      "language": "sql",
+      "level": 2,
+      "family": "billing",
+      "prompt": "Create the pure sql helper billing_units with inputs in this order: seconds, grace, unit. First return -1 if unit<=0. Otherwise return 0 when seconds<=grace; else return the ceiling of (seconds-grace)/unit using integer arithmetic. Input domains (inclusive): {\"grace\": [0, 100], \"seconds\": [-20, 5000], \"unit\": [-2, 300]}. Use one SQLite SELECT with named :parameter inputs and exactly one AS billing_units result; integer arithmetic only, no tables. Briefly document inputs and boundary behavior. Return substantive input-dependent computation.",
+      "contract": {
+        "schema_version": 1,
+        "language": "sql",
+        "function": {
+          "name": "billing_units",
+          "parameters": [
+            "seconds",
+            "grace",
+            "unit"
+          ]
+        },
+        "examples": [
+          {
+            "inputs": [
+              61,
+              0,
+              60
+            ],
+            "expected": 2
+          },
+          {
+            "inputs": [
+              60,
+              60,
+              1
+            ],
+            "expected": 0
+          },
+          {
+            "inputs": [
+              0,
+              0,
+              0
+            ],
+            "expected": -1
+          }
+        ]
+      }
+    },
+    {
+      "id": "test-sql-invoice",
+      "split": "heldout",
+      "language": "sql",
+      "level": 3,
+      "family": "invoice",
+      "prompt": "Create the pure sql helper invoice_total with inputs in this order: units, unit_price, discount. Clamp units and unit_price below at zero. gross=units*unit_price. Clamp discount to 0..100. Return gross-floor(gross*discount/100), not floor(gross*(100-discount)/100). Input domains (inclusive): {\"discount\": [-10, 110], \"unit_price\": [-5, 1000], \"units\": [-5, 1000]}. Use one SQLite SELECT with named :parameter inputs and exactly one AS invoice_total result; integer arithmetic only, no tables. Briefly document inputs and boundary behavior. Return substantive input-dependent computation.",
+      "contract": {
+        "schema_version": 1,
+        "language": "sql",
+        "function": {
+          "name": "invoice_total",
+          "parameters": [
+            "units",
+            "unit_price",
+            "discount"
+          ]
+        },
+        "examples": [
+          {
+            "inputs": [
+              1,
+              7,
+              15
+            ],
+            "expected": 6
+          },
+          {
+            "inputs": [
+              -1,
+              5,
+              0
+            ],
+            "expected": 0
+          },
+          {
+            "inputs": [
+              5,
+              5,
+              100
+            ],
+            "expected": 0
+          }
+        ]
+      }
+    },
+    {
+      "id": "test-llvm-abs",
+      "split": "heldout",
+      "language": "llvm",
+      "level": 1,
+      "family": "saturated_abs",
+      "prompt": "Create the pure llvm helper distance_to_zero with inputs in this order: value. Return abs(value), saturating the INT32_MIN case to INT32_MAX (2147483647). No undefined overflow flags. Input domains (inclusive): {\"value\": [-2147483648, 2147483647]}. Use one straight-line LLVM helper with signed i32 inputs, i32 result, and only icmp, select, ret, sub. No branches, calls, memory, flags, or extra functions. Briefly document inputs and boundary behavior. Return substantive input-dependent computation.",
+      "contract": {
+        "schema_version": 1,
+        "language": "llvm",
+        "function": {
+          "name": "distance_to_zero",
+          "parameters": [
+            "value"
+          ],
+          "parameter_types": [
+            "i32"
+          ],
+          "return_type": "i32"
+        },
+        "examples": [
+          {
+            "inputs": [
+              -2147483648
+            ],
+            "expected": 2147483647
+          },
+          {
+            "inputs": [
+              -7
+            ],
+            "expected": 7
+          },
+          {
+            "inputs": [
+              0
+            ],
+            "expected": 0
+          }
+        ],
+        "llvm": {
+          "instructions": [
+            "icmp",
+            "select",
+            "ret",
+            "sub"
+          ]
+        }
+      }
+    },
+    {
+      "id": "test-llvm-bounded",
+      "split": "heldout",
+      "language": "llvm",
+      "level": 2,
+      "family": "bounded_add",
+      "prompt": "Create the pure llvm helper bounded_add with inputs in this order: a, b, cap. Clamp each input below at zero. Return min(a+b,cap). The bounded domain prevents signed overflow. Input domains (inclusive): {\"a\": [-10, 1000000], \"b\": [-10, 1000000], \"cap\": [-10, 1000000]}. Use one straight-line LLVM helper with signed i32 inputs, i32 result, and only icmp, select, ret, add. No branches, calls, memory, flags, or extra functions. Briefly document inputs and boundary behavior. Return substantive input-dependent computation.",
+      "contract": {
+        "schema_version": 1,
+        "language": "llvm",
+        "function": {
+          "name": "bounded_add",
+          "parameters": [
+            "a",
+            "b",
+            "cap"
+          ],
+          "parameter_types": [
+            "i32",
+            "i32",
+            "i32"
+          ],
+          "return_type": "i32"
+        },
+        "examples": [
+          {
+            "inputs": [
+              -5,
+              8,
+              20
+            ],
+            "expected": 8
+          },
+          {
+            "inputs": [
+              10,
+              20,
+              15
+            ],
+            "expected": 15
+          },
+          {
+            "inputs": [
+              10,
+              20,
+              -1
+            ],
+            "expected": 0
+          }
+        ],
+        "llvm": {
+          "instructions": [
+            "icmp",
+            "select",
+            "ret",
+            "add"
+          ]
+        }
+      }
+    },
+    {
+      "id": "test-llvm-charge",
+      "split": "heldout",
+      "language": "llvm",
+      "level": 3,
+      "family": "charge",
+      "prompt": "Create the pure llvm helper piecewise_charge with inputs in this order: value, threshold, rate. Return zero if value<=0 or rate<=0. Clamp threshold below at zero. Each unit through threshold costs rate; remaining units cost 2*rate. Return the total integer charge. Input domains (inclusive): {\"rate\": [-5, 10000], \"threshold\": [-5, 10000], \"value\": [-5, 10000]}. Use one straight-line LLVM helper with signed i32 inputs, i32 result, and only icmp, select, ret, add, sub, mul, and, or, xor. No branches, calls, memory, flags, or extra functions. Briefly document inputs and boundary behavior. Return substantive input-dependent computation.",
+      "contract": {
+        "schema_version": 1,
+        "language": "llvm",
+        "function": {
+          "name": "piecewise_charge",
+          "parameters": [
+            "value",
+            "threshold",
+            "rate"
+          ],
+          "parameter_types": [
+            "i32",
+            "i32",
+            "i32"
+          ],
+          "return_type": "i32"
+        },
+        "examples": [
+          {
+            "inputs": [
+              0,
+              5,
+              2
+            ],
+            "expected": 0
+          },
+          {
+            "inputs": [
+              7,
+              5,
+              2
+            ],
+            "expected": 18
+          },
+          {
+            "inputs": [
+              5,
+              -1,
+              3
+            ],
+            "expected": 30
+          }
+        ],
+        "llvm": {
+          "instructions": [
+            "icmp",
+            "select",
+            "ret",
+            "add",
+            "sub",
+            "mul",
+            "and",
+            "or",
+            "xor"
+          ]
+        }
+      }
+    },
+    {
+      "id": "test-json-1",
+      "split": "heldout",
+      "language": "json",
+      "level": 1,
+      "family": "catalog-1",
+      "prompt": "Produce an offline fictional catalog calculation. Preserve each supplied id, quantity, unit_price. Add amount = floor(quantity * unit_price * (100 - discount) / 100), with discount=0 when absent. Root fields exactly currency=\"credits\", count, items, total. total sums amounts. All calculations use integers, all arrays preserve input order, no extra fields or wrappers. Inputs: [{\"id\":\"item-1\",\"quantity\":3,\"unit_price\":63},{\"id\":\"item-2\",\"quantity\":17,\"unit_price\":85}]",
+      "contract": {
+        "schema_version": 1,
+        "language": "json",
+        "document": {
+          "shape": {
+            "type": "object",
+            "required": [
+              "currency",
+              "count",
+              "items",
+              "total"
+            ],
+            "additional_properties": false,
+            "properties": {
+              "currency": {
+                "type": "string"
+              },
+              "count": {
+                "type": "integer"
+              },
+              "items": {
+                "type": "array",
+                "min_items": 2,
+                "max_items": 2,
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "id",
+                    "quantity",
+                    "unit_price",
+                    "amount"
+                  ],
+                  "additional_properties": false,
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "quantity": {
+                      "type": "integer"
+                    },
+                    "unit_price": {
+                      "type": "integer"
+                    },
+                    "amount": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              },
+              "total": {
+                "type": "integer"
+              }
+            }
+          },
+          "equals": [
+            {
+              "path": "/currency",
+              "value": "credits"
+            }
+          ],
+          "relations": [
+            {
+              "op": "count",
+              "left": "/count",
+              "right": "/items"
+            },
+            {
+              "op": "sum",
+              "left": "/total",
+              "right": "/items",
+              "field": "amount"
+            },
+            {
+              "op": "unique",
+              "right": "/items",
+              "field": "id"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "test-json-2",
+      "split": "heldout",
+      "language": "json",
+      "level": 2,
+      "family": "catalog-2",
+      "prompt": "Produce an offline fictional catalog calculation. Preserve each supplied id, quantity, unit_price, and discount. Add amount = floor(quantity * unit_price * (100 - discount) / 100), with discount=0 when absent. Root fields exactly currency=\"credits\", count, items, total. total sums amounts. All calculations use integers, all arrays preserve input order, no extra fields or wrappers. Inputs: [{\"id\":\"item-1\",\"quantity\":12,\"unit_price\":20,\"discount\":7},{\"id\":\"item-2\",\"quantity\":16,\"unit_price\":53,\"discount\":7},{\"id\":\"item-3\",\"quantity\":6,\"unit_price\":25,\"discount\":33},{\"id\":\"item-4\",\"quantity\":3,\"unit_price\":47,\"discount\":33}]",
+      "contract": {
+        "schema_version": 1,
+        "language": "json",
+        "document": {
+          "shape": {
+            "type": "object",
+            "required": [
+              "currency",
+              "count",
+              "items",
+              "total"
+            ],
+            "additional_properties": false,
+            "properties": {
+              "currency": {
+                "type": "string"
+              },
+              "count": {
+                "type": "integer"
+              },
+              "items": {
+                "type": "array",
+                "min_items": 4,
+                "max_items": 4,
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "id",
+                    "quantity",
+                    "unit_price",
+                    "discount",
+                    "amount"
+                  ],
+                  "additional_properties": false,
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "quantity": {
+                      "type": "integer"
+                    },
+                    "unit_price": {
+                      "type": "integer"
+                    },
+                    "discount": {
+                      "type": "integer"
+                    },
+                    "amount": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              },
+              "total": {
+                "type": "integer"
+              }
+            }
+          },
+          "equals": [
+            {
+              "path": "/currency",
+              "value": "credits"
+            }
+          ],
+          "relations": [
+            {
+              "op": "count",
+              "left": "/count",
+              "right": "/items"
+            },
+            {
+              "op": "sum",
+              "left": "/total",
+              "right": "/items",
+              "field": "amount"
+            },
+            {
+              "op": "unique",
+              "right": "/items",
+              "field": "id"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "test-json-3",
+      "split": "heldout",
+      "language": "json",
+      "level": 3,
+      "family": "catalog-3",
+      "prompt": "Produce an offline fictional catalog calculation. Preserve group id, tax_percent, and item id/quantity/unit_price/discount in order. Add each item amount=floor(quantity*unit_price*(100-discount)/100). Add group subtotal=sum(item amounts), tax=floor(subtotal*tax_percent/100), total=subtotal+tax. Root fields exactly currency=\"credits\", group_count, groups, total; root total sums group totals. All calculations use integers, all arrays preserve input order, no extra fields or wrappers. Inputs: [{\"id\":\"group-1\",\"tax_percent\":5,\"items\":[{\"id\":\"item-1\",\"quantity\":6,\"unit_price\":31,\"discount\":7},{\"id\":\"item-2\",\"quantity\":16,\"unit_price\":39,\"discount\":7}]},{\"id\":\"group-2\",\"tax_percent\":9,\"items\":[{\"id\":\"item-1\",\"quantity\":17,\"unit_price\":65,\"discount\":15},{\"id\":\"item-2\",\"quantity\":9,\"unit_price\":40,\"discount\":33}]},{\"id\":\"group-3\",\"tax_percent\":13,\"items\":[{\"id\":\"item-1\",\"quantity\":3,\"unit_price\":17,\"discount\":0},{\"id\":\"item-2\",\"quantity\":17,\"unit_price\":43,\"discount\":7}]}]",
+      "contract": {
+        "schema_version": 1,
+        "language": "json",
+        "document": {
+          "shape": {
+            "type": "object",
+            "required": [
+              "currency",
+              "group_count",
+              "groups",
+              "total"
+            ],
+            "additional_properties": false,
+            "properties": {
+              "currency": {
+                "type": "string"
+              },
+              "group_count": {
+                "type": "integer"
+              },
+              "groups": {
+                "type": "array",
+                "min_items": 3,
+                "max_items": 3,
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "id",
+                    "tax_percent",
+                    "items",
+                    "subtotal",
+                    "tax",
+                    "total"
+                  ],
+                  "additional_properties": false,
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "tax_percent": {
+                      "type": "integer"
+                    },
+                    "items": {
+                      "type": "array",
+                      "min_items": 2,
+                      "max_items": 2,
+                      "items": {
+                        "type": "object",
+                        "required": [
+                          "id",
+                          "quantity",
+                          "unit_price",
+                          "discount",
+                          "amount"
+                        ],
+                        "additional_properties": false,
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "quantity": {
+                            "type": "integer"
+                          },
+                          "unit_price": {
+                            "type": "integer"
+                          },
+                          "discount": {
+                            "type": "integer"
+                          },
+                          "amount": {
+                            "type": "integer"
+                          }
+                        }
+                      }
+                    },
+                    "subtotal": {
+                      "type": "integer"
+                    },
+                    "tax": {
+                      "type": "integer"
+                    },
+                    "total": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              },
+              "total": {
+                "type": "integer"
+              }
+            }
+          },
+          "equals": [
+            {
+              "path": "/currency",
+              "value": "credits"
+            }
+          ],
+          "relations": [
+            {
+              "op": "sum",
+              "left": "/groups/0/subtotal",
+              "right": "/groups/0/items",
+              "field": "amount"
+            },
+            {
+              "op": "sum",
+              "left": "/groups/1/subtotal",
+              "right": "/groups/1/items",
+              "field": "amount"
+            },
+            {
+              "op": "sum",
+              "left": "/groups/2/subtotal",
+              "right": "/groups/2/items",
+              "field": "amount"
+            },
+            {
+              "op": "count",
+              "left": "/group_count",
+              "right": "/groups"
+            },
+            {
+              "op": "sum",
+              "left": "/total",
+              "right": "/groups",
+              "field": "total"
+            },
+            {
+              "op": "unique",
+              "right": "/groups",
+              "field": "id"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "test-http-1",
+      "split": "heldout",
+      "language": "http",
+      "level": 1,
+      "family": "catalog-1",
+      "prompt": "Produce an offline fictional catalog calculation. Preserve each supplied id, quantity, unit_price. Add amount = floor(quantity * unit_price * (100 - discount) / 100), with discount=0 when absent. Root fields exactly currency=\"credits\", count, items, total. total sums amounts. All calculations use integers, all arrays preserve input order, no extra fields or wrappers. Inputs: [{\"id\":\"item-1\",\"quantity\":14,\"unit_price\":81},{\"id\":\"item-2\",\"quantity\":11,\"unit_price\":73}] Wrap the JSON document in one HTTP/1.1 201 response with Content-Type application/json and X-Example-Id: test-http-1. No cookies or credentials.",
+      "contract": {
+        "schema_version": 1,
+        "language": "http",
+        "document": {
+          "shape": {
+            "type": "object",
+            "required": [
+              "currency",
+              "count",
+              "items",
+              "total"
+            ],
+            "additional_properties": false,
+            "properties": {
+              "currency": {
+                "type": "string"
+              },
+              "count": {
+                "type": "integer"
+              },
+              "items": {
+                "type": "array",
+                "min_items": 2,
+                "max_items": 2,
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "id",
+                    "quantity",
+                    "unit_price",
+                    "amount"
+                  ],
+                  "additional_properties": false,
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "quantity": {
+                      "type": "integer"
+                    },
+                    "unit_price": {
+                      "type": "integer"
+                    },
+                    "amount": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              },
+              "total": {
+                "type": "integer"
+              }
+            }
+          },
+          "equals": [
+            {
+              "path": "/currency",
+              "value": "credits"
+            }
+          ],
+          "relations": [
+            {
+              "op": "count",
+              "left": "/count",
+              "right": "/items"
+            },
+            {
+              "op": "sum",
+              "left": "/total",
+              "right": "/items",
+              "field": "amount"
+            },
+            {
+              "op": "unique",
+              "right": "/items",
+              "field": "id"
+            }
+          ]
+        },
+        "http": {
+          "status": 201,
+          "headers": {
+            "X-Example-Id": "test-http-1"
+          }
+        }
+      }
+    },
+    {
+      "id": "test-http-2",
+      "split": "heldout",
+      "language": "http",
+      "level": 2,
+      "family": "catalog-2",
+      "prompt": "Produce an offline fictional catalog calculation. Preserve each supplied id, quantity, unit_price, and discount. Add amount = floor(quantity * unit_price * (100 - discount) / 100), with discount=0 when absent. Root fields exactly currency=\"credits\", count, items, total. total sums amounts. All calculations use integers, all arrays preserve input order, no extra fields or wrappers. Inputs: [{\"id\":\"item-1\",\"quantity\":12,\"unit_price\":8,\"discount\":33},{\"id\":\"item-2\",\"quantity\":17,\"unit_price\":25,\"discount\":15},{\"id\":\"item-3\",\"quantity\":3,\"unit_price\":58,\"discount\":15},{\"id\":\"item-4\",\"quantity\":10,\"unit_price\":39,\"discount\":33}] Wrap the JSON document in one HTTP/1.1 200 response with Content-Type application/json and X-Example-Id: test-http-2. No cookies or credentials.",
+      "contract": {
+        "schema_version": 1,
+        "language": "http",
+        "document": {
+          "shape": {
+            "type": "object",
+            "required": [
+              "currency",
+              "count",
+              "items",
+              "total"
+            ],
+            "additional_properties": false,
+            "properties": {
+              "currency": {
+                "type": "string"
+              },
+              "count": {
+                "type": "integer"
+              },
+              "items": {
+                "type": "array",
+                "min_items": 4,
+                "max_items": 4,
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "id",
+                    "quantity",
+                    "unit_price",
+                    "discount",
+                    "amount"
+                  ],
+                  "additional_properties": false,
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "quantity": {
+                      "type": "integer"
+                    },
+                    "unit_price": {
+                      "type": "integer"
+                    },
+                    "discount": {
+                      "type": "integer"
+                    },
+                    "amount": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              },
+              "total": {
+                "type": "integer"
+              }
+            }
+          },
+          "equals": [
+            {
+              "path": "/currency",
+              "value": "credits"
+            }
+          ],
+          "relations": [
+            {
+              "op": "count",
+              "left": "/count",
+              "right": "/items"
+            },
+            {
+              "op": "sum",
+              "left": "/total",
+              "right": "/items",
+              "field": "amount"
+            },
+            {
+              "op": "unique",
+              "right": "/items",
+              "field": "id"
+            }
+          ]
+        },
+        "http": {
+          "status": 200,
+          "headers": {
+            "X-Example-Id": "test-http-2"
+          }
+        }
+      }
+    },
+    {
+      "id": "test-http-3",
+      "split": "heldout",
+      "language": "http",
+      "level": 3,
+      "family": "catalog-3",
+      "prompt": "Produce an offline fictional catalog calculation. Preserve group id, tax_percent, and item id/quantity/unit_price/discount in order. Add each item amount=floor(quantity*unit_price*(100-discount)/100). Add group subtotal=sum(item amounts), tax=floor(subtotal*tax_percent/100), total=subtotal+tax. Root fields exactly currency=\"credits\", group_count, groups, total; root total sums group totals. All calculations use integers, all arrays preserve input order, no extra fields or wrappers. Inputs: [{\"id\":\"group-1\",\"tax_percent\":5,\"items\":[{\"id\":\"item-1\",\"quantity\":2,\"unit_price\":4,\"discount\":33},{\"id\":\"item-2\",\"quantity\":16,\"unit_price\":70,\"discount\":0}]},{\"id\":\"group-2\",\"tax_percent\":9,\"items\":[{\"id\":\"item-1\",\"quantity\":5,\"unit_price\":67,\"discount\":7},{\"id\":\"item-2\",\"quantity\":7,\"unit_price\":9,\"discount\":33}]},{\"id\":\"group-3\",\"tax_percent\":13,\"items\":[{\"id\":\"item-1\",\"quantity\":14,\"unit_price\":42,\"discount\":0},{\"id\":\"item-2\",\"quantity\":16,\"unit_price\":65,\"discount\":33}]}] Wrap the JSON document in one HTTP/1.1 200 response with Content-Type application/json and X-Example-Id: test-http-3. No cookies or credentials.",
+      "contract": {
+        "schema_version": 1,
+        "language": "http",
+        "document": {
+          "shape": {
+            "type": "object",
+            "required": [
+              "currency",
+              "group_count",
+              "groups",
+              "total"
+            ],
+            "additional_properties": false,
+            "properties": {
+              "currency": {
+                "type": "string"
+              },
+              "group_count": {
+                "type": "integer"
+              },
+              "groups": {
+                "type": "array",
+                "min_items": 3,
+                "max_items": 3,
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "id",
+                    "tax_percent",
+                    "items",
+                    "subtotal",
+                    "tax",
+                    "total"
+                  ],
+                  "additional_properties": false,
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "tax_percent": {
+                      "type": "integer"
+                    },
+                    "items": {
+                      "type": "array",
+                      "min_items": 2,
+                      "max_items": 2,
+                      "items": {
+                        "type": "object",
+                        "required": [
+                          "id",
+                          "quantity",
+                          "unit_price",
+                          "discount",
+                          "amount"
+                        ],
+                        "additional_properties": false,
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "quantity": {
+                            "type": "integer"
+                          },
+                          "unit_price": {
+                            "type": "integer"
+                          },
+                          "discount": {
+                            "type": "integer"
+                          },
+                          "amount": {
+                            "type": "integer"
+                          }
+                        }
+                      }
+                    },
+                    "subtotal": {
+                      "type": "integer"
+                    },
+                    "tax": {
+                      "type": "integer"
+                    },
+                    "total": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              },
+              "total": {
+                "type": "integer"
+              }
+            }
+          },
+          "equals": [
+            {
+              "path": "/currency",
+              "value": "credits"
+            }
+          ],
+          "relations": [
+            {
+              "op": "sum",
+              "left": "/groups/0/subtotal",
+              "right": "/groups/0/items",
+              "field": "amount"
+            },
+            {
+              "op": "sum",
+              "left": "/groups/1/subtotal",
+              "right": "/groups/1/items",
+              "field": "amount"
+            },
+            {
+              "op": "sum",
+              "left": "/groups/2/subtotal",
+              "right": "/groups/2/items",
+              "field": "amount"
+            },
+            {
+              "op": "count",
+              "left": "/group_count",
+              "right": "/groups"
+            },
+            {
+              "op": "sum",
+              "left": "/total",
+              "right": "/groups",
+              "field": "total"
+            },
+            {
+              "op": "unique",
+              "right": "/groups",
+              "field": "id"
+            }
+          ]
+        },
+        "http": {
+          "status": 200,
+          "headers": {
+            "X-Example-Id": "test-http-3"
+          }
+        }
+      }
+    },
+    {
+      "id": "test-binary-1",
+      "split": "heldout",
+      "language": "binary-info",
+      "level": 1,
+      "family": "symbolic-ELF",
+      "prompt": "Describe a fictional ELF artifact for x86_64 as symbolic schema metadata only. Use exactly the following sections and symbols in their listed order, with names unchanged: {\"sections\":[{\"name\":\".text.math\",\"kind\":\"code\"},{\"name\":\".rodata.notes\",\"kind\":\"data\"}],\"symbols\":[{\"name\":\"compute_1_1\",\"kind\":\"function\",\"section\":\".text.math\"},{\"name\":\"description_2_1\",\"kind\":\"object\",\"section\":\".rodata.notes\"}]}. Include one ordinary descriptive string. No addresses, sizes, encoded bytes, or executable content.",
+      "contract": {
+        "schema_version": 1,
+        "language": "binary-info",
+        "document": {
+          "shape": {
+            "type": "object",
+            "required": [
+              "schema_version",
+              "format",
+              "architecture",
+              "sections",
+              "symbols",
+              "strings"
+            ],
+            "additional_properties": false,
+            "properties": {
+              "schema_version": {
+                "type": "integer"
+              },
+              "format": {
+                "type": "string"
+              },
+              "architecture": {
+                "type": "string"
+              },
+              "sections": {
+                "type": "array",
+                "min_items": 2,
+                "max_items": 2,
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "name",
+                    "kind"
+                  ],
+                  "additional_properties": false,
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "kind": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "symbols": {
+                "type": "array",
+                "min_items": 2,
+                "max_items": 2,
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "name",
+                    "kind",
+                    "section"
+                  ],
+                  "additional_properties": false,
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "kind": {
+                      "type": "string"
+                    },
+                    "section": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "strings": {
+                "type": "array",
+                "min_items": 1,
+                "max_items": 4,
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "equals": [
+            {
+              "path": "/schema_version",
+              "value": 1
+            },
+            {
+              "path": "/format",
+              "value": "ELF"
+            },
+            {
+              "path": "/architecture",
+              "value": "x86_64"
+            },
+            {
+              "path": "/sections",
+              "value": [
+                {
+                  "name": ".text.math",
+                  "kind": "code"
+                },
+                {
+                  "name": ".rodata.notes",
+                  "kind": "data"
+                }
+              ]
+            },
+            {
+              "path": "/symbols",
+              "value": [
+                {
+                  "name": "compute_1_1",
+                  "kind": "function",
+                  "section": ".text.math"
+                },
+                {
+                  "name": "description_2_1",
+                  "kind": "object",
+                  "section": ".rodata.notes"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "test-binary-2",
+      "split": "heldout",
+      "language": "binary-info",
+      "level": 2,
+      "family": "symbolic-PE",
+      "prompt": "Describe a fictional PE artifact for aarch64 as symbolic schema metadata only. Use exactly the following sections and symbols in their listed order, with names unchanged: {\"sections\":[{\"name\":\".text.core\",\"kind\":\"code\"},{\"name\":\".text.math\",\"kind\":\"code\"},{\"name\":\".rdata.info\",\"kind\":\"data\"},{\"name\":\".rdata.tags\",\"kind\":\"data\"}],\"symbols\":[{\"name\":\"compute_1_1\",\"kind\":\"function\",\"section\":\".text.core\"},{\"name\":\"compute_2_1\",\"kind\":\"function\",\"section\":\".text.math\"},{\"name\":\"description_3_1\",\"kind\":\"object\",\"section\":\".rdata.info\"},{\"name\":\"description_4_1\",\"kind\":\"object\",\"section\":\".rdata.tags\"}]}. Include one ordinary descriptive string. No addresses, sizes, encoded bytes, or executable content.",
+      "contract": {
+        "schema_version": 1,
+        "language": "binary-info",
+        "document": {
+          "shape": {
+            "type": "object",
+            "required": [
+              "schema_version",
+              "format",
+              "architecture",
+              "sections",
+              "symbols",
+              "strings"
+            ],
+            "additional_properties": false,
+            "properties": {
+              "schema_version": {
+                "type": "integer"
+              },
+              "format": {
+                "type": "string"
+              },
+              "architecture": {
+                "type": "string"
+              },
+              "sections": {
+                "type": "array",
+                "min_items": 4,
+                "max_items": 4,
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "name",
+                    "kind"
+                  ],
+                  "additional_properties": false,
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "kind": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "symbols": {
+                "type": "array",
+                "min_items": 4,
+                "max_items": 4,
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "name",
+                    "kind",
+                    "section"
+                  ],
+                  "additional_properties": false,
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "kind": {
+                      "type": "string"
+                    },
+                    "section": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "strings": {
+                "type": "array",
+                "min_items": 1,
+                "max_items": 4,
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "equals": [
+            {
+              "path": "/schema_version",
+              "value": 1
+            },
+            {
+              "path": "/format",
+              "value": "PE"
+            },
+            {
+              "path": "/architecture",
+              "value": "aarch64"
+            },
+            {
+              "path": "/sections",
+              "value": [
+                {
+                  "name": ".text.core",
+                  "kind": "code"
+                },
+                {
+                  "name": ".text.math",
+                  "kind": "code"
+                },
+                {
+                  "name": ".rdata.info",
+                  "kind": "data"
+                },
+                {
+                  "name": ".rdata.tags",
+                  "kind": "data"
+                }
+              ]
+            },
+            {
+              "path": "/symbols",
+              "value": [
+                {
+                  "name": "compute_1_1",
+                  "kind": "function",
+                  "section": ".text.core"
+                },
+                {
+                  "name": "compute_2_1",
+                  "kind": "function",
+                  "section": ".text.math"
+                },
+                {
+                  "name": "description_3_1",
+                  "kind": "object",
+                  "section": ".rdata.info"
+                },
+                {
+                  "name": "description_4_1",
+                  "kind": "object",
+                  "section": ".rdata.tags"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "test-binary-3",
+      "split": "heldout",
+      "language": "binary-info",
+      "level": 3,
+      "family": "symbolic-JVM",
+      "prompt": "Describe a fictional JVM artifact for jvm as symbolic schema metadata only. Use exactly the following sections and symbols in their listed order, with names unchanged: {\"sections\":[{\"name\":\"Code.Numeric\",\"kind\":\"code\"},{\"name\":\"Code.Validation\",\"kind\":\"code\"},{\"name\":\"Code.Labels\",\"kind\":\"code\"},{\"name\":\"Pool.Constants\",\"kind\":\"metadata\"},{\"name\":\"Pool.Names\",\"kind\":\"metadata\"},{\"name\":\"Pool.Notes\",\"kind\":\"metadata\"}],\"symbols\":[{\"name\":\"compute_1_1\",\"kind\":\"function\",\"section\":\"Code.Numeric\"},{\"name\":\"compute_1_2\",\"kind\":\"function\",\"section\":\"Code.Numeric\"},{\"name\":\"compute_2_1\",\"kind\":\"function\",\"section\":\"Code.Validation\"},{\"name\":\"compute_2_2\",\"kind\":\"function\",\"section\":\"Code.Validation\"},{\"name\":\"compute_3_1\",\"kind\":\"function\",\"section\":\"Code.Labels\"},{\"name\":\"compute_3_2\",\"kind\":\"function\",\"section\":\"Code.Labels\"},{\"name\":\"description_4_1\",\"kind\":\"object\",\"section\":\"Pool.Constants\"},{\"name\":\"description_4_2\",\"kind\":\"object\",\"section\":\"Pool.Constants\"},{\"name\":\"description_5_1\",\"kind\":\"object\",\"section\":\"Pool.Names\"},{\"name\":\"description_5_2\",\"kind\":\"object\",\"section\":\"Pool.Names\"},{\"name\":\"description_6_1\",\"kind\":\"object\",\"section\":\"Pool.Notes\"},{\"name\":\"description_6_2\",\"kind\":\"object\",\"section\":\"Pool.Notes\"}]}. Include one ordinary descriptive string. No addresses, sizes, encoded bytes, or executable content.",
+      "contract": {
+        "schema_version": 1,
+        "language": "binary-info",
+        "document": {
+          "shape": {
+            "type": "object",
+            "required": [
+              "schema_version",
+              "format",
+              "architecture",
+              "sections",
+              "symbols",
+              "strings"
+            ],
+            "additional_properties": false,
+            "properties": {
+              "schema_version": {
+                "type": "integer"
+              },
+              "format": {
+                "type": "string"
+              },
+              "architecture": {
+                "type": "string"
+              },
+              "sections": {
+                "type": "array",
+                "min_items": 6,
+                "max_items": 6,
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "name",
+                    "kind"
+                  ],
+                  "additional_properties": false,
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "kind": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "symbols": {
+                "type": "array",
+                "min_items": 12,
+                "max_items": 12,
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "name",
+                    "kind",
+                    "section"
+                  ],
+                  "additional_properties": false,
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "kind": {
+                      "type": "string"
+                    },
+                    "section": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "strings": {
+                "type": "array",
+                "min_items": 1,
+                "max_items": 4,
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "equals": [
+            {
+              "path": "/schema_version",
+              "value": 1
+            },
+            {
+              "path": "/format",
+              "value": "JVM"
+            },
+            {
+              "path": "/architecture",
+              "value": "jvm"
+            },
+            {
+              "path": "/sections",
+              "value": [
+                {
+                  "name": "Code.Numeric",
+                  "kind": "code"
+                },
+                {
+                  "name": "Code.Validation",
+                  "kind": "code"
+                },
+                {
+                  "name": "Code.Labels",
+                  "kind": "code"
+                },
+                {
+                  "name": "Pool.Constants",
+                  "kind": "metadata"
+                },
+                {
+                  "name": "Pool.Names",
+                  "kind": "metadata"
+                },
+                {
+                  "name": "Pool.Notes",
+                  "kind": "metadata"
+                }
+              ]
+            },
+            {
+              "path": "/symbols",
+              "value": [
+                {
+                  "name": "compute_1_1",
+                  "kind": "function",
+                  "section": "Code.Numeric"
+                },
+                {
+                  "name": "compute_1_2",
+                  "kind": "function",
+                  "section": "Code.Numeric"
+                },
+                {
+                  "name": "compute_2_1",
+                  "kind": "function",
+                  "section": "Code.Validation"
+                },
+                {
+                  "name": "compute_2_2",
+                  "kind": "function",
+                  "section": "Code.Validation"
+                },
+                {
+                  "name": "compute_3_1",
+                  "kind": "function",
+                  "section": "Code.Labels"
+                },
+                {
+                  "name": "compute_3_2",
+                  "kind": "function",
+                  "section": "Code.Labels"
+                },
+                {
+                  "name": "description_4_1",
+                  "kind": "object",
+                  "section": "Pool.Constants"
+                },
+                {
+                  "name": "description_4_2",
+                  "kind": "object",
+                  "section": "Pool.Constants"
+                },
+                {
+                  "name": "description_5_1",
+                  "kind": "object",
+                  "section": "Pool.Names"
+                },
+                {
+                  "name": "description_5_2",
+                  "kind": "object",
+                  "section": "Pool.Names"
+                },
+                {
+                  "name": "description_6_1",
+                  "kind": "object",
+                  "section": "Pool.Notes"
+                },
+                {
+                  "name": "description_6_2",
+                  "kind": "object",
+                  "section": "Pool.Notes"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "test-html-1",
+      "split": "heldout",
+      "language": "html",
+      "level": 1,
+      "family": "reference-table",
+      "prompt": "Create an inert HTML reference section with id test-html-1, a heading, and one table. Columns in order: [\"Item\", \"Quantity\", \"Unit price\", \"Amount\"]. Use decimal integer text, no units or formatting within numeric cells. Preserve row order and input values. Amount=floor(quantity*price*(100-discount)/100), ignore discount (use 0). Inputs: [{\"item\":\"entry-1\",\"quantity\":2,\"price\":7,\"discount\":0},{\"item\":\"entry-2\",\"quantity\":3,\"price\":20,\"discount\":7}]. No scripts, resources, styles, or extra tables.",
+      "contract": {
+        "schema_version": 1,
+        "language": "html",
+        "html": {
+          "required_ids": [
+            "test-html-1"
+          ],
+          "table": {
+            "columns": [
+              "Item",
+              "Quantity",
+              "Unit price",
+              "Amount"
+            ],
+            "row_count": 2
+          }
+        }
+      }
+    },
+    {
+      "id": "test-html-2",
+      "split": "heldout",
+      "language": "html",
+      "level": 2,
+      "family": "reference-table",
+      "prompt": "Create an inert HTML reference section with id test-html-2, a heading, and one table. Columns in order: [\"Item\", \"Quantity\", \"Unit price\", \"Discount\", \"Amount\"]. Use decimal integer text, no units or formatting within numeric cells. Preserve row order and input values. Amount=floor(quantity*price*(100-discount)/100), using the supplied discount. Inputs: [{\"item\":\"entry-1\",\"quantity\":2,\"price\":7,\"discount\":0},{\"item\":\"entry-2\",\"quantity\":3,\"price\":20,\"discount\":7},{\"item\":\"entry-3\",\"quantity\":4,\"price\":33,\"discount\":14},{\"item\":\"entry-4\",\"quantity\":5,\"price\":46,\"discount\":21}]. No scripts, resources, styles, or extra tables.",
+      "contract": {
+        "schema_version": 1,
+        "language": "html",
+        "html": {
+          "required_ids": [
+            "test-html-2"
+          ],
+          "table": {
+            "columns": [
+              "Item",
+              "Quantity",
+              "Unit price",
+              "Discount",
+              "Amount"
+            ],
+            "row_count": 4
+          }
+        }
+      }
+    },
+    {
+      "id": "test-html-3",
+      "split": "heldout",
+      "language": "html",
+      "level": 3,
+      "family": "reference-table",
+      "prompt": "Create an inert HTML reference section with id test-html-3, a heading, and one table. Columns in order: [\"Item\", \"Quantity\", \"Unit price\", \"Discount\", \"Amount\"]. Use decimal integer text, no units or formatting within numeric cells. Preserve row order and input values. Amount=floor(quantity*price*(100-discount)/100), using the supplied discount. Inputs: [{\"item\":\"entry-1\",\"quantity\":2,\"price\":7,\"discount\":0},{\"item\":\"entry-2\",\"quantity\":3,\"price\":20,\"discount\":7},{\"item\":\"entry-3\",\"quantity\":4,\"price\":33,\"discount\":14},{\"item\":\"entry-4\",\"quantity\":5,\"price\":46,\"discount\":21},{\"item\":\"entry-5\",\"quantity\":6,\"price\":59,\"discount\":28},{\"item\":\"entry-6\",\"quantity\":7,\"price\":72,\"discount\":0}]. No scripts, resources, styles, or extra tables.",
+      "contract": {
+        "schema_version": 1,
+        "language": "html",
+        "html": {
+          "required_ids": [
+            "test-html-3"
+          ],
+          "table": {
+            "columns": [
+              "Item",
+              "Quantity",
+              "Unit price",
+              "Discount",
+              "Amount"
+            ],
+            "row_count": 6
+          }
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+HTTP/1.1 200 Example
+Content-Type: application/json
+X-Example-Id: dev-http-discount
+Content-Length: 726
+
+{
+    "count": 4,
+    "currency": "credits",
+    "items": [
+        {
+            "amount": 290,
+            "discount": 0,
+            "id": "item-1",
+            "quantity": 5,
+            "unit_price": 58
+        },
+        {
+            "amount": 793,
+            "discount": 0,
+            "id": "item-2",
+            "quantity": 13,
+            "unit_price": 61
+        },
+        {
+            "amount": 119,
+            "discount": 15,
+            "id": "item-3",
+            "quantity": 2,
+            "unit_price": 70
+        },
+        {
+            "amount": 307,
+            "discount": 33,
+            "id": "item-4",
+            "quantity": 17,
+            "unit_price": 27
+        }
+    ],
+    "total": 1509
+}

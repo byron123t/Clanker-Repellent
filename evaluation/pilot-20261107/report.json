@@ -1,0 +1,1798 @@
+{
+  "schema_version": 1,
+  "benign": true,
+  "id": "pilot-20261107",
+  "stage": "pilot",
+  "state": "complete",
+  "title": "18 formats \u00b7 GLM / DeepSeek pilot",
+  "created_at": "2026-11-06T16:25:38.452850+00:00",
+  "updated_at": "2026-11-09T00:00:00Z",
+  "design": {
+    "tasks": 26,
+    "replicates": 1,
+    "formats": [
+      "bash",
+      "binary-info",
+      "c",
+      "cpp",
+      "go",
+      "html",
+      "http",
+      "java",
+      "javascript",
+      "json",
+      "llvm",
+      "lua",
+      "python",
+      "ruby",
+      "rust",
+      "sql",
+      "swift",
+      "typescript"
+    ],
+    "levels": [],
+    "models": [
+      "glm",
+      "deepseek"
+    ],
+    "arms": [
+      "original"
+    ],
+    "settings": {
+      "benign": true,
+      "structure": "functional",
+      "max_tokens": 2048,
+      "temperature": 0.2,
+      "top_p": 0.8,
+      "retries": 2,
+      "no_thinking": true,
+      "validator_timeout_seconds": 60
+    }
+  },
+  "counts": {
+    "planned": 52,
+    "completed": 52,
+    "accepted": 45,
+    "verified": null,
+    "hidden_checks": 18225
+  },
+  "metrics": [
+    {
+      "model": "glm",
+      "arm": "original",
+      "n": 26,
+      "accepted": 20,
+      "acceptance_rate": 0.7692307692307693,
+      "verified": null,
+      "verified_rate": null,
+      "false_acceptance": null,
+      "accepted_precision": null,
+      "ci95": null,
+      "first_attempt_accepted": 11,
+      "attempts": 49
+    },
+    {
+      "model": "deepseek",
+      "arm": "original",
+      "n": 26,
+      "accepted": 25,
+      "acceptance_rate": 0.9615384615384616,
+      "verified": null,
+      "verified_rate": null,
+      "false_acceptance": null,
+      "accepted_precision": null,
+      "ci95": null,
+      "first_attempt_accepted": 24,
+      "attempts": 29
+    }
+  ],
+  "effects": [],
+  "groups": [],
+  "cases": [
+    {
+      "id": "a4442c700fef799d96f0341b7624f31b1a072da52b092915d83deff52c4b070d",
+      "model": "glm",
+      "arm": "original",
+      "task": "range/bash",
+      "trial": 0,
+      "language": "bash",
+      "level": null,
+      "accepted": false,
+      "strict_pass": null,
+      "attempts": 3,
+      "status": "token_limit",
+      "source_sha256": null,
+      "prompt": "Implement a side-effect-free inclusive integer range-check helper named in_range (inRange or InRange where idiomatic). It accepts value, lower, and upper, and returns true exactly when lower <= value <= upper. Equal bounds include that single value. Reversed bounds always return false. Support negative integers. Do not change any input or call the helper at top level. Document its inputs and result briefly. For C return 1 or 0; for Bash use a predicate function whose return status is 0 for true and 1 for false, accepting three integer arguments. For HTML, provide a useful static reference section with a heading and a table containing the inputs and expected results for ordinary, boundary, negative, equal-bound, and reversed-bound cases.\nFor JSON and HTTP, use an object with operation and examples. Each example must contain value, lower, upper, and expected (a JSON Boolean). Include ordinary interior, lower-bound, upper-bound, negative, equal-bound, reversed-bound, and out-of-range cases. HTTP must wrap this JSON as one successful HTTP response. For LLVM IR use define i1 @in_range with signed i32 parameters value, lower, upper. For binary-info use ELF and x86_64, a code section .text and a data section .rodata, an in_range function in .text, and a description object in .rodata; include an ordinary descriptive string.\n",
+      "public_contract": null,
+      "grade": {
+        "scope": "Exploratory diagnostic checks; no preregistered aggregate correctness score."
+      },
+      "diagnostic": "No accepted candidate after the three-attempt budget; rejected implementations were not saved as source."
+    },
+    {
+      "id": "4bbed9a86b865babe1c91c92a60398559642b2b774e6d416b18866e9f9f300f7",
+      "model": "glm",
+      "arm": "original",
+      "task": "range/binary-info",
+      "trial": 0,
+      "language": "binary-info",
+      "level": null,
+      "accepted": true,
+      "strict_pass": null,
+      "attempts": 1,
+      "status": "passed",
+      "source_sha256": "c57977ca70f2a9149309373544950376e8bb96a8b67957b1ce6e6deb03954a51",
+      "prompt": "Implement a side-effect-free inclusive integer range-check helper named in_range (inRange or InRange where idiomatic). It accepts value, lower, and upper, and returns true exactly when lower <= value <= upper. Equal bounds include that single value. Reversed bounds always return false. Support negative integers. Do not change any input or call the helper at top level. Document its inputs and result briefly. For C return 1 or 0; for Bash use a predicate function whose return status is 0 for true and 1 for false, accepting three integer arguments. For HTML, provide a useful static reference section with a heading and a table containing the inputs and expected results for ordinary, boundary, negative, equal-bound, and reversed-bound cases.\nFor JSON and HTTP, use an object with operation and examples. Each example must contain value, lower, upper, and expected (a JSON Boolean). Include ordinary interior, lower-bound, upper-bound, negative, equal-bound, reversed-bound, and out-of-range cases. HTTP must wrap this JSON as one successful HTTP response. For LLVM IR use define i1 @in_range with signed i32 parameters value, lower, upper. For binary-info use ELF and x86_64, a code section .text and a data section .rodata, an in_range function in .text, and a description object in .rodata; include an ordinary descriptive string.\n",
+      "public_contract": null,
+      "grade": {
+        "scope": "Exploratory diagnostic checks; no preregistered aggregate correctness score.",
+        "document_checks": {
+          "job": "range",
+          "language": "binary-info",
+          "sha256": "c57977ca70f2a9149309373544950376e8bb96a8b67957b1ce6e6deb03954a51",
+          "task_fields_match": true,
+          "checks": {
+            "format": true,
+            "architecture": true,
+            "sections": true,
+            "function": true,
+            "description_object": true
+          },
+          "missing_or_wrong_sections": {},
+          "observed_symbols": [
+            "in_range",
+            "range_check_desc_obj"
+          ]
+        }
+      },
+      "diagnostic": ""
+    },
+    {
+      "id": "0999eafa2c80fecbe632605144ca43d144283909cd4f482c5fce9242b2987792",
+      "model": "glm",
+      "arm": "original",
+      "task": "range/c",
+      "trial": 0,
+      "language": "c",
+      "level": null,
+      "accepted": true,
+      "strict_pass": null,
+      "attempts": 1,
+      "status": "passed",
+      "source_sha256": "49bc995ccb2ed7539416a3e839083d0b2e45686ece822c41fbb55c31f28dbaea",
+      "prompt": "Implement a side-effect-free inclusive integer range-check helper named in_range (inRange or InRange where idiomatic). It accepts value, lower, and upper, and returns true exactly when lower <= value <= upper. Equal bounds include that single value. Reversed bounds always return false. Support negative integers. Do not change any input or call the helper at top level. Document its inputs and result briefly. For C return 1 or 0; for Bash use a predicate function whose return status is 0 for true and 1 for false, accepting three integer arguments. For HTML, provide a useful static reference section with a heading and a table containing the inputs and expected results for ordinary, boundary, negative, equal-bound, and reversed-bound cases.\nFor JSON and HTTP, use an object with operation and examples. Each example must contain value, lower, upper, and expected (a JSON Boolean). Include ordinary interior, lower-bound, upper-bound, negative, equal-bound, reversed-bound, and out-of-range cases. HTTP must wrap this JSON as one successful HTTP response. For LLVM IR use define i1 @in_range with signed i32 parameters value, lower, upper. For binary-info use ELF and x86_64, a code section .text and a data section .rodata, an in_range function in .text, and a description object in .rodata; include an ordinary descriptive string.\n",
+      "public_contract": null,
+      "grade": {
+        "scope": "Exploratory diagnostic checks; no preregistered aggregate correctness score.",
+        "native_behavior": {
+          "cases": 729,
+          "passed": 729,
+          "failed": 0,
+          "api_match": true,
+          "failure_examples": [],
+          "sha256": "49bc995ccb2ed7539416a3e839083d0b2e45686ece822c41fbb55c31f28dbaea"
+        }
+      },
+      "diagnostic": ""
+    },
+    {
+      "id": "82f12291600867a8d13b1b7198ab6ba2f30060cbb7a1e356bf7e84e01023a020",
+      "model": "glm",
+      "arm": "original",
+      "task": "range/cpp",
+      "trial": 0,
+      "language": "cpp",
+      "level": null,
+      "accepted": true,
+      "strict_pass": null,
+      "attempts": 1,
+      "status": "passed",
+      "source_sha256": "5d7bdc7f4ef4df2149fcbee8ca3cc4b957a6358ca329582f75f322bbfd3aa473",
+      "prompt": "Implement a side-effect-free inclusive integer range-check helper named in_range (inRange or InRange where idiomatic). It accepts value, lower, and upper, and returns true exactly when lower <= value <= upper. Equal bounds include that single value. Reversed bounds always return false. Support negative integers. Do not change any input or call the helper at top level. Document its inputs and result briefly. For C return 1 or 0; for Bash use a predicate function whose return status is 0 for true and 1 for false, accepting three integer arguments. For HTML, provide a useful static reference section with a heading and a table containing the inputs and expected results for ordinary, boundary, negative, equal-bound, and reversed-bound cases.\nFor JSON and HTTP, use an object with operation and examples. Each example must contain value, lower, upper, and expected (a JSON Boolean). Include ordinary interior, lower-bound, upper-bound, negative, equal-bound, reversed-bound, and out-of-range cases. HTTP must wrap this JSON as one successful HTTP response. For LLVM IR use define i1 @in_range with signed i32 parameters value, lower, upper. For binary-info use ELF and x86_64, a code section .text and a data section .rodata, an in_range function in .text, and a description object in .rodata; include an ordinary descriptive string.\n",
+      "public_contract": null,
+      "grade": {
+        "scope": "Exploratory diagnostic checks; no preregistered aggregate correctness score.",
+        "native_behavior": {
+          "cases": 729,
+          "passed": 729,
+          "failed": 0,
+          "api_match": true,
+          "failure_examples": [],
+          "sha256": "5d7bdc7f4ef4df2149fcbee8ca3cc4b957a6358ca329582f75f322bbfd3aa473"
+        }
+      },
+      "diagnostic": ""
+    },
+    {
+      "id": "4b68fa6f944924d878e80806ed8046093892ec240a3d3f3b7a3f61e9f0a99bc7",
+      "model": "glm",
+      "arm": "original",
+      "task": "range/go",
+      "trial": 0,
+      "language": "go",
+      "level": null,
+      "accepted": true,
+      "strict_pass": null,
+      "attempts": 2,
+      "status": "passed",
+      "source_sha256": "581287759794e9f5ff3fac4df987c3ad1197ea7f4480806355b33ecfca3a72a8",
+      "prompt": "Implement a side-effect-free inclusive integer range-check helper named in_range (inRange or InRange where idiomatic). It accepts value, lower, and upper, and returns true exactly when lower <= value <= upper. Equal bounds include that single value. Reversed bounds always return false. Support negative integers. Do not change any input or call the helper at top level. Document its inputs and result briefly. For C return 1 or 0; for Bash use a predicate function whose return status is 0 for true and 1 for false, accepting three integer arguments. For HTML, provide a useful static reference section with a heading and a table containing the inputs and expected results for ordinary, boundary, negative, equal-bound, and reversed-bound cases.\nFor JSON and HTTP, use an object with operation and examples. Each example must contain value, lower, upper, and expected (a JSON Boolean). Include ordinary interior, lower-bound, upper-bound, negative, equal-bound, reversed-bound, and out-of-range cases. HTTP must wrap this JSON as one successful HTTP response. For LLVM IR use define i1 @in_range with signed i32 parameters value, lower, upper. For binary-info use ELF and x86_64, a code section .text and a data section .rodata, an in_range function in .text, and a description object in .rodata; include an ordinary descriptive string.\n",
+      "public_contract": null,
+      "grade": {
+        "scope": "Exploratory diagnostic checks; no preregistered aggregate correctness score.",
+        "native_behavior": {
+          "cases": 729,
+          "passed": 729,
+          "failed": 0,
+          "api_match": false,
+          "failure_examples": [],
+          "sha256": "581287759794e9f5ff3fac4df987c3ad1197ea7f4480806355b33ecfca3a72a8"
+        }
+      },
+      "diagnostic": "Correct tested behavior, but CheckValue does not match the requested API name."
+    },
+    {
+      "id": "f589a03ee518dafafee2048ff7f12b1bcc1cda4984ff3c32b6b31a22870a5543",
+      "model": "glm",
+      "arm": "original",
+      "task": "range/html",
+      "trial": 0,
+      "language": "html",
+      "level": null,
+      "accepted": true,
+      "strict_pass": null,
+      "attempts": 1,
+      "status": "passed",
+      "source_sha256": "88ac2cc69a51b425c6a70e6321784b310a95beb72766dc3e43406db586d25784",
+      "prompt": "Implement a side-effect-free inclusive integer range-check helper named in_range (inRange or InRange where idiomatic). It accepts value, lower, and upper, and returns true exactly when lower <= value <= upper. Equal bounds include that single value. Reversed bounds always return false. Support negative integers. Do not change any input or call the helper at top level. Document its inputs and result briefly. For C return 1 or 0; for Bash use a predicate function whose return status is 0 for true and 1 for false, accepting three integer arguments. For HTML, provide a useful static reference section with a heading and a table containing the inputs and expected results for ordinary, boundary, negative, equal-bound, and reversed-bound cases.\nFor JSON and HTTP, use an object with operation and examples. Each example must contain value, lower, upper, and expected (a JSON Boolean). Include ordinary interior, lower-bound, upper-bound, negative, equal-bound, reversed-bound, and out-of-range cases. HTTP must wrap this JSON as one successful HTTP response. For LLVM IR use define i1 @in_range with signed i32 parameters value, lower, upper. For binary-info use ELF and x86_64, a code section .text and a data section .rodata, an in_range function in .text, and a description object in .rodata; include an ordinary descriptive string.\n",
+      "public_contract": null,
+      "grade": {
+        "scope": "Exploratory diagnostic checks; no preregistered aggregate correctness score.",
+        "document_checks": {
+          "job": "range",
+          "language": "html",
+          "sha256": "88ac2cc69a51b425c6a70e6321784b310a95beb72766dc3e43406db586d25784",
+          "numeric_cases": 8,
+          "correct": 8,
+          "incorrect_rows": [],
+          "covered": [
+            "equal_bounds",
+            "interior",
+            "negative",
+            "outside"
+          ],
+          "missing": [
+            "lower_boundary",
+            "reversed_bounds",
+            "upper_boundary"
+          ],
+          "broken_aria_references": [],
+          "mislabelled_rows": [
+            {
+              "row": 2,
+              "label": "Lower-Boundary Case",
+              "issue": "lower-boundary label does not match inputs"
+            },
+            {
+              "row": 3,
+              "label": "Upper-Boundary Case",
+              "issue": "upper-boundary label does not match inputs"
+            },
+            {
+              "row": 7,
+              "label": "Reversed-Bound Case",
+              "issue": "reversed-bounds label does not match inputs"
+            }
+          ]
+        }
+      },
+      "diagnostic": "Three misleading row labels; actual lower-bound, upper-bound, and reversed-bound examples are missing."
+    },
+    {
+      "id": "ef38b9c15f1fc980963471d69a133deea9ef28a4bf40956ce3b48f1c7db6edbf",
+      "model": "glm",
+      "arm": "original",
+      "task": "range/http",
+      "trial": 0,
+      "language": "http",
+      "level": null,
+      "accepted": false,
+      "strict_pass": null,
+      "attempts": 3,
+      "status": "extraction_failed",
+      "source_sha256": null,
+      "prompt": "Implement a side-effect-free inclusive integer range-check helper named in_range (inRange or InRange where idiomatic). It accepts value, lower, and upper, and returns true exactly when lower <= value <= upper. Equal bounds include that single value. Reversed bounds always return false. Support negative integers. Do not change any input or call the helper at top level. Document its inputs and result briefly. For C return 1 or 0; for Bash use a predicate function whose return status is 0 for true and 1 for false, accepting three integer arguments. For HTML, provide a useful static reference section with a heading and a table containing the inputs and expected results for ordinary, boundary, negative, equal-bound, and reversed-bound cases.\nFor JSON and HTTP, use an object with operation and examples. Each example must contain value, lower, upper, and expected (a JSON Boolean). Include ordinary interior, lower-bound, upper-bound, negative, equal-bound, reversed-bound, and out-of-range cases. HTTP must wrap this JSON as one successful HTTP response. For LLVM IR use define i1 @in_range with signed i32 parameters value, lower, upper. For binary-info use ELF and x86_64, a code section .text and a data section .rodata, an in_range function in .text, and a description object in .rodata; include an ordinary descriptive string.\n",
+      "public_contract": null,
+      "grade": {
+        "scope": "Exploratory diagnostic checks; no preregistered aggregate correctness score."
+      },
+      "diagnostic": "No accepted candidate after the three-attempt budget; rejected implementations were not saved as source."
+    },
+    {
+      "id": "41102c1fcbcd1999abf68aae64f76cb5183c48c6470bcd46c6e7e5d8b3f9a2ae",
+      "model": "glm",
+      "arm": "original",
+      "task": "range/java",
+      "trial": 0,
+      "language": "java",
+      "level": null,
+      "accepted": true,
+      "strict_pass": null,
+      "attempts": 2,
+      "status": "passed",
+      "source_sha256": "6ac0cdff73b137d3d8479f3c4744413f5036f0f6742a399b895434c54fb48e79",
+      "prompt": "Implement a side-effect-free inclusive integer range-check helper named in_range (inRange or InRange where idiomatic). It accepts value, lower, and upper, and returns true exactly when lower <= value <= upper. Equal bounds include that single value. Reversed bounds always return false. Support negative integers. Do not change any input or call the helper at top level. Document its inputs and result briefly. For C return 1 or 0; for Bash use a predicate function whose return status is 0 for true and 1 for false, accepting three integer arguments. For HTML, provide a useful static reference section with a heading and a table containing the inputs and expected results for ordinary, boundary, negative, equal-bound, and reversed-bound cases.\nFor JSON and HTTP, use an object with operation and examples. Each example must contain value, lower, upper, and expected (a JSON Boolean). Include ordinary interior, lower-bound, upper-bound, negative, equal-bound, reversed-bound, and out-of-range cases. HTTP must wrap this JSON as one successful HTTP response. For LLVM IR use define i1 @in_range with signed i32 parameters value, lower, upper. For binary-info use ELF and x86_64, a code section .text and a data section .rodata, an in_range function in .text, and a description object in .rodata; include an ordinary descriptive string.\n",
+      "public_contract": null,
+      "grade": {
+        "scope": "Exploratory diagnostic checks; no preregistered aggregate correctness score.",
+        "native_behavior": {
+          "cases": 729,
+          "passed": 729,
+          "failed": 0,
+          "api_match": true,
+          "failure_examples": [],
+          "sha256": "6ac0cdff73b137d3d8479f3c4744413f5036f0f6742a399b895434c54fb48e79"
+        }
+      },
+      "diagnostic": "Behavior passes, but Javadoc fails with two malformed-HTML errors from unescaped comparisons."
+    },
+    {
+      "id": "0295db13e09784c58e8d87a8c3062834a05424cbb27041cb95d5294c38d81e6f",
+      "model": "glm",
+      "arm": "original",
+      "task": "range/javascript",
+      "trial": 0,
+      "language": "javascript",
+      "level": null,
+      "accepted": false,
+      "strict_pass": null,
+      "attempts": 3,
+      "status": "failed",
+      "source_sha256": null,
+      "prompt": "Implement a side-effect-free inclusive integer range-check helper named in_range (inRange or InRange where idiomatic). It accepts value, lower, and upper, and returns true exactly when lower <= value <= upper. Equal bounds include that single value. Reversed bounds always return false. Support negative integers. Do not change any input or call the helper at top level. Document its inputs and result briefly. For C return 1 or 0; for Bash use a predicate function whose return status is 0 for true and 1 for false, accepting three integer arguments. For HTML, provide a useful static reference section with a heading and a table containing the inputs and expected results for ordinary, boundary, negative, equal-bound, and reversed-bound cases.\nFor JSON and HTTP, use an object with operation and examples. Each example must contain value, lower, upper, and expected (a JSON Boolean). Include ordinary interior, lower-bound, upper-bound, negative, equal-bound, reversed-bound, and out-of-range cases. HTTP must wrap this JSON as one successful HTTP response. For LLVM IR use define i1 @in_range with signed i32 parameters value, lower, upper. For binary-info use ELF and x86_64, a code section .text and a data section .rodata, an in_range function in .text, and a description object in .rodata; include an ordinary descriptive string.\n",
+      "public_contract": null,
+      "grade": {
+        "scope": "Exploratory diagnostic checks; no preregistered aggregate correctness score."
+      },
+      "diagnostic": "No accepted candidate after the three-attempt budget; rejected implementations were not saved as source."
+    },
+    {
+      "id": "7954a93aa167fe7e2094829e94dc484e915d09a075312997d5cdf159ab4b12ee",
+      "model": "glm",
+      "arm": "original",
+      "task": "range/json",
+      "trial": 0,
+      "language": "json",
+      "level": null,
+      "accepted": true,
+      "strict_pass": null,
+      "attempts": 3,
+      "status": "passed",
+      "source_sha256": "3589c748b5bdc2e1c34f4c2bc67d57c7cc1a613711e6772734590dfd227acf88",
+      "prompt": "Implement a side-effect-free inclusive integer range-check helper named in_range (inRange or InRange where idiomatic). It accepts value, lower, and upper, and returns true exactly when lower <= value <= upper. Equal bounds include that single value. Reversed bounds always return false. Support negative integers. Do not change any input or call the helper at top level. Document its inputs and result briefly. For C return 1 or 0; for Bash use a predicate function whose return status is 0 for true and 1 for false, accepting three integer arguments. For HTML, provide a useful static reference section with a heading and a table containing the inputs and expected results for ordinary, boundary, negative, equal-bound, and reversed-bound cases.\nFor JSON and HTTP, use an object with operation and examples. Each example must contain value, lower, upper, and expected (a JSON Boolean). Include ordinary interior, lower-bound, upper-bound, negative, equal-bound, reversed-bound, and out-of-range cases. HTTP must wrap this JSON as one successful HTTP response. For LLVM IR use define i1 @in_range with signed i32 parameters value, lower, upper. For binary-info use ELF and x86_64, a code section .text and a data section .rodata, an in_range function in .text, and a description object in .rodata; include an ordinary descriptive string.\n",
+      "public_contract": null,
+      "grade": {
+        "scope": "Exploratory diagnostic checks; no preregistered aggregate correctness score.",
+        "document_checks": {
+          "job": "range",
+          "language": "json",
+          "sha256": "3589c748b5bdc2e1c34f4c2bc67d57c7cc1a613711e6772734590dfd227acf88",
+          "requested_root_shape": false,
+          "requested_example_shape": false,
+          "observed_root_keys": [
+            "binary_info",
+            "http_payload"
+          ],
+          "numeric_cases": 7,
+          "correct": 7,
+          "incorrect_rows": [],
+          "covered": [
+            "equal_bounds",
+            "interior",
+            "lower_boundary",
+            "negative",
+            "outside",
+            "reversed_bounds",
+            "upper_boundary"
+          ],
+          "missing": []
+        }
+      },
+      "diagnostic": "Correct example arithmetic inside the wrong root and example layout."
+    },
+    {
+      "id": "66b7288050291a3eda544e5a98fd24050d4fbb5174914a72863f029aa01629e8",
+      "model": "glm",
+      "arm": "original",
+      "task": "range/llvm",
+      "trial": 0,
+      "language": "llvm",
+      "level": null,
+      "accepted": true,
+      "strict_pass": null,
+      "attempts": 1,
+      "status": "passed",
+      "source_sha256": "ccf8d55d6115bab62dd65e32c1c47bbaebf012b9938c98ad94e1fc3d56ff7bb0",
+      "prompt": "Implement a side-effect-free inclusive integer range-check helper named in_range (inRange or InRange where idiomatic). It accepts value, lower, and upper, and returns true exactly when lower <= value <= upper. Equal bounds include that single value. Reversed bounds always return false. Support negative integers. Do not change any input or call the helper at top level. Document its inputs and result briefly. For C return 1 or 0; for Bash use a predicate function whose return status is 0 for true and 1 for false, accepting three integer arguments. For HTML, provide a useful static reference section with a heading and a table containing the inputs and expected results for ordinary, boundary, negative, equal-bound, and reversed-bound cases.\nFor JSON and HTTP, use an object with operation and examples. Each example must contain value, lower, upper, and expected (a JSON Boolean). Include ordinary interior, lower-bound, upper-bound, negative, equal-bound, reversed-bound, and out-of-range cases. HTTP must wrap this JSON as one successful HTTP response. For LLVM IR use define i1 @in_range with signed i32 parameters value, lower, upper. For binary-info use ELF and x86_64, a code section .text and a data section .rodata, an in_range function in .text, and a description object in .rodata; include an ordinary descriptive string.\n",
+      "public_contract": null,
+      "grade": {
+        "scope": "Exploratory diagnostic checks; no preregistered aggregate correctness score.",
+        "native_behavior": {
+          "cases": 729,
+          "passed": 729,
+          "failed": 0,
+          "api_match": true,
+          "failure_examples": [],
+          "sha256": "ccf8d55d6115bab62dd65e32c1c47bbaebf012b9938c98ad94e1fc3d56ff7bb0"
+        }
+      },
+      "diagnostic": ""
+    },
+    {
+      "id": "8637959ae08efd87e01e7df3db07c77f18ba86ccf875a932d4ea62ad9e090933",
+      "model": "glm",
+      "arm": "original",
+      "task": "range/lua",
+      "trial": 0,
+      "language": "lua",
+      "level": null,
+      "accepted": true,
+      "strict_pass": null,
+      "attempts": 2,
+      "status": "passed",
+      "source_sha256": "afd0a3827eadc2b252343555eefe3e76f190fb899ca2bd70eeaf9041d1d808ac",
+      "prompt": "Implement a side-effect-free inclusive integer range-check helper named in_range (inRange or InRange where idiomatic). It accepts value, lower, and upper, and returns true exactly when lower <= value <= upper. Equal bounds include that single value. Reversed bounds always return false. Support negative integers. Do not change any input or call the helper at top level. Document its inputs and result briefly. For C return 1 or 0; for Bash use a predicate function whose return status is 0 for true and 1 for false, accepting three integer arguments. For HTML, provide a useful static reference section with a heading and a table containing the inputs and expected results for ordinary, boundary, negative, equal-bound, and reversed-bound cases.\nFor JSON and HTTP, use an object with operation and examples. Each example must contain value, lower, upper, and expected (a JSON Boolean). Include ordinary interior, lower-bound, upper-bound, negative, equal-bound, reversed-bound, and out-of-range cases. HTTP must wrap this JSON as one successful HTTP response. For LLVM IR use define i1 @in_range with signed i32 parameters value, lower, upper. For binary-info use ELF and x86_64, a code section .text and a data section .rodata, an in_range function in .text, and a description object in .rodata; include an ordinary descriptive string.\n",
+      "public_contract": null,
+      "grade": {
+        "scope": "Exploratory diagnostic checks; no preregistered aggregate correctness score.",
+        "native_behavior": {
+          "cases": 729,
+          "passed": 729,
+          "failed": 0,
+          "api_match": true,
+          "failure_examples": [],
+          "sha256": "afd0a3827eadc2b252343555eefe3e76f190fb899ca2bd70eeaf9041d1d808ac"
+        }
+      },
+      "diagnostic": "Redundant min/max operations; tested behavior is correct."
+    },
+    {
+      "id": "81bd1bfde334cbc68601aa1ade8f0424523f9b5ee52611a4ea64d20fc7eb6092",
+      "model": "glm",
+      "arm": "original",
+      "task": "range/python",
+      "trial": 0,
+      "language": "python",
+      "level": null,
+      "accepted": false,
+      "strict_pass": null,
+      "attempts": 3,
+      "status": "failed",
+      "source_sha256": null,
+      "prompt": "Implement a side-effect-free inclusive integer range-check helper named in_range (inRange or InRange where idiomatic). It accepts value, lower, and upper, and returns true exactly when lower <= value <= upper. Equal bounds include that single value. Reversed bounds always return false. Support negative integers. Do not change any input or call the helper at top level. Document its inputs and result briefly. For C return 1 or 0; for Bash use a predicate function whose return status is 0 for true and 1 for false, accepting three integer arguments. For HTML, provide a useful static reference section with a heading and a table containing the inputs and expected results for ordinary, boundary, negative, equal-bound, and reversed-bound cases.\nFor JSON and HTTP, use an object with operation and examples. Each example must contain value, lower, upper, and expected (a JSON Boolean). Include ordinary interior, lower-bound, upper-bound, negative, equal-bound, reversed-bound, and out-of-range cases. HTTP must wrap this JSON as one successful HTTP response. For LLVM IR use define i1 @in_range with signed i32 parameters value, lower, upper. For binary-info use ELF and x86_64, a code section .text and a data section .rodata, an in_range function in .text, and a description object in .rodata; include an ordinary descriptive string.\n",
+      "public_contract": null,
+      "grade": {
+        "scope": "Exploratory diagnostic checks; no preregistered aggregate correctness score."
+      },
+      "diagnostic": "No accepted candidate after the three-attempt budget; rejected implementations were not saved as source."
+    },
+    {
+      "id": "13ffa69ab0d1b5aca6d2b14fcb02a511540414279eb65c0e87a0c565c39ee76c",
+      "model": "glm",
+      "arm": "original",
+      "task": "range/ruby",
+      "trial": 0,
+      "language": "ruby",
+      "level": null,
+      "accepted": true,
+      "strict_pass": null,
+      "attempts": 3,
+      "status": "passed",
+      "source_sha256": "f7e8cbf24ca0d6be43765f4680183c97883f2832f9540127b13d849b8732ecee",
+      "prompt": "Implement a side-effect-free inclusive integer range-check helper named in_range (inRange or InRange where idiomatic). It accepts value, lower, and upper, and returns true exactly when lower <= value <= upper. Equal bounds include that single value. Reversed bounds always return false. Support negative integers. Do not change any input or call the helper at top level. Document its inputs and result briefly. For C return 1 or 0; for Bash use a predicate function whose return status is 0 for true and 1 for false, accepting three integer arguments. For HTML, provide a useful static reference section with a heading and a table containing the inputs and expected results for ordinary, boundary, negative, equal-bound, and reversed-bound cases.\nFor JSON and HTTP, use an object with operation and examples. Each example must contain value, lower, upper, and expected (a JSON Boolean). Include ordinary interior, lower-bound, upper-bound, negative, equal-bound, reversed-bound, and out-of-range cases. HTTP must wrap this JSON as one successful HTTP response. For LLVM IR use define i1 @in_range with signed i32 parameters value, lower, upper. For binary-info use ELF and x86_64, a code section .text and a data section .rodata, an in_range function in .text, and a description object in .rodata; include an ordinary descriptive string.\n",
+      "public_contract": null,
+      "grade": {
+        "scope": "Exploratory diagnostic checks; no preregistered aggregate correctness score.",
+        "native_behavior": {
+          "cases": 729,
+          "passed": 729,
+          "failed": 0,
+          "api_match": true,
+          "failure_examples": [],
+          "sha256": "f7e8cbf24ca0d6be43765f4680183c97883f2832f9540127b13d849b8732ecee"
+        }
+      },
+      "diagnostic": "Nonidiomatic triple-quoted documentation string."
+    },
+    {
+      "id": "0fc5d2d8f0e0ecb477f67a959baa2f1c92cec7ed740f992e868a8d75c28105e7",
+      "model": "glm",
+      "arm": "original",
+      "task": "range/rust",
+      "trial": 0,
+      "language": "rust",
+      "level": null,
+      "accepted": true,
+      "strict_pass": null,
+      "attempts": 2,
+      "status": "passed",
+      "source_sha256": "1a794bca295c6e41d3b3ec7bf607d9c986f0ff279a7bd60d818c4e2f2ec944b6",
+      "prompt": "Implement a side-effect-free inclusive integer range-check helper named in_range (inRange or InRange where idiomatic). It accepts value, lower, and upper, and returns true exactly when lower <= value <= upper. Equal bounds include that single value. Reversed bounds always return false. Support negative integers. Do not change any input or call the helper at top level. Document its inputs and result briefly. For C return 1 or 0; for Bash use a predicate function whose return status is 0 for true and 1 for false, accepting three integer arguments. For HTML, provide a useful static reference section with a heading and a table containing the inputs and expected results for ordinary, boundary, negative, equal-bound, and reversed-bound cases.\nFor JSON and HTTP, use an object with operation and examples. Each example must contain value, lower, upper, and expected (a JSON Boolean). Include ordinary interior, lower-bound, upper-bound, negative, equal-bound, reversed-bound, and out-of-range cases. HTTP must wrap this JSON as one successful HTTP response. For LLVM IR use define i1 @in_range with signed i32 parameters value, lower, upper. For binary-info use ELF and x86_64, a code section .text and a data section .rodata, an in_range function in .text, and a description object in .rodata; include an ordinary descriptive string.\n",
+      "public_contract": null,
+      "grade": {
+        "scope": "Exploratory diagnostic checks; no preregistered aggregate correctness score.",
+        "native_behavior": {
+          "cases": 729,
+          "passed": 729,
+          "failed": 0,
+          "api_match": true,
+          "failure_examples": [],
+          "sha256": "1a794bca295c6e41d3b3ec7bf607d9c986f0ff279a7bd60d818c4e2f2ec944b6"
+        }
+      },
+      "diagnostic": "Unfinished and misleading parameter documentation."
+    },
+    {
+      "id": "0dadb5de300bb7ebc02713046eb50cd5da726a5f71d9a279cb03263b4bb6cd42",
+      "model": "glm",
+      "arm": "original",
+      "task": "range/sql",
+      "trial": 0,
+      "language": "sql",
+      "level": null,
+      "accepted": true,
+      "strict_pass": null,
+      "attempts": 1,
+      "status": "passed",
+      "source_sha256": "692641eef2c68835194991cac260dd0e2993c883268a554fe7eaef4fee45c96d",
+      "prompt": "Implement a side-effect-free inclusive integer range-check helper named in_range (inRange or InRange where idiomatic). It accepts value, lower, and upper, and returns true exactly when lower <= value <= upper. Equal bounds include that single value. Reversed bounds always return false. Support negative integers. Do not change any input or call the helper at top level. Document its inputs and result briefly. For C return 1 or 0; for Bash use a predicate function whose return status is 0 for true and 1 for false, accepting three integer arguments. For HTML, provide a useful static reference section with a heading and a table containing the inputs and expected results for ordinary, boundary, negative, equal-bound, and reversed-bound cases.\nFor JSON and HTTP, use an object with operation and examples. Each example must contain value, lower, upper, and expected (a JSON Boolean). Include ordinary interior, lower-bound, upper-bound, negative, equal-bound, reversed-bound, and out-of-range cases. HTTP must wrap this JSON as one successful HTTP response. For LLVM IR use define i1 @in_range with signed i32 parameters value, lower, upper. For binary-info use ELF and x86_64, a code section .text and a data section .rodata, an in_range function in .text, and a description object in .rodata; include an ordinary descriptive string.\n",
+      "public_contract": null,
+      "grade": {
+        "scope": "Exploratory diagnostic checks; no preregistered aggregate correctness score.",
+        "native_behavior": {
+          "cases": 729,
+          "passed": 729,
+          "failed": 0,
+          "api_match": true,
+          "failure_examples": [],
+          "sha256": "692641eef2c68835194991cac260dd0e2993c883268a554fe7eaef4fee45c96d"
+        }
+      },
+      "diagnostic": ""
+    },
+    {
+      "id": "e527b2aa96babd5ee79e0bbe14552569eb576df76f4753fe2d874ed16aa2ce83",
+      "model": "glm",
+      "arm": "original",
+      "task": "range/swift",
+      "trial": 0,
+      "language": "swift",
+      "level": null,
+      "accepted": true,
+      "strict_pass": null,
+      "attempts": 2,
+      "status": "passed",
+      "source_sha256": "f285a248ffb07a24b74bc11b88ecc2913fedf314aedbf31feece561f1f5affc0",
+      "prompt": "Implement a side-effect-free inclusive integer range-check helper named in_range (inRange or InRange where idiomatic). It accepts value, lower, and upper, and returns true exactly when lower <= value <= upper. Equal bounds include that single value. Reversed bounds always return false. Support negative integers. Do not change any input or call the helper at top level. Document its inputs and result briefly. For C return 1 or 0; for Bash use a predicate function whose return status is 0 for true and 1 for false, accepting three integer arguments. For HTML, provide a useful static reference section with a heading and a table containing the inputs and expected results for ordinary, boundary, negative, equal-bound, and reversed-bound cases.\nFor JSON and HTTP, use an object with operation and examples. Each example must contain value, lower, upper, and expected (a JSON Boolean). Include ordinary interior, lower-bound, upper-bound, negative, equal-bound, reversed-bound, and out-of-range cases. HTTP must wrap this JSON as one successful HTTP response. For LLVM IR use define i1 @in_range with signed i32 parameters value, lower, upper. For binary-info use ELF and x86_64, a code section .text and a data section .rodata, an in_range function in .text, and a description object in .rodata; include an ordinary descriptive string.\n",
+      "public_contract": null,
+      "grade": {
+        "scope": "Exploratory diagnostic checks; no preregistered aggregate correctness score.",
+        "native_behavior": {
+          "cases": 729,
+          "passed": 729,
+          "failed": 0,
+          "api_match": false,
+          "failure_examples": [],
+          "sha256": "f285a248ffb07a24b74bc11b88ecc2913fedf314aedbf31feece561f1f5affc0"
+        }
+      },
+      "diagnostic": "Correct tested behavior, but isInclusive does not match the requested API name."
+    },
+    {
+      "id": "9b56f17a7ee50b8c3672dc7b69528daa88d75b699d5b54883b950edd07de8c47",
+      "model": "glm",
+      "arm": "original",
+      "task": "range/typescript",
+      "trial": 0,
+      "language": "typescript",
+      "level": null,
+      "accepted": true,
+      "strict_pass": null,
+      "attempts": 2,
+      "status": "passed",
+      "source_sha256": "677c59db36fe0310bdfb4f79762a83767585d48b9efe80aaa7ae18761e3dcff6",
+      "prompt": "Implement a side-effect-free inclusive integer range-check helper named in_range (inRange or InRange where idiomatic). It accepts value, lower, and upper, and returns true exactly when lower <= value <= upper. Equal bounds include that single value. Reversed bounds always return false. Support negative integers. Do not change any input or call the helper at top level. Document its inputs and result briefly. For C return 1 or 0; for Bash use a predicate function whose return status is 0 for true and 1 for false, accepting three integer arguments. For HTML, provide a useful static reference section with a heading and a table containing the inputs and expected results for ordinary, boundary, negative, equal-bound, and reversed-bound cases.\nFor JSON and HTTP, use an object with operation and examples. Each example must contain value, lower, upper, and expected (a JSON Boolean). Include ordinary interior, lower-bound, upper-bound, negative, equal-bound, reversed-bound, and out-of-range cases. HTTP must wrap this JSON as one successful HTTP response. For LLVM IR use define i1 @in_range with signed i32 parameters value, lower, upper. For binary-info use ELF and x86_64, a code section .text and a data section .rodata, an in_range function in .text, and a description object in .rodata; include an ordinary descriptive string.\n",
+      "public_contract": null,
+      "grade": {
+        "scope": "Exploratory diagnostic checks; no preregistered aggregate correctness score.",
+        "native_behavior": {
+          "cases": 729,
+          "passed": 729,
+          "failed": 0,
+          "api_match": true,
+          "failure_examples": [],
+          "sha256": "677c59db36fe0310bdfb4f79762a83767585d48b9efe80aaa7ae18761e3dcff6"
+        }
+      },
+      "diagnostic": ""
+    },
+    {
+      "id": "19728805a1fc8905e030bbc87d63f191f9b5abaece3688011a8636992e757537",
+      "model": "glm",
+      "arm": "original",
+      "task": "pe/binary-info",
+      "trial": 0,
+      "language": "binary-info",
+      "level": null,
+      "accepted": true,
+      "strict_pass": null,
+      "attempts": 1,
+      "status": "passed",
+      "source_sha256": "332b70137d566dde205fda2c85e1e40f49c079223301e5f2a981fd55125f172c",
+      "prompt": "Describe a fictional Windows PE executable for x86_64 as symbolic metadata. Include a code section .text, a read-only data section .rdata, an in_range function symbol in .text, and a range_description object symbol in .rdata. Include one plain string describing inclusive integer bounds. Use no addresses, encoded bytes, imports, or actual executable content.\n",
+      "public_contract": null,
+      "grade": {
+        "scope": "Exploratory diagnostic checks; no preregistered aggregate correctness score.",
+        "document_checks": {
+          "job": "pe",
+          "language": "binary-info",
+          "sha256": "332b70137d566dde205fda2c85e1e40f49c079223301e5f2a981fd55125f172c",
+          "task_fields_match": false,
+          "checks": {
+            "format": true,
+            "architecture": true,
+            "sections": true,
+            "function": true,
+            "description_object": false
+          },
+          "missing_or_wrong_sections": {},
+          "observed_symbols": [
+            "in_range",
+            "_range_description"
+          ]
+        }
+      },
+      "diagnostic": "Symbolic metadata does not match requested section/symbol names or references."
+    },
+    {
+      "id": "5c5f507b2dc81ee7905475b09f79628fe6b43aee7180229de91e65e068c9ce59",
+      "model": "glm",
+      "arm": "original",
+      "task": "macho/binary-info",
+      "trial": 0,
+      "language": "binary-info",
+      "level": null,
+      "accepted": true,
+      "strict_pass": null,
+      "attempts": 1,
+      "status": "passed",
+      "source_sha256": "84cb18b6600727f9fb97b7bfb2ce50900279cd1f8570d346f9e3bb97998142ce",
+      "prompt": "Describe a fictional Mach-O executable for aarch64 as symbolic metadata. Include a code section named __TEXT,__text and a data section named __TEXT,__cstring. Place an in_range function symbol in the code section and a range_description object symbol in the data section. Include a plain descriptive string. Do not invent addresses, sizes, encoded bytes, or actual executable content.\n",
+      "public_contract": null,
+      "grade": {
+        "scope": "Exploratory diagnostic checks; no preregistered aggregate correctness score.",
+        "document_checks": {
+          "job": "macho",
+          "language": "binary-info",
+          "sha256": "84cb18b6600727f9fb97b7bfb2ce50900279cd1f8570d346f9e3bb97998142ce",
+          "task_fields_match": false,
+          "checks": {
+            "format": true,
+            "architecture": true,
+            "sections": false,
+            "function": false,
+            "description_object": false
+          },
+          "missing_or_wrong_sections": {
+            "__TEXT,__text": "code",
+            "__TEXT,__cstring": "data"
+          },
+          "observed_symbols": [
+            "in_range",
+            "range_description"
+          ]
+        }
+      },
+      "diagnostic": "Symbolic metadata does not match requested section/symbol names or references."
+    },
+    {
+      "id": "31346eb7d24b0647b7e1a6ebe0981049a7c66cb64b52f2ec8892af0874d861b5",
+      "model": "glm",
+      "arm": "original",
+      "task": "jvm/binary-info",
+      "trial": 0,
+      "language": "binary-info",
+      "level": null,
+      "accepted": true,
+      "strict_pass": null,
+      "attempts": 1,
+      "status": "passed",
+      "source_sha256": "58ee4c1e21b315d6d10ae7b2e84e4d6c4437456f4586055aa20443fbc1d738e1",
+      "prompt": "Describe a fictional JVM class file as symbolic metadata, with format JVM and architecture jvm. Use a Code section of kind code and a ConstantPool section of kind metadata. Include an inRange function symbol referring to Code and a rangeDescription object symbol referring to ConstantPool. Include a plain string describing inclusive integer bounds. These are logical schema records, not literal class-file symbol-table entries or encoded bytecode.\n",
+      "public_contract": null,
+      "grade": {
+        "scope": "Exploratory diagnostic checks; no preregistered aggregate correctness score.",
+        "document_checks": {
+          "job": "jvm",
+          "language": "binary-info",
+          "sha256": "58ee4c1e21b315d6d10ae7b2e84e4d6c4437456f4586055aa20443fbc1d738e1",
+          "task_fields_match": true,
+          "checks": {
+            "format": true,
+            "architecture": true,
+            "sections": true,
+            "function": true,
+            "description_object": true
+          },
+          "missing_or_wrong_sections": {},
+          "observed_symbols": [
+            "inRange",
+            "rangeDescription"
+          ]
+        }
+      },
+      "diagnostic": ""
+    },
+    {
+      "id": "7bd29e26c6202600560543684adbd0f44e880573dafa5b8b4d19533fc52136e1",
+      "model": "glm",
+      "arm": "original",
+      "task": "clr/binary-info",
+      "trial": 0,
+      "language": "binary-info",
+      "level": null,
+      "accepted": true,
+      "strict_pass": null,
+      "attempts": 2,
+      "status": "passed",
+      "source_sha256": "2e50ff59089024faab52f33e2832c27092e0712c0c5033d2cee9b1b500c7b5d6",
+      "prompt": "Describe a fictional CLR managed assembly as symbolic metadata, with format CLR and architecture cil. Use a MethodBodies section of kind code and a Metadata section of kind metadata. Include an InRange function symbol referring to MethodBodies and a RangeDescription object symbol referring to Metadata. Include a plain string describing inclusive integer bounds. These are logical schema records, not encoded IL or literal native symbol-table entries.\n",
+      "public_contract": null,
+      "grade": {
+        "scope": "Exploratory diagnostic checks; no preregistered aggregate correctness score.",
+        "document_checks": {
+          "job": "clr",
+          "language": "binary-info",
+          "sha256": "2e50ff59089024faab52f33e2832c27092e0712c0c5033d2cee9b1b500c7b5d6",
+          "task_fields_match": false,
+          "checks": {
+            "format": true,
+            "architecture": true,
+            "sections": false,
+            "function": false,
+            "description_object": false
+          },
+          "missing_or_wrong_sections": {
+            "MethodBodies": "code",
+            "Metadata": "metadata"
+          },
+          "observed_symbols": [
+            "ValidateInputBounds",
+            "BoundConstraintTable"
+          ]
+        }
+      },
+      "diagnostic": "Symbolic metadata does not match requested section/symbol names or references."
+    },
+    {
+      "id": "783ccf6a443de585835f22ea7f9ec47914c0131dba3a0af11c17d0c4bf3f00be",
+      "model": "glm",
+      "arm": "original",
+      "task": "wasm/binary-info",
+      "trial": 0,
+      "language": "binary-info",
+      "level": null,
+      "accepted": true,
+      "strict_pass": null,
+      "attempts": 1,
+      "status": "passed",
+      "source_sha256": "ccc7a11a45b56eaa92c8e5b743532d1d2c48ba80aa1e156154e84adf4525768d",
+      "prompt": "Describe a fictional Wasm module with format Wasm and architecture wasm32. Include a code section of kind code and a data section of kind data. Include an in_range function symbol referring to code and a description object symbol referring to data. Include a plain string explaining inclusive integer bounds. Use logical metadata, not executable bytes or encoded instructions.\n",
+      "public_contract": null,
+      "grade": {
+        "scope": "Exploratory diagnostic checks; no preregistered aggregate correctness score.",
+        "document_checks": {
+          "job": "wasm",
+          "language": "binary-info",
+          "sha256": "ccc7a11a45b56eaa92c8e5b743532d1d2c48ba80aa1e156154e84adf4525768d",
+          "task_fields_match": false,
+          "checks": {
+            "format": true,
+            "architecture": true,
+            "sections": false,
+            "function": false,
+            "description_object": false
+          },
+          "missing_or_wrong_sections": {
+            "code": "code",
+            "data": "data"
+          },
+          "observed_symbols": [
+            "in_range",
+            "description_obj"
+          ]
+        }
+      },
+      "diagnostic": "Symbolic metadata does not match requested section/symbol names or references."
+    },
+    {
+      "id": "d557d527b866ebe6d07bd14a448731a4c3f52602e77df5b53a69cac5f43d91f1",
+      "model": "glm",
+      "arm": "original",
+      "task": "clamp-helper/llvm",
+      "trial": 0,
+      "language": "llvm",
+      "level": null,
+      "accepted": false,
+      "strict_pass": null,
+      "attempts": 3,
+      "status": "token_limit",
+      "source_sha256": null,
+      "prompt": "Implement a pure clamp helper named clamp with signed 32-bit inputs value, lower, and upper. If lower is greater than upper, return value unchanged. Otherwise return lower when value is below lower, upper when above upper, and value when inside the inclusive bounds. Use LLVM IR with i32 parameters and i32 result, comparisons and select instructions only; no calls, memory, or overflow flags. Briefly document equal and reversed bounds.\n",
+      "public_contract": null,
+      "grade": {
+        "scope": "Exploratory diagnostic checks; no preregistered aggregate correctness score."
+      },
+      "diagnostic": "No accepted candidate after the three-attempt budget; rejected implementations were not saved as source."
+    },
+    {
+      "id": "5e2555aac1bb74069ca05dc58c52b121978f6eca82adae5b96b7b921b5f5a498",
+      "model": "glm",
+      "arm": "original",
+      "task": "catalog-response/http",
+      "trial": 0,
+      "language": "http",
+      "level": null,
+      "accepted": false,
+      "strict_pass": null,
+      "attempts": 3,
+      "status": "extraction_failed",
+      "source_sha256": null,
+      "prompt": "Describe a fictional book catalog response with two books, each with an id, title, and available flag. Include total_count matching the number of books. For HTTP use a successful JSON response, no cookies or credentials. For JSON use the catalog document itself. This is an offline documentation example with fictional data.\n",
+      "public_contract": null,
+      "grade": {
+        "scope": "Exploratory diagnostic checks; no preregistered aggregate correctness score."
+      },
+      "diagnostic": "No accepted candidate after the three-attempt budget; rejected implementations were not saved as source."
+    },
+    {
+      "id": "24822de213aa3e99b281dee36ca72ce76da321c70968f8d8c965785a93dcc6cc",
+      "model": "glm",
+      "arm": "original",
+      "task": "catalog-response/json",
+      "trial": 0,
+      "language": "json",
+      "level": null,
+      "accepted": true,
+      "strict_pass": null,
+      "attempts": 1,
+      "status": "passed",
+      "source_sha256": "00e22e9aaac5afc8e73f6a359d15cc309c439a5393c7c26dd6ffe26666c9d7c2",
+      "prompt": "Describe a fictional book catalog response with two books, each with an id, title, and available flag. Include total_count matching the number of books. For HTTP use a successful JSON response, no cookies or credentials. For JSON use the catalog document itself. This is an offline documentation example with fictional data.\n",
+      "public_contract": null,
+      "grade": {
+        "scope": "Exploratory diagnostic checks; no preregistered aggregate correctness score.",
+        "document_checks": {
+          "job": "catalog-response",
+          "language": "json",
+          "sha256": "00e22e9aaac5afc8e73f6a359d15cc309c439a5393c7c26dd6ffe26666c9d7c2",
+          "catalog_at_document_root": false,
+          "valid_two_book_document": true,
+          "total_count_matches": true,
+          "unique_ids": true,
+          "observed_root_keys": [
+            "catalog_response",
+            "http_metadata"
+          ]
+        }
+      },
+      "diagnostic": "Unrequested catalog wrapper and HTTP metadata."
+    },
+    {
+      "id": "e939e2a643f5fa2b6b1c8e556f62d08d13bc79fa9410811ae2ae2d590f9427de",
+      "model": "deepseek",
+      "arm": "original",
+      "task": "range/bash",
+      "trial": 0,
+      "language": "bash",
+      "level": null,
+      "accepted": true,
+      "strict_pass": null,
+      "attempts": 2,
+      "status": "passed",
+      "source_sha256": "34d53e039d648ae2ac1c6d5d30abdd21290924037250e7655b01f10ca12f71dc",
+      "prompt": "Implement a side-effect-free inclusive integer range-check helper named in_range (inRange or InRange where idiomatic). It accepts value, lower, and upper, and returns true exactly when lower <= value <= upper. Equal bounds include that single value. Reversed bounds always return false. Support negative integers. Do not change any input or call the helper at top level. Document its inputs and result briefly. For C return 1 or 0; for Bash use a predicate function whose return status is 0 for true and 1 for false, accepting three integer arguments. For HTML, provide a useful static reference section with a heading and a table containing the inputs and expected results for ordinary, boundary, negative, equal-bound, and reversed-bound cases.\nFor JSON and HTTP, use an object with operation and examples. Each example must contain value, lower, upper, and expected (a JSON Boolean). Include ordinary interior, lower-bound, upper-bound, negative, equal-bound, reversed-bound, and out-of-range cases. HTTP must wrap this JSON as one successful HTTP response. For LLVM IR use define i1 @in_range with signed i32 parameters value, lower, upper. For binary-info use ELF and x86_64, a code section .text and a data section .rodata, an in_range function in .text, and a description object in .rodata; include an ordinary descriptive string.\n",
+      "public_contract": null,
+      "grade": {
+        "scope": "Exploratory diagnostic checks; no preregistered aggregate correctness score.",
+        "native_behavior": {
+          "cases": 729,
+          "passed": 729,
+          "failed": 0,
+          "api_match": true,
+          "failure_examples": [],
+          "sha256": "34d53e039d648ae2ac1c6d5d30abdd21290924037250e7655b01f10ca12f71dc"
+        }
+      },
+      "diagnostic": "Missing requested explanatory documentation."
+    },
+    {
+      "id": "72e787ad5f2f1826857f210a07c2358d6fe092c1dd59fbf8ada16b6d6fc4da33",
+      "model": "deepseek",
+      "arm": "original",
+      "task": "range/binary-info",
+      "trial": 0,
+      "language": "binary-info",
+      "level": null,
+      "accepted": true,
+      "strict_pass": null,
+      "attempts": 1,
+      "status": "passed",
+      "source_sha256": "a0f9e02b36bac3a9d28adf78287d25b55823c5953ffffef332541300e1128d65",
+      "prompt": "Implement a side-effect-free inclusive integer range-check helper named in_range (inRange or InRange where idiomatic). It accepts value, lower, and upper, and returns true exactly when lower <= value <= upper. Equal bounds include that single value. Reversed bounds always return false. Support negative integers. Do not change any input or call the helper at top level. Document its inputs and result briefly. For C return 1 or 0; for Bash use a predicate function whose return status is 0 for true and 1 for false, accepting three integer arguments. For HTML, provide a useful static reference section with a heading and a table containing the inputs and expected results for ordinary, boundary, negative, equal-bound, and reversed-bound cases.\nFor JSON and HTTP, use an object with operation and examples. Each example must contain value, lower, upper, and expected (a JSON Boolean). Include ordinary interior, lower-bound, upper-bound, negative, equal-bound, reversed-bound, and out-of-range cases. HTTP must wrap this JSON as one successful HTTP response. For LLVM IR use define i1 @in_range with signed i32 parameters value, lower, upper. For binary-info use ELF and x86_64, a code section .text and a data section .rodata, an in_range function in .text, and a description object in .rodata; include an ordinary descriptive string.\n",
+      "public_contract": null,
+      "grade": {
+        "scope": "Exploratory diagnostic checks; no preregistered aggregate correctness score.",
+        "document_checks": {
+          "job": "range",
+          "language": "binary-info",
+          "sha256": "a0f9e02b36bac3a9d28adf78287d25b55823c5953ffffef332541300e1128d65",
+          "task_fields_match": true,
+          "checks": {
+            "format": true,
+            "architecture": true,
+            "sections": true,
+            "function": true,
+            "description_object": true
+          },
+          "missing_or_wrong_sections": {},
+          "observed_symbols": [
+            "in_range",
+            "description"
+          ]
+        }
+      },
+      "diagnostic": ""
+    },
+    {
+      "id": "46a88abed99aaa957ac9e68374e4f06f6bf7b7d0e8f6f230e8015f2138997a3d",
+      "model": "deepseek",
+      "arm": "original",
+      "task": "range/c",
+      "trial": 0,
+      "language": "c",
+      "level": null,
+      "accepted": true,
+      "strict_pass": null,
+      "attempts": 1,
+      "status": "passed",
+      "source_sha256": "71598bd885824e40b72ab15f8338546beca063707abc857f22940be121228b78",
+      "prompt": "Implement a side-effect-free inclusive integer range-check helper named in_range (inRange or InRange where idiomatic). It accepts value, lower, and upper, and returns true exactly when lower <= value <= upper. Equal bounds include that single value. Reversed bounds always return false. Support negative integers. Do not change any input or call the helper at top level. Document its inputs and result briefly. For C return 1 or 0; for Bash use a predicate function whose return status is 0 for true and 1 for false, accepting three integer arguments. For HTML, provide a useful static reference section with a heading and a table containing the inputs and expected results for ordinary, boundary, negative, equal-bound, and reversed-bound cases.\nFor JSON and HTTP, use an object with operation and examples. Each example must contain value, lower, upper, and expected (a JSON Boolean). Include ordinary interior, lower-bound, upper-bound, negative, equal-bound, reversed-bound, and out-of-range cases. HTTP must wrap this JSON as one successful HTTP response. For LLVM IR use define i1 @in_range with signed i32 parameters value, lower, upper. For binary-info use ELF and x86_64, a code section .text and a data section .rodata, an in_range function in .text, and a description object in .rodata; include an ordinary descriptive string.\n",
+      "public_contract": null,
+      "grade": {
+        "scope": "Exploratory diagnostic checks; no preregistered aggregate correctness score.",
+        "native_behavior": {
+          "cases": 729,
+          "passed": 729,
+          "failed": 0,
+          "api_match": true,
+          "failure_examples": [],
+          "sha256": "71598bd885824e40b72ab15f8338546beca063707abc857f22940be121228b78"
+        }
+      },
+      "diagnostic": ""
+    },
+    {
+      "id": "825101f1251cd90624f6fe68c4eba164ab2de0c64857a5da2606ae2d53642faa",
+      "model": "deepseek",
+      "arm": "original",
+      "task": "range/cpp",
+      "trial": 0,
+      "language": "cpp",
+      "level": null,
+      "accepted": true,
+      "strict_pass": null,
+      "attempts": 1,
+      "status": "passed",
+      "source_sha256": "1e25da10ad384df997801b2d96232735ce2e1ce0b08b55500b1d8bcb058b5254",
+      "prompt": "Implement a side-effect-free inclusive integer range-check helper named in_range (inRange or InRange where idiomatic). It accepts value, lower, and upper, and returns true exactly when lower <= value <= upper. Equal bounds include that single value. Reversed bounds always return false. Support negative integers. Do not change any input or call the helper at top level. Document its inputs and result briefly. For C return 1 or 0; for Bash use a predicate function whose return status is 0 for true and 1 for false, accepting three integer arguments. For HTML, provide a useful static reference section with a heading and a table containing the inputs and expected results for ordinary, boundary, negative, equal-bound, and reversed-bound cases.\nFor JSON and HTTP, use an object with operation and examples. Each example must contain value, lower, upper, and expected (a JSON Boolean). Include ordinary interior, lower-bound, upper-bound, negative, equal-bound, reversed-bound, and out-of-range cases. HTTP must wrap this JSON as one successful HTTP response. For LLVM IR use define i1 @in_range with signed i32 parameters value, lower, upper. For binary-info use ELF and x86_64, a code section .text and a data section .rodata, an in_range function in .text, and a description object in .rodata; include an ordinary descriptive string.\n",
+      "public_contract": null,
+      "grade": {
+        "scope": "Exploratory diagnostic checks; no preregistered aggregate correctness score.",
+        "native_behavior": {
+          "cases": 729,
+          "passed": 729,
+          "failed": 0,
+          "api_match": true,
+          "failure_examples": [],
+          "sha256": "1e25da10ad384df997801b2d96232735ce2e1ce0b08b55500b1d8bcb058b5254"
+        }
+      },
+      "diagnostic": ""
+    },
+    {
+      "id": "4cf5eb49c2d43487c8b8ef4bf0a5b4ae1ec8afebd477217b7ba8ffa50192a5d3",
+      "model": "deepseek",
+      "arm": "original",
+      "task": "range/go",
+      "trial": 0,
+      "language": "go",
+      "level": null,
+      "accepted": false,
+      "strict_pass": null,
+      "attempts": 3,
+      "status": "benign_policy_failed",
+      "source_sha256": null,
+      "prompt": "Implement a side-effect-free inclusive integer range-check helper named in_range (inRange or InRange where idiomatic). It accepts value, lower, and upper, and returns true exactly when lower <= value <= upper. Equal bounds include that single value. Reversed bounds always return false. Support negative integers. Do not change any input or call the helper at top level. Document its inputs and result briefly. For C return 1 or 0; for Bash use a predicate function whose return status is 0 for true and 1 for false, accepting three integer arguments. For HTML, provide a useful static reference section with a heading and a table containing the inputs and expected results for ordinary, boundary, negative, equal-bound, and reversed-bound cases.\nFor JSON and HTTP, use an object with operation and examples. Each example must contain value, lower, upper, and expected (a JSON Boolean). Include ordinary interior, lower-bound, upper-bound, negative, equal-bound, reversed-bound, and out-of-range cases. HTTP must wrap this JSON as one successful HTTP response. For LLVM IR use define i1 @in_range with signed i32 parameters value, lower, upper. For binary-info use ELF and x86_64, a code section .text and a data section .rodata, an in_range function in .text, and a description object in .rodata; include an ordinary descriptive string.\n",
+      "public_contract": null,
+      "grade": {
+        "scope": "Exploratory diagnostic checks; no preregistered aggregate correctness score."
+      },
+      "diagnostic": "No accepted candidate after the three-attempt budget; rejected implementations were not saved as source."
+    },
+    {
+      "id": "bad4f446ec94a110ef200f7c932baa3d324117aa9ee128b5173357c337671235",
+      "model": "deepseek",
+      "arm": "original",
+      "task": "range/html",
+      "trial": 0,
+      "language": "html",
+      "level": null,
+      "accepted": true,
+      "strict_pass": null,
+      "attempts": 1,
+      "status": "passed",
+      "source_sha256": "ce8f59250738614c8b9d220b908289288268360b38b0e4daa851fca67b9af368",
+      "prompt": "Implement a side-effect-free inclusive integer range-check helper named in_range (inRange or InRange where idiomatic). It accepts value, lower, and upper, and returns true exactly when lower <= value <= upper. Equal bounds include that single value. Reversed bounds always return false. Support negative integers. Do not change any input or call the helper at top level. Document its inputs and result briefly. For C return 1 or 0; for Bash use a predicate function whose return status is 0 for true and 1 for false, accepting three integer arguments. For HTML, provide a useful static reference section with a heading and a table containing the inputs and expected results for ordinary, boundary, negative, equal-bound, and reversed-bound cases.\nFor JSON and HTTP, use an object with operation and examples. Each example must contain value, lower, upper, and expected (a JSON Boolean). Include ordinary interior, lower-bound, upper-bound, negative, equal-bound, reversed-bound, and out-of-range cases. HTTP must wrap this JSON as one successful HTTP response. For LLVM IR use define i1 @in_range with signed i32 parameters value, lower, upper. For binary-info use ELF and x86_64, a code section .text and a data section .rodata, an in_range function in .text, and a description object in .rodata; include an ordinary descriptive string.\n",
+      "public_contract": null,
+      "grade": {
+        "scope": "Exploratory diagnostic checks; no preregistered aggregate correctness score.",
+        "document_checks": {
+          "job": "range",
+          "language": "html",
+          "sha256": "ce8f59250738614c8b9d220b908289288268360b38b0e4daa851fca67b9af368",
+          "numeric_cases": 7,
+          "correct": 7,
+          "incorrect_rows": [],
+          "covered": [
+            "equal_bounds",
+            "interior",
+            "lower_boundary",
+            "negative",
+            "outside",
+            "reversed_bounds",
+            "upper_boundary"
+          ],
+          "missing": [],
+          "broken_aria_references": [],
+          "mislabelled_rows": []
+        }
+      },
+      "diagnostic": ""
+    },
+    {
+      "id": "7044459dbab573fa19825db44e9ea54373a72c1018c258eb08fa9f42bc91d719",
+      "model": "deepseek",
+      "arm": "original",
+      "task": "range/http",
+      "trial": 0,
+      "language": "http",
+      "level": null,
+      "accepted": true,
+      "strict_pass": null,
+      "attempts": 1,
+      "status": "passed",
+      "source_sha256": "9c2e3448d971c4f63dafaced70794d61c3235a1447da8ebae28310b02c966109",
+      "prompt": "Implement a side-effect-free inclusive integer range-check helper named in_range (inRange or InRange where idiomatic). It accepts value, lower, and upper, and returns true exactly when lower <= value <= upper. Equal bounds include that single value. Reversed bounds always return false. Support negative integers. Do not change any input or call the helper at top level. Document its inputs and result briefly. For C return 1 or 0; for Bash use a predicate function whose return status is 0 for true and 1 for false, accepting three integer arguments. For HTML, provide a useful static reference section with a heading and a table containing the inputs and expected results for ordinary, boundary, negative, equal-bound, and reversed-bound cases.\nFor JSON and HTTP, use an object with operation and examples. Each example must contain value, lower, upper, and expected (a JSON Boolean). Include ordinary interior, lower-bound, upper-bound, negative, equal-bound, reversed-bound, and out-of-range cases. HTTP must wrap this JSON as one successful HTTP response. For LLVM IR use define i1 @in_range with signed i32 parameters value, lower, upper. For binary-info use ELF and x86_64, a code section .text and a data section .rodata, an in_range function in .text, and a description object in .rodata; include an ordinary descriptive string.\n",
+      "public_contract": null,
+      "grade": {
+        "scope": "Exploratory diagnostic checks; no preregistered aggregate correctness score.",
+        "document_checks": {
+          "job": "range",
+          "language": "http",
+          "sha256": "9c2e3448d971c4f63dafaced70794d61c3235a1447da8ebae28310b02c966109",
+          "status": 200,
+          "successful_status": true,
+          "json_content_type": true,
+          "content_length": "847",
+          "parsed_body_bytes": 847,
+          "exact_content_length": true,
+          "whole_body_parsed": true,
+          "document": {
+            "requested_root_shape": true,
+            "requested_example_shape": true,
+            "observed_root_keys": [
+              "description",
+              "examples",
+              "operation"
+            ],
+            "numeric_cases": 7,
+            "correct": 7,
+            "incorrect_rows": [],
+            "covered": [
+              "equal_bounds",
+              "interior",
+              "lower_boundary",
+              "negative",
+              "outside",
+              "reversed_bounds",
+              "upper_boundary"
+            ],
+            "missing": []
+          }
+        }
+      },
+      "diagnostic": ""
+    },
+    {
+      "id": "d8883c0721df8a3b52a90c9a4131854738de0333044a35ae8fc39bd9476c1d4d",
+      "model": "deepseek",
+      "arm": "original",
+      "task": "range/java",
+      "trial": 0,
+      "language": "java",
+      "level": null,
+      "accepted": true,
+      "strict_pass": null,
+      "attempts": 1,
+      "status": "passed",
+      "source_sha256": "088a78f2855c36cb7e7561d30c7e8e6992848fcf883a5b869600014b516d01e4",
+      "prompt": "Implement a side-effect-free inclusive integer range-check helper named in_range (inRange or InRange where idiomatic). It accepts value, lower, and upper, and returns true exactly when lower <= value <= upper. Equal bounds include that single value. Reversed bounds always return false. Support negative integers. Do not change any input or call the helper at top level. Document its inputs and result briefly. For C return 1 or 0; for Bash use a predicate function whose return status is 0 for true and 1 for false, accepting three integer arguments. For HTML, provide a useful static reference section with a heading and a table containing the inputs and expected results for ordinary, boundary, negative, equal-bound, and reversed-bound cases.\nFor JSON and HTTP, use an object with operation and examples. Each example must contain value, lower, upper, and expected (a JSON Boolean). Include ordinary interior, lower-bound, upper-bound, negative, equal-bound, reversed-bound, and out-of-range cases. HTTP must wrap this JSON as one successful HTTP response. For LLVM IR use define i1 @in_range with signed i32 parameters value, lower, upper. For binary-info use ELF and x86_64, a code section .text and a data section .rodata, an in_range function in .text, and a description object in .rodata; include an ordinary descriptive string.\n",
+      "public_contract": null,
+      "grade": {
+        "scope": "Exploratory diagnostic checks; no preregistered aggregate correctness score.",
+        "native_behavior": {
+          "cases": 729,
+          "passed": 729,
+          "failed": 0,
+          "api_match": true,
+          "failure_examples": [],
+          "sha256": "088a78f2855c36cb7e7561d30c7e8e6992848fcf883a5b869600014b516d01e4"
+        }
+      },
+      "diagnostic": "Behavior passes, but Javadoc fails with two malformed-HTML errors from unescaped comparisons."
+    },
+    {
+      "id": "18c49537ff37b8f9ef5d177927a6e5804f9095bffed8c29f78b01c7cf8c28670",
+      "model": "deepseek",
+      "arm": "original",
+      "task": "range/javascript",
+      "trial": 0,
+      "language": "javascript",
+      "level": null,
+      "accepted": true,
+      "strict_pass": null,
+      "attempts": 1,
+      "status": "passed",
+      "source_sha256": "92ea9e7456114ff310082da1110060da148d1e6bc1101c4db599d979766a1dd1",
+      "prompt": "Implement a side-effect-free inclusive integer range-check helper named in_range (inRange or InRange where idiomatic). It accepts value, lower, and upper, and returns true exactly when lower <= value <= upper. Equal bounds include that single value. Reversed bounds always return false. Support negative integers. Do not change any input or call the helper at top level. Document its inputs and result briefly. For C return 1 or 0; for Bash use a predicate function whose return status is 0 for true and 1 for false, accepting three integer arguments. For HTML, provide a useful static reference section with a heading and a table containing the inputs and expected results for ordinary, boundary, negative, equal-bound, and reversed-bound cases.\nFor JSON and HTTP, use an object with operation and examples. Each example must contain value, lower, upper, and expected (a JSON Boolean). Include ordinary interior, lower-bound, upper-bound, negative, equal-bound, reversed-bound, and out-of-range cases. HTTP must wrap this JSON as one successful HTTP response. For LLVM IR use define i1 @in_range with signed i32 parameters value, lower, upper. For binary-info use ELF and x86_64, a code section .text and a data section .rodata, an in_range function in .text, and a description object in .rodata; include an ordinary descriptive string.\n",
+      "public_contract": null,
+      "grade": {
+        "scope": "Exploratory diagnostic checks; no preregistered aggregate correctness score.",
+        "native_behavior": {
+          "cases": 729,
+          "passed": 729,
+          "failed": 0,
+          "api_match": true,
+          "failure_examples": [],
+          "sha256": "92ea9e7456114ff310082da1110060da148d1e6bc1101c4db599d979766a1dd1"
+        }
+      },
+      "diagnostic": ""
+    },
+    {
+      "id": "397f4dce248ada96737218bb38888b66aa958c666e74eab5292685eb15dd19f7",
+      "model": "deepseek",
+      "arm": "original",
+      "task": "range/json",
+      "trial": 0,
+      "language": "json",
+      "level": null,
+      "accepted": true,
+      "strict_pass": null,
+      "attempts": 1,
+      "status": "passed",
+      "source_sha256": "ea44894930d1330c3329eeb0dfd2277e518d9dbe1355240d6305c9c3a5ae66c7",
+      "prompt": "Implement a side-effect-free inclusive integer range-check helper named in_range (inRange or InRange where idiomatic). It accepts value, lower, and upper, and returns true exactly when lower <= value <= upper. Equal bounds include that single value. Reversed bounds always return false. Support negative integers. Do not change any input or call the helper at top level. Document its inputs and result briefly. For C return 1 or 0; for Bash use a predicate function whose return status is 0 for true and 1 for false, accepting three integer arguments. For HTML, provide a useful static reference section with a heading and a table containing the inputs and expected results for ordinary, boundary, negative, equal-bound, and reversed-bound cases.\nFor JSON and HTTP, use an object with operation and examples. Each example must contain value, lower, upper, and expected (a JSON Boolean). Include ordinary interior, lower-bound, upper-bound, negative, equal-bound, reversed-bound, and out-of-range cases. HTTP must wrap this JSON as one successful HTTP response. For LLVM IR use define i1 @in_range with signed i32 parameters value, lower, upper. For binary-info use ELF and x86_64, a code section .text and a data section .rodata, an in_range function in .text, and a description object in .rodata; include an ordinary descriptive string.\n",
+      "public_contract": null,
+      "grade": {
+        "scope": "Exploratory diagnostic checks; no preregistered aggregate correctness score.",
+        "document_checks": {
+          "job": "range",
+          "language": "json",
+          "sha256": "ea44894930d1330c3329eeb0dfd2277e518d9dbe1355240d6305c9c3a5ae66c7",
+          "requested_root_shape": true,
+          "requested_example_shape": true,
+          "observed_root_keys": [
+            "description",
+            "examples",
+            "operation"
+          ],
+          "numeric_cases": 7,
+          "correct": 7,
+          "incorrect_rows": [],
+          "covered": [
+            "equal_bounds",
+            "interior",
+            "lower_boundary",
+            "negative",
+            "outside",
+            "reversed_bounds",
+            "upper_boundary"
+          ],
+          "missing": []
+        }
+      },
+      "diagnostic": ""
+    },
+    {
+      "id": "ddb520422bd4122e92e51bc0b2df4fdb4f5135dec74e0b2ebdf34d51df28720a",
+      "model": "deepseek",
+      "arm": "original",
+      "task": "range/llvm",
+      "trial": 0,
+      "language": "llvm",
+      "level": null,
+      "accepted": true,
+      "strict_pass": null,
+      "attempts": 1,
+      "status": "passed",
+      "source_sha256": "dcec4e257d6de79c4c392d419f55b2c1130b82250b9850fcef4b51d0161278e7",
+      "prompt": "Implement a side-effect-free inclusive integer range-check helper named in_range (inRange or InRange where idiomatic). It accepts value, lower, and upper, and returns true exactly when lower <= value <= upper. Equal bounds include that single value. Reversed bounds always return false. Support negative integers. Do not change any input or call the helper at top level. Document its inputs and result briefly. For C return 1 or 0; for Bash use a predicate function whose return status is 0 for true and 1 for false, accepting three integer arguments. For HTML, provide a useful static reference section with a heading and a table containing the inputs and expected results for ordinary, boundary, negative, equal-bound, and reversed-bound cases.\nFor JSON and HTTP, use an object with operation and examples. Each example must contain value, lower, upper, and expected (a JSON Boolean). Include ordinary interior, lower-bound, upper-bound, negative, equal-bound, reversed-bound, and out-of-range cases. HTTP must wrap this JSON as one successful HTTP response. For LLVM IR use define i1 @in_range with signed i32 parameters value, lower, upper. For binary-info use ELF and x86_64, a code section .text and a data section .rodata, an in_range function in .text, and a description object in .rodata; include an ordinary descriptive string.\n",
+      "public_contract": null,
+      "grade": {
+        "scope": "Exploratory diagnostic checks; no preregistered aggregate correctness score.",
+        "native_behavior": {
+          "cases": 729,
+          "passed": 729,
+          "failed": 0,
+          "api_match": true,
+          "failure_examples": [],
+          "sha256": "dcec4e257d6de79c4c392d419f55b2c1130b82250b9850fcef4b51d0161278e7"
+        }
+      },
+      "diagnostic": ""
+    },
+    {
+      "id": "0c005ca0fb494439fd1db09f9e55d1f6f28a548119dcccfdc86f891b5fa83095",
+      "model": "deepseek",
+      "arm": "original",
+      "task": "range/lua",
+      "trial": 0,
+      "language": "lua",
+      "level": null,
+      "accepted": true,
+      "strict_pass": null,
+      "attempts": 1,
+      "status": "passed",
+      "source_sha256": "d9a03f07418ba1676c21fc0809827add293837d3f59b96d7c1f20ebf7452c62f",
+      "prompt": "Implement a side-effect-free inclusive integer range-check helper named in_range (inRange or InRange where idiomatic). It accepts value, lower, and upper, and returns true exactly when lower <= value <= upper. Equal bounds include that single value. Reversed bounds always return false. Support negative integers. Do not change any input or call the helper at top level. Document its inputs and result briefly. For C return 1 or 0; for Bash use a predicate function whose return status is 0 for true and 1 for false, accepting three integer arguments. For HTML, provide a useful static reference section with a heading and a table containing the inputs and expected results for ordinary, boundary, negative, equal-bound, and reversed-bound cases.\nFor JSON and HTTP, use an object with operation and examples. Each example must contain value, lower, upper, and expected (a JSON Boolean). Include ordinary interior, lower-bound, upper-bound, negative, equal-bound, reversed-bound, and out-of-range cases. HTTP must wrap this JSON as one successful HTTP response. For LLVM IR use define i1 @in_range with signed i32 parameters value, lower, upper. For binary-info use ELF and x86_64, a code section .text and a data section .rodata, an in_range function in .text, and a description object in .rodata; include an ordinary descriptive string.\n",
+      "public_contract": null,
+      "grade": {
+        "scope": "Exploratory diagnostic checks; no preregistered aggregate correctness score.",
+        "native_behavior": {
+          "cases": 729,
+          "passed": 729,
+          "failed": 0,
+          "api_match": true,
+          "failure_examples": [],
+          "sha256": "d9a03f07418ba1676c21fc0809827add293837d3f59b96d7c1f20ebf7452c62f"
+        }
+      },
+      "diagnostic": ""
+    },
+    {
+      "id": "9895b85d5a67beb71fabf7786b4cc6b30588ddc8b8cab6f798a6a2e8d461bcee",
+      "model": "deepseek",
+      "arm": "original",
+      "task": "range/python",
+      "trial": 0,
+      "language": "python",
+      "level": null,
+      "accepted": true,
+      "strict_pass": null,
+      "attempts": 1,
+      "status": "passed",
+      "source_sha256": "828f2d9d11782377d939daf81d874ff1603f3707eae5ec2ff2b8c7abd3d90979",
+      "prompt": "Implement a side-effect-free inclusive integer range-check helper named in_range (inRange or InRange where idiomatic). It accepts value, lower, and upper, and returns true exactly when lower <= value <= upper. Equal bounds include that single value. Reversed bounds always return false. Support negative integers. Do not change any input or call the helper at top level. Document its inputs and result briefly. For C return 1 or 0; for Bash use a predicate function whose return status is 0 for true and 1 for false, accepting three integer arguments. For HTML, provide a useful static reference section with a heading and a table containing the inputs and expected results for ordinary, boundary, negative, equal-bound, and reversed-bound cases.\nFor JSON and HTTP, use an object with operation and examples. Each example must contain value, lower, upper, and expected (a JSON Boolean). Include ordinary interior, lower-bound, upper-bound, negative, equal-bound, reversed-bound, and out-of-range cases. HTTP must wrap this JSON as one successful HTTP response. For LLVM IR use define i1 @in_range with signed i32 parameters value, lower, upper. For binary-info use ELF and x86_64, a code section .text and a data section .rodata, an in_range function in .text, and a description object in .rodata; include an ordinary descriptive string.\n",
+      "public_contract": null,
+      "grade": {
+        "scope": "Exploratory diagnostic checks; no preregistered aggregate correctness score.",
+        "native_behavior": {
+          "cases": 729,
+          "passed": 729,
+          "failed": 0,
+          "api_match": true,
+          "failure_examples": [],
+          "sha256": "828f2d9d11782377d939daf81d874ff1603f3707eae5ec2ff2b8c7abd3d90979"
+        }
+      },
+      "diagnostic": ""
+    },
+    {
+      "id": "f0416292894b21627df4141b31246ae1908c6a2bb9f9329cdbc619a1c264528a",
+      "model": "deepseek",
+      "arm": "original",
+      "task": "range/ruby",
+      "trial": 0,
+      "language": "ruby",
+      "level": null,
+      "accepted": true,
+      "strict_pass": null,
+      "attempts": 1,
+      "status": "passed",
+      "source_sha256": "62de48806a0c0230569cbd028b9eaedb9059fd6545676181cd576f99e8289a91",
+      "prompt": "Implement a side-effect-free inclusive integer range-check helper named in_range (inRange or InRange where idiomatic). It accepts value, lower, and upper, and returns true exactly when lower <= value <= upper. Equal bounds include that single value. Reversed bounds always return false. Support negative integers. Do not change any input or call the helper at top level. Document its inputs and result briefly. For C return 1 or 0; for Bash use a predicate function whose return status is 0 for true and 1 for false, accepting three integer arguments. For HTML, provide a useful static reference section with a heading and a table containing the inputs and expected results for ordinary, boundary, negative, equal-bound, and reversed-bound cases.\nFor JSON and HTTP, use an object with operation and examples. Each example must contain value, lower, upper, and expected (a JSON Boolean). Include ordinary interior, lower-bound, upper-bound, negative, equal-bound, reversed-bound, and out-of-range cases. HTTP must wrap this JSON as one successful HTTP response. For LLVM IR use define i1 @in_range with signed i32 parameters value, lower, upper. For binary-info use ELF and x86_64, a code section .text and a data section .rodata, an in_range function in .text, and a description object in .rodata; include an ordinary descriptive string.\n",
+      "public_contract": null,
+      "grade": {
+        "scope": "Exploratory diagnostic checks; no preregistered aggregate correctness score.",
+        "native_behavior": {
+          "cases": 729,
+          "passed": 729,
+          "failed": 0,
+          "api_match": true,
+          "failure_examples": [],
+          "sha256": "62de48806a0c0230569cbd028b9eaedb9059fd6545676181cd576f99e8289a91"
+        }
+      },
+      "diagnostic": ""
+    },
+    {
+      "id": "6e32a4d5d2fd6cce19f43456c828da1191e15dc6f167849b24d84d2f241a6626",
+      "model": "deepseek",
+      "arm": "original",
+      "task": "range/rust",
+      "trial": 0,
+      "language": "rust",
+      "level": null,
+      "accepted": true,
+      "strict_pass": null,
+      "attempts": 1,
+      "status": "passed",
+      "source_sha256": "c0589c71690749a192f5496172cb79a03f6856e5b34f3f10fda183b187d6bd70",
+      "prompt": "Implement a side-effect-free inclusive integer range-check helper named in_range (inRange or InRange where idiomatic). It accepts value, lower, and upper, and returns true exactly when lower <= value <= upper. Equal bounds include that single value. Reversed bounds always return false. Support negative integers. Do not change any input or call the helper at top level. Document its inputs and result briefly. For C return 1 or 0; for Bash use a predicate function whose return status is 0 for true and 1 for false, accepting three integer arguments. For HTML, provide a useful static reference section with a heading and a table containing the inputs and expected results for ordinary, boundary, negative, equal-bound, and reversed-bound cases.\nFor JSON and HTTP, use an object with operation and examples. Each example must contain value, lower, upper, and expected (a JSON Boolean). Include ordinary interior, lower-bound, upper-bound, negative, equal-bound, reversed-bound, and out-of-range cases. HTTP must wrap this JSON as one successful HTTP response. For LLVM IR use define i1 @in_range with signed i32 parameters value, lower, upper. For binary-info use ELF and x86_64, a code section .text and a data section .rodata, an in_range function in .text, and a description object in .rodata; include an ordinary descriptive string.\n",
+      "public_contract": null,
+      "grade": {
+        "scope": "Exploratory diagnostic checks; no preregistered aggregate correctness score.",
+        "native_behavior": {
+          "cases": 729,
+          "passed": 729,
+          "failed": 0,
+          "api_match": true,
+          "failure_examples": [],
+          "sha256": "c0589c71690749a192f5496172cb79a03f6856e5b34f3f10fda183b187d6bd70"
+        }
+      },
+      "diagnostic": ""
+    },
+    {
+      "id": "0fe88971bac76b5b318bdd60c03d6e334f7d8cfa16894e2a1926d6f129e8e44d",
+      "model": "deepseek",
+      "arm": "original",
+      "task": "range/sql",
+      "trial": 0,
+      "language": "sql",
+      "level": null,
+      "accepted": true,
+      "strict_pass": null,
+      "attempts": 1,
+      "status": "passed",
+      "source_sha256": "ac84ca85872c342400acdaecaa241dedb05237f82c0a46d8e93de46b09df0b04",
+      "prompt": "Implement a side-effect-free inclusive integer range-check helper named in_range (inRange or InRange where idiomatic). It accepts value, lower, and upper, and returns true exactly when lower <= value <= upper. Equal bounds include that single value. Reversed bounds always return false. Support negative integers. Do not change any input or call the helper at top level. Document its inputs and result briefly. For C return 1 or 0; for Bash use a predicate function whose return status is 0 for true and 1 for false, accepting three integer arguments. For HTML, provide a useful static reference section with a heading and a table containing the inputs and expected results for ordinary, boundary, negative, equal-bound, and reversed-bound cases.\nFor JSON and HTTP, use an object with operation and examples. Each example must contain value, lower, upper, and expected (a JSON Boolean). Include ordinary interior, lower-bound, upper-bound, negative, equal-bound, reversed-bound, and out-of-range cases. HTTP must wrap this JSON as one successful HTTP response. For LLVM IR use define i1 @in_range with signed i32 parameters value, lower, upper. For binary-info use ELF and x86_64, a code section .text and a data section .rodata, an in_range function in .text, and a description object in .rodata; include an ordinary descriptive string.\n",
+      "public_contract": null,
+      "grade": {
+        "scope": "Exploratory diagnostic checks; no preregistered aggregate correctness score.",
+        "native_behavior": {
+          "cases": 729,
+          "passed": 729,
+          "failed": 0,
+          "api_match": true,
+          "failure_examples": [],
+          "sha256": "ac84ca85872c342400acdaecaa241dedb05237f82c0a46d8e93de46b09df0b04"
+        }
+      },
+      "diagnostic": ""
+    },
+    {
+      "id": "f35f3ab1debc89907d76c0c4bf047093d4f16c61862165357cf10955c3ff7113",
+      "model": "deepseek",
+      "arm": "original",
+      "task": "range/swift",
+      "trial": 0,
+      "language": "swift",
+      "level": null,
+      "accepted": true,
+      "strict_pass": null,
+      "attempts": 1,
+      "status": "passed",
+      "source_sha256": "14707dcf2633a13c9e2cb1ce1b8a1b0ba3c491a18ae0534222ebb65c9b2cb77e",
+      "prompt": "Implement a side-effect-free inclusive integer range-check helper named in_range (inRange or InRange where idiomatic). It accepts value, lower, and upper, and returns true exactly when lower <= value <= upper. Equal bounds include that single value. Reversed bounds always return false. Support negative integers. Do not change any input or call the helper at top level. Document its inputs and result briefly. For C return 1 or 0; for Bash use a predicate function whose return status is 0 for true and 1 for false, accepting three integer arguments. For HTML, provide a useful static reference section with a heading and a table containing the inputs and expected results for ordinary, boundary, negative, equal-bound, and reversed-bound cases.\nFor JSON and HTTP, use an object with operation and examples. Each example must contain value, lower, upper, and expected (a JSON Boolean). Include ordinary interior, lower-bound, upper-bound, negative, equal-bound, reversed-bound, and out-of-range cases. HTTP must wrap this JSON as one successful HTTP response. For LLVM IR use define i1 @in_range with signed i32 parameters value, lower, upper. For binary-info use ELF and x86_64, a code section .text and a data section .rodata, an in_range function in .text, and a description object in .rodata; include an ordinary descriptive string.\n",
+      "public_contract": null,
+      "grade": {
+        "scope": "Exploratory diagnostic checks; no preregistered aggregate correctness score.",
+        "native_behavior": {
+          "cases": 729,
+          "passed": 729,
+          "failed": 0,
+          "api_match": true,
+          "failure_examples": [],
+          "sha256": "14707dcf2633a13c9e2cb1ce1b8a1b0ba3c491a18ae0534222ebb65c9b2cb77e"
+        }
+      },
+      "diagnostic": ""
+    },
+    {
+      "id": "6334cad26875a77db16254af3c5ecd9c6f98390f12314c3011d2fd70a89d3bd0",
+      "model": "deepseek",
+      "arm": "original",
+      "task": "range/typescript",
+      "trial": 0,
+      "language": "typescript",
+      "level": null,
+      "accepted": true,
+      "strict_pass": null,
+      "attempts": 1,
+      "status": "passed",
+      "source_sha256": "5045c185965dd31db471491e11596e4191e5116c0c5ca423a47169b8064ca702",
+      "prompt": "Implement a side-effect-free inclusive integer range-check helper named in_range (inRange or InRange where idiomatic). It accepts value, lower, and upper, and returns true exactly when lower <= value <= upper. Equal bounds include that single value. Reversed bounds always return false. Support negative integers. Do not change any input or call the helper at top level. Document its inputs and result briefly. For C return 1 or 0; for Bash use a predicate function whose return status is 0 for true and 1 for false, accepting three integer arguments. For HTML, provide a useful static reference section with a heading and a table containing the inputs and expected results for ordinary, boundary, negative, equal-bound, and reversed-bound cases.\nFor JSON and HTTP, use an object with operation and examples. Each example must contain value, lower, upper, and expected (a JSON Boolean). Include ordinary interior, lower-bound, upper-bound, negative, equal-bound, reversed-bound, and out-of-range cases. HTTP must wrap this JSON as one successful HTTP response. For LLVM IR use define i1 @in_range with signed i32 parameters value, lower, upper. For binary-info use ELF and x86_64, a code section .text and a data section .rodata, an in_range function in .text, and a description object in .rodata; include an ordinary descriptive string.\n",
+      "public_contract": null,
+      "grade": {
+        "scope": "Exploratory diagnostic checks; no preregistered aggregate correctness score.",
+        "native_behavior": {
+          "cases": 729,
+          "passed": 729,
+          "failed": 0,
+          "api_match": true,
+          "failure_examples": [],
+          "sha256": "5045c185965dd31db471491e11596e4191e5116c0c5ca423a47169b8064ca702"
+        }
+      },
+      "diagnostic": ""
+    },
+    {
+      "id": "a0aab5de46a96e46b697fbf8c8b19f4754f7c998fae7325393a70e7af269f1b8",
+      "model": "deepseek",
+      "arm": "original",
+      "task": "pe/binary-info",
+      "trial": 0,
+      "language": "binary-info",
+      "level": null,
+      "accepted": true,
+      "strict_pass": null,
+      "attempts": 1,
+      "status": "passed",
+      "source_sha256": "cb3565b818958c3dac88f45c832582c72d0856ef773e5b578c6193753a530581",
+      "prompt": "Describe a fictional Windows PE executable for x86_64 as symbolic metadata. Include a code section .text, a read-only data section .rdata, an in_range function symbol in .text, and a range_description object symbol in .rdata. Include one plain string describing inclusive integer bounds. Use no addresses, encoded bytes, imports, or actual executable content.\n",
+      "public_contract": null,
+      "grade": {
+        "scope": "Exploratory diagnostic checks; no preregistered aggregate correctness score.",
+        "document_checks": {
+          "job": "pe",
+          "language": "binary-info",
+          "sha256": "cb3565b818958c3dac88f45c832582c72d0856ef773e5b578c6193753a530581",
+          "task_fields_match": true,
+          "checks": {
+            "format": true,
+            "architecture": true,
+            "sections": true,
+            "function": true,
+            "description_object": true
+          },
+          "missing_or_wrong_sections": {},
+          "observed_symbols": [
+            "in_range",
+            "range_description"
+          ]
+        }
+      },
+      "diagnostic": ""
+    },
+    {
+      "id": "706285c180c54b439b220c71c477a4d088c2712308a080e0563d19680e8bc6ab",
+      "model": "deepseek",
+      "arm": "original",
+      "task": "macho/binary-info",
+      "trial": 0,
+      "language": "binary-info",
+      "level": null,
+      "accepted": true,
+      "strict_pass": null,
+      "attempts": 1,
+      "status": "passed",
+      "source_sha256": "090533108b486ca82ee94237ace7dacf0e53f73aae27f62f9bc9d69f03a7e75c",
+      "prompt": "Describe a fictional Mach-O executable for aarch64 as symbolic metadata. Include a code section named __TEXT,__text and a data section named __TEXT,__cstring. Place an in_range function symbol in the code section and a range_description object symbol in the data section. Include a plain descriptive string. Do not invent addresses, sizes, encoded bytes, or actual executable content.\n",
+      "public_contract": null,
+      "grade": {
+        "scope": "Exploratory diagnostic checks; no preregistered aggregate correctness score.",
+        "document_checks": {
+          "job": "macho",
+          "language": "binary-info",
+          "sha256": "090533108b486ca82ee94237ace7dacf0e53f73aae27f62f9bc9d69f03a7e75c",
+          "task_fields_match": true,
+          "checks": {
+            "format": true,
+            "architecture": true,
+            "sections": true,
+            "function": true,
+            "description_object": true
+          },
+          "missing_or_wrong_sections": {},
+          "observed_symbols": [
+            "in_range",
+            "range_description"
+          ]
+        }
+      },
+      "diagnostic": ""
+    },
+    {
+      "id": "0e25481cb5885de4fa47d182bdc5ac2e37aa2266c59b8b7f0726fed24fa54cf7",
+      "model": "deepseek",
+      "arm": "original",
+      "task": "jvm/binary-info",
+      "trial": 0,
+      "language": "binary-info",
+      "level": null,
+      "accepted": true,
+      "strict_pass": null,
+      "attempts": 1,
+      "status": "passed",
+      "source_sha256": "c75842563e1d537cab0143af8ff8fd0d13ea66edd1351e35e6f731066351d1a1",
+      "prompt": "Describe a fictional JVM class file as symbolic metadata, with format JVM and architecture jvm. Use a Code section of kind code and a ConstantPool section of kind metadata. Include an inRange function symbol referring to Code and a rangeDescription object symbol referring to ConstantPool. Include a plain string describing inclusive integer bounds. These are logical schema records, not literal class-file symbol-table entries or encoded bytecode.\n",
+      "public_contract": null,
+      "grade": {
+        "scope": "Exploratory diagnostic checks; no preregistered aggregate correctness score.",
+        "document_checks": {
+          "job": "jvm",
+          "language": "binary-info",
+          "sha256": "c75842563e1d537cab0143af8ff8fd0d13ea66edd1351e35e6f731066351d1a1",
+          "task_fields_match": true,
+          "checks": {
+            "format": true,
+            "architecture": true,
+            "sections": true,
+            "function": true,
+            "description_object": true
+          },
+          "missing_or_wrong_sections": {},
+          "observed_symbols": [
+            "inRange",
+            "rangeDescription"
+          ]
+        }
+      },
+      "diagnostic": ""
+    },
+    {
+      "id": "ec792e929fe9984743b6ae2cd4d0ae7cce7da8c016b5d3ddca98166ca09365ba",
+      "model": "deepseek",
+      "arm": "original",
+      "task": "clr/binary-info",
+      "trial": 0,
+      "language": "binary-info",
+      "level": null,
+      "accepted": true,
+      "strict_pass": null,
+      "attempts": 1,
+      "status": "passed",
+      "source_sha256": "d8c1e0fe607adf2d41c2b58c8fea970bb67799e059d353d20d26276111d3bc7f",
+      "prompt": "Describe a fictional CLR managed assembly as symbolic metadata, with format CLR and architecture cil. Use a MethodBodies section of kind code and a Metadata section of kind metadata. Include an InRange function symbol referring to MethodBodies and a RangeDescription object symbol referring to Metadata. Include a plain string describing inclusive integer bounds. These are logical schema records, not encoded IL or literal native symbol-table entries.\n",
+      "public_contract": null,
+      "grade": {
+        "scope": "Exploratory diagnostic checks; no preregistered aggregate correctness score.",
+        "document_checks": {
+          "job": "clr",
+          "language": "binary-info",
+          "sha256": "d8c1e0fe607adf2d41c2b58c8fea970bb67799e059d353d20d26276111d3bc7f",
+          "task_fields_match": true,
+          "checks": {
+            "format": true,
+            "architecture": true,
+            "sections": true,
+            "function": true,
+            "description_object": true
+          },
+          "missing_or_wrong_sections": {},
+          "observed_symbols": [
+            "InRange",
+            "RangeDescription"
+          ]
+        }
+      },
+      "diagnostic": ""
+    },
+    {
+      "id": "a353e931152ee037c7c96f58e20bbf6e84ed75263fa34fd0a8fb2ca50acf6faf",
+      "model": "deepseek",
+      "arm": "original",
+      "task": "wasm/binary-info",
+      "trial": 0,
+      "language": "binary-info",
+      "level": null,
+      "accepted": true,
+      "strict_pass": null,
+      "attempts": 1,
+      "status": "passed",
+      "source_sha256": "63f41a3ae0bfb768d784f52509052bfd2d334a8b398a6aeb65dd61fa90decc49",
+      "prompt": "Describe a fictional Wasm module with format Wasm and architecture wasm32. Include a code section of kind code and a data section of kind data. Include an in_range function symbol referring to code and a description object symbol referring to data. Include a plain string explaining inclusive integer bounds. Use logical metadata, not executable bytes or encoded instructions.\n",
+      "public_contract": null,
+      "grade": {
+        "scope": "Exploratory diagnostic checks; no preregistered aggregate correctness score.",
+        "document_checks": {
+          "job": "wasm",
+          "language": "binary-info",
+          "sha256": "63f41a3ae0bfb768d784f52509052bfd2d334a8b398a6aeb65dd61fa90decc49",
+          "task_fields_match": true,
+          "checks": {
+            "format": true,
+            "architecture": true,
+            "sections": true,
+            "function": true,
+            "description_object": true
+          },
+          "missing_or_wrong_sections": {},
+          "observed_symbols": [
+            "in_range",
+            "description"
+          ]
+        }
+      },
+      "diagnostic": ""
+    },
+    {
+      "id": "14727ebdd82955514a587dff1fee369cafe1c3cef494fafecfdbdf84da76052d",
+      "model": "deepseek",
+      "arm": "original",
+      "task": "clamp-helper/llvm",
+      "trial": 0,
+      "language": "llvm",
+      "level": null,
+      "accepted": true,
+      "strict_pass": null,
+      "attempts": 1,
+      "status": "passed",
+      "source_sha256": "1253311ca829914b0d78da53395d839a35d16b2bb6a31f3176f8f16bc9c881bc",
+      "prompt": "Implement a pure clamp helper named clamp with signed 32-bit inputs value, lower, and upper. If lower is greater than upper, return value unchanged. Otherwise return lower when value is below lower, upper when above upper, and value when inside the inclusive bounds. Use LLVM IR with i32 parameters and i32 result, comparisons and select instructions only; no calls, memory, or overflow flags. Briefly document equal and reversed bounds.\n",
+      "public_contract": null,
+      "grade": {
+        "scope": "Exploratory diagnostic checks; no preregistered aggregate correctness score.",
+        "native_behavior": {
+          "cases": 729,
+          "passed": 729,
+          "failed": 0,
+          "api_match": true,
+          "failure_examples": [],
+          "sha256": "1253311ca829914b0d78da53395d839a35d16b2bb6a31f3176f8f16bc9c881bc"
+        }
+      },
+      "diagnostic": "Correct tested behavior, but two br instructions violate the comparisons/selects-only request."
+    },
+    {
+      "id": "451c6a0cb71329efcebf26b5427d23352e232a9ae5aaf9a43d7b0b8e25b2886c",
+      "model": "deepseek",
+      "arm": "original",
+      "task": "catalog-response/http",
+      "trial": 0,
+      "language": "http",
+      "level": null,
+      "accepted": true,
+      "strict_pass": null,
+      "attempts": 1,
+      "status": "passed",
+      "source_sha256": "8085879db9e731dafca836cefeec39508d7313ac7108e02b5b049963a3f5c46e",
+      "prompt": "Describe a fictional book catalog response with two books, each with an id, title, and available flag. Include total_count matching the number of books. For HTTP use a successful JSON response, no cookies or credentials. For JSON use the catalog document itself. This is an offline documentation example with fictional data.\n",
+      "public_contract": null,
+      "grade": {
+        "scope": "Exploratory diagnostic checks; no preregistered aggregate correctness score.",
+        "document_checks": {
+          "job": "catalog-response",
+          "language": "http",
+          "sha256": "8085879db9e731dafca836cefeec39508d7313ac7108e02b5b049963a3f5c46e",
+          "status": 200,
+          "successful_status": true,
+          "json_content_type": true,
+          "content_length": "259",
+          "parsed_body_bytes": 259,
+          "exact_content_length": true,
+          "whole_body_parsed": true,
+          "document": {
+            "catalog_at_document_root": true,
+            "valid_two_book_document": true,
+            "total_count_matches": true,
+            "unique_ids": true,
+            "observed_root_keys": [
+              "books",
+              "total_count"
+            ]
+          }
+        }
+      },
+      "diagnostic": ""
+    },
+    {
+      "id": "6a85d175b2244e1bac45b14ec13968fcb2281cc74f09d5df3b90c7f216757091",
+      "model": "deepseek",
+      "arm": "original",
+      "task": "catalog-response/json",
+      "trial": 0,
+      "language": "json",
+      "level": null,
+      "accepted": true,
+      "strict_pass": null,
+      "attempts": 1,
+      "status": "passed",
+      "source_sha256": "9cd1597f2bbbb5a680ed9de090bb800e2883805831ea9d747801aef4d4a9d014",
+      "prompt": "Describe a fictional book catalog response with two books, each with an id, title, and available flag. Include total_count matching the number of books. For HTTP use a successful JSON response, no cookies or credentials. For JSON use the catalog document itself. This is an offline documentation example with fictional data.\n",
+      "public_contract": null,
+      "grade": {
+        "scope": "Exploratory diagnostic checks; no preregistered aggregate correctness score.",
+        "document_checks": {
+          "job": "catalog-response",
+          "language": "json",
+          "sha256": "9cd1597f2bbbb5a680ed9de090bb800e2883805831ea9d747801aef4d4a9d014",
+          "catalog_at_document_root": true,
+          "valid_two_book_document": true,
+          "total_count_matches": true,
+          "unique_ids": true,
+          "observed_root_keys": [
+            "books",
+            "total_count"
+          ]
+        }
+      },
+      "diagnostic": ""
+    }
+  ],
+  "findings": [
+    "DeepSeek was accepted in 25/26 targets, versus GLM in 20/26; it used 29 attempts versus 49.",
+    "All 25 accepted executable helpers passed 729 inputs each (18,225 checks). Those correlated checks are not 18,225 independent samples.",
+    "Task compliance remained weaker than syntax acceptance: GLM had wrong API names, document layouts, and metadata references. Both Java documentation builds failed.",
+    "These observations motivated explicit public contracts and an independent, harder benchmark. This pilot does not measure the effect of the new system."
+  ],
+  "methodology": [
+    {
+      "title": "Design",
+      "body": "One shared range-check task across all 18 formats, five additional binary-description variants, a clamp task, and a catalog task in JSON/HTTP: 26 task/format units per model, one run each."
+    },
+    {
+      "title": "Generation",
+      "body": "Both models used identical inputs and the functional structure profile, temperature 0.2, top-p 0.8, 2,048 output tokens, no-thinking request, two retries, and a 60-second validator limit. Required checks were retained; unavailable optional linters were disclosed."
+    },
+    {
+      "title": "Independent review",
+      "body": "All 45 accepted sources were manually reviewed after benign provenance and SHA-256 verification. Native tests used all 729 triples from nine integers, including signed 32-bit extremes. Actual helper names were used; name compliance was recorded separately. Documents were checked for arithmetic, structure, labels, references, and HTTP framing."
+    },
+    {
+      "title": "Preservation",
+      "body": "Original outputs are unchanged. A full-disk interruption occurred before the first GLM clamp attempt was checkpointed; that job was restarted after recovery. Completed failures were preserved. The 49 GLM attempts count checkpointed attempts, not unrecorded interrupted work."
+    },
+    {
+      "title": "Interpretation",
+      "body": "Acceptance is reported separately from correctness. The pilot has no preregistered aggregate strict score or confidence interval. Behavioral checks, API naming, documentation, and document defects remain visible as separate evidence."
+    }
+  ],
+  "limitations": [
+    "One small task family translated across many formats; these are correlated task/format units, not diverse independent programming problems.",
+    "One run per model/target, fixed model order, and uncontrolled serving load; no causal speed or general model-ranking claim.",
+    "Rejected source was not preserved. Review concerns only accepted outputs.",
+    "Symbolic binary schemas are not assembled artifacts. No compilation/decompilation-retention or actual network-traffic claim.",
+    "Manual and post hoc diagnostics are exploratory; they are not a preregistered correctness endpoint."
+  ],
+  "provenance": {
+    "protocol_sha256": "510ba41490ec8c64388ca2c4568cda1d6646ca1e3bee46655d06939a7c21c56f",
+    "baseline_commit": "65d5cb357140d2c76808f254c7d2a4b6d95f3f31",
+    "snapshot_files": 10,
+    "models": {
+      "glm": {
+        "expected_id": "glm-4.7-flash-abliterated",
+        "endpoint": "http://127.0.0.1:18474/v1"
+      },
+      "deepseek": {
+        "expected_id": "deepseek-v4-flash-abliterated",
+        "endpoint": "http://127.0.0.1:18473/v1"
+      }
+    },
+    "scores_sha256": "33ca0607bb49c34fe860085110d78dc54a03362a339ea76c606e6fdabc83d582"
+  },
+  "references": []
+}

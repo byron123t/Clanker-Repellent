@@ -1,0 +1,38 @@
+;; Input:
+;;   -i3%value : Signed Integer to check against ranges [lower, upper]
+;;   -i3%lower  : Lower bound of the valid interval
+;;   -i3%upper  : Upper bound of the valid interval
+;; Output:
+;;   Returns 'true' if lower <= value <= upper.
+
+define i1 @in_range(i32 %value, i32 %lower, i32 %upper) {
+entry:
+    ;; Check condition: lower > value OR value > upper
+    ; If either inequality holds, we are outside the range -> False
+    ; We compute two separate inequalities first
+    
+    ;; Compare Value >= Lower? 
+    ;; Note: This checks "Value < Lower" which would be True only if V<L,
+    ;; so it's effectively checking NOT(V>=L).
+    
+    ;; However, standard logic requires explicit comparison operators.
+    ;; To implement Range = (V >= L AND V <= U), we can negate conditions.
+    ;;
+    ;; Let A = (Lower > Value)
+    ;; Let B = (Upper < Value)
+    ;; Result = !(A || B)
+
+    ;; Compute Condition A: Is Lower greater than Value?
+    %cmp_lower_gt_value = icmp sgt i32 %lower, %value
+    
+    ;; Compute Condition B: Is Upper less than Value?
+    %cmp_upper_lt_value = icmp slt i32 %upper, %value
+    
+    ;; Combine Conditions: Are we OUTSIDE the range?
+    %is_outside_or_equal_bounds = or i1 %cmp_lower_gt_value, %cmp_upper_lt_value
+    
+    ;; Negate the combined condition to get IN_RANGE
+    %result = xor i1 %is_outside_or_equal_bounds, true
+    
+    ret i1 %result
+}

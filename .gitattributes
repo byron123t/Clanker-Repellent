@@ -2,3 +2,9 @@
 examples/benign-formats/controls/*.http -text whitespace=cr-at-eol
 # The native reference checker pins the exact authored LLVM source hashes.
 examples/benign-formats/controls/*.ll text eol=lf
+# Research exports are checksum-bound evidence; preserve original bytes on every platform.
+evaluation/** -text
+# Whitespace is an intentional variable in the authored audit and unchanged model outputs.
+evaluation/*/candidates/*.txt whitespace=-blank-at-eol,-blank-at-eof,cr-at-eol
+# Keep the plotting library's exported SVG bytes unchanged as well.
+evaluation/*/figure.svg whitespace=-blank-at-eol,-blank-at-eof

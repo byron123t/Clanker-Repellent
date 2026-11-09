@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "format": "JVM",
+  "architecture": "jvm",
+  "sections": [
+    {"name": "Code", "kind": "code"},
+    {"name": "ConstantPool", "kind": "metadata"}
+  ],
+  "symbols": [
+    {"name": "inRange", "kind": "function", "section": "Code"},
+    {"name": "rangeDescription", "kind": "object", "section": "ConstantPool"}
+  ],
+  "strings": [
+    "The method checks whether a given integer lies within the inclusive bounds [low, high]."
+  ]
+}

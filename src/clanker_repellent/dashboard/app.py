@@ -10,6 +10,7 @@ from importlib.resources import files
 from urllib.parse import parse_qs
 
 from .reader import JournalReader
+from .evaluations import EvaluationReader
 
 
 _CHECKOUT_ASSETS = Path(__file__).resolve().parents[3] / "dashboard" / "repel_dashboard_ui"
@@ -18,8 +19,9 @@ ROUTE = re.compile(r"/api/(deployments|responses)/([0-9a-f]{32})(?:/(preview|dow
 
 
 class DashboardApp:
-    def __init__(self, store, token, *, assets=None):
+    def __init__(self, store, token, *, assets=None, experiments=None):
         self.reader, self.token = JournalReader(store), token
+        self.evaluations = EvaluationReader(experiments)
         self.assets = Path(assets).resolve() if assets is not None else ASSETS
         if not all((self.assets / name).is_file() for name in ("index.html", "app.js", "style.css", "favicon.svg")):
             raise ValueError("dashboard assets must contain index.html, app.js, style.css, and favicon.svg")
@@ -37,14 +39,29 @@ class DashboardApp:
             return document({"error": "This dashboard is read-only."}, "405 Method Not Allowed")
         path = environ.get("PATH_INFO", "/")
         assets = {"/": ("index.html", "text/html"), "/app.js": ("app.js", "text/javascript"),
-                  "/style.css": ("style.css", "text/css"), "/favicon.svg": ("favicon.svg", "image/svg+xml")}
+                  "/style.css": ("style.css", "text/css"), "/favicon.svg": ("favicon.svg", "image/svg+xml"),
+                  "/research.js": ("research.js", "text/javascript"), "/research.css": ("research.css", "text/css")}
         if path in assets:
             name, mime = assets[path]
+            if not (self.assets / name).is_file():
+                return document({'error':'Not found'},'404 Not Found')
             return respond("200 OK", (self.assets / name).read_bytes(), mime + "; charset=utf-8")
         provided = environ.get("HTTP_AUTHORIZATION", "")
         if not hmac.compare_digest(provided.encode("utf-8"), ("Bearer " + self.token).encode("utf-8")):
             return document({"error": "Open the dashboard URL printed by repel to connect."}, "401 Unauthorized")
         try:
+            if path == '/api/evaluations':
+                return document(self.evaluations.catalog())
+            evaluation = re.fullmatch(r'/api/evaluations/([a-z0-9][a-z0-9_-]{0,79})(?:/(candidates/[0-9a-f]{64}|download))?', path)
+            if evaluation:
+                identity, action = evaluation.groups()
+                if not action:
+                    return document(self.evaluations.study(identity))
+                if action.startswith('candidates/'):
+                    return document(self.evaluations.preview(identity,action.split('/')[1]))
+                query = parse_qs(environ.get('QUERY_STRING',''))
+                raw,name = self.evaluations.download(identity,query.get('file',['report.json'])[0])
+                return respond('200 OK',raw,'application/octet-stream',[("Content-Disposition",f'attachment; filename="{name}"')])
             if path == "/api/summary":
                 return document(self.reader.summary())
             if path == "/api/responses":

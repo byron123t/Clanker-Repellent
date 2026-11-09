@@ -1,0 +1,90 @@
+{
+  "schema_version": 1,
+  "language": "http",
+  "document": {
+    "shape": {
+      "type": "object",
+      "required": [
+        "currency",
+        "count",
+        "items",
+        "total"
+      ],
+      "additional_properties": false,
+      "properties": {
+        "currency": {
+          "type": "string"
+        },
+        "count": {
+          "type": "integer"
+        },
+        "items": {
+          "type": "array",
+          "min_items": 4,
+          "max_items": 4,
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "quantity",
+              "unit_price",
+              "discount",
+              "amount"
+            ],
+            "additional_properties": false,
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "quantity": {
+                "type": "integer"
+              },
+              "unit_price": {
+                "type": "integer"
+              },
+              "discount": {
+                "type": "integer"
+              },
+              "amount": {
+                "type": "integer"
+              }
+            }
+          }
+        },
+        "total": {
+          "type": "integer"
+        }
+      }
+    },
+    "equals": [
+      {
+        "path": "/currency",
+        "value": "credits"
+      }
+    ],
+    "relations": [
+      {
+        "op": "count",
+        "left": "/count",
+        "right": "/items"
+      },
+      {
+        "op": "sum",
+        "left": "/total",
+        "right": "/items",
+        "field": "amount"
+      },
+      {
+        "op": "unique",
+        "right": "/items",
+        "field": "id"
+      }
+    ]
+  },
+  "http": {
+    "status": 200,
+    "headers": {
+      "X-Example-Id": "dev-http-discount"
+    }
+  }
+}

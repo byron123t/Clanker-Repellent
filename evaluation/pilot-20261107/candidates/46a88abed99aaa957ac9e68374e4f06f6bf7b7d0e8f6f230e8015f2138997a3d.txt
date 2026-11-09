@@ -1,0 +1,15 @@
+/*
+ * in_range: inclusive integer range check.
+ * Returns 1 if lower <= value <= upper, else 0.
+ * Reversed bounds (lower > upper) always return 0.
+ * Supports negative integers.
+ */
+int in_range(int value, int lower, int upper) {
+    if (lower > upper) {
+        return 0;
+    }
+    if (value >= lower && value <= upper) {
+        return 1;
+    }
+    return 0;
+}

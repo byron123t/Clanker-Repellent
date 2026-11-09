@@ -1,0 +1,76 @@
+{
+  "binary_info": {
+    "format": "ELF",
+    "architecture": "x86_64",
+    "sections": [
+      {
+        "name": ".text",
+        "type": "PROGBITS"
+      },
+      {
+        "name": ".rodata",
+        "type": "PROGBITS"
+      }
+    ],
+    "functions": [
+      {
+        "section": ".text",
+        "symbol_name": "_Z6in_rangiii", 
+        "signature": "i1 @_Z6in_rangiii(i32 %arg_value, i32 %arg_lower, i32 %arg_upper)"
+      }
+    ],
+    "descriptions": [
+      {
+        "section": ".rodata",
+        "content": "Inclusive Integer Range Checker Utility v1.0"
+      }
+    ]
+  },
+  "http_payload": {
+    "operation": "range_check_examples",
+    "examples": [
+      {
+        "description": "Ordinary Interior Case",
+        "inputs": { "value": 5, "lower": 4, "upper": 10 },
+        "expected": true,
+        "status": 200
+      },
+      {
+        "description": "Lower-Bound Boundary Case",
+        "inputs": { "value": 100, "lower": 100, "upper": 150 },
+        "expected": true,
+        "status": 200
+      },
+      {
+        "description": "Upper-Bound Boundary Case",
+        "inputs": { "value": 50, "lower": 20, "upper": 50 },
+        "expected": true,
+        "status": 200
+      },
+      {
+        "description": "Negative Integers Case",
+        "inputs": { "value": -15, "lower": -30, "upper": -5 },
+        "expected": true,
+        "status": 200
+      },
+      {
+        "description": "Equal Bounds Single Value Case",
+        "inputs": { "value": 42, "lower": 42, "upper": 42 },
+        "expected": true,
+        "status": 200
+      },
+      {
+        "description": "Reversed Bounds Case",
+        "inputs": { "value": 80, "lower": 90, "upper": 70 },
+        "expected": false,
+        "status": 200
+      },
+      {
+        "description": "Out-Of-Range Case",
+        "inputs": { "value": 25, "lower": 40, "upper": 60 },
+        "expected": false,
+        "status": 200
+      }
+    ]
+  }
+}

@@ -1,0 +1,7 @@
+SELECT 
+    -- Helper Function Definition:
+    -- Returns TRUE if 'value' falls within the closed interval [lower, upper].
+    -- Handles positive values, zero, negatives, equality checks,
+    -- and ensures correct behavior regardless of bound order.
+
+CASE WHEN (:lower > :upper) THEN FALSE ELSE ((:value >= :lower) AND (:value <= :upper)) END AS in_range;

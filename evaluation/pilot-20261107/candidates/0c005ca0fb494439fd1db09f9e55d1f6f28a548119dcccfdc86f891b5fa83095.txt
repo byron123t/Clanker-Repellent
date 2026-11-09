@@ -1,0 +1,12 @@
+--- Returns true when lower <= value <= upper, false otherwise.
+--- Equal bounds include that single value. Reversed bounds always return false.
+--- @param value  integer
+--- @param lower  integer
+--- @param upper  integer
+--- @return boolean
+function in_range(value, lower, upper)
+  if lower > upper then
+    return false
+  end
+  return lower <= value and value <= upper
+end

@@ -1,0 +1,21 @@
+{
+  "catalog_response": {
+    "total_count": 2,
+    "books": [
+      {
+        "id": "bk101",
+        "title": "The Quantum Paradox: A Novel",
+        "available": true
+      },
+      {
+        "id": "bk102",
+        "title": "Advanced Algorithms for Data Science",
+        "available": false
+      }
+    ]
+  },
+  "http_metadata": {
+    "status_code": 200,
+    "content_type": "application/json"
+  }
+}

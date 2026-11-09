@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "format": "JVM",
+  "architecture": "jvm",
+  "sections": [
+    {
+      "name": "Code",
+      "kind": "code"
+    },
+    {
+      "name": "ConstantPool",
+      "kind": "metadata"
+    }
+  ],
+  "symbols": [
+    {
+      "name": "inRange",
+      "kind": "function",
+      "section": "Code"
+    },
+    {
+      "name": "rangeDescription",
+      "kind": "object",
+      "section": "ConstantPool"
+    }
+  ],
+  "strings": [
+    "Represents inclusive lower bound [0x00010000] through upper bound [0x001FFFF]"
+  ]
+}

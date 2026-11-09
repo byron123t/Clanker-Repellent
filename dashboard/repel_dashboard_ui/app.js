@@ -5,11 +5,12 @@ const state = {summary: null, detail: null, view: "workspace", file: null, versi
   preview: null, response: null, responses: [], request: 0, previewRequest: 0, refreshing: false, atlasMode: "coverage", atlas: [], atlasKey: "", atlasSelection: null, atlasRequest: 0};
 const fragment = new URLSearchParams(location.hash.slice(1));
 const suppliedToken = fragment.get("token");
-if (suppliedToken) { sessionStorage.setItem("repel-token", suppliedToken); history.replaceState(null, "", location.pathname); }
+if (suppliedToken) { sessionStorage.setItem("repel-token", suppliedToken); history.replaceState(null, "", location.pathname + location.search); }
 const token = sessionStorage.getItem("repel-token") || "";
 const titles = {workspace: ["Annotation overview", "Review recorded snippets, file coverage, and saved originals."], overview: ["Deployment detail", "Review file changes and saved versions for this deployment."],
   snippets: ["Snippet explorer", "Browse recorded snippets and download saved file versions."],
   traffic: ["HTTP archive", "Browse saved response bodies and download the original bytes."]};
+titles.research = ["Benign generation research", "Measured results, independent checks, and the methodology behind them."];
 const kindLabels = {javascript_global_data: "JavaScript", typescript: "TypeScript", javascript: "JavaScript", native_retained_string: "C / C++", html_data_block: "HTML",
   wasm_custom_section: "WASM", document_data: "Document", artifact: "Artifact"};
 const capital = (s) => s ? s[0].toUpperCase() + s.slice(1) : "—";
@@ -68,7 +69,8 @@ async function refresh() {
     options($("repository"), [["", "All repositories"], ...repos], $("repository").value);
     updateDeploymentOptions(); renderWorkspace();
     if (summary.errors.length) showError(`${summary.errors.length} journal record(s) could not be validated and are not shown.`); else showError("");
-    if (state.view === "traffic") await loadTraffic();
+    if (state.view === "research") await window.RepelResearch?.refresh();
+    else if (state.view === "traffic") await loadTraffic();
     else {
       const current = summary.deployments.find((d) => d.id === $("deployment").value);
       const old = previous?.deployments.find((d) => d.id === current?.id);
@@ -98,14 +100,17 @@ async function loadDeployment() {
   } catch (error) { if (request === state.request) { state.detail = null; renderVisibility(); showError(error.message); } }
 }
 function renderVisibility() {
-  const traffic = state.view === "traffic", workspace = state.view === "workspace";
+  const traffic = state.view === "traffic", workspace = state.view === "workspace", research = state.view === "research";
+  if ($("research-content")) $("research-content").hidden = !research;
+  document.body.classList.toggle("mode-research", research);
+  document.querySelector(".data-context").hidden = research;
   $("workspace-content").hidden = !workspace;
-  $("deployment-controls").hidden = traffic || workspace; $("traffic-content").hidden = !traffic;
-  $("deployment-content").hidden = traffic || workspace || !state.detail;
-  $("empty-state").hidden = traffic || workspace || !!state.detail;
+  $("deployment-controls").hidden = traffic || workspace || research; $("traffic-content").hidden = !traffic;
+  $("deployment-content").hidden = traffic || workspace || research || !state.detail;
+  $("empty-state").hidden = traffic || workspace || research || !!state.detail;
   $("metrics").hidden = state.view !== "overview"; $("visuals").hidden = state.view !== "overview";
   document.body.classList.toggle("mode-snippets", state.view === "snippets");
-  $("export").disabled = workspace ? !state.summary : traffic ? !state.responses.length : !state.detail;
+  $("export").disabled = research ? !window.RepelResearch?.current() : workspace ? !state.summary : traffic ? !state.responses.length : !state.detail;
 }
 function renderDetail() {
   const detail = state.detail, m = detail.metrics;
@@ -256,9 +261,10 @@ function changeView(view) {
   for (const button of document.querySelectorAll("[data-view]")) { button.classList.toggle("active", button.dataset.view === view); button.setAttribute("aria-current", button.dataset.view === view ? "page" : "false"); }
   window.scrollTo({top: 0, behavior: "instant"});
   $("page-title").replaceChildren(document.createTextNode(titles[view][0]), node("span", "heading-dot", "."));
-  setText("page-description", titles[view][1]); setText("breadcrumb-current", view === "traffic" ? "HTTP archive" : view === "snippets" ? "Snippet explorer" : view === "overview" ? "Deployments" : "Overview");
+  setText("page-description", titles[view][1]); setText("breadcrumb-current", view === "research" ? "Research" : view === "traffic" ? "HTTP archive" : view === "snippets" ? "Snippet explorer" : view === "overview" ? "Deployments" : "Overview");
   renderVisibility();
-  if (view === "traffic") loadTraffic().catch((error) => showError(error.message));
+  if (view === "research") window.RepelResearch?.refresh();
+  else if (view === "traffic") loadTraffic().catch((error) => showError(error.message));
   else if (!state.detail || state.detail.id !== $("deployment").value) loadDeployment();
 }
 document.querySelectorAll("[data-view]").forEach((button) => button.addEventListener("click", () => changeView(button.dataset.view)));
@@ -276,7 +282,7 @@ $("download").addEventListener("click", () => { if (state.preview) download(prev
 $("example-select").addEventListener("change", renderExample);
 $("copy-example").addEventListener("click", () => copy($("example-code").textContent));
 $("response-download").addEventListener("click", () => { if (state.response) download(`/api/responses/${state.response.id}/download?version=before`, `${state.response.id}-original.bin`); });
-$("export").addEventListener("click", () => { const data = state.view === "workspace" ? state.summary : state.view === "traffic" ? {responses: state.responses} : state.detail; if (data) saveBlob(new Blob([JSON.stringify(data, null, 2) + "\n"], {type: "application/json"}), `repel-${state.view === "workspace" ? "workspace" : state.view === "traffic" ? "responses" : short(state.detail.id)}.json`); });
+$("export").addEventListener("click", () => { if (state.view === "research") { window.RepelResearch?.export(); return; } const data = state.view === "workspace" ? state.summary : state.view === "traffic" ? {responses: state.responses} : state.detail; if (data) saveBlob(new Blob([JSON.stringify(data, null, 2) + "\n"], {type: "application/json"}), `repel-${state.view === "workspace" ? "workspace" : state.view === "traffic" ? "responses" : short(state.detail.id)}.json`); });
 
 const palette = ["#7ca6f8", "#65d9b5", "#b397f6", "#e8bf76", "#e193b0", "#78cbd9"];
 function latestRepositories() {

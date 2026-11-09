@@ -65,6 +65,10 @@ def _python_metrics(source: str) -> Dict[str, int]:
         for _ in range(len(nodes) + 1):
             previous = (len(dependent), len(transformed))
             for node in nodes:
+                if isinstance(node, ast.AugAssign) and (depends(node.value) or depends(node.target)):
+                    names = {item.id for item in ast.walk(node.target) if isinstance(item, ast.Name)}
+                    dependent.update(names)
+                    transformed.update(names)
                 if isinstance(node, (ast.Assign, ast.AnnAssign)) and node.value is not None and depends(node.value):
                     targets = node.targets if isinstance(node, ast.Assign) else [node.target]
                     names = {item.id for target in targets for item in ast.walk(target) if isinstance(item, ast.Name)}
