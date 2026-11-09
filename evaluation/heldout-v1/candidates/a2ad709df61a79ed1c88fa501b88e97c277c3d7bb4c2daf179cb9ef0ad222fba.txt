@@ -1,0 +1,19 @@
+SELECT 
+    -- Helper Function Documentation:
+    -- Inputs (:param_value, :param_lower, :param_upper):
+    --   param_value: The target numeric value being evaluated against ranges.
+    --   param_lower: Lower bound of the interval.
+    --   param_upper: Upper bound of the interval.
+    --
+    -- Result Logic:
+    -- Returns an integer indicating position relative to the closed interval [lower, upper].
+    -- Values are compared using standard inequality operators (< <= > >=).
+    --
+    -- Edge Cases & Boundary Behavior:
+    -- If 'lower' is greater than 'upper', returns -1 immediately,
+    -- representing invalid/reversed coordinate system state without erroring on comparison logic.
+
+CASE WHEN :param_lower > :param_upper THEN -1
+     WHEN :param_value < :param_lower OR :param_value > :param_upper THEN 1
+     ELSE 0 END
+AS outside_distance;

@@ -24,6 +24,7 @@
       : audit ? "Lower is better. 48 fixed faults per system; 95% intervals resample 12 task clusters."
       : "Accepted and correct on every independent check. Whiskers show 95% task-bootstrap intervals.";
     if (!study.counts.completed) $("study-chart-note").textContent="No completed model outputs yet. Planned observations are not results; missing data are not failures.";
+    else if (!pilot && !audit && study.state!=="complete") $("study-chart-note").textContent="Interim results from scored observations. Model queues may be unbalanced; intervals require a complete paired model grid. Avoid ranking models from this partial sample.";
     const legend = pilot ? [{model:"glm", arm:"original", name:"GLM"}, {model:"deepseek",arm:"original",name:"DeepSeek"}]
       : [{arm:"baseline",name:"Baseline"},{arm:"contract",name:"Task contracts"}];
     $("study-legend").replaceChildren(...legend.map((entry) => { const item = node("span", "", entry.name); const mark = node("i"); mark.style.background = color(entry); item.prepend(mark); return item; }));
@@ -53,7 +54,7 @@
   }
   function renderStats() {
     const audit=study.stage==="audit";
-    const entries = [[audit ? "Validator evaluations" : "Completed candidates",`${count(study.counts.completed)} / ${count(study.counts.planned)}`,audit ? "84 identical sources, paired across systems" : "Planned denominator retained"],
+    const entries = [[audit ? "Validator evaluations" : study.stage==="pilot" ? "Completed candidates" : "Scored candidates",`${count(study.counts.completed)} / ${count(study.counts.planned)}`,audit ? "84 identical sources, paired across systems" : "Planned denominator retained"],
       [study.stage==="pilot" ? "Task / format units" : "Task clusters",count(study.design.tasks),audit ? "7 fixed variants per development task" : `${study.design.replicates} replicate${study.design.replicates===1 ? "" : "s"} per task / system`],
       [audit ? "Authored faulty sources" : "Validation accepted",count(audit ? study.counts.faults : study.counts.accepted),audit ? `${study.counts.controls} correct controls scored separately` : "Acceptance and correctness are separate"],
       [study.stage==="pilot" ? "Behavior checks" : "Private behavior checks",count(study.counts.hidden_checks),"Checks are not independent task samples"]];
@@ -158,7 +159,7 @@
       study=report; selected=null; source=null; error(""); $("study-body").hidden=false; $("study-empty").hidden=true;
       $("study-title").textContent=study.title; $("study-badge").textContent=`${study.stage} · ${study.state}`;
       $("study-subtitle").textContent=`${study.design.formats.length} formats · ${study.design.tasks} task units · recorded ${new Date(study.created_at).toLocaleDateString([], {month:"long",day:"numeric",year:"numeric"})}`;
-      $("study-source").textContent=!study.counts.completed ? "Awaiting inference · no generated outputs" : study.stage==="audit" ? "Authored fault study · no model generation" : "Measured benign outputs · unchanged source";
+      $("study-source").textContent=!study.counts.completed ? "Awaiting inference · no generated outputs" : study.stage==="audit" ? "Authored fault study · no model generation" : `Measured benign outputs · scored snapshot ${new Date(study.updated_at).toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"})} · unchanged accepted source`;
       const sliceTitle=document.querySelector(".study-slices h3"), sliceNote=document.querySelector(".study-slices .study-panel-heading p");
       sliceTitle.textContent=study.stage==="audit" ? "Where faults remain undetected" : "Where the system succeeds";
       sliceNote.textContent=study.stage==="audit" ? "False acceptance by authored complexity and format. Lower is better; slices are descriptive." : "Descriptive breakdowns; the registered overall result remains primary.";

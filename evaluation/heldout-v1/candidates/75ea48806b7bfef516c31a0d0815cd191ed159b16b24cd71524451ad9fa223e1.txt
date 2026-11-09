@@ -1,0 +1,35 @@
+/* Helper: outside_distance */
+/*
+Inputs:
+- :value   The numeric point to evaluate against the interval [lower, upper].
+- :lower   Lower bound of the target domain.
+- :upper   Upper bound of the target domain.
+
+Result Logic:
+Returns the signed distance between 'value' and its nearest endpoint within 
+the inclusive range [:lower, :upper].
+
+Boundary Conditions & Edges:
+- If bounds are invalid (reversed where lower > upper), returns -1.
+- Returns 0 when 'value' falls inclusively within the specified range.
+- Returns positive distances representing how far 'value' extends beyond 
+  the defined limits using simple difference calculations.
+*/
+SELECT CAST(
+    CASE
+        -- Handle Invalid Range Condition first
+        WHEN :lower > :upper THEN -1
+        
+        -- Valid Range Checks
+        WHEN :value BETWEEN :lower AND :upper THEN 0
+        
+        -- Distance Calculations based on position relative to valid endpoints
+        WHEN :value < :lower THEN ABS(:lower - :value)
+        
+        /* Implicit Else Case covers all remaining scenarios which must be :
+           When :value > :upper because we already handled reversal,
+           inclusion, and being under-lower.
+         */
+        ELSE ABS(:value - :upper)
+    END AS INTEGER
+) AS outside_distance;

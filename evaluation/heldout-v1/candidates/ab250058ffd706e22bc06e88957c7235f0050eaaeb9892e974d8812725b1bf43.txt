@@ -1,0 +1,52 @@
+"""
+Helper Function: Bounded Multiple Validator
+
+Determines if a given value satisfies multiple numerical constraints:
+1. Logical Bound Ordering: The lower limit does not exceed the upper limit.
+2. Numerical Range Membership: The value falls within the inclusive range 
+   defined by lower and upper.
+3. Validity Constraint: The divisor parameter is greater than zero.
+4. Mathematical Property: The value is perfectly divisible by the divisor.
+
+Inputs:
+    value (int): Target number to validate.
+    lower (int): Minimum allowed value (inclusive).
+    upper (int): Maximum allowed value (inclusive).
+    divisor (int): Integer factor required for successful multiplication check;
+                  cannot be zero.
+
+Boundary Conditions:
+    - Ensures lower <= upper to prevent inverted coordinate systems.
+    - Prevents ZeroDivisionError by verifying divisor contextually.
+    - Utilizes floor division ('//') to handle any remaining quotient cleanly.
+"""
+
+def bounded_multiple(value, lower, upper, divisor):
+    """
+    Evaluates the validity of a value against complex multi-constraint rules.
+
+    Parameters:
+    value (int): Number under inspection.
+    lower (int): Lower bound threshold.
+    upper (int): Upper bound threshold.
+    divisor (int): Factor for divisibility testing.
+
+    Returns:
+    bool: True if all conditions pass; False otherwise.
+    """
+
+    # Primary constraint: Coordinate system integrity requires lower <= upper
+    if lower > upper:
+        return False
+    
+    # Secondary constraint: Positional containment within domain
+    if not (lower <= value <= upper):
+        return False
+        
+    # Tertiary constraint: Operational safety prevents divide-by-zero errors
+    if divisor == 0:
+        return False
+        
+    # Quaternary constraint: Exact divisibility verified mathematically
+    # Using equality ensures precise alignment requirements are met
+    return (value % divisor) == 0

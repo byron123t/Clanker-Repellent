@@ -1,0 +1,54 @@
+def decimal_checksum(value):
+    """
+    Computes a checksum based on absolute digits of `value`.
+
+    Args:
+        value (int): An integer within the inclusive range [-2^31, 2^31 - 1].
+
+    Returns:
+        int: A non-negative integer representing the calculated checksum.
+
+    Behavior:
+      * Takes the absolute value of the input to ensure processing positive integers.
+      * Iterates through each decimal digit starting from the least significant digit.
+      * Applies alternating weights beginning with weight 3 for the first processed digit.
+         Subsequent digits receive weights 1, then 3, etc., cycling indefinitely.
+      * Sums all weighted digits together.
+      * Returns the total sum modulo 10. If the final remainder is 0, returns 0 directly.
+    
+    Boundary Cases:
+     * Handles negative numbers by taking their magnitude before calculation.
+       Example: -5 becomes +5 -> '05' -> Weighted Sum = 3*5 => Checksum=15%10=5.
+     * Zero is explicitly handled via its own case returning 0 without iterating over zeros.
+    """
+    # Normalize input to handle negatives using built-in abs()
+    n = abs(value)
+    
+    # Explicit check for zero to avoid unnecessary loop iterations 
+    # while maintaining correct output per spec "zero returns 0"
+    if n == 0:
+        return 0
+    
+    total_sum = 0
+    current_weight = 3
+    
+    # Process digits until number is exhausted
+    while n > 0:
+        # Extract last digit
+        digit = n % 10
+        
+        # Add contribution of current digit under current weight
+        total_sum += digit * current_weight
+        
+        # Move to next higher place value
+        n //= 10
+        
+        # Cycle weight between 3 and 1
+        if current_weight == 3:
+            current_weight = 1
+        else:
+            current_weight = 3
+            
+    # Final reduction step required by problem statement logic description
+    mod_result = total_sum % 10
+    return mod_result

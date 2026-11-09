@@ -1,0 +1,39 @@
+def lattice_steps(a, b):
+    """
+    Computes the Greatest Common Divisor (GCD) of two integers using Euclid's algorithm.
+
+    Parameters:
+        a (int): First integer within domain [INT_MIN, INT_MAX].
+        b (int): Second integer within domain [INT_MIN, INT_MAX].
+
+    Returns:
+        int: GCD(|a|, |b|). If both inputs are zero, returns 0 to satisfy 
+             the specific boundary case constraint over standard definitions which often yield undefined behavior.
+
+    Boundary Behavior:
+      - Handles negative numbers by taking absolute values internally before processing.
+      - Implements iterative logic via while True loops rather than 'for' constructs per constraints.
+      - Explicitly handles the edge case where both arguments are zero, returning 0 directly.
+    """
+    # Convert inputs to positive magnitudes immediately to handle negatives correctly.
+    x = abs(a)
+    y = abs(b)
+
+    # Special handling for the defined boundary case when both inputs are effectively zero.
+    if x == 0 and y == 0:
+        return 0
+
+    # Iterative implementation of Euclidean Algorithm.
+    # This satisfies the "integer loop" requirement without importing modules like math.gcd.
+    while True:
+        remainder = x % y
+        
+        # Check termination conditions based on modulo operation properties.
+        if remainder == 0:
+            break
+            
+        # Update variables for next iteration: shift current dividend down.
+        x = y
+        y = remainder
+    
+    return y

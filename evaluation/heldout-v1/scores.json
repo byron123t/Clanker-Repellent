@@ -1,0 +1,4918 @@
+{
+  "schema_version": 1,
+  "benign": true,
+  "protocol_sha256": "08ddd60dfbd4277c81b04ffaa7cd30ba0ffdbd76da9e9237c3410ee68eb634c1",
+  "records": [
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "baseline",
+      "task": "test-python-multiple",
+      "trial": 0,
+      "language": "python",
+      "level": 1,
+      "family": "multiple",
+      "stage": "heldout",
+      "seed_requested": 3213215969,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 2,
+      "attempt_outcomes": [
+        "benign_policy_failed",
+        "passed"
+      ],
+      "first_attempt_accepted": false,
+      "candidate": {
+        "relative_path": "python/generated.py",
+        "sha256": "f48301560debc8fc2c7689daae928d880441bc094fb3ad2337d07b6bb7bc3e1b",
+        "bytes": 1927
+      },
+      "generation_manifest_sha256": "8d503a19dedb0ef5abf2356bfd65411b1351c5f6fd44ece2bd09a5302219786e",
+      "wall_seconds": 17.081,
+      "resources": {
+        "inference_seconds": 16.67992,
+        "prompt_tokens": 1975,
+        "completion_tokens": 1055,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "benign_policy_failed",
+          "failed_checks": []
+        },
+        {
+          "attempt": 2,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": true,
+        "public_passed": 3,
+        "public_cases": 3,
+        "hidden_passed": 320,
+        "hidden_cases": 320,
+        "behavior_checked": true,
+        "failures": []
+      },
+      "contract_check": {
+        "passed": true,
+        "diagnostic": "",
+        "metrics": {
+          "contract_sha256": "24e12cf688b1f0b22d8259c9edd01fb8e09fea5ead2361ad6584f99b25c7edf5",
+          "examples": 3
+        }
+      },
+      "strict_pass": true,
+      "filter_only_accepted": true,
+      "filter_only_pass": true,
+      "id": "ab250058ffd706e22bc06e88957c7235f0050eaaeb9892e974d8812725b1bf43",
+      "directory": "runs/glm/baseline/test-python-multiple/0"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "baseline",
+      "task": "test-python-multiple",
+      "trial": 2,
+      "language": "python",
+      "level": 1,
+      "family": "multiple",
+      "stage": "heldout",
+      "seed_requested": 3091743031,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 1,
+      "attempt_outcomes": [
+        "passed"
+      ],
+      "first_attempt_accepted": true,
+      "candidate": {
+        "relative_path": "python/generated.py",
+        "sha256": "c9d2984370aeb7c42681a9259cdcecff0436c1619d61c156f17f9b9b94600e5e",
+        "bytes": 3197
+      },
+      "generation_manifest_sha256": "71380bd499372fd1218a7f48a612e27538b16f48b4c7cf45fe1ab3f38401df82",
+      "wall_seconds": 42.776,
+      "resources": {
+        "inference_seconds": 42.34187,
+        "prompt_tokens": 574,
+        "completion_tokens": 2728,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "public_passed": 3,
+        "public_cases": 3,
+        "hidden_passed": 309,
+        "hidden_cases": 320,
+        "behavior_checked": true,
+        "failures": [
+          {
+            "index": 7,
+            "inputs": [
+              -100,
+              -100,
+              1,
+              -1
+            ],
+            "expected": true,
+            "actual": false
+          },
+          {
+            "index": 9,
+            "inputs": [
+              1,
+              0,
+              1,
+              -1
+            ],
+            "expected": true,
+            "actual": false
+          },
+          {
+            "index": 15,
+            "inputs": [
+              100,
+              0,
+              100,
+              10
+            ],
+            "expected": true,
+            "actual": false
+          },
+          {
+            "index": 24,
+            "inputs": [
+              1,
+              1,
+              1,
+              -1
+            ],
+            "expected": true,
+            "actual": false
+          },
+          {
+            "index": 25,
+            "inputs": [
+              0,
+              0,
+              100,
+              -10
+            ],
+            "expected": true,
+            "actual": false
+          }
+        ]
+      },
+      "contract_check": {
+        "passed": true,
+        "diagnostic": "",
+        "metrics": {
+          "contract_sha256": "24e12cf688b1f0b22d8259c9edd01fb8e09fea5ead2361ad6584f99b25c7edf5",
+          "examples": 3
+        }
+      },
+      "strict_pass": false,
+      "filter_only_accepted": true,
+      "filter_only_pass": false,
+      "id": "6ecdc21b56ee26e5f60f8712135fcdb908cd4c2ba245e72cb8f554e3d9404af7",
+      "directory": "runs/glm/baseline/test-python-multiple/2"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "baseline",
+      "task": "test-python-median",
+      "trial": 0,
+      "language": "python",
+      "level": 1,
+      "family": "median",
+      "stage": "heldout",
+      "seed_requested": 1138813045,
+      "seed_honored": "not independently verified",
+      "accepted": false,
+      "status": "failed",
+      "attempts": 3,
+      "attempt_outcomes": [
+        "failed",
+        "failed",
+        "failed"
+      ],
+      "first_attempt_accepted": false,
+      "candidate": null,
+      "generation_manifest_sha256": "a6c7e81f3b12ca883fc415ffe5585f2856a0b922d5fc5acdcc46e1263697bc09",
+      "wall_seconds": 73.18,
+      "resources": {
+        "inference_seconds": 72.59494000000001,
+        "prompt_tokens": 3186,
+        "completion_tokens": 4659,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "failed",
+          "failed_checks": [
+            "python_ast",
+            "python_compile",
+            "source_structure"
+          ]
+        },
+        {
+          "attempt": 2,
+          "status": "failed",
+          "failed_checks": [
+            "source_structure"
+          ]
+        },
+        {
+          "attempt": 3,
+          "status": "failed",
+          "failed_checks": [
+            "python_ast",
+            "python_compile",
+            "source_structure"
+          ]
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "diagnostic": "No accepted candidate"
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "2ea918000caad7b2561d183c3a58f99d51b32e8cb870e73b93b674f6abe80fdb",
+      "directory": "runs/glm/baseline/test-python-median/0"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "baseline",
+      "task": "test-python-median",
+      "trial": 1,
+      "language": "python",
+      "level": 1,
+      "family": "median",
+      "stage": "heldout",
+      "seed_requested": 3729933106,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 3,
+      "attempt_outcomes": [
+        "failed",
+        "failed",
+        "passed"
+      ],
+      "first_attempt_accepted": false,
+      "candidate": {
+        "relative_path": "python/generated.py",
+        "sha256": "0aadc91c553ccb021fd3f56297318d9ca8477e76741b8b94bdea9775aeea015d",
+        "bytes": 1657
+      },
+      "generation_manifest_sha256": "ac09529d5b03a5036b310e19b9044552eeacf7141fd3bb6c83de7a441fad502f",
+      "wall_seconds": 17.27,
+      "resources": {
+        "inference_seconds": 16.6898,
+        "prompt_tokens": 2858,
+        "completion_tokens": 1206,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "failed",
+          "failed_checks": [
+            "source_structure"
+          ]
+        },
+        {
+          "attempt": 2,
+          "status": "failed",
+          "failed_checks": [
+            "source_structure"
+          ]
+        },
+        {
+          "attempt": 3,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "public_passed": 2,
+        "public_cases": 3,
+        "hidden_passed": 119,
+        "hidden_cases": 320,
+        "behavior_checked": true,
+        "failures": [
+          {
+            "index": 1,
+            "inputs": [
+              4,
+              4,
+              9
+            ],
+            "expected": 4,
+            "actual": 9
+          },
+          {
+            "index": 3,
+            "inputs": [
+              1,
+              -1000,
+              1000
+            ],
+            "expected": 1,
+            "actual": 1000
+          },
+          {
+            "index": 4,
+            "inputs": [
+              -1000,
+              -1,
+              1000
+            ],
+            "expected": -1,
+            "actual": 1000
+          },
+          {
+            "index": 5,
+            "inputs": [
+              1000,
+              -1000,
+              -1000
+            ],
+            "expected": -1000,
+            "actual": 1000
+          },
+          {
+            "index": 6,
+            "inputs": [
+              -1000,
+              0,
+              -1000
+            ],
+            "expected": -1000,
+            "actual": 0
+          }
+        ]
+      },
+      "contract_check": {
+        "passed": false,
+        "diagnostic": "Public example 2 failed: expected 4, got 9",
+        "metrics": {
+          "contract_sha256": "4f61e32d1d79d21c8c4f8e8050fdbb7e1914da6506e02a8f7d34ec6001c08de3",
+          "examples": 1
+        }
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "d8a854397874bf8b366c9380d839f404ef915613bd6a67f6232cd9cb5e3cbe43",
+      "directory": "runs/glm/baseline/test-python-median/1"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "baseline",
+      "task": "test-python-delivery",
+      "trial": 1,
+      "language": "python",
+      "level": 2,
+      "family": "delivery",
+      "stage": "heldout",
+      "seed_requested": 2673844484,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 1,
+      "attempt_outcomes": [
+        "passed"
+      ],
+      "first_attempt_accepted": true,
+      "candidate": {
+        "relative_path": "python/generated.py",
+        "sha256": "c361ebf68d207750e4864127773c4da44b792ee1da467b208d4c11986327442a",
+        "bytes": 1761
+      },
+      "generation_manifest_sha256": "539ce719d385d1ec5b4a76704e2b2b464038db5554bf4dcf6810399b12431373",
+      "wall_seconds": 6.071,
+      "resources": {
+        "inference_seconds": 5.48031,
+        "prompt_tokens": 582,
+        "completion_tokens": 386,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "diagnostic": "Only bounded abs/min/max integer intrinsics are supported.",
+        "behavior_checked": false
+      },
+      "contract_check": {
+        "passed": false,
+        "diagnostic": "Only bounded abs/min/max integer intrinsics are supported.",
+        "metrics": {
+          "contract_sha256": "d7cc0df75ff7540a46946634677f6b829a05ba2e800fd1724b75cc476b8ca281",
+          "examples": 0
+        }
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "49eaa6105392bcab394f2e479a5c9c99a997db0b4c8b6f6872c1d7be9b587dcc",
+      "directory": "runs/glm/baseline/test-python-delivery/1"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "baseline",
+      "task": "test-python-overlap",
+      "trial": 0,
+      "language": "python",
+      "level": 2,
+      "family": "intersection",
+      "stage": "heldout",
+      "seed_requested": 533875225,
+      "seed_honored": "not independently verified",
+      "accepted": false,
+      "status": "benign_policy_failed",
+      "attempts": 3,
+      "attempt_outcomes": [
+        "benign_policy_failed",
+        "failed",
+        "benign_policy_failed"
+      ],
+      "first_attempt_accepted": false,
+      "candidate": null,
+      "generation_manifest_sha256": "020914dfe7642a5b0462401b84612227f1418799da9adec7b3eb878afd15f1bb",
+      "wall_seconds": 14.366,
+      "resources": {
+        "inference_seconds": 13.798449999999999,
+        "prompt_tokens": 2774,
+        "completion_tokens": 948,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "benign_policy_failed",
+          "failed_checks": []
+        },
+        {
+          "attempt": 2,
+          "status": "failed",
+          "failed_checks": [
+            "python_compile",
+            "source_structure"
+          ]
+        },
+        {
+          "attempt": 3,
+          "status": "benign_policy_failed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "diagnostic": "No accepted candidate"
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "8056460197958d9fbc72a299ab1eb3c058b1f11937cbd802ac5cc4a8464346b0",
+      "directory": "runs/glm/baseline/test-python-overlap/0"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "baseline",
+      "task": "test-python-checksum",
+      "trial": 2,
+      "language": "python",
+      "level": 3,
+      "family": "checksum",
+      "stage": "heldout",
+      "seed_requested": 1573974892,
+      "seed_honored": "not independently verified",
+      "accepted": false,
+      "status": "benign_policy_failed",
+      "attempts": 3,
+      "attempt_outcomes": [
+        "failed",
+        "failed",
+        "benign_policy_failed"
+      ],
+      "first_attempt_accepted": false,
+      "candidate": null,
+      "generation_manifest_sha256": "1fd5312d0cdec4a735b55f842592450a0cf8c9a613dbe73b24cc69be509867dd",
+      "wall_seconds": 17.971,
+      "resources": {
+        "inference_seconds": 17.335630000000002,
+        "prompt_tokens": 2823,
+        "completion_tokens": 1176,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "failed",
+          "failed_checks": [
+            "source_structure"
+          ]
+        },
+        {
+          "attempt": 2,
+          "status": "failed",
+          "failed_checks": [
+            "source_structure"
+          ]
+        },
+        {
+          "attempt": 3,
+          "status": "benign_policy_failed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "diagnostic": "No accepted candidate"
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "cc869e3ac7c50d2eececcf2c3882d61720e92945609224180c139859f160bf33",
+      "directory": "runs/glm/baseline/test-python-checksum/2"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "baseline",
+      "task": "test-python-gcd",
+      "trial": 0,
+      "language": "python",
+      "level": 3,
+      "family": "gcd",
+      "stage": "heldout",
+      "seed_requested": 3847417293,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 1,
+      "attempt_outcomes": [
+        "passed"
+      ],
+      "first_attempt_accepted": true,
+      "candidate": {
+        "relative_path": "python/generated.py",
+        "sha256": "27e7b227fba52b9080d3b7c80f9079bfe16e689c062cb9b8d5f4fa34ed6b552b",
+        "bytes": 1482
+      },
+      "generation_manifest_sha256": "cbd7c230cf53d0eb8db84baa322e68bbfc7c7760d2ca6102a417f633266b8cd1",
+      "wall_seconds": 5.424,
+      "resources": {
+        "inference_seconds": 5.039140000000001,
+        "prompt_tokens": 553,
+        "completion_tokens": 331,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "diagnostic": "Undefined integer computation in contract example.",
+        "behavior_checked": false
+      },
+      "contract_check": {
+        "passed": false,
+        "diagnostic": "Undefined integer computation in contract example.",
+        "metrics": {
+          "contract_sha256": "78c0842f893eff8ea3de048c9f8bbf9c97f0628a2f8010849eeed112546fb134",
+          "examples": 0
+        }
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "fe3fd9318696059de85176054c78c17bc0c8cea630548c84b80e7dcf9f01072b",
+      "directory": "runs/glm/baseline/test-python-gcd/0"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "baseline",
+      "task": "test-sql-distance",
+      "trial": 0,
+      "language": "sql",
+      "level": 1,
+      "family": "distance",
+      "stage": "heldout",
+      "seed_requested": 3065293432,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 1,
+      "attempt_outcomes": [
+        "passed"
+      ],
+      "first_attempt_accepted": true,
+      "candidate": {
+        "relative_path": "sql/generated.sql",
+        "sha256": "61578af69f083ba08b1c13c86ac4c853903a242f798293f6c95280f209539680",
+        "bytes": 855
+      },
+      "generation_manifest_sha256": "53b57c17ee8ca04041f6c46b45e3bd5a6dc4a6be78580a11dbb09864ff54ec12",
+      "wall_seconds": 4.806,
+      "resources": {
+        "inference_seconds": 4.05942,
+        "prompt_tokens": 494,
+        "completion_tokens": 193,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "diagnostic": "You did not supply a value for binding 1.",
+        "behavior_checked": false
+      },
+      "contract_check": {
+        "passed": false,
+        "diagnostic": "SQL alias or parameter names differ from contract",
+        "metrics": {
+          "contract_sha256": "6b59587f3db3d82fca4b0a5fcd02eeb45c2dddf481dc27547f07aa0e1a2fa86d",
+          "examples": 0
+        }
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "a2ad709df61a79ed1c88fa501b88e97c277c3d7bb4c2daf179cb9ef0ad222fba",
+      "directory": "runs/glm/baseline/test-sql-distance/0"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "baseline",
+      "task": "test-sql-billing",
+      "trial": 0,
+      "language": "sql",
+      "level": 2,
+      "family": "billing",
+      "stage": "heldout",
+      "seed_requested": 4098801557,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 3,
+      "attempt_outcomes": [
+        "token_limit",
+        "failed",
+        "passed"
+      ],
+      "first_attempt_accepted": false,
+      "candidate": {
+        "relative_path": "sql/generated.sql",
+        "sha256": "984d0cb682248865b70feefc4433f2d31d0d77adc7d631b07663bfa61442a656",
+        "bytes": 964
+      },
+      "generation_manifest_sha256": "fac4af791ef658fa2ccdb2b3a4d3bcf7334c359d2273903286760cd9955781c1",
+      "wall_seconds": 77.046,
+      "resources": {
+        "inference_seconds": 76.58746,
+        "prompt_tokens": 1944,
+        "completion_tokens": 4520,
+        "length_stops": 1
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "token_limit",
+          "failed_checks": []
+        },
+        {
+          "attempt": 2,
+          "status": "failed",
+          "failed_checks": [
+            "sql_prepare",
+            "source_structure"
+          ]
+        },
+        {
+          "attempt": 3,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": true,
+        "public_passed": 3,
+        "public_cases": 3,
+        "hidden_passed": 320,
+        "hidden_cases": 320,
+        "behavior_checked": true,
+        "failures": []
+      },
+      "contract_check": {
+        "passed": true,
+        "diagnostic": "",
+        "metrics": {
+          "contract_sha256": "104130d967574e89c16632e09da71f676a03c061345e4ecd310d0f79a367417a",
+          "examples": 3
+        }
+      },
+      "strict_pass": true,
+      "filter_only_accepted": true,
+      "filter_only_pass": true,
+      "id": "7ec1bac843603aade5bd62be9244c7c54ec707222e0de384b2d6c36de67dd605",
+      "directory": "runs/glm/baseline/test-sql-billing/0"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "baseline",
+      "task": "test-sql-invoice",
+      "trial": 0,
+      "language": "sql",
+      "level": 3,
+      "family": "invoice",
+      "stage": "heldout",
+      "seed_requested": 4115743438,
+      "seed_honored": "not independently verified",
+      "accepted": false,
+      "status": "failed",
+      "attempts": 3,
+      "attempt_outcomes": [
+        "failed",
+        "token_limit",
+        "failed"
+      ],
+      "first_attempt_accepted": false,
+      "candidate": null,
+      "generation_manifest_sha256": "b5b251c81a5b91efeec8fc15377511e2128b88f650cd931e8b11f9e20da6d444",
+      "wall_seconds": 95.728,
+      "resources": {
+        "inference_seconds": 95.17948000000001,
+        "prompt_tokens": 2132,
+        "completion_tokens": 4695,
+        "length_stops": 1
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "failed",
+          "failed_checks": [
+            "sql_prepare",
+            "source_structure"
+          ]
+        },
+        {
+          "attempt": 2,
+          "status": "token_limit",
+          "failed_checks": []
+        },
+        {
+          "attempt": 3,
+          "status": "failed",
+          "failed_checks": [
+            "sql_prepare",
+            "source_structure"
+          ]
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "diagnostic": "No accepted candidate"
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "8d5bc1408c5bd5a28b17e3a8aec5ea147752c6e1420deb98659b236d914e2b79",
+      "directory": "runs/glm/baseline/test-sql-invoice/0"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "baseline",
+      "task": "test-llvm-abs",
+      "trial": 1,
+      "language": "llvm",
+      "level": 1,
+      "family": "saturated_abs",
+      "stage": "heldout",
+      "seed_requested": 569534131,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 1,
+      "attempt_outcomes": [
+        "passed"
+      ],
+      "first_attempt_accepted": true,
+      "candidate": {
+        "relative_path": "llvm/generated.ll",
+        "sha256": "dc27e1e72382db4ca61af8b861c751262a9d7d8c038795197a5306f0b27ea21b",
+        "bytes": 1483
+      },
+      "generation_manifest_sha256": "24eff6b9d7262fd29b80d32b0d2e1534e4ff7d0141d386bcf393d999778ad857",
+      "wall_seconds": 6.243,
+      "resources": {
+        "inference_seconds": 5.6833100000000005,
+        "prompt_tokens": 538,
+        "completion_tokens": 367,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "public_passed": 1,
+        "public_cases": 3,
+        "hidden_passed": 162,
+        "hidden_cases": 320,
+        "behavior_checked": true,
+        "failures": [
+          {
+            "index": 0,
+            "inputs": [
+              -2147483648
+            ],
+            "expected": 2147483647,
+            "actual": -2147483648
+          },
+          {
+            "index": 2,
+            "inputs": [
+              0
+            ],
+            "expected": 0,
+            "actual": 2147483647
+          },
+          {
+            "index": 3,
+            "inputs": [
+              2147483647
+            ],
+            "expected": 2147483647,
+            "actual": -2147483647
+          },
+          {
+            "index": 5,
+            "inputs": [
+              1
+            ],
+            "expected": 1,
+            "actual": -1
+          },
+          {
+            "index": 10,
+            "inputs": [
+              1744422834
+            ],
+            "expected": 1744422834,
+            "actual": -1744422834
+          }
+        ]
+      },
+      "contract_check": {
+        "passed": false,
+        "diagnostic": "Public example 1 failed: expected 2147483647, got -2147483648",
+        "metrics": {
+          "contract_sha256": "34b3059eac8f8c39c6094e80415a6c9446cb187c8131372e4f5303a9b733d1dc",
+          "examples": 0
+        }
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "2a2e63269bcaeb81e11d408cbb33466f2a0c93dc48accdedf3eb7cd6a7e7f02a",
+      "directory": "runs/glm/baseline/test-llvm-abs/1"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "baseline",
+      "task": "test-llvm-bounded",
+      "trial": 0,
+      "language": "llvm",
+      "level": 2,
+      "family": "bounded_add",
+      "stage": "heldout",
+      "seed_requested": 1753364982,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 1,
+      "attempt_outcomes": [
+        "passed"
+      ],
+      "first_attempt_accepted": true,
+      "candidate": {
+        "relative_path": "llvm/generated.ll",
+        "sha256": "d575eeceabc7bc9cde4cebd03d4815a9b62d7763f60ce762598c493b79219d3b",
+        "bytes": 1515
+      },
+      "generation_manifest_sha256": "86b2add4ba197111e61d1544fbd01fc7137e2ec76bd0a387b7456490493c549f",
+      "wall_seconds": 6.669,
+      "resources": {
+        "inference_seconds": 6.118930000000001,
+        "prompt_tokens": 569,
+        "completion_tokens": 402,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "public_passed": 1,
+        "public_cases": 3,
+        "hidden_passed": 263,
+        "hidden_cases": 320,
+        "behavior_checked": true,
+        "failures": [
+          {
+            "index": 0,
+            "inputs": [
+              -5,
+              8,
+              20
+            ],
+            "expected": 8,
+            "actual": 3
+          },
+          {
+            "index": 2,
+            "inputs": [
+              10,
+              20,
+              -1
+            ],
+            "expected": 0,
+            "actual": -1
+          },
+          {
+            "index": 3,
+            "inputs": [
+              -1,
+              1000000,
+              -10
+            ],
+            "expected": 0,
+            "actual": -10
+          },
+          {
+            "index": 4,
+            "inputs": [
+              -1,
+              -10,
+              0
+            ],
+            "expected": 0,
+            "actual": -11
+          },
+          {
+            "index": 5,
+            "inputs": [
+              -10,
+              0,
+              0
+            ],
+            "expected": 0,
+            "actual": -10
+          }
+        ]
+      },
+      "contract_check": {
+        "passed": false,
+        "diagnostic": "Public example 1 failed: expected 8, got 3",
+        "metrics": {
+          "contract_sha256": "5ff32706bb967027083a316bf011f1587681b98749a430a86c13afa620e3d107",
+          "examples": 0
+        }
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "716af33aa0e9d10f03618f09c1e3937f82ac5b14d4565bd8afbb3539752fe202",
+      "directory": "runs/glm/baseline/test-llvm-bounded/0"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "baseline",
+      "task": "test-llvm-bounded",
+      "trial": 2,
+      "language": "llvm",
+      "level": 2,
+      "family": "bounded_add",
+      "stage": "heldout",
+      "seed_requested": 3947497618,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 2,
+      "attempt_outcomes": [
+        "token_limit",
+        "passed"
+      ],
+      "first_attempt_accepted": false,
+      "candidate": {
+        "relative_path": "llvm/generated.ll",
+        "sha256": "2c5248f371c16be1487f33173115e656579b6751de900f4a076dabfceba702d5",
+        "bytes": 1327
+      },
+      "generation_manifest_sha256": "99673a325ae4d7bdea51fdcc2af2d851a970c37ab869477f72ace0b09c9f8f35",
+      "wall_seconds": 85.574,
+      "resources": {
+        "inference_seconds": 85.01966,
+        "prompt_tokens": 1205,
+        "completion_tokens": 4470,
+        "length_stops": 1
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "token_limit",
+          "failed_checks": []
+        },
+        {
+          "attempt": 2,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "public_passed": 1,
+        "public_cases": 3,
+        "hidden_passed": 263,
+        "hidden_cases": 320,
+        "behavior_checked": true,
+        "failures": [
+          {
+            "index": 0,
+            "inputs": [
+              -5,
+              8,
+              20
+            ],
+            "expected": 8,
+            "actual": 3
+          },
+          {
+            "index": 2,
+            "inputs": [
+              10,
+              20,
+              -1
+            ],
+            "expected": 0,
+            "actual": -1
+          },
+          {
+            "index": 3,
+            "inputs": [
+              -1,
+              1000000,
+              -10
+            ],
+            "expected": 0,
+            "actual": -10
+          },
+          {
+            "index": 4,
+            "inputs": [
+              -1,
+              -10,
+              0
+            ],
+            "expected": 0,
+            "actual": -10
+          },
+          {
+            "index": 5,
+            "inputs": [
+              -10,
+              0,
+              0
+            ],
+            "expected": 0,
+            "actual": -10
+          }
+        ]
+      },
+      "contract_check": {
+        "passed": false,
+        "diagnostic": "Public example 1 failed: expected 8, got 3",
+        "metrics": {
+          "contract_sha256": "5ff32706bb967027083a316bf011f1587681b98749a430a86c13afa620e3d107",
+          "examples": 0
+        }
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "64f03ce11cabf9f8fb525ed8484ce5f6145adb504dd9e759d4e5a122432a025b",
+      "directory": "runs/glm/baseline/test-llvm-bounded/2"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "baseline",
+      "task": "test-llvm-charge",
+      "trial": 0,
+      "language": "llvm",
+      "level": 3,
+      "family": "charge",
+      "stage": "heldout",
+      "seed_requested": 4283438776,
+      "seed_honored": "not independently verified",
+      "accepted": false,
+      "status": "token_limit",
+      "attempts": 3,
+      "attempt_outcomes": [
+        "token_limit",
+        "token_limit",
+        "token_limit"
+      ],
+      "first_attempt_accepted": false,
+      "candidate": null,
+      "generation_manifest_sha256": "6187380f4a0c9b26ee92eefdb88d592db339cac03d0b1e098d90b2358286789d",
+      "wall_seconds": 214.323,
+      "resources": {
+        "inference_seconds": 213.77996999999996,
+        "prompt_tokens": 1964,
+        "completion_tokens": 12288,
+        "length_stops": 3
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "token_limit",
+          "failed_checks": []
+        },
+        {
+          "attempt": 2,
+          "status": "token_limit",
+          "failed_checks": []
+        },
+        {
+          "attempt": 3,
+          "status": "token_limit",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "diagnostic": "No accepted candidate"
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "3d9f1afc76fb6db2c3a9829d635f4b7d28f124e276136fdf3b3ae5be2316b609",
+      "directory": "runs/glm/baseline/test-llvm-charge/0"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "baseline",
+      "task": "test-llvm-charge",
+      "trial": 1,
+      "language": "llvm",
+      "level": 3,
+      "family": "charge",
+      "stage": "heldout",
+      "seed_requested": 983318654,
+      "seed_honored": "not independently verified",
+      "accepted": false,
+      "status": "token_limit",
+      "attempts": 3,
+      "attempt_outcomes": [
+        "failed",
+        "token_limit",
+        "token_limit"
+      ],
+      "first_attempt_accepted": false,
+      "candidate": null,
+      "generation_manifest_sha256": "078262097b2c9e42c9c3abc6171a9b1a5ab9c867ee57899ed6334b27f996a6f4",
+      "wall_seconds": 178.278,
+      "resources": {
+        "inference_seconds": 177.68747,
+        "prompt_tokens": 3364,
+        "completion_tokens": 9287,
+        "length_stops": 2
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "failed",
+          "failed_checks": [
+            "llvm_profile",
+            "source_structure"
+          ]
+        },
+        {
+          "attempt": 2,
+          "status": "token_limit",
+          "failed_checks": []
+        },
+        {
+          "attempt": 3,
+          "status": "token_limit",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "diagnostic": "No accepted candidate"
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "ccdf804b26171e6bf5c3b65350f4e5983d8983e491d6edd7f6087f4425f8c63d",
+      "directory": "runs/glm/baseline/test-llvm-charge/1"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "baseline",
+      "task": "test-llvm-charge",
+      "trial": 2,
+      "language": "llvm",
+      "level": 3,
+      "family": "charge",
+      "stage": "heldout",
+      "seed_requested": 4152841712,
+      "seed_honored": "not independently verified",
+      "accepted": false,
+      "status": "failed",
+      "attempts": 3,
+      "attempt_outcomes": [
+        "token_limit",
+        "token_limit",
+        "failed"
+      ],
+      "first_attempt_accepted": false,
+      "candidate": null,
+      "generation_manifest_sha256": "b3289c9bbfd95689dd39ed8e5b160d9a60025c62e81e37794770f62a053accd6",
+      "wall_seconds": 211.081,
+      "resources": {
+        "inference_seconds": 210.00662,
+        "prompt_tokens": 1964,
+        "completion_tokens": 11789,
+        "length_stops": 2
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "token_limit",
+          "failed_checks": []
+        },
+        {
+          "attempt": 2,
+          "status": "token_limit",
+          "failed_checks": []
+        },
+        {
+          "attempt": 3,
+          "status": "failed",
+          "failed_checks": [
+            "llvm_profile",
+            "source_structure",
+            "llvm_compile"
+          ]
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "diagnostic": "No accepted candidate"
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "00faf3d41d111aa1ac359671c5f86e94abc099d3942f664609eb6c6462620871",
+      "directory": "runs/glm/baseline/test-llvm-charge/2"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "baseline",
+      "task": "test-json-1",
+      "trial": 2,
+      "language": "json",
+      "level": 1,
+      "family": "catalog-1",
+      "stage": "heldout",
+      "seed_requested": 3914418071,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 1,
+      "attempt_outcomes": [
+        "passed"
+      ],
+      "first_attempt_accepted": true,
+      "candidate": {
+        "relative_path": "json/generated.json",
+        "sha256": "6b1703712f42f4a609e461299ea903a0057bba303eaa27cf046fb23568c3148b",
+        "bytes": 432
+      },
+      "generation_manifest_sha256": "4c11b752ecf0c8ddff324897c73c4c7dec70034218ce8013e1783091b4a0b207",
+      "wall_seconds": 2.194,
+      "resources": {
+        "inference_seconds": 1.8169600000000001,
+        "prompt_tokens": 830,
+        "completion_tokens": 140,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "diagnostic": "Document calculation, input preservation, or exact field structure differs",
+        "behavior_checked": false
+      },
+      "contract_check": {
+        "passed": false,
+        "diagnostic": "$ missing required field currency",
+        "metrics": {
+          "contract_sha256": "f9153b669ac4d10be0e0d8be965a24890186f24029cae052715d65ece87c2f72",
+          "examples": 0
+        }
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "99c0e435b1f8c48cf212bb8e90cda381ae4e7db93e6ef406a5278dd0dc045460",
+      "directory": "runs/glm/baseline/test-json-1/2"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "baseline",
+      "task": "test-json-2",
+      "trial": 1,
+      "language": "json",
+      "level": 2,
+      "family": "catalog-2",
+      "stage": "heldout",
+      "seed_requested": 1816044656,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 1,
+      "attempt_outcomes": [
+        "passed"
+      ],
+      "first_attempt_accepted": true,
+      "candidate": {
+        "relative_path": "json/generated.json",
+        "sha256": "c54599c07d2282c119f5e533d6fe14e13902e2f434bde390d891d13a6116e8d4",
+        "bytes": 546
+      },
+      "generation_manifest_sha256": "68d2ee94f261bf1d3a36825b025618adc135f600af1fe4e85169bc432205e444",
+      "wall_seconds": 2.89,
+      "resources": {
+        "inference_seconds": 2.37816,
+        "prompt_tokens": 1401,
+        "completion_tokens": 181,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "diagnostic": "Document calculation, input preservation, or exact field structure differs",
+        "behavior_checked": false
+      },
+      "contract_check": {
+        "passed": false,
+        "diagnostic": "$ missing required field currency",
+        "metrics": {
+          "contract_sha256": "c2c0ce8b2755d1baf980d68b5be2cb05c8dc9f81396514120b5cc529570ada38",
+          "examples": 0
+        }
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "6d07660cd865996066ea88350de648c4c93c995aacd754d2490ed8d220fc9c39",
+      "directory": "runs/glm/baseline/test-json-2/1"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "baseline",
+      "task": "test-json-3",
+      "trial": 0,
+      "language": "json",
+      "level": 3,
+      "family": "catalog-3",
+      "stage": "heldout",
+      "seed_requested": 2271514469,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 2,
+      "attempt_outcomes": [
+        "failed",
+        "passed"
+      ],
+      "first_attempt_accepted": false,
+      "candidate": {
+        "relative_path": "json/generated.json",
+        "sha256": "e3e2b5f266b33fc176bcf84cad3d9292e6c52ab1cd0909b2bf3c328c9faeef0a",
+        "bytes": 1617
+      },
+      "generation_manifest_sha256": "747af51e03004ed07a45db828aa88596f4964d649a07d989e33196ab280eb36f",
+      "wall_seconds": 18.776,
+      "resources": {
+        "inference_seconds": 18.22632,
+        "prompt_tokens": 6571,
+        "completion_tokens": 1202,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "failed",
+          "failed_checks": [
+            "json_profile",
+            "source_structure"
+          ]
+        },
+        {
+          "attempt": 2,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "diagnostic": "Document calculation, input preservation, or exact field structure differs",
+        "behavior_checked": false
+      },
+      "contract_check": {
+        "passed": false,
+        "diagnostic": "$ missing required field currency",
+        "metrics": {
+          "contract_sha256": "3ac1b949c27730c6b171cc52433907acda736b99f82d663215cc9ebd39fa06e8",
+          "examples": 0
+        }
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "e3e655201f22b9dee52ef58049de93a30648ff0d37dec03c5c4c8a7e2dcf6829",
+      "directory": "runs/glm/baseline/test-json-3/0"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "baseline",
+      "task": "test-json-3",
+      "trial": 1,
+      "language": "json",
+      "level": 3,
+      "family": "catalog-3",
+      "stage": "heldout",
+      "seed_requested": 1510351003,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 1,
+      "attempt_outcomes": [
+        "passed"
+      ],
+      "first_attempt_accepted": true,
+      "candidate": {
+        "relative_path": "json/generated.json",
+        "sha256": "441da438064dcec67ee44af9548dac853bb798608720c312c8da485516afae3d",
+        "bytes": 1613
+      },
+      "generation_manifest_sha256": "16db97235cc20a0618954445c17a2162f41595827e8054a534a3663c06caa168",
+      "wall_seconds": 9.629,
+      "resources": {
+        "inference_seconds": 8.37402,
+        "prompt_tokens": 2740,
+        "completion_tokens": 468,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "diagnostic": "Document calculation, input preservation, or exact field structure differs",
+        "behavior_checked": false
+      },
+      "contract_check": {
+        "passed": false,
+        "diagnostic": "$ missing required field currency",
+        "metrics": {
+          "contract_sha256": "3ac1b949c27730c6b171cc52433907acda736b99f82d663215cc9ebd39fa06e8",
+          "examples": 0
+        }
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "c43cba56347b4aac6b2d57b56c555f1ade6a3dc4da6f31fd8a1d43a943b9093a",
+      "directory": "runs/glm/baseline/test-json-3/1"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "baseline",
+      "task": "test-json-3",
+      "trial": 2,
+      "language": "json",
+      "level": 3,
+      "family": "catalog-3",
+      "stage": "heldout",
+      "seed_requested": 874147190,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 1,
+      "attempt_outcomes": [
+        "passed"
+      ],
+      "first_attempt_accepted": true,
+      "candidate": {
+        "relative_path": "json/generated.json",
+        "sha256": "0abe2772820ba2485537b8d5e70c1da5fdc5bcab8b23da31b6f61bbfbbe81f26",
+        "bytes": 2348
+      },
+      "generation_manifest_sha256": "1ba810d8abac19819848ceae9536be5d2cbfb912dd27288096f8f7f615965594",
+      "wall_seconds": 8.708,
+      "resources": {
+        "inference_seconds": 8.19275,
+        "prompt_tokens": 2740,
+        "completion_tokens": 644,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "diagnostic": "Document calculation, input preservation, or exact field structure differs",
+        "behavior_checked": false
+      },
+      "contract_check": {
+        "passed": false,
+        "diagnostic": "$ missing required field currency",
+        "metrics": {
+          "contract_sha256": "3ac1b949c27730c6b171cc52433907acda736b99f82d663215cc9ebd39fa06e8",
+          "examples": 0
+        }
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "3a6f0600a62505e3f8532977cb53b2bb81a8174a2799b4055fd11cd1cae0fedd",
+      "directory": "runs/glm/baseline/test-json-3/2"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "baseline",
+      "task": "test-http-1",
+      "trial": 0,
+      "language": "http",
+      "level": 1,
+      "family": "catalog-1",
+      "stage": "heldout",
+      "seed_requested": 1547781119,
+      "seed_honored": "not independently verified",
+      "accepted": false,
+      "status": "extraction_failed",
+      "attempts": 3,
+      "attempt_outcomes": [
+        "extraction_failed",
+        "extraction_failed",
+        "extraction_failed"
+      ],
+      "first_attempt_accepted": false,
+      "candidate": null,
+      "generation_manifest_sha256": "8b4d3af62cc1c49c1cec2e1b22b6ed9bd6dc267c77afed0c056acba4dba7cf91",
+      "wall_seconds": 6.703,
+      "resources": {
+        "inference_seconds": 6.33047,
+        "prompt_tokens": 3460,
+        "completion_tokens": 512,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "extraction_failed",
+          "failed_checks": []
+        },
+        {
+          "attempt": 2,
+          "status": "extraction_failed",
+          "failed_checks": []
+        },
+        {
+          "attempt": 3,
+          "status": "extraction_failed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "diagnostic": "No accepted candidate"
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "09894cd2bd95877ab9ec5990cddf8eb824dbcbac5635bca083de3af4a4a9b850",
+      "directory": "runs/glm/baseline/test-http-1/0"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "baseline",
+      "task": "test-http-1",
+      "trial": 1,
+      "language": "http",
+      "level": 1,
+      "family": "catalog-1",
+      "stage": "heldout",
+      "seed_requested": 3214301000,
+      "seed_honored": "not independently verified",
+      "accepted": false,
+      "status": "extraction_failed",
+      "attempts": 3,
+      "attempt_outcomes": [
+        "extraction_failed",
+        "extraction_failed",
+        "extraction_failed"
+      ],
+      "first_attempt_accepted": false,
+      "candidate": null,
+      "generation_manifest_sha256": "52fbed647355e66a65d986155f5d8808476b5ec601f0c6895be04a4039bd4e70",
+      "wall_seconds": 6.669,
+      "resources": {
+        "inference_seconds": 6.215730000000001,
+        "prompt_tokens": 3460,
+        "completion_tokens": 512,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "extraction_failed",
+          "failed_checks": []
+        },
+        {
+          "attempt": 2,
+          "status": "extraction_failed",
+          "failed_checks": []
+        },
+        {
+          "attempt": 3,
+          "status": "extraction_failed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "diagnostic": "No accepted candidate"
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "f7aeb08d9e4219de8b8a547d93b833af7c4257cc049a880b965c06feec46aa33",
+      "directory": "runs/glm/baseline/test-http-1/1"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "baseline",
+      "task": "test-http-2",
+      "trial": 0,
+      "language": "http",
+      "level": 2,
+      "family": "catalog-2",
+      "stage": "heldout",
+      "seed_requested": 4165935770,
+      "seed_honored": "not independently verified",
+      "accepted": false,
+      "status": "extraction_failed",
+      "attempts": 3,
+      "attempt_outcomes": [
+        "extraction_failed",
+        "extraction_failed",
+        "extraction_failed"
+      ],
+      "first_attempt_accepted": false,
+      "candidate": null,
+      "generation_manifest_sha256": "c05770c1561ace6fa36e47edf93eef96ea8a99ec1391874212286bf33cb077ba",
+      "wall_seconds": 10.873,
+      "resources": {
+        "inference_seconds": 10.24732,
+        "prompt_tokens": 5409,
+        "completion_tokens": 800,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "extraction_failed",
+          "failed_checks": []
+        },
+        {
+          "attempt": 2,
+          "status": "extraction_failed",
+          "failed_checks": []
+        },
+        {
+          "attempt": 3,
+          "status": "extraction_failed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "diagnostic": "No accepted candidate"
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "ea048a6fb2fdfad9be16ed01b37dd6691ff34670f9e758661046f0bf74ebc203",
+      "directory": "runs/glm/baseline/test-http-2/0"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "baseline",
+      "task": "test-http-3",
+      "trial": 0,
+      "language": "http",
+      "level": 3,
+      "family": "catalog-3",
+      "stage": "heldout",
+      "seed_requested": 2582679732,
+      "seed_honored": "not independently verified",
+      "accepted": false,
+      "status": "extraction_failed",
+      "attempts": 3,
+      "attempt_outcomes": [
+        "extraction_failed",
+        "extraction_failed",
+        "extraction_failed"
+      ],
+      "first_attempt_accepted": false,
+      "candidate": null,
+      "generation_manifest_sha256": "16ca79816a7bd00c6c8886d53a45f8e8e09325af09871008cb75a37ca9c769f1",
+      "wall_seconds": 103.547,
+      "resources": {
+        "inference_seconds": 103.05756,
+        "prompt_tokens": 10422,
+        "completion_tokens": 5419,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "extraction_failed",
+          "failed_checks": []
+        },
+        {
+          "attempt": 2,
+          "status": "extraction_failed",
+          "failed_checks": []
+        },
+        {
+          "attempt": 3,
+          "status": "extraction_failed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "diagnostic": "No accepted candidate"
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "580afab3e626926770ba550f8d43ab8b960e69f4d0543010756af5257742fd22",
+      "directory": "runs/glm/baseline/test-http-3/0"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "baseline",
+      "task": "test-binary-2",
+      "trial": 0,
+      "language": "binary-info",
+      "level": 2,
+      "family": "symbolic-PE",
+      "stage": "heldout",
+      "seed_requested": 4097326014,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 1,
+      "attempt_outcomes": [
+        "passed"
+      ],
+      "first_attempt_accepted": true,
+      "candidate": {
+        "relative_path": "binary-info/generated.binary.json",
+        "sha256": "82ccf0a49dc6856e45e3bc198f25524586acd3f8619ebb70933e5c7f58b43aa8",
+        "bytes": 833
+      },
+      "generation_manifest_sha256": "fcc91b350644d69aad7eddad4e26684ccba1bcfac54a7756b1167235236c858e",
+      "wall_seconds": 3.697,
+      "resources": {
+        "inference_seconds": 3.30962,
+        "prompt_tokens": 1132,
+        "completion_tokens": 264,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": true,
+        "document_checked": true
+      },
+      "contract_check": {
+        "passed": true,
+        "diagnostic": "",
+        "metrics": {
+          "contract_sha256": "bb72f9917bfe3bb812b30b7b28142fecca979a13bfcfddb2fc92eba62a6ed280",
+          "examples": 0
+        }
+      },
+      "strict_pass": true,
+      "filter_only_accepted": true,
+      "filter_only_pass": true,
+      "id": "3f25ec11184c3edb76a858b3ac63d0bada6f85ad3ad637d52db648f9478c9817",
+      "directory": "runs/glm/baseline/test-binary-2/0"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "baseline",
+      "task": "test-binary-2",
+      "trial": 2,
+      "language": "binary-info",
+      "level": 2,
+      "family": "symbolic-PE",
+      "stage": "heldout",
+      "seed_requested": 1339635944,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 1,
+      "attempt_outcomes": [
+        "passed"
+      ],
+      "first_attempt_accepted": true,
+      "candidate": {
+        "relative_path": "binary-info/generated.binary.json",
+        "sha256": "dd97b2b24b5d871ffe6905f6f939838863a0ee9fb1307d1ca5f12377e887d2d1",
+        "bytes": 823
+      },
+      "generation_manifest_sha256": "d6e9ad57dc2962ac48de56fb513740c1100f9a65525dd336d8ecc3f810bef85e",
+      "wall_seconds": 3.492,
+      "resources": {
+        "inference_seconds": 3.11275,
+        "prompt_tokens": 1132,
+        "completion_tokens": 261,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": true,
+        "document_checked": true
+      },
+      "contract_check": {
+        "passed": true,
+        "diagnostic": "",
+        "metrics": {
+          "contract_sha256": "bb72f9917bfe3bb812b30b7b28142fecca979a13bfcfddb2fc92eba62a6ed280",
+          "examples": 0
+        }
+      },
+      "strict_pass": true,
+      "filter_only_accepted": true,
+      "filter_only_pass": true,
+      "id": "1818262295f1695a64f6ce45aa556154bae282ad33daacd37cc582070c2e3c5e",
+      "directory": "runs/glm/baseline/test-binary-2/2"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "baseline",
+      "task": "test-html-1",
+      "trial": 0,
+      "language": "html",
+      "level": 1,
+      "family": "reference-table",
+      "stage": "heldout",
+      "seed_requested": 658320223,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 1,
+      "attempt_outcomes": [
+        "passed"
+      ],
+      "first_attempt_accepted": true,
+      "candidate": {
+        "relative_path": "html/generated.html",
+        "sha256": "2e04a6f69493e3e6bccf5c40788fd3025d13795a00d31d900134e34854c53813",
+        "bytes": 780
+      },
+      "generation_manifest_sha256": "d313cb9e58ade864acc0bf4565b2305685f6d362503b58b632ada45addab37b3",
+      "wall_seconds": 3.74,
+      "resources": {
+        "inference_seconds": 3.35188,
+        "prompt_tokens": 748,
+        "completion_tokens": 244,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": true,
+        "rows_checked": 2
+      },
+      "contract_check": {
+        "passed": true,
+        "diagnostic": "",
+        "metrics": {
+          "contract_sha256": "c4a121b8275802dbd764647ec46bfcc5e82ab80f336efd5ccbff69d79f0a89ed",
+          "examples": 0,
+          "rows": 2
+        }
+      },
+      "strict_pass": true,
+      "filter_only_accepted": true,
+      "filter_only_pass": true,
+      "id": "9f01f17969eadaa14c043e34040b297702f8a88b38c0a9362a8723f912608f81",
+      "directory": "runs/glm/baseline/test-html-1/0"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "baseline",
+      "task": "test-html-1",
+      "trial": 2,
+      "language": "html",
+      "level": 1,
+      "family": "reference-table",
+      "stage": "heldout",
+      "seed_requested": 1385542685,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 1,
+      "attempt_outcomes": [
+        "passed"
+      ],
+      "first_attempt_accepted": true,
+      "candidate": {
+        "relative_path": "html/generated.html",
+        "sha256": "fdea2cf47ff1b0f91a866ad4db036d0d01b6e40ebee38037c6211d4bcd7995ad",
+        "bytes": 614
+      },
+      "generation_manifest_sha256": "0dba0ba15afdaf2d258aace5677a0a446ddb3748671364500fcb88edbad40c56",
+      "wall_seconds": 3.174,
+      "resources": {
+        "inference_seconds": 2.64528,
+        "prompt_tokens": 748,
+        "completion_tokens": 204,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": true,
+        "rows_checked": 2
+      },
+      "contract_check": {
+        "passed": true,
+        "diagnostic": "",
+        "metrics": {
+          "contract_sha256": "c4a121b8275802dbd764647ec46bfcc5e82ab80f336efd5ccbff69d79f0a89ed",
+          "examples": 0,
+          "rows": 2
+        }
+      },
+      "strict_pass": true,
+      "filter_only_accepted": true,
+      "filter_only_pass": true,
+      "id": "818b922510b26a8a676bb38aeafb69d8f09440519a3237f7e0f6659a11866444",
+      "directory": "runs/glm/baseline/test-html-1/2"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "baseline",
+      "task": "test-html-2",
+      "trial": 1,
+      "language": "html",
+      "level": 2,
+      "family": "reference-table",
+      "stage": "heldout",
+      "seed_requested": 2422946704,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 2,
+      "attempt_outcomes": [
+        "failed",
+        "passed"
+      ],
+      "first_attempt_accepted": false,
+      "candidate": {
+        "relative_path": "html/generated.html",
+        "sha256": "5899422f33efcabb169bd2b595effc1b2c77c67fa2a4114d6d6f7be954b5fc3d",
+        "bytes": 948
+      },
+      "generation_manifest_sha256": "f375936e0e53286c6706c0670084a8fe24be494704e776fe304f98eb36812f9c",
+      "wall_seconds": 8.912,
+      "resources": {
+        "inference_seconds": 8.449290000000001,
+        "prompt_tokens": 3157,
+        "completion_tokens": 635,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "failed",
+          "failed_checks": [
+            "html_parse",
+            "source_structure"
+          ]
+        },
+        {
+          "attempt": 2,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "diagnostic": "HTML numeric results, inputs, labels, or row ordering differ",
+        "behavior_checked": false
+      },
+      "contract_check": {
+        "passed": false,
+        "diagnostic": "Arithmetic differs at /1/4: expected 55, got 51",
+        "metrics": {
+          "contract_sha256": "70ec31362b9a3e9766fcd77c72cf7cf1781cc7034006834713ff9fbfca7a1a0e",
+          "examples": 0
+        }
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "d625d5b61c7aa19309cec8784bf80a1c10cf918921e6e777a060b2429ea03fb6",
+      "directory": "runs/glm/baseline/test-html-2/1"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "contract",
+      "task": "test-python-multiple",
+      "trial": 0,
+      "language": "python",
+      "level": 1,
+      "family": "multiple",
+      "stage": "heldout",
+      "seed_requested": 3213215969,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 1,
+      "attempt_outcomes": [
+        "passed"
+      ],
+      "first_attempt_accepted": true,
+      "candidate": {
+        "relative_path": "python/generated.py",
+        "sha256": "d97863be61745ead9b56ac3e32b3b949bb7c835d3edad5727becca90661ab735",
+        "bytes": 1418
+      },
+      "generation_manifest_sha256": "ad8c5dd9dab256f442c584fef4d6eccb68f648e46f7fbd51143b2c9ab8b8d40d",
+      "wall_seconds": 4.871,
+      "resources": {
+        "inference_seconds": 4.36078,
+        "prompt_tokens": 642,
+        "completion_tokens": 295,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "public_passed": 3,
+        "public_cases": 3,
+        "hidden_passed": 317,
+        "hidden_cases": 320,
+        "behavior_checked": true,
+        "failures": [
+          {
+            "index": 24,
+            "inputs": [
+              1,
+              1,
+              1,
+              -1
+            ],
+            "expected": true,
+            "actual": false
+          },
+          {
+            "index": 45,
+            "inputs": [
+              100,
+              100,
+              100,
+              -10
+            ],
+            "expected": true,
+            "actual": false
+          },
+          {
+            "index": 54,
+            "inputs": [
+              1,
+              1,
+              1,
+              1
+            ],
+            "expected": true,
+            "actual": false
+          }
+        ]
+      },
+      "contract_check": {
+        "passed": true,
+        "diagnostic": "",
+        "metrics": {
+          "contract_sha256": "24e12cf688b1f0b22d8259c9edd01fb8e09fea5ead2361ad6584f99b25c7edf5",
+          "examples": 3
+        }
+      },
+      "strict_pass": false,
+      "filter_only_accepted": true,
+      "filter_only_pass": false,
+      "id": "3b316153ddc008d09d98929cf2cfc3a30c2912de8650a92478ca3c54d42841b4",
+      "directory": "runs/glm/contract/test-python-multiple/0"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "contract",
+      "task": "test-python-multiple",
+      "trial": 2,
+      "language": "python",
+      "level": 1,
+      "family": "multiple",
+      "stage": "heldout",
+      "seed_requested": 3091743031,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 1,
+      "attempt_outcomes": [
+        "passed"
+      ],
+      "first_attempt_accepted": true,
+      "candidate": {
+        "relative_path": "python/generated.py",
+        "sha256": "a071416d39030b204c65bb793f94cb89f7eb2d51de2528233893bec915373685",
+        "bytes": 1400
+      },
+      "generation_manifest_sha256": "96262ffcbe3937696795aa4d22da5b4bae0801ebae0b22729f4fbd8ff734cb26",
+      "wall_seconds": 5.603,
+      "resources": {
+        "inference_seconds": 4.9854899999999995,
+        "prompt_tokens": 642,
+        "completion_tokens": 282,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "public_passed": 3,
+        "public_cases": 3,
+        "hidden_passed": 289,
+        "hidden_cases": 320,
+        "behavior_checked": true,
+        "failures": [
+          {
+            "index": 4,
+            "inputs": [
+              -1,
+              0,
+              -100,
+              1
+            ],
+            "expected": false,
+            "actual": true
+          },
+          {
+            "index": 17,
+            "inputs": [
+              -100,
+              0,
+              -100,
+              1
+            ],
+            "expected": false,
+            "actual": true
+          },
+          {
+            "index": 22,
+            "inputs": [
+              -1,
+              100,
+              -100,
+              1
+            ],
+            "expected": false,
+            "actual": true
+          },
+          {
+            "index": 34,
+            "inputs": [
+              1,
+              1,
+              -1,
+              1
+            ],
+            "expected": false,
+            "actual": true
+          },
+          {
+            "index": 36,
+            "inputs": [
+              -1,
+              1,
+              -1,
+              1
+            ],
+            "expected": false,
+            "actual": true
+          }
+        ]
+      },
+      "contract_check": {
+        "passed": true,
+        "diagnostic": "",
+        "metrics": {
+          "contract_sha256": "24e12cf688b1f0b22d8259c9edd01fb8e09fea5ead2361ad6584f99b25c7edf5",
+          "examples": 3
+        }
+      },
+      "strict_pass": false,
+      "filter_only_accepted": true,
+      "filter_only_pass": false,
+      "id": "ffcae2447c01dbf69cc73489e3487f157b86a57cdda0f3c3b365d7e20674242a",
+      "directory": "runs/glm/contract/test-python-multiple/2"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "contract",
+      "task": "test-python-median",
+      "trial": 0,
+      "language": "python",
+      "level": 1,
+      "family": "median",
+      "stage": "heldout",
+      "seed_requested": 1138813045,
+      "seed_honored": "not independently verified",
+      "accepted": false,
+      "status": "failed",
+      "attempts": 3,
+      "attempt_outcomes": [
+        "failed",
+        "failed",
+        "failed"
+      ],
+      "first_attempt_accepted": false,
+      "candidate": null,
+      "generation_manifest_sha256": "4dd59a0e5ddf1473f6b3386247dd15adcb3ae52601b0e6a769b4a978b8eda215",
+      "wall_seconds": 16.677,
+      "resources": {
+        "inference_seconds": 16.10832,
+        "prompt_tokens": 2992,
+        "completion_tokens": 1090,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "failed",
+          "failed_checks": [
+            "task_contract"
+          ]
+        },
+        {
+          "attempt": 2,
+          "status": "failed",
+          "failed_checks": [
+            "python_compile",
+            "source_structure",
+            "task_contract"
+          ]
+        },
+        {
+          "attempt": 3,
+          "status": "failed",
+          "failed_checks": [
+            "task_contract"
+          ]
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "diagnostic": "No accepted candidate"
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "70ce90d237d58f3b2077f402709d52789e94f847eb63fb68f04e8088c7b95e7f",
+      "directory": "runs/glm/contract/test-python-median/0"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "contract",
+      "task": "test-python-median",
+      "trial": 1,
+      "language": "python",
+      "level": 1,
+      "family": "median",
+      "stage": "heldout",
+      "seed_requested": 3729933106,
+      "seed_honored": "not independently verified",
+      "accepted": false,
+      "status": "failed",
+      "attempts": 3,
+      "attempt_outcomes": [
+        "failed",
+        "failed",
+        "failed"
+      ],
+      "first_attempt_accepted": false,
+      "candidate": null,
+      "generation_manifest_sha256": "87c4fb8dcf26eed65424fbf3cc94fdf8f175d05ca930e4059a2664e7e0292f27",
+      "wall_seconds": 13.614,
+      "resources": {
+        "inference_seconds": 13.02096,
+        "prompt_tokens": 2758,
+        "completion_tokens": 902,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "failed",
+          "failed_checks": [
+            "source_structure",
+            "task_contract"
+          ]
+        },
+        {
+          "attempt": 2,
+          "status": "failed",
+          "failed_checks": [
+            "python_compile",
+            "source_structure",
+            "task_contract"
+          ]
+        },
+        {
+          "attempt": 3,
+          "status": "failed",
+          "failed_checks": [
+            "python_ast",
+            "python_compile",
+            "source_structure",
+            "task_contract"
+          ]
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "diagnostic": "No accepted candidate"
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "c9c9649dbba7e75b472b0531c77b6a2708d1d062fbe52c1d0bfa38c710b19afd",
+      "directory": "runs/glm/contract/test-python-median/1"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "contract",
+      "task": "test-python-delivery",
+      "trial": 1,
+      "language": "python",
+      "level": 2,
+      "family": "delivery",
+      "stage": "heldout",
+      "seed_requested": 2673844484,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 1,
+      "attempt_outcomes": [
+        "passed"
+      ],
+      "first_attempt_accepted": true,
+      "candidate": {
+        "relative_path": "python/generated.py",
+        "sha256": "f2e88bc3e6f3697affb4b985e65ce228d541731c25439af664fd8589f1e92d07",
+        "bytes": 2428
+      },
+      "generation_manifest_sha256": "e7dee237a7fb3780a3f15b2c2fe824c9a7916776ba72fedaf0fd3e62cc983dcb",
+      "wall_seconds": 8.091,
+      "resources": {
+        "inference_seconds": 7.68508,
+        "prompt_tokens": 651,
+        "completion_tokens": 517,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": true,
+        "public_passed": 3,
+        "public_cases": 3,
+        "hidden_passed": 320,
+        "hidden_cases": 320,
+        "behavior_checked": true,
+        "failures": []
+      },
+      "contract_check": {
+        "passed": true,
+        "diagnostic": "",
+        "metrics": {
+          "contract_sha256": "d7cc0df75ff7540a46946634677f6b829a05ba2e800fd1724b75cc476b8ca281",
+          "examples": 3
+        }
+      },
+      "strict_pass": true,
+      "filter_only_accepted": true,
+      "filter_only_pass": true,
+      "id": "9f552524acfe5f5d03e6a60d4854e3b02d83a81b3c7dd59d6496245f638919cd",
+      "directory": "runs/glm/contract/test-python-delivery/1"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "contract",
+      "task": "test-python-overlap",
+      "trial": 0,
+      "language": "python",
+      "level": 2,
+      "family": "intersection",
+      "stage": "heldout",
+      "seed_requested": 533875225,
+      "seed_honored": "not independently verified",
+      "accepted": false,
+      "status": "benign_policy_failed",
+      "attempts": 3,
+      "attempt_outcomes": [
+        "benign_policy_failed",
+        "benign_policy_failed",
+        "benign_policy_failed"
+      ],
+      "first_attempt_accepted": false,
+      "candidate": null,
+      "generation_manifest_sha256": "53d25a1bb3c8916d21df8f6fa8bf937f73c9bfcb1579c9fb860d753822bc3049",
+      "wall_seconds": 16.619,
+      "resources": {
+        "inference_seconds": 15.985260000000002,
+        "prompt_tokens": 2965,
+        "completion_tokens": 1085,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "benign_policy_failed",
+          "failed_checks": []
+        },
+        {
+          "attempt": 2,
+          "status": "benign_policy_failed",
+          "failed_checks": []
+        },
+        {
+          "attempt": 3,
+          "status": "benign_policy_failed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "diagnostic": "No accepted candidate"
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "0df341e5935ab4e83a4e1d35191539581b8f7e8084282e0fff1b9ff2137aa00f",
+      "directory": "runs/glm/contract/test-python-overlap/0"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "contract",
+      "task": "test-python-checksum",
+      "trial": 2,
+      "language": "python",
+      "level": 3,
+      "family": "checksum",
+      "stage": "heldout",
+      "seed_requested": 1573974892,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 1,
+      "attempt_outcomes": [
+        "passed"
+      ],
+      "first_attempt_accepted": true,
+      "candidate": {
+        "relative_path": "python/generated.py",
+        "sha256": "525110dabd47f9e9ca469b6246551fd94d16033327c8e6c89e257ba1e4bb0540",
+        "bytes": 1957
+      },
+      "generation_manifest_sha256": "bd3c7c3f7c6b7166c774d86d3f77a0936ba24ae451525d6e042ce87cbfa49d53",
+      "wall_seconds": 6.77,
+      "resources": {
+        "inference_seconds": 6.12995,
+        "prompt_tokens": 605,
+        "completion_tokens": 432,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": true,
+        "public_passed": 3,
+        "public_cases": 3,
+        "hidden_passed": 320,
+        "hidden_cases": 320,
+        "behavior_checked": true,
+        "failures": []
+      },
+      "contract_check": {
+        "passed": true,
+        "diagnostic": "",
+        "metrics": {
+          "contract_sha256": "6016861dfb3b1cba5314e5ddca4265079dbfd361fb5e9eb56e1dc00841957c91",
+          "examples": 3
+        }
+      },
+      "strict_pass": true,
+      "filter_only_accepted": true,
+      "filter_only_pass": true,
+      "id": "d991b546c3c5a3a286aa6c7809994e152f117d539f06e0d3e652d904b1b6ed2e",
+      "directory": "runs/glm/contract/test-python-checksum/2"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "contract",
+      "task": "test-python-gcd",
+      "trial": 0,
+      "language": "python",
+      "level": 3,
+      "family": "gcd",
+      "stage": "heldout",
+      "seed_requested": 3847417293,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 1,
+      "attempt_outcomes": [
+        "passed"
+      ],
+      "first_attempt_accepted": true,
+      "candidate": {
+        "relative_path": "python/generated.py",
+        "sha256": "10d5dcfe17291e78380601ef657a0129ec47db59207118b04178f195afd5e8d5",
+        "bytes": 1509
+      },
+      "generation_manifest_sha256": "ffa5134f6df29820a44f604daf2760039cf1fed45b14f70ee5fa78fe292b798d",
+      "wall_seconds": 5.073,
+      "resources": {
+        "inference_seconds": 4.52277,
+        "prompt_tokens": 626,
+        "completion_tokens": 314,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "diagnostic": "Undefined integer computation in contract example.",
+        "behavior_checked": false
+      },
+      "contract_check": {
+        "passed": true,
+        "diagnostic": "",
+        "metrics": {
+          "contract_sha256": "78c0842f893eff8ea3de048c9f8bbf9c97f0628a2f8010849eeed112546fb134",
+          "examples": 3
+        }
+      },
+      "strict_pass": false,
+      "filter_only_accepted": true,
+      "filter_only_pass": false,
+      "id": "8d5e12bd33ac22e7e810a303ad9fa48164d040a31489d656a523be1a752523af",
+      "directory": "runs/glm/contract/test-python-gcd/0"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "contract",
+      "task": "test-sql-distance",
+      "trial": 0,
+      "language": "sql",
+      "level": 1,
+      "family": "distance",
+      "stage": "heldout",
+      "seed_requested": 3065293432,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 3,
+      "attempt_outcomes": [
+        "failed",
+        "failed",
+        "passed"
+      ],
+      "first_attempt_accepted": false,
+      "candidate": {
+        "relative_path": "sql/generated.sql",
+        "sha256": "6b08ca97817f8a509414d87350ce7cc246dd5727003827bf6bef6d1429326a84",
+        "bytes": 1275
+      },
+      "generation_manifest_sha256": "75ddeac78500ce8df2b308a88acaff5b2d13174a615eb52f1d67989823f25e17",
+      "wall_seconds": 11.202,
+      "resources": {
+        "inference_seconds": 10.64194,
+        "prompt_tokens": 2499,
+        "completion_tokens": 732,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "failed",
+          "failed_checks": [
+            "task_contract"
+          ]
+        },
+        {
+          "attempt": 2,
+          "status": "failed",
+          "failed_checks": [
+            "sql_prepare",
+            "source_structure",
+            "task_contract"
+          ]
+        },
+        {
+          "attempt": 3,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": true,
+        "public_passed": 3,
+        "public_cases": 3,
+        "hidden_passed": 320,
+        "hidden_cases": 320,
+        "behavior_checked": true,
+        "failures": []
+      },
+      "contract_check": {
+        "passed": true,
+        "diagnostic": "",
+        "metrics": {
+          "contract_sha256": "6b59587f3db3d82fca4b0a5fcd02eeb45c2dddf481dc27547f07aa0e1a2fa86d",
+          "examples": 3
+        }
+      },
+      "strict_pass": true,
+      "filter_only_accepted": true,
+      "filter_only_pass": true,
+      "id": "75ea48806b7bfef516c31a0d0815cd191ed159b16b24cd71524451ad9fa223e1",
+      "directory": "runs/glm/contract/test-sql-distance/0"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "contract",
+      "task": "test-sql-billing",
+      "trial": 0,
+      "language": "sql",
+      "level": 2,
+      "family": "billing",
+      "stage": "heldout",
+      "seed_requested": 4098801557,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 1,
+      "attempt_outcomes": [
+        "passed"
+      ],
+      "first_attempt_accepted": true,
+      "candidate": {
+        "relative_path": "sql/generated.sql",
+        "sha256": "6c26eb356c5a8e0612058620d29ef1867d4b1b41003874fd9c923b5c0571e2cd",
+        "bytes": 438
+      },
+      "generation_manifest_sha256": "34519389c47813cd4ac267c41167d50fdd72c718feb90a88dc9368039442dae4",
+      "wall_seconds": 3.691,
+      "resources": {
+        "inference_seconds": 2.99356,
+        "prompt_tokens": 567,
+        "completion_tokens": 191,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": true,
+        "public_passed": 3,
+        "public_cases": 3,
+        "hidden_passed": 320,
+        "hidden_cases": 320,
+        "behavior_checked": true,
+        "failures": []
+      },
+      "contract_check": {
+        "passed": true,
+        "diagnostic": "",
+        "metrics": {
+          "contract_sha256": "104130d967574e89c16632e09da71f676a03c061345e4ecd310d0f79a367417a",
+          "examples": 3
+        }
+      },
+      "strict_pass": true,
+      "filter_only_accepted": true,
+      "filter_only_pass": true,
+      "id": "31ceeb6764d660db1aa9df23630f74e49b4847e1c82fd741715a1a0f6fd93ea2",
+      "directory": "runs/glm/contract/test-sql-billing/0"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "contract",
+      "task": "test-sql-invoice",
+      "trial": 0,
+      "language": "sql",
+      "level": 3,
+      "family": "invoice",
+      "stage": "heldout",
+      "seed_requested": 4115743438,
+      "seed_honored": "not independently verified",
+      "accepted": false,
+      "status": "failed",
+      "attempts": 3,
+      "attempt_outcomes": [
+        "failed",
+        "failed",
+        "failed"
+      ],
+      "first_attempt_accepted": false,
+      "candidate": null,
+      "generation_manifest_sha256": "6279f16323b2b923052c402696c2b456f71e03d0a2856e5eb849f935e3ba912f",
+      "wall_seconds": 15.359,
+      "resources": {
+        "inference_seconds": 14.801990000000002,
+        "prompt_tokens": 2936,
+        "completion_tokens": 1018,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "failed",
+          "failed_checks": [
+            "sql_prepare",
+            "source_structure",
+            "task_contract"
+          ]
+        },
+        {
+          "attempt": 2,
+          "status": "failed",
+          "failed_checks": [
+            "sql_prepare",
+            "source_structure",
+            "task_contract"
+          ]
+        },
+        {
+          "attempt": 3,
+          "status": "failed",
+          "failed_checks": [
+            "sql_prepare",
+            "source_structure",
+            "task_contract"
+          ]
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "diagnostic": "No accepted candidate"
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "8ac42c2e3d2b44660b937ee973f49b9400aa82ff56b7491caad348459f09179f",
+      "directory": "runs/glm/contract/test-sql-invoice/0"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "contract",
+      "task": "test-llvm-abs",
+      "trial": 1,
+      "language": "llvm",
+      "level": 1,
+      "family": "saturated_abs",
+      "stage": "heldout",
+      "seed_requested": 569534131,
+      "seed_honored": "not independently verified",
+      "accepted": false,
+      "status": "failed",
+      "attempts": 3,
+      "attempt_outcomes": [
+        "failed",
+        "failed",
+        "failed"
+      ],
+      "first_attempt_accepted": false,
+      "candidate": null,
+      "generation_manifest_sha256": "8238fde0e8f6d539ea2f313c202090ec3e70fe6485668748a5dacbf5b0862a8c",
+      "wall_seconds": 23.209,
+      "resources": {
+        "inference_seconds": 22.443450000000002,
+        "prompt_tokens": 2770,
+        "completion_tokens": 1463,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "failed",
+          "failed_checks": [
+            "task_contract"
+          ]
+        },
+        {
+          "attempt": 2,
+          "status": "failed",
+          "failed_checks": [
+            "task_contract"
+          ]
+        },
+        {
+          "attempt": 3,
+          "status": "failed",
+          "failed_checks": [
+            "llvm_profile",
+            "source_structure",
+            "llvm_compile",
+            "task_contract"
+          ]
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "diagnostic": "No accepted candidate"
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "6524a0b704cc5fa59849e2b9629f8a439a34db05b5cf37e8f3efaa44e75346ca",
+      "directory": "runs/glm/contract/test-llvm-abs/1"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "contract",
+      "task": "test-llvm-bounded",
+      "trial": 0,
+      "language": "llvm",
+      "level": 2,
+      "family": "bounded_add",
+      "stage": "heldout",
+      "seed_requested": 1753364982,
+      "seed_honored": "not independently verified",
+      "accepted": false,
+      "status": "failed",
+      "attempts": 3,
+      "attempt_outcomes": [
+        "failed",
+        "failed",
+        "failed"
+      ],
+      "first_attempt_accepted": false,
+      "candidate": null,
+      "generation_manifest_sha256": "97ac6dcd6195bfd45533422b4bda1185187fbf78281065359b54ee76b57b600f",
+      "wall_seconds": 80.279,
+      "resources": {
+        "inference_seconds": 79.64545999999999,
+        "prompt_tokens": 3119,
+        "completion_tokens": 4994,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "failed",
+          "failed_checks": [
+            "task_contract"
+          ]
+        },
+        {
+          "attempt": 2,
+          "status": "failed",
+          "failed_checks": [
+            "llvm_profile",
+            "source_structure",
+            "llvm_compile",
+            "task_contract"
+          ]
+        },
+        {
+          "attempt": 3,
+          "status": "failed",
+          "failed_checks": [
+            "task_contract"
+          ]
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "diagnostic": "No accepted candidate"
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "baa2d0266d98a3ed513ad5b4031022d3daffa2d483ad122a00ef9080a1801cb3",
+      "directory": "runs/glm/contract/test-llvm-bounded/0"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "contract",
+      "task": "test-llvm-charge",
+      "trial": 0,
+      "language": "llvm",
+      "level": 3,
+      "family": "charge",
+      "stage": "heldout",
+      "seed_requested": 4283438776,
+      "seed_honored": "not independently verified",
+      "accepted": false,
+      "status": "token_limit",
+      "attempts": 3,
+      "attempt_outcomes": [
+        "token_limit",
+        "token_limit",
+        "token_limit"
+      ],
+      "first_attempt_accepted": false,
+      "candidate": null,
+      "generation_manifest_sha256": "ce3132016cfaf0a90181000d7f930c2004b5c7359e421b2cdd045411c447add3",
+      "wall_seconds": 233.497,
+      "resources": {
+        "inference_seconds": 232.96698999999998,
+        "prompt_tokens": 2100,
+        "completion_tokens": 12288,
+        "length_stops": 3
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "token_limit",
+          "failed_checks": []
+        },
+        {
+          "attempt": 2,
+          "status": "token_limit",
+          "failed_checks": []
+        },
+        {
+          "attempt": 3,
+          "status": "token_limit",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "diagnostic": "No accepted candidate"
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "f20afc6ba4e986184c585a4a17ad952f91f73b6fa804fe12efb060f485955743",
+      "directory": "runs/glm/contract/test-llvm-charge/0"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "contract",
+      "task": "test-llvm-charge",
+      "trial": 1,
+      "language": "llvm",
+      "level": 3,
+      "family": "charge",
+      "stage": "heldout",
+      "seed_requested": 983318654,
+      "seed_honored": "not independently verified",
+      "accepted": false,
+      "status": "token_limit",
+      "attempts": 3,
+      "attempt_outcomes": [
+        "failed",
+        "failed",
+        "token_limit"
+      ],
+      "first_attempt_accepted": false,
+      "candidate": null,
+      "generation_manifest_sha256": "3d49820972f2830688d0d7124bb70706900c91b1387440ee89cdb1f0735c179b",
+      "wall_seconds": 95.613,
+      "resources": {
+        "inference_seconds": 94.82246,
+        "prompt_tokens": 3866,
+        "completion_tokens": 5488,
+        "length_stops": 1
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "failed",
+          "failed_checks": [
+            "llvm_profile",
+            "source_structure",
+            "task_contract"
+          ]
+        },
+        {
+          "attempt": 2,
+          "status": "failed",
+          "failed_checks": [
+            "task_contract"
+          ]
+        },
+        {
+          "attempt": 3,
+          "status": "token_limit",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "diagnostic": "No accepted candidate"
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "7f59e2d8e9324072738bd91d162aebba448111d869bd80d9c8eefedad147e6c5",
+      "directory": "runs/glm/contract/test-llvm-charge/1"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "contract",
+      "task": "test-llvm-charge",
+      "trial": 2,
+      "language": "llvm",
+      "level": 3,
+      "family": "charge",
+      "stage": "heldout",
+      "seed_requested": 4152841712,
+      "seed_honored": "not independently verified",
+      "accepted": false,
+      "status": "failed",
+      "attempts": 3,
+      "attempt_outcomes": [
+        "token_limit",
+        "token_limit",
+        "failed"
+      ],
+      "first_attempt_accepted": false,
+      "candidate": null,
+      "generation_manifest_sha256": "3fde3060a89c6f7fc082832fcf881871aa4065f9d00777c62c2297a7d6113604",
+      "wall_seconds": 158.388,
+      "resources": {
+        "inference_seconds": 157.6152,
+        "prompt_tokens": 2100,
+        "completion_tokens": 8768,
+        "length_stops": 2
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "token_limit",
+          "failed_checks": []
+        },
+        {
+          "attempt": 2,
+          "status": "token_limit",
+          "failed_checks": []
+        },
+        {
+          "attempt": 3,
+          "status": "failed",
+          "failed_checks": [
+            "task_contract"
+          ]
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "diagnostic": "No accepted candidate"
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "bc94022e6c72268991b4328d1350c3ef505228c663ac1611fbfe64237454d905",
+      "directory": "runs/glm/contract/test-llvm-charge/2"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "contract",
+      "task": "test-json-1",
+      "trial": 2,
+      "language": "json",
+      "level": 1,
+      "family": "catalog-1",
+      "stage": "heldout",
+      "seed_requested": 3914418071,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 2,
+      "attempt_outcomes": [
+        "failed",
+        "passed"
+      ],
+      "first_attempt_accepted": false,
+      "candidate": {
+        "relative_path": "json/generated.json",
+        "sha256": "ed01b7e842c57f9ad3747a8f7d915e751a118b31c1a4d3b2c7a8f3b0e469b0f8",
+        "bytes": 278
+      },
+      "generation_manifest_sha256": "fe1878ce40e2fb47e607bc92c8691872e4431180da3ebeea9d3a272c49e56226",
+      "wall_seconds": 4.205,
+      "resources": {
+        "inference_seconds": 3.84583,
+        "prompt_tokens": 1864,
+        "completion_tokens": 309,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "failed",
+          "failed_checks": [
+            "source_structure",
+            "task_contract"
+          ]
+        },
+        {
+          "attempt": 2,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": true,
+        "document_checked": true
+      },
+      "contract_check": {
+        "passed": true,
+        "diagnostic": "",
+        "metrics": {
+          "contract_sha256": "f9153b669ac4d10be0e0d8be965a24890186f24029cae052715d65ece87c2f72",
+          "examples": 0
+        }
+      },
+      "strict_pass": true,
+      "filter_only_accepted": true,
+      "filter_only_pass": true,
+      "id": "f4224215a6071ed33d9d1d9286ef9a187a4369726cb5446b1aadb8df74643745",
+      "directory": "runs/glm/contract/test-json-1/2"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "contract",
+      "task": "test-json-2",
+      "trial": 1,
+      "language": "json",
+      "level": 2,
+      "family": "catalog-2",
+      "stage": "heldout",
+      "seed_requested": 1816044656,
+      "seed_honored": "not independently verified",
+      "accepted": false,
+      "status": "failed",
+      "attempts": 3,
+      "attempt_outcomes": [
+        "failed",
+        "failed",
+        "failed"
+      ],
+      "first_attempt_accepted": false,
+      "candidate": null,
+      "generation_manifest_sha256": "53de5901319829ff9d3f608828be9c95147f5940928a804156e3e7405ef1a87d",
+      "wall_seconds": 7.007,
+      "resources": {
+        "inference_seconds": 6.61262,
+        "prompt_tokens": 4118,
+        "completion_tokens": 485,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "failed",
+          "failed_checks": [
+            "source_structure",
+            "task_contract"
+          ]
+        },
+        {
+          "attempt": 2,
+          "status": "failed",
+          "failed_checks": [
+            "source_structure",
+            "task_contract"
+          ]
+        },
+        {
+          "attempt": 3,
+          "status": "failed",
+          "failed_checks": [
+            "task_contract"
+          ]
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "diagnostic": "No accepted candidate"
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "1fcf01a196fcec7ea0e90926c5d082592e02133dcb96cffd5d4787348ba40f7c",
+      "directory": "runs/glm/contract/test-json-2/1"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "contract",
+      "task": "test-json-3",
+      "trial": 0,
+      "language": "json",
+      "level": 3,
+      "family": "catalog-3",
+      "stage": "heldout",
+      "seed_requested": 2271514469,
+      "seed_honored": "not independently verified",
+      "accepted": false,
+      "status": "failed",
+      "attempts": 3,
+      "attempt_outcomes": [
+        "failed",
+        "failed",
+        "failed"
+      ],
+      "first_attempt_accepted": false,
+      "candidate": null,
+      "generation_manifest_sha256": "39c141bf2887cc8339b2afec88a107617d384983be0075ee06e9d9fccfc10387",
+      "wall_seconds": 16.869,
+      "resources": {
+        "inference_seconds": 16.253970000000002,
+        "prompt_tokens": 7344,
+        "completion_tokens": 1299,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "failed",
+          "failed_checks": [
+            "task_contract"
+          ]
+        },
+        {
+          "attempt": 2,
+          "status": "failed",
+          "failed_checks": [
+            "task_contract"
+          ]
+        },
+        {
+          "attempt": 3,
+          "status": "failed",
+          "failed_checks": [
+            "task_contract"
+          ]
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "diagnostic": "No accepted candidate"
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "0e4af620081a40564b5997427b15b6cc08808f16215d4c430760c814d64b2007",
+      "directory": "runs/glm/contract/test-json-3/0"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "contract",
+      "task": "test-json-3",
+      "trial": 1,
+      "language": "json",
+      "level": 3,
+      "family": "catalog-3",
+      "stage": "heldout",
+      "seed_requested": 1510351003,
+      "seed_honored": "not independently verified",
+      "accepted": false,
+      "status": "failed",
+      "attempts": 3,
+      "attempt_outcomes": [
+        "failed",
+        "failed",
+        "failed"
+      ],
+      "first_attempt_accepted": false,
+      "candidate": null,
+      "generation_manifest_sha256": "8c66dc5ebc91b5a13012c179b0011034be88ab4afa71d108fa7766848025d1ac",
+      "wall_seconds": 16.246,
+      "resources": {
+        "inference_seconds": 15.63112,
+        "prompt_tokens": 7343,
+        "completion_tokens": 1298,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "failed",
+          "failed_checks": [
+            "task_contract"
+          ]
+        },
+        {
+          "attempt": 2,
+          "status": "failed",
+          "failed_checks": [
+            "task_contract"
+          ]
+        },
+        {
+          "attempt": 3,
+          "status": "failed",
+          "failed_checks": [
+            "task_contract"
+          ]
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "diagnostic": "No accepted candidate"
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "6b2e1fafa4e3a4b68ebbc1285bf75916bc31a9d0ba35cfec577dfba76e991e28",
+      "directory": "runs/glm/contract/test-json-3/1"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "contract",
+      "task": "test-json-3",
+      "trial": 2,
+      "language": "json",
+      "level": 3,
+      "family": "catalog-3",
+      "stage": "heldout",
+      "seed_requested": 874147190,
+      "seed_honored": "not independently verified",
+      "accepted": false,
+      "status": "failed",
+      "attempts": 3,
+      "attempt_outcomes": [
+        "failed",
+        "failed",
+        "failed"
+      ],
+      "first_attempt_accepted": false,
+      "candidate": null,
+      "generation_manifest_sha256": "733bbda51ceb4cc76cc4fdc69657487e8b807e7fcd433eb70b14d987ad9fe8c6",
+      "wall_seconds": 16.447,
+      "resources": {
+        "inference_seconds": 15.78828,
+        "prompt_tokens": 7344,
+        "completion_tokens": 1301,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "failed",
+          "failed_checks": [
+            "task_contract"
+          ]
+        },
+        {
+          "attempt": 2,
+          "status": "failed",
+          "failed_checks": [
+            "task_contract"
+          ]
+        },
+        {
+          "attempt": 3,
+          "status": "failed",
+          "failed_checks": [
+            "task_contract"
+          ]
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "diagnostic": "No accepted candidate"
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "0684bf8b1a06061a5897e1335cd8b870e814e3c7cd0958cc8734ae0bcc7f4c24",
+      "directory": "runs/glm/contract/test-json-3/2"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "contract",
+      "task": "test-http-1",
+      "trial": 0,
+      "language": "http",
+      "level": 1,
+      "family": "catalog-1",
+      "stage": "heldout",
+      "seed_requested": 1547781119,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 1,
+      "attempt_outcomes": [
+        "passed"
+      ],
+      "first_attempt_accepted": true,
+      "candidate": {
+        "relative_path": "http/generated.http",
+        "sha256": "edd26b7bbcadd39f3f27d1b5f07a33e6ec40793156a44d5a44028acf58003d6e",
+        "bytes": 457
+      },
+      "generation_manifest_sha256": "59bd6531fa271357a4a0c79968eb26c5952742db8c720780a26ad5ee71b577d7",
+      "wall_seconds": 2.233,
+      "resources": {
+        "inference_seconds": 1.74061,
+        "prompt_tokens": 860,
+        "completion_tokens": 135,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": true,
+        "document_checked": true
+      },
+      "contract_check": {
+        "passed": true,
+        "diagnostic": "",
+        "metrics": {
+          "contract_sha256": "3c4177c3173dafbcc93cada7fef051fb126c527f335f3ac732a7499642e1c991",
+          "examples": 0
+        }
+      },
+      "strict_pass": true,
+      "filter_only_accepted": true,
+      "filter_only_pass": true,
+      "id": "cd50121df3bc63136331b18f71f638de9d9a7474845ca9a41cd22044b5111c29",
+      "directory": "runs/glm/contract/test-http-1/0"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "contract",
+      "task": "test-http-1",
+      "trial": 1,
+      "language": "http",
+      "level": 1,
+      "family": "catalog-1",
+      "stage": "heldout",
+      "seed_requested": 3214301000,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 1,
+      "attempt_outcomes": [
+        "passed"
+      ],
+      "first_attempt_accepted": true,
+      "candidate": {
+        "relative_path": "http/generated.http",
+        "sha256": "edd26b7bbcadd39f3f27d1b5f07a33e6ec40793156a44d5a44028acf58003d6e",
+        "bytes": 457
+      },
+      "generation_manifest_sha256": "c027a7aa113fbf48b52dbc547136a2285351e7666e0fd1589b7f8ffb13b36c75",
+      "wall_seconds": 2.121,
+      "resources": {
+        "inference_seconds": 1.7666600000000001,
+        "prompt_tokens": 860,
+        "completion_tokens": 135,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": true,
+        "document_checked": true
+      },
+      "contract_check": {
+        "passed": true,
+        "diagnostic": "",
+        "metrics": {
+          "contract_sha256": "3c4177c3173dafbcc93cada7fef051fb126c527f335f3ac732a7499642e1c991",
+          "examples": 0
+        }
+      },
+      "strict_pass": true,
+      "filter_only_accepted": true,
+      "filter_only_pass": true,
+      "id": "03653ab5398cfc0f9cc2fe7c349410aecd7744f1705c511df02dfb2d3619930b",
+      "directory": "runs/glm/contract/test-http-1/1"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "contract",
+      "task": "test-http-2",
+      "trial": 0,
+      "language": "http",
+      "level": 2,
+      "family": "catalog-2",
+      "stage": "heldout",
+      "seed_requested": 4165935770,
+      "seed_honored": "not independently verified",
+      "accepted": false,
+      "status": "extraction_failed",
+      "attempts": 3,
+      "attempt_outcomes": [
+        "failed",
+        "token_limit",
+        "extraction_failed"
+      ],
+      "first_attempt_accepted": false,
+      "candidate": null,
+      "generation_manifest_sha256": "b83962bb3f07e1e937745ed9ecb087efa4a296641d0ded35bd048696347de886",
+      "wall_seconds": 83.684,
+      "resources": {
+        "inference_seconds": 83.10323999999999,
+        "prompt_tokens": 4171,
+        "completion_tokens": 4558,
+        "length_stops": 1
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "failed",
+          "failed_checks": [
+            "task_contract"
+          ]
+        },
+        {
+          "attempt": 2,
+          "status": "token_limit",
+          "failed_checks": []
+        },
+        {
+          "attempt": 3,
+          "status": "extraction_failed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "diagnostic": "No accepted candidate"
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "8c50ac90a2f13c4a1175e55c3a98ca4eb2b43756296cd875ca0cbe724d40ce67",
+      "directory": "runs/glm/contract/test-http-2/0"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "contract",
+      "task": "test-http-3",
+      "trial": 0,
+      "language": "http",
+      "level": 3,
+      "family": "catalog-3",
+      "stage": "heldout",
+      "seed_requested": 2582679732,
+      "seed_honored": "not independently verified",
+      "accepted": false,
+      "status": "token_limit",
+      "attempts": 3,
+      "attempt_outcomes": [
+        "failed",
+        "extraction_failed",
+        "token_limit"
+      ],
+      "first_attempt_accepted": false,
+      "candidate": null,
+      "generation_manifest_sha256": "7ea780d77087d74511fa6821c9f65c31ba96730e21b99f0e510fda17e790599b",
+      "wall_seconds": 110.78,
+      "resources": {
+        "inference_seconds": 110.22513000000001,
+        "prompt_tokens": 7665,
+        "completion_tokens": 4900,
+        "length_stops": 1
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "failed",
+          "failed_checks": [
+            "task_contract"
+          ]
+        },
+        {
+          "attempt": 2,
+          "status": "extraction_failed",
+          "failed_checks": []
+        },
+        {
+          "attempt": 3,
+          "status": "token_limit",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "diagnostic": "No accepted candidate"
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "51b79a8364a3d22feba853c01fd4d7e150dd29b7638fa68de6a1867c15850478",
+      "directory": "runs/glm/contract/test-http-3/0"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "contract",
+      "task": "test-binary-2",
+      "trial": 0,
+      "language": "binary-info",
+      "level": 2,
+      "family": "symbolic-PE",
+      "stage": "heldout",
+      "seed_requested": 4097326014,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 1,
+      "attempt_outcomes": [
+        "passed"
+      ],
+      "first_attempt_accepted": true,
+      "candidate": {
+        "relative_path": "binary-info/generated.binary.json",
+        "sha256": "0ba00e9eaa29975062175d7ed82d3d6b522a160b04cf6f52ddca813ce5406bf3",
+        "bytes": 849
+      },
+      "generation_manifest_sha256": "68871ebc453127e8018e85c7cc9b10e187e7c6163396a3f7bf5c71481ee0c388",
+      "wall_seconds": 4.065,
+      "resources": {
+        "inference_seconds": 3.35162,
+        "prompt_tokens": 1030,
+        "completion_tokens": 263,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": true,
+        "document_checked": true
+      },
+      "contract_check": {
+        "passed": true,
+        "diagnostic": "",
+        "metrics": {
+          "contract_sha256": "bb72f9917bfe3bb812b30b7b28142fecca979a13bfcfddb2fc92eba62a6ed280",
+          "examples": 0
+        }
+      },
+      "strict_pass": true,
+      "filter_only_accepted": true,
+      "filter_only_pass": true,
+      "id": "c3e2af2bc5717866a47fd655b47a83651836f4f8ad519d2d248bdde76b5d81c2",
+      "directory": "runs/glm/contract/test-binary-2/0"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "contract",
+      "task": "test-binary-2",
+      "trial": 2,
+      "language": "binary-info",
+      "level": 2,
+      "family": "symbolic-PE",
+      "stage": "heldout",
+      "seed_requested": 1339635944,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 1,
+      "attempt_outcomes": [
+        "passed"
+      ],
+      "first_attempt_accepted": true,
+      "candidate": {
+        "relative_path": "binary-info/generated.binary.json",
+        "sha256": "ca059246957f8eb2a831a14e39531611a285a30043f262941e218d9c69b318d4",
+        "bytes": 850
+      },
+      "generation_manifest_sha256": "3349b59550e0e418b3d7c9d96e7b2d5f7a3186b52f8ba2a18d36e5d75f83aaf5",
+      "wall_seconds": 3.739,
+      "resources": {
+        "inference_seconds": 3.21385,
+        "prompt_tokens": 1030,
+        "completion_tokens": 263,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": true,
+        "document_checked": true
+      },
+      "contract_check": {
+        "passed": true,
+        "diagnostic": "",
+        "metrics": {
+          "contract_sha256": "bb72f9917bfe3bb812b30b7b28142fecca979a13bfcfddb2fc92eba62a6ed280",
+          "examples": 0
+        }
+      },
+      "strict_pass": true,
+      "filter_only_accepted": true,
+      "filter_only_pass": true,
+      "id": "a57b6793a6275a6110b215fc28dde4e8c7e9606cef0c8c85ccc59425f897de66",
+      "directory": "runs/glm/contract/test-binary-2/2"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "contract",
+      "task": "test-html-1",
+      "trial": 0,
+      "language": "html",
+      "level": 1,
+      "family": "reference-table",
+      "stage": "heldout",
+      "seed_requested": 658320223,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 2,
+      "attempt_outcomes": [
+        "failed",
+        "passed"
+      ],
+      "first_attempt_accepted": false,
+      "candidate": {
+        "relative_path": "html/generated.html",
+        "sha256": "ac5b8c5d351c1a931074b1fc48ffbe5d0392ba7e0170a046e6890116a64cceb0",
+        "bytes": 553
+      },
+      "generation_manifest_sha256": "36eab38166dcdf7069ba1319f5bc49de92179d9319aabecaeaa5bc5b881c5d23",
+      "wall_seconds": 5.665,
+      "resources": {
+        "inference_seconds": 5.199520000000001,
+        "prompt_tokens": 2054,
+        "completion_tokens": 405,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "failed",
+          "failed_checks": [
+            "html_parse",
+            "source_structure",
+            "task_contract"
+          ]
+        },
+        {
+          "attempt": 2,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": true,
+        "rows_checked": 2
+      },
+      "contract_check": {
+        "passed": true,
+        "diagnostic": "",
+        "metrics": {
+          "contract_sha256": "c4a121b8275802dbd764647ec46bfcc5e82ab80f336efd5ccbff69d79f0a89ed",
+          "examples": 0,
+          "rows": 2
+        }
+      },
+      "strict_pass": true,
+      "filter_only_accepted": true,
+      "filter_only_pass": true,
+      "id": "ce1fa50a92ce907d349e65683b0473ee40dad8ce7cbdc5808434bf59a1e5b658",
+      "directory": "runs/glm/contract/test-html-1/0"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "contract",
+      "task": "test-html-1",
+      "trial": 2,
+      "language": "html",
+      "level": 1,
+      "family": "reference-table",
+      "stage": "heldout",
+      "seed_requested": 1385542685,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 1,
+      "attempt_outcomes": [
+        "passed"
+      ],
+      "first_attempt_accepted": true,
+      "candidate": {
+        "relative_path": "html/generated.html",
+        "sha256": "e0b2730afe21c4164a5e966f02cf21a629c94d8f6e84bccfa62f574251fc203c",
+        "bytes": 515
+      },
+      "generation_manifest_sha256": "90f6a5c8201e4869591db8f63eff76b3fdf80fae5bd6c96f7f74f6dc51ac5565",
+      "wall_seconds": 3.009,
+      "resources": {
+        "inference_seconds": 2.46158,
+        "prompt_tokens": 748,
+        "completion_tokens": 185,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": true,
+        "rows_checked": 2
+      },
+      "contract_check": {
+        "passed": true,
+        "diagnostic": "",
+        "metrics": {
+          "contract_sha256": "c4a121b8275802dbd764647ec46bfcc5e82ab80f336efd5ccbff69d79f0a89ed",
+          "examples": 0,
+          "rows": 2
+        }
+      },
+      "strict_pass": true,
+      "filter_only_accepted": true,
+      "filter_only_pass": true,
+      "id": "a063688159c50b8620ed604b710776766084f4f8a126e81e94e61cfa6cbd8b5f",
+      "directory": "runs/glm/contract/test-html-1/2"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "contract",
+      "task": "test-html-2",
+      "trial": 1,
+      "language": "html",
+      "level": 2,
+      "family": "reference-table",
+      "stage": "heldout",
+      "seed_requested": 2422946704,
+      "seed_honored": "not independently verified",
+      "accepted": false,
+      "status": "failed",
+      "attempts": 3,
+      "attempt_outcomes": [
+        "failed",
+        "failed",
+        "failed"
+      ],
+      "first_attempt_accepted": false,
+      "candidate": null,
+      "generation_manifest_sha256": "4b5866bacd1e78de04c53f0e39a47c5a0e7ed0c5765b2b985dfd210242934a5d",
+      "wall_seconds": 19.044,
+      "resources": {
+        "inference_seconds": 18.6111,
+        "prompt_tokens": 4392,
+        "completion_tokens": 1058,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "failed",
+          "failed_checks": [
+            "html_parse",
+            "source_structure",
+            "task_contract"
+          ]
+        },
+        {
+          "attempt": 2,
+          "status": "failed",
+          "failed_checks": [
+            "task_contract"
+          ]
+        },
+        {
+          "attempt": 3,
+          "status": "failed",
+          "failed_checks": [
+            "task_contract"
+          ]
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "diagnostic": "No accepted candidate"
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "2d94ddec7241a9ef4d4e89309f9bf7073033a1c4a1d05655ab5b4cc557850d08",
+      "directory": "runs/glm/contract/test-html-2/1"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "deepseek",
+      "model_id": "deepseek-v4-flash-abliterated",
+      "arm": "baseline",
+      "task": "test-python-multiple",
+      "trial": 0,
+      "language": "python",
+      "level": 1,
+      "family": "multiple",
+      "stage": "heldout",
+      "seed_requested": 1439658527,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 1,
+      "attempt_outcomes": [
+        "passed"
+      ],
+      "first_attempt_accepted": true,
+      "candidate": {
+        "relative_path": "python/generated.py",
+        "sha256": "b7bb9751ca8eee1aadcbaf4016415baac9b3408b4e241b29905c55c988f07bf5",
+        "bytes": 558
+      },
+      "generation_manifest_sha256": "7bd55e34f7cf035504764105a90e9b2d1318706f7f29c1a3d785f45690e70387",
+      "wall_seconds": 108.249,
+      "resources": {
+        "inference_seconds": 107.69702000000001,
+        "prompt_tokens": 587,
+        "completion_tokens": 138,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": true,
+        "public_passed": 3,
+        "public_cases": 3,
+        "hidden_passed": 320,
+        "hidden_cases": 320,
+        "behavior_checked": true,
+        "failures": []
+      },
+      "contract_check": {
+        "passed": true,
+        "diagnostic": "",
+        "metrics": {
+          "contract_sha256": "24e12cf688b1f0b22d8259c9edd01fb8e09fea5ead2361ad6584f99b25c7edf5",
+          "examples": 3
+        }
+      },
+      "strict_pass": true,
+      "filter_only_accepted": true,
+      "filter_only_pass": true,
+      "id": "0e392fa37974dfe2baf5013eb439d669e63413c927d57141f24310c14cc4e4b6",
+      "directory": "runs/deepseek/baseline/test-python-multiple/0"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "deepseek",
+      "model_id": "deepseek-v4-flash-abliterated",
+      "arm": "baseline",
+      "task": "test-llvm-abs",
+      "trial": 1,
+      "language": "llvm",
+      "level": 1,
+      "family": "saturated_abs",
+      "stage": "heldout",
+      "seed_requested": 2996121954,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 1,
+      "attempt_outcomes": [
+        "passed"
+      ],
+      "first_attempt_accepted": true,
+      "candidate": {
+        "relative_path": "llvm/generated.ll",
+        "sha256": "3a62a3a2079e23eb9b4bd5bc7b70902dda5de37b964fbe42ba34c19eb5ec75fa",
+        "bytes": 842
+      },
+      "generation_manifest_sha256": "be587746752317030cf084be3b6b1e7d0882b10eeeb29fea94f1974097c59a97",
+      "wall_seconds": 237.234,
+      "resources": {
+        "inference_seconds": 236.53133,
+        "prompt_tokens": 551,
+        "completion_tokens": 307,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": true,
+        "public_passed": 3,
+        "public_cases": 3,
+        "hidden_passed": 320,
+        "hidden_cases": 320,
+        "behavior_checked": true,
+        "failures": []
+      },
+      "contract_check": {
+        "passed": true,
+        "diagnostic": "",
+        "metrics": {
+          "contract_sha256": "34b3059eac8f8c39c6094e80415a6c9446cb187c8131372e4f5303a9b733d1dc",
+          "examples": 3
+        }
+      },
+      "strict_pass": true,
+      "filter_only_accepted": true,
+      "filter_only_pass": true,
+      "id": "c5d63aac9e0c1c7f6cbf2d22fabb32883c81ce23403de73483a6261ccfc4c625",
+      "directory": "runs/deepseek/baseline/test-llvm-abs/1"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "deepseek",
+      "model_id": "deepseek-v4-flash-abliterated",
+      "arm": "baseline",
+      "task": "test-json-1",
+      "trial": 2,
+      "language": "json",
+      "level": 1,
+      "family": "catalog-1",
+      "stage": "heldout",
+      "seed_requested": 4049821587,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 1,
+      "attempt_outcomes": [
+        "passed"
+      ],
+      "first_attempt_accepted": true,
+      "candidate": {
+        "relative_path": "json/generated.json",
+        "sha256": "ed01b7e842c57f9ad3747a8f7d915e751a118b31c1a4d3b2c7a8f3b0e469b0f8",
+        "bytes": 278
+      },
+      "generation_manifest_sha256": "b593a3fc8f8cc571dfdee119967c38a932ddf65c9852761ccaaacb92da0f0428",
+      "wall_seconds": 88.313,
+      "resources": {
+        "inference_seconds": 87.78264999999999,
+        "prompt_tokens": 864,
+        "completion_tokens": 108,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": true,
+        "document_checked": true
+      },
+      "contract_check": {
+        "passed": true,
+        "diagnostic": "",
+        "metrics": {
+          "contract_sha256": "f9153b669ac4d10be0e0d8be965a24890186f24029cae052715d65ece87c2f72",
+          "examples": 0
+        }
+      },
+      "strict_pass": true,
+      "filter_only_accepted": true,
+      "filter_only_pass": true,
+      "id": "f025d6a0698c235c33c42bca8915b25d75b87fe978a0e7383bf292a1646e4ace",
+      "directory": "runs/deepseek/baseline/test-json-1/2"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "deepseek",
+      "model_id": "deepseek-v4-flash-abliterated",
+      "arm": "baseline",
+      "task": "test-http-2",
+      "trial": 0,
+      "language": "http",
+      "level": 2,
+      "family": "catalog-2",
+      "stage": "heldout",
+      "seed_requested": 929480788,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 1,
+      "attempt_outcomes": [
+        "passed"
+      ],
+      "first_attempt_accepted": true,
+      "candidate": {
+        "relative_path": "http/generated.http",
+        "sha256": "d5e9f770393296daecde88cce60095624b182170df70738acc457859b8059592",
+        "bytes": 663
+      },
+      "generation_manifest_sha256": "20a5d6a31618829662327fbf0aad58dd77817268a7148a5d92335903fa355f3c",
+      "wall_seconds": 190.384,
+      "resources": {
+        "inference_seconds": 189.95229,
+        "prompt_tokens": 1610,
+        "completion_tokens": 235,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": true,
+        "document_checked": true
+      },
+      "contract_check": {
+        "passed": true,
+        "diagnostic": "",
+        "metrics": {
+          "contract_sha256": "fbaf4586073d31eb1fd6ebd6a16af1f1e0fa310cc1de8ad8b695acb7e307c3c9",
+          "examples": 0
+        }
+      },
+      "strict_pass": true,
+      "filter_only_accepted": true,
+      "filter_only_pass": true,
+      "id": "63915f502c93e282139032793023391b26f187915630376a6d6dffc2606db1d3",
+      "directory": "runs/deepseek/baseline/test-http-2/0"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "deepseek",
+      "model_id": "deepseek-v4-flash-abliterated",
+      "arm": "baseline",
+      "task": "test-binary-2",
+      "trial": 0,
+      "language": "binary-info",
+      "level": 2,
+      "family": "symbolic-PE",
+      "stage": "heldout",
+      "seed_requested": 3926800348,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 1,
+      "attempt_outcomes": [
+        "passed"
+      ],
+      "first_attempt_accepted": true,
+      "candidate": {
+        "relative_path": "binary-info/generated.binary.json",
+        "sha256": "3b96eee533813ebd2f88a91dc96abf33073067137cd7cd3a690de92e24c4cc3f",
+        "bytes": 732
+      },
+      "generation_manifest_sha256": "21e8e6caf68e4118e703670879ed8d69e02fdef94e565f75e6dd234e23118d7e",
+      "wall_seconds": 188.469,
+      "resources": {
+        "inference_seconds": 187.97171,
+        "prompt_tokens": 1202,
+        "completion_tokens": 236,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": true,
+        "document_checked": true
+      },
+      "contract_check": {
+        "passed": true,
+        "diagnostic": "",
+        "metrics": {
+          "contract_sha256": "bb72f9917bfe3bb812b30b7b28142fecca979a13bfcfddb2fc92eba62a6ed280",
+          "examples": 0
+        }
+      },
+      "strict_pass": true,
+      "filter_only_accepted": true,
+      "filter_only_pass": true,
+      "id": "9f662c67f9e98a9674a494322783427a6b0edb604536a2fb01fe741b748681d9",
+      "directory": "runs/deepseek/baseline/test-binary-2/0"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "deepseek",
+      "model_id": "deepseek-v4-flash-abliterated",
+      "arm": "contract",
+      "task": "test-python-multiple",
+      "trial": 0,
+      "language": "python",
+      "level": 1,
+      "family": "multiple",
+      "stage": "heldout",
+      "seed_requested": 1439658527,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 1,
+      "attempt_outcomes": [
+        "passed"
+      ],
+      "first_attempt_accepted": true,
+      "candidate": {
+        "relative_path": "python/generated.py",
+        "sha256": "564cb095d0c70e1635c1eabf268e391b6a1fa6cb07393212fa40291615ccae0f",
+        "bytes": 551
+      },
+      "generation_manifest_sha256": "68e6a1f2722a47424f32d01b087913eba613bdf8e2c254c3a4b43919f79af28f",
+      "wall_seconds": 110.113,
+      "resources": {
+        "inference_seconds": 109.55436999999999,
+        "prompt_tokens": 661,
+        "completion_tokens": 139,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": true,
+        "public_passed": 3,
+        "public_cases": 3,
+        "hidden_passed": 320,
+        "hidden_cases": 320,
+        "behavior_checked": true,
+        "failures": []
+      },
+      "contract_check": {
+        "passed": true,
+        "diagnostic": "",
+        "metrics": {
+          "contract_sha256": "24e12cf688b1f0b22d8259c9edd01fb8e09fea5ead2361ad6584f99b25c7edf5",
+          "examples": 3
+        }
+      },
+      "strict_pass": true,
+      "filter_only_accepted": true,
+      "filter_only_pass": true,
+      "id": "bcc2e4fc26f5c22036508c843556df8ebbfa20bb8f1b1a01159c78cdaffcda72",
+      "directory": "runs/deepseek/contract/test-python-multiple/0"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "deepseek",
+      "model_id": "deepseek-v4-flash-abliterated",
+      "arm": "contract",
+      "task": "test-llvm-abs",
+      "trial": 1,
+      "language": "llvm",
+      "level": 1,
+      "family": "saturated_abs",
+      "stage": "heldout",
+      "seed_requested": 2996121954,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 1,
+      "attempt_outcomes": [
+        "passed"
+      ],
+      "first_attempt_accepted": true,
+      "candidate": {
+        "relative_path": "llvm/generated.ll",
+        "sha256": "5e186c72fbc18b5ad81b8e72eddaf6396e14011c44a2a6754fa34ed5c31b0b29",
+        "bytes": 994
+      },
+      "generation_manifest_sha256": "74b986f78a6ef0ff257a23a481b469edad713458dbaf94b7b78ef2a4b41aa8dc",
+      "wall_seconds": 280.109,
+      "resources": {
+        "inference_seconds": 279.38721000000004,
+        "prompt_tokens": 624,
+        "completion_tokens": 358,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": true,
+        "public_passed": 3,
+        "public_cases": 3,
+        "hidden_passed": 320,
+        "hidden_cases": 320,
+        "behavior_checked": true,
+        "failures": []
+      },
+      "contract_check": {
+        "passed": true,
+        "diagnostic": "",
+        "metrics": {
+          "contract_sha256": "34b3059eac8f8c39c6094e80415a6c9446cb187c8131372e4f5303a9b733d1dc",
+          "examples": 3
+        }
+      },
+      "strict_pass": true,
+      "filter_only_accepted": true,
+      "filter_only_pass": true,
+      "id": "1d21e70bed317a71fe45ef218ff57f73664737522d35a3688f1653cddcb03f9e",
+      "directory": "runs/deepseek/contract/test-llvm-abs/1"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "deepseek",
+      "model_id": "deepseek-v4-flash-abliterated",
+      "arm": "contract",
+      "task": "test-json-1",
+      "trial": 2,
+      "language": "json",
+      "level": 1,
+      "family": "catalog-1",
+      "stage": "heldout",
+      "seed_requested": 4049821587,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 1,
+      "attempt_outcomes": [
+        "passed"
+      ],
+      "first_attempt_accepted": true,
+      "candidate": {
+        "relative_path": "json/generated.json",
+        "sha256": "ed01b7e842c57f9ad3747a8f7d915e751a118b31c1a4d3b2c7a8f3b0e469b0f8",
+        "bytes": 278
+      },
+      "generation_manifest_sha256": "cd25a99fd10d0e9c9e6bd2c4de31802d045086abb1a01824b52b85625e6589b3",
+      "wall_seconds": 89.052,
+      "resources": {
+        "inference_seconds": 88.47288,
+        "prompt_tokens": 815,
+        "completion_tokens": 108,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": true,
+        "document_checked": true
+      },
+      "contract_check": {
+        "passed": true,
+        "diagnostic": "",
+        "metrics": {
+          "contract_sha256": "f9153b669ac4d10be0e0d8be965a24890186f24029cae052715d65ece87c2f72",
+          "examples": 0
+        }
+      },
+      "strict_pass": true,
+      "filter_only_accepted": true,
+      "filter_only_pass": true,
+      "id": "cb362cdda075054c8c1d4bd3a354e4337e2e23dce2e107e67840d122a59e21b2",
+      "directory": "runs/deepseek/contract/test-json-1/2"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "deepseek",
+      "model_id": "deepseek-v4-flash-abliterated",
+      "arm": "contract",
+      "task": "test-json-3",
+      "trial": 0,
+      "language": "json",
+      "level": 3,
+      "family": "catalog-3",
+      "stage": "heldout",
+      "seed_requested": 4137432272,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 1,
+      "attempt_outcomes": [
+        "passed"
+      ],
+      "first_attempt_accepted": true,
+      "candidate": {
+        "relative_path": "json/generated.json",
+        "sha256": "68562b395e2c9938fd6b50030460f480d7617c38241ff2b54686ff75115f787d",
+        "bytes": 1417
+      },
+      "generation_manifest_sha256": "57317cc59d078b955260871e74c48fa305df7517ea6a9ef863670e7cef9f85c6",
+      "wall_seconds": 357.859,
+      "resources": {
+        "inference_seconds": 357.48953,
+        "prompt_tokens": 2427,
+        "completion_tokens": 451,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": true,
+        "document_checked": true
+      },
+      "contract_check": {
+        "passed": true,
+        "diagnostic": "",
+        "metrics": {
+          "contract_sha256": "3ac1b949c27730c6b171cc52433907acda736b99f82d663215cc9ebd39fa06e8",
+          "examples": 0
+        }
+      },
+      "strict_pass": true,
+      "filter_only_accepted": true,
+      "filter_only_pass": true,
+      "id": "0c286288985b3c52e9a3131e9bf862b66f4fde47e40672dfb3f679b00392b8cf",
+      "directory": "runs/deepseek/contract/test-json-3/0"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "deepseek",
+      "model_id": "deepseek-v4-flash-abliterated",
+      "arm": "contract",
+      "task": "test-http-2",
+      "trial": 0,
+      "language": "http",
+      "level": 2,
+      "family": "catalog-2",
+      "stage": "heldout",
+      "seed_requested": 929480788,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 1,
+      "attempt_outcomes": [
+        "passed"
+      ],
+      "first_attempt_accepted": true,
+      "candidate": {
+        "relative_path": "http/generated.http",
+        "sha256": "d5e9f770393296daecde88cce60095624b182170df70738acc457859b8059592",
+        "bytes": 663
+      },
+      "generation_manifest_sha256": "8158f6ee4bd71dad07ecdebb05fffef37ed039b2af65f3d9205aa1239958ea74",
+      "wall_seconds": 187.466,
+      "resources": {
+        "inference_seconds": 186.91594,
+        "prompt_tokens": 1394,
+        "completion_tokens": 235,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": true,
+        "document_checked": true
+      },
+      "contract_check": {
+        "passed": true,
+        "diagnostic": "",
+        "metrics": {
+          "contract_sha256": "fbaf4586073d31eb1fd6ebd6a16af1f1e0fa310cc1de8ad8b695acb7e307c3c9",
+          "examples": 0
+        }
+      },
+      "strict_pass": true,
+      "filter_only_accepted": true,
+      "filter_only_pass": true,
+      "id": "b01fddf99357a9c940e5e7a204d3cbf4d8dad5f15ff76d42d8a013d9df7c5df8",
+      "directory": "runs/deepseek/contract/test-http-2/0"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "deepseek",
+      "model_id": "deepseek-v4-flash-abliterated",
+      "arm": "contract",
+      "task": "test-binary-2",
+      "trial": 0,
+      "language": "binary-info",
+      "level": 2,
+      "family": "symbolic-PE",
+      "stage": "heldout",
+      "seed_requested": 3926800348,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 1,
+      "attempt_outcomes": [
+        "passed"
+      ],
+      "first_attempt_accepted": true,
+      "candidate": {
+        "relative_path": "binary-info/generated.binary.json",
+        "sha256": "06d05c367a4366553fd7fee61dbee87b912bf64fd3de717849bfac612734262e",
+        "bytes": 680
+      },
+      "generation_manifest_sha256": "2693c641f60935b8f5f5e44174e7593855044eb7f83ae9543a28e964bb08e62d",
+      "wall_seconds": 171.903,
+      "resources": {
+        "inference_seconds": 171.20904000000002,
+        "prompt_tokens": 1141,
+        "completion_tokens": 217,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": true,
+        "document_checked": true
+      },
+      "contract_check": {
+        "passed": true,
+        "diagnostic": "",
+        "metrics": {
+          "contract_sha256": "bb72f9917bfe3bb812b30b7b28142fecca979a13bfcfddb2fc92eba62a6ed280",
+          "examples": 0
+        }
+      },
+      "strict_pass": true,
+      "filter_only_accepted": true,
+      "filter_only_pass": true,
+      "id": "ff2e946e8d306d3d138a6c0f078577eff9674c9775e59714f9868fc84b669550",
+      "directory": "runs/deepseek/contract/test-binary-2/0"
+    }
+  ]
+}

@@ -6,7 +6,7 @@
   "state": "complete",
   "title": "Development \u00b7 task-contract evaluation",
   "created_at": "2026-11-09T19:30:34.719393+00:00",
-  "updated_at": "2026-11-09T21:10:06.363774+00:00",
+  "updated_at": "2026-11-09T21:40:02.942006+00:00",
   "design": {
     "tasks": 12,
     "replicates": 1,
@@ -5807,6 +5807,14 @@
     {
       "title": "Offline verification",
       "body": "Recomputed native/document grades and filter-only decisions from saved model outputs. Acceptance is the original manifest decision, not a new generation. All 48 outcomes agreed exactly on macOS-14.5-arm64-arm-64bit with Python 3.9.15."
+    },
+    {
+      "title": "Artifact being graded",
+      "body": "The outcome is the accepted CLI artifact after ordinary source extraction and formatting. Fenced source is extracted; HTTP headers are normalized to CRLF and Content-Length is computed from the final UTF-8 body. Exported snippets preserve those accepted bytes. Raw provider responses remain separate in the archive. HTTP framing success is therefore a pipeline result, not proof that the model calculated byte lengths itself."
+    },
+    {
+      "title": "Grading environment",
+      "body": "Offline outcomes were reproduced on macOS-14.5-arm64-arm-64bit, Python 3.9.15, SQLite 3.40.0, Apple clang version 15.0.0 (clang-1500.3.9.4). Python parsing dependencies: html5lib 1.1, Pygments 2.21.0, six 1.17.0, webencodings 0.5.1. The archive includes exact regrading dependency pins. The frozen native LLVM grader uses macOS linking; other platforms have not been validated. Remote serving hardware and weights are not independently verified."
     }
   ],
   "limitations": [
@@ -5833,7 +5841,7 @@
     "snapshot_files": 134,
     "study_directory": "development-v2",
     "scores_sha256": "83e156a824d0972ae13d2e0099913ad4251c9d578016647fe63ac521bf98e312",
-    "reproduction_sha256": "a49bbdadba6fe69f833e6f7b2b94ba7849b41a14d14e4b4066ef7531cb6b6723",
+    "reproduction_sha256": "1369d7626a40828b20cec6b799c3cd84e65fa35a4758d4a5a19748c8ed6091d6",
     "figure_sha256": {
       "figure.pdf": "ba3f9ab5dcf82e1a626c3e47a05696fb003d2ea98750b96c054010554144fc02",
       "figure.svg": "aa68505bd86ae056aeef9c6fde5fdec36c268db51e0b21ea444c9869b8171062",
@@ -5851,6 +5859,21 @@
       "environment": {
         "python": "3.9.15",
         "platform": "macOS-14.5-arm64-arm-64bit"
+      }
+    },
+    "grading_environment": {
+      "benign": true,
+      "recorded_at": "2026-11-09T21:40:02.691781+00:00",
+      "scope": "Local offline grading/verification host; remote inference hardware and model weights are not independently verified.",
+      "python": "3.9.15",
+      "platform": "macOS-14.5-arm64-arm-64bit",
+      "sqlite": "3.40.0",
+      "clang": "Apple clang version 15.0.0 (clang-1500.3.9.4)",
+      "python_packages": {
+        "html5lib": "1.1",
+        "Pygments": "2.21.0",
+        "six": "1.17.0",
+        "webencodings": "0.5.1"
       }
     }
   },

@@ -1,0 +1,69 @@
+def delivery_cost(weight, zone, priority):
+    """
+    Calculates shipping cost based on package attributes.
+
+    Args:
+        weight (int): Package weight (-5 to 100).
+        zone (int): Delivery zone index (0-3). Outside range yields error flag.
+        priority (int): Priority indicator (nonzero = high).
+
+    Returns:
+        int: Calculated cost, or -1 if invalid zone provided.
+             Base rate + tiered surcharge + optional premium fee.
+    
+    Boundary Behavior:
+      * Non-positive weights incur zero charge regardless of distance/priority.
+      * Zone validation ensures valid indexing into pricing tiers.
+      * Tier calculation handles partial increments correctly using floor division.
+      
+    Computation Logic:
+       If `zone` < 0 or > 3 -> Error Flag (-1)
+       Else ->
+         Cost = 0
+         If Weight <= 0 -> Zero Charge
+         Else ->
+           Fixed Fee = 5 + (Zone * 2) [Base]
+           Variable Surcharge =
+              Min(Weight, 10) * 2 +
+              Max((Weight - 10), 0) * 3
+           Total Before Premium = Fixed Fee + Variable Surcharge
+           
+           Apply High-Priority Multiplier?
+           Yes? Add 7
+            
+          Result = Total After Calculation 
+    """
+    # Validate zone against allowed indices inclusive bounds
+    if zone < 0 or zone > 3:
+        return -1
+    
+    total_charge = 0
+    
+    # Check for positive weight before applying any charges
+    if weight > 0:
+        
+        # Calculate fixed component: $5 base + $2 per zone number
+        fixed_component = 5 + (zone * 2)
+        
+        # Determine variable components by splitting weight distribution across rates
+        
+        # Units charged at lower rate ($2/unit up to limit)
+        low_rate_units = min(weight, 10)
+        
+        # Remaining units charged at higher rate ($3/unit beyond initial batch)
+        remaining_weight = max(weight - 10, 0)
+        
+        # Summation of all monetary contributions
+        subtotal = (
+            fixed_component +                     # Flat fees
+            (low_rate_units * 2) +                 # Standard volume discount portion
+            (remaining_weight * 3)                # Additional bulk penalty portion
+        )
+            
+        # Conditionally apply priority multiplier
+        if priority != 0:
+            subtotal += 7
+            
+        total_charge = subtotal
+        
+    return total_charge

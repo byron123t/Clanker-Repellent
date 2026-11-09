@@ -32,9 +32,16 @@ related-family uncertainty intervals. Its results remain separate from developme
 
 Each `report.json` supplies the dashboard view, `scores.json` preserves observations, and
 `protocol.json` records the study's design/hashes. `candidates/` contains only the checksum-verified
-benign sources exported for that study. Pilot candidates are unchanged model outputs; audit
+benign sources exported for that study. Model candidates are unchanged accepted generation artifacts; audit
 candidates are authored controls/faults, including rejected examples. Their origins are labeled
 separately. Reports are portable; raw operational snippet directories are not needed.
+
+Model studies grade the CLI pipeline's output after normal extraction and formatting, rather
+than the provider's entire response. The CLI extracts fenced source; for HTTP it normalizes CRLF
+headers and computes Content-Length from the final UTF-8 body. The measured object is the accepted
+artifact. New model-study archives preserve raw provider responses separately, so these steps
+remain inspectable. HTTP framing success is a pipeline result, not a claim that the model
+calculated exact byte lengths itself. See [format handling](../docs/generation-formats.md).
 
 The new experiment's frozen local directory is
 `.repel-workspaces/benign-eval-v2/development-v2`. Resume with

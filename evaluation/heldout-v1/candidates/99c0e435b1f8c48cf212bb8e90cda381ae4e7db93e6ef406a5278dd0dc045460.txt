@@ -1,0 +1,25 @@
+{
+  "binary_info": {
+    "format": "offline_fixture",
+    "content_type": "application/json"
+  },
+  "fixture_data": {
+    "currency": "credits",
+    "count": 2,
+    "items": [
+      {
+        "id": "item-1",
+        "quantity": 3,
+        "unit_price": 63,
+        "amount": 189
+      },
+      {
+        "id": "item-2",
+        "quantity": 17,
+        "unit_price": 85,
+        "amount": 1445
+      }
+    ],
+    "total": 1634
+  }
+}

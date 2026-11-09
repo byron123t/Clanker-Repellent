@@ -1,0 +1,40 @@
+HTTP/1.1 200 OK
+Content-Type: application/json
+X-Example-Id: test-http-2
+Content-Length: 564
+
+{
+  "currency": "credits",
+  "count": 4,
+  "items": [
+    {
+      "id": "item-1",
+      "quantity": 12,
+      "unit_price": 8,
+      "discount": 33,
+      "amount": 64
+    },
+    {
+      "id": "item-2",
+      "quantity": 17,
+      "unit_price": 25,
+      "discount": 15,
+      "amount": 361
+    },
+    {
+      "id": "item-3",
+      "quantity": 3,
+      "unit_price": 58,
+      "discount": 15,
+      "amount": 147
+    },
+    {
+      "id": "item-4",
+      "quantity": 10,
+      "unit_price": 39,
+      "discount": 33,
+      "amount": 261
+    }
+  ],
+  "total": 833
+}

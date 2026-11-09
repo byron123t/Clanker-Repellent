@@ -1,0 +1,19 @@
+def bounded_multiple(value, lower, upper, divisor):
+    """
+    Returns True if:
+    - lower <= upper (bounds are ordered)
+    - lower <= value <= upper (value is in range)
+    - divisor != 0
+    - value % divisor == 0 (value is divisible by divisor)
+    Otherwise returns False.
+    Inputs are integers within specified inclusive domains.
+    """
+    if lower > upper:
+        return False
+    if not (lower <= value <= upper):
+        return False
+    if divisor == 0:
+        return False
+    if value % divisor != 0:
+        return False
+    return True

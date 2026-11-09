@@ -1,0 +1,20 @@
+; LLVM IR helper for distance_to_zero: signed i32 abs with saturation.
+; Input: i32 %value in [-2147483648, 2147483647].
+; Result: i32 abs(%value), saturating INT32_MIN to 2147483647.
+; Uses only icmp, select, sub, ret.
+
+define i32 @distance_to_zero(i32 %value) {
+  ; Compute %neg = -%value (i32 sub 0, %value)
+  %neg = sub i32 0, %value
+  ; Check if %value is negative (signed less than zero)
+  %is_neg = icmp slt i32 %value, 0
+  ; Choose between %neg and %value: if negative, use %neg; else use %value
+  %abs_val = select i1 %is_neg, i32 %neg, i32 %value
+  ; Check if %value is INT32_MIN (-2147483648) => %neg would overflow to same value
+  ; For INT32_MIN, %abs_val = %neg = -(-2147483648) = 2147483648 (overflow to -2147483648)
+  ; Detect overflow: if %value == -2147483648, then %abs_val is still negative
+  %is_min = icmp eq i32 %value, -2147483648
+  ; If %is_min, saturate to 2147483647; else keep %abs_val
+  %result = select i1 %is_min, i32 2147483647, i32 %abs_val
+  ret i32 %result
+}

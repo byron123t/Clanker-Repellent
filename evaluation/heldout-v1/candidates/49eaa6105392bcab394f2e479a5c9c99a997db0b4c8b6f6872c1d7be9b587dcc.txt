@@ -1,0 +1,51 @@
+def delivery_cost(weight, zone, priority):
+    """
+    Calculates a deterministic shipping cost based on package attributes.
+
+    Args:
+        weight (int): Package weight (-5 to 100).
+        zone (int): Delivery zone index (-2 to 5). Valid zones are 0-3 inclusive.
+        priority (int): Priority flag (-1 to 1).
+
+    Returns:
+        int: Calculated cost. Returns -1 if 'zone' is invalid (< 0 or > 3),
+             otherwise computes the total fee including fixed rates and volume surcharges.
+    
+    Boundary Behavior:
+      * Non-positive weights incur zero transport fees but may still be subject to 
+        priority charges depending on implementation logic applied here.
+      * Zones < 0 or > 3 yield a sentinel error of -1.
+    """
+
+    # Validate Zone Range
+    if zone < 0 or zone > 3:
+        return -1
+    
+    # Base Cost Calculation
+    # Fixed component derived from zone multiplier + optional priority charge
+    current_cost = 5 + (2 * zone)
+        
+    # Apply Priority Charge Only If Weight Is Substantive (> 0) AND Priority Flag Exists
+    if weight > 0 and priority != 0:
+        current_cost += 7
+        
+    # Volume Surcharges Based on Total Units Shipped
+    remaining_units = weight
+    
+    # Surcharge Structure defined by problem statement constraints
+    while True:
+        processed_units = min(remaining_units, 10)
+        current_cost += 2 * processed_units
+        remaining_units -= processed_units
+        
+        if remaining_units <= 0:
+            break
+            
+        processed_units = min(remaining_units, float('inf'))
+        current_cost += 3 * processed_units
+        remaining_units -= processed_units
+        
+        if remaining_units == 0:
+            break
+            
+    return current_cost

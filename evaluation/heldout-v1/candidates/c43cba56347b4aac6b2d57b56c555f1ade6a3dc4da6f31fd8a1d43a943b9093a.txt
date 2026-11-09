@@ -1,0 +1,79 @@
+{
+  "language": "json",
+  "payload": {
+    "currency": "credits",
+    "group_count": 3,
+    "groups": [
+      {
+        "id": "group-1",
+        "tax_percent": 5,
+        "items": [
+          {
+            "id": "item-1",
+            "quantity": 6,
+            "unit_price": 31,
+            "discount": 7,
+            "amount": 1644
+          },
+          {
+            "id": "item-2",
+            "quantity": 16,
+            "unit_price": 39,
+            "discount": 7,
+            "amount": 4984
+          }
+        ],
+        "subtotal": 6628,
+        "tax": 331,
+        "total": 6959
+      },
+      {
+        "id": "group-2",
+        "tax_percent": 9,
+        "items": [
+          {
+            "id": "item-1",
+            "quantity": 17,
+            "unit_price": 65,
+            "discount": 15,
+            "amount": 7035
+          },
+          {
+            "id": "item-2",
+            "quantity": 9,
+            "unit_price": 40,
+            "discount": 33,
+            "amount": 240
+          }
+        ],
+        "subtotal": 7275,
+        "tax": 654,
+        "total": 7929
+      },
+      {
+        "id": "group-3",
+        "tax_percent": 13,
+        "items": [
+          {
+            "id": "item-1",
+            "quantity": 3,
+            "unit_price": 17,
+            "discount": 0,
+            "amount": 51
+          },
+          {
+            "id": "item-2",
+            "quantity": 17,
+            "unit_price": 43,
+            "discount": 7,
+            "amount": 681
+          }
+        ],
+        "subtotal": 732,
+        "tax": 95,
+        "total": 827
+      }
+    ],
+    "total": 15715
+  }
+}

@@ -1,0 +1,33 @@
+def bounded_multiple(value, lower, upper, divisor):
+    """
+    Determines whether `value` meets specific conditions within inclusive ranges.
+
+    Args:
+        value (int): A number to be tested against bounds [lower, upper].
+        lower (int): The minimum bound of the interval (-100 <= x).
+        upper (int): The maximum bound of the interval (-100 >= y).
+
+    Returns:
+        bool: True if all constraints are satisfied, False otherwise.
+              Constraints checked sequentially:
+                1. Bounds ordering (`lower < upper`)
+                2. Value inclusion (`lower <= value <= upper`)
+                3. Divisor non-zero (`divisor != 0`)
+                4. Integer divisibility (`value % divisor == 0`)
+    
+    Boundary Behavior:
+      - If any argument falls outside its domain limits provided in the prompt 
+        schema ({-100..+100}), standard comparison operators handle out-of-bounds
+        logic naturally without error.
+      - Division uses modulo operator `%`, which handles zero division implicitly;
+        however, constraint #3 explicitly requires checking before applying modulus.
+    """
+    check_bounds = lower < upper
+    check_inclusion = lower <= value <= upper
+    check_divisor_nonzero = divisor != 0
+    
+    if check_bounds and check_inclusion and check_divisor_nonzero:
+        remainder = value % divisor
+        return remainder == 0
+        
+    return False

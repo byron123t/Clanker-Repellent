@@ -1,0 +1,24 @@
+HTTP/1.1 201 Created
+Content-Type: application/json
+X-Example-Id: test-http-1
+Content-Length: 353
+
+{
+    "currency": "credits",
+    "count": 2,
+    "items": [
+        {
+            "id": "item-1",
+            "quantity": 14,
+            "unit_price": 81,
+            "amount": 1134
+        },
+        {
+            "id": "item-2",
+            "quantity": 11,
+            "unit_price": 73,
+            "amount": 803
+        }
+    ],
+    "total": 1937
+}

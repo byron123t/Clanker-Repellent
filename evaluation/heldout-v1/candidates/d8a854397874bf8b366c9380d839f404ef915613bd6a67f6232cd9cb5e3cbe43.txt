@@ -1,0 +1,62 @@
+"""
+Pure Python Helper Function:
+
+Function:
+-------
+middle_value(a, b, c)
+
+Purpose:
+---------
+Calculates the median of three integers using conditional logic without sorting libraries.
+
+Parameters:
+----------
+a (int): First integer input.
+b (int): Second integer input.
+c (int): Third integer input.
+
+Returns:
+--------
+int: The median value among 'a', 'b', and 'c'.
+
+Constraints & Boundary Handling:
+-----------------------------------
+The function handles duplicates correctly by returning the exact center value 
+(e.g., given [4, 4, 9], both first checks pass but the third comparison ensures stability).
+It assumes standard signed integer types consistent with typical environments supporting these calculations.
+"""
+
+def middle_value(a, b, c):
+    """
+    Computes the median of three numbers based on their relative magnitudes.
+    
+    Args:
+        a (int): First number.
+        b (int): Second number.
+        c (int): Third number.
+        
+    Returns:
+        int: The median value.
+    """
+
+    # Determine relationships between the first two numbers
+    if a <= b:
+        smaller_ab = a
+        larger_ab = b
+    else:
+        smaller_ab = b
+        larger_ab = a
+        
+    # Check relationship involving the third number against the established range
+    
+    # Case 1: If C is less than or equal to Smaller_AB, then AB_C_sorted[1] is Larger_AB
+    if c <= smaller_ab:
+        return larger_ab
+        
+    # Case 2: If C is greater than or equal to Larger_AB, then AB_C_sorted[1] is C
+    elif c >= larger_ab:
+        return c
+        
+    # Case 3: Otherwise, C falls strictly between Small_A_B and Large_A_B
+    else:
+        return c

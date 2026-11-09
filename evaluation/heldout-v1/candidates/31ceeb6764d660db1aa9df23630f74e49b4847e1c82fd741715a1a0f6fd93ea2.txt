@@ -1,0 +1,14 @@
+SELECT 
+    -- Inputs:
+    --   :seconds: Total duration time value (-20 to 5000)
+    --   :grace: Grace period offset before counting units (0 to 100)
+    --   :unit: Size of each billing unit (>0 required) (-2 to 300)
+    
+    CASE 
+        WHEN :unit <= 0 THEN -1
+        
+        WHEN (:seconds - :grace) <= 0 THEN 0 
+        
+        ELSE CAST(((:seconds - :grace) + :unit - 1) / :unit AS INTEGER)
+        
+    END AS billing_units;

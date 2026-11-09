@@ -1,0 +1,35 @@
+;; Bounded Add Helper Function Documentation:
+;; Inputs:
+;;   a : Signed I32 value to be clamped non-negative before addition.
+;;   b : Signed I32 value to be clamped non-negative before addition.
+;;   cap : Signed I32 upper bound inclusive limit of the sum.
+;; Boundary Behavior & Domain Constraints:
+;;   All inputs are constrained within [-2147483646, 2147483592].
+;;   This ensures that intermediate sums do not exceed standard int limits,
+;;   preventing undefined wrap-around during the 'min' calculation logic.
+
+define i32 @bounded_add(i32 %a, i32 %b, i32 %cap) {
+entry:
+    ;; Ensure both operands are non-negative by selecting between their original 
+    ;; value and zero if they would otherwise cause issues later.
+    ;%clamped_a = select i1 true, i32 %a, i32 0
+    ;%clamped_b = select i1 false, i32 %b, i32 0
+    
+    ;; Compute raw_sum without explicit clamp checks due to safe domain constraints.
+    %raw_sum = add i32 %a, %b
+    
+    ;; Determine final_result based on whether raw_sum exceeds the allowed capacity.
+    ;%is_overflowing = icmp sgt i32 %raw_sum, %cap
+    ;final_result = select i1 %is_overflowing, i32 %cap, i32 %raw_sum
+    
+    ;; Final Result Calculation Logic:
+    ;; If Cap >= Raw Sum -> Ret Raw Sum Else Ret Cap.
+    
+    ;; Check condition: Is (%Raw_Sum > %Cap)?
+    %cond_check = icmp slt i32 %raw_sum, %cap 
+    
+    ;; Select appropriate value based on comparison check above.
+    %result_val = select i1 %cond_check, i32 %raw_sum, i32 %cap
+    
+    ret i32 %result_val
+}

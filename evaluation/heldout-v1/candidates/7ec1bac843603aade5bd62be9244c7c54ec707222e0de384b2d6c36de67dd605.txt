@@ -1,0 +1,28 @@
+/* 
+   Function: billing_units
+  
+   Description:
+   Computes billable increments based on elapsed time after a grace period,
+   handling invalid unit sizes gracefully via bounds checking.
+   
+   Parameters:
+     :seconds -- The raw duration value (domain includes negatives).
+     :grace   -- The non-negative offset applied against seconds.
+     :unit    -- The size of individual billing chunks.
+  
+   Logic Flow:
+     1. Validate :unit > 0. If False -> Result = -1.
+     2. Check if remaining time (:seconds - :grace) is zero/negative.
+        If True  -> Result = 0.
+     3. Calculate ceil division manually without floating point math errors.
+  
+   Output Domain:
+     Integer representing count of full units billed (+/-), constrained by domain limits.
+*/
+SELECT (
+    CASE 
+        WHEN :unit <= 0 THEN -1
+        WHEN :seconds <= :grace THEN 0
+        ELSE ((COALESCE(:seconds, 0) - COALESCE(:grace, 0)) + (:unit - 1)) / :unit
+    END
+) AS billing_units;

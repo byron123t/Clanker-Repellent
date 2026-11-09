@@ -1,0 +1,17 @@
+{
+    "binary_info": {
+        "format": "offline_catalog_fixture",
+        "version": "v1"
+    },
+    "catalog_data": {
+        "currency": "credits",
+        "count": 4,
+        "items": [
+            {"id": "item-1", "quantity": 12, "unit_price": 20, "discount": 7},
+            {"id": "item-2", "quantity": 16, "unit_price": 53, "discount": 7},
+            {"id": "item-3", "quantity": 6, "unit_price": 25, "discount": 33},
+            {"id": "item-4", "quantity": 3, "unit_price": 47, "discount": 33}
+        ],
+        "total": 896
+    }
+}

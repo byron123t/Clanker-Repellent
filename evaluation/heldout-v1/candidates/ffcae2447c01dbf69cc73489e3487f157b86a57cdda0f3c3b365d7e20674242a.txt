@@ -1,0 +1,37 @@
+def bounded_multiple(value, lower, upper, divisor):
+    """
+    Determines whether `value` meets specific conditions within inclusive ranges.
+
+    Args:
+        value (int): An integer to be tested against bounds and divisibility.
+        lower (int): A bound defining the start of the valid interval [lower].
+        upper (int): A bound defining the end of the valid interval [upper].
+
+    Returns:
+        bool: True if all constraints are satisfied, False otherwise.
+
+    Boundary Behavior:
+      - If 'divisor' is zero, division cannot occur, so the result is always False.
+      - Bounds may overlap; they do not need to form a strictly increasing sequence.
+      - Zero is considered a multiple of any non-zero number.
+    """
+
+    # Check if divisor is zero first to avoid division errors.
+    if divisor == 0:
+        return False
+    
+    # Ensure strict ordering between bounds before checking containment.
+    # This handles overlapping intervals correctly without requiring min()/max().
+    if lower > upper:
+        temp = lower
+        lower = upper
+        upper = temp
+        
+    # Verify inclusion using comparison operators.
+    contains_value = lower <= value <= upper
+    
+    # Calculate remainder to check divisibility efficiently.
+    remainder = value % divisor
+    
+    # Determine final boolean outcome based on all criteria.
+    return contains_value and remainder == 0

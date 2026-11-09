@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+
+<section id="test-html-2" class="fixture-container">
+
+<h2>Invoice Entries Reference</h2>
+
+<table>
+<caption>List of transaction entries with calculations based on floor division logic.</caption>
+<thead>
+<tr>
+<th scope="col">Item</th>
+<th scope="col">Quantity</th>
+<th scope="col">Unit price</th>
+<th scope="col">Discount</th>
+<th scope="col">Amount</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>entry-1</td>
+<td>2</td>
+<td>7</td>
+<td>0</td>
+<td>14</td>
+</tr>
+<tr>
+<td>entry-2</td>
+<td>3</td>
+<td>20</td>
+<td>7</td>
+<td>51</td>
+</tr>
+<tr>
+<td>entry-3</td>
+<td>4</td>
+<td>33</td>
+<td>14</td>
+<td>92</td>
+</tr>
+<tr>
+<td>entry-4</td>
+<td>5</td>
+<td>46</td>
+<td>21</td>
+<td>145</td>
+</tr>
+</tbody>
+</table>
+
+<div class="footer-note">
+The above dataset represents standard inventory tracking records without any dynamic processing requirements.
+</div>
+
+</section>
+
+</body>
+</html>

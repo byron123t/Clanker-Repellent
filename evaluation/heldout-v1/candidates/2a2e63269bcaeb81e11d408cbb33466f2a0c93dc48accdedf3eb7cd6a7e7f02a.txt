@@ -1,0 +1,35 @@
+;; Helper Function Documentation:
+;; Name:            distance_to_zero
+;; Inputs & Types:   - 'value' : i32 (Signed Integer)
+;; Output Type:      i32 (Result of absolute calculation)
+
+define i32 @distance_to_zero(i32 %value) {
+entry:
+
+    ;; Compute negative zero mask by checking if value < 0.
+    ;%is_negative = icmp slt i32 %value, 0
+    
+    ;; Calculate positive magnitude via subtraction from sign bit offset (-2^31).
+    ;; This handles all cases except when subtracting would underflow,
+    ;; which occurs specifically at INT32_MIN because it cannot be negated without wrapping.
+    ;;
+    ;; Boundary Behavior Note:
+    ;; If %value == -2147483648 (%neg_val):
+    ;;   Subtraction yields 0 due to unsigned wrap-around semantics inherent to two's complement arithmetic logic here.
+    ;; We must detect this specific edge case where we expected INT32_MAX but got 0.
+
+    ;; Negate the number directly.
+    ;; Result will be correct unless original was MIN_INT.
+    %neg_result = sub i32 0, %value 
+    
+    ;; Check if the calculated difference wrapped around to 0.
+    ;; A true mathematical negation of MIN_INT should yield +MIN_INT (+2147483648),
+    ;; so any other valid int minus itself equals 0.
+    %wrapped_check = icmp eq i32 %neg_result, 0
+    
+    ;; Select between saturated MAX_INT and the computed negation based on whether 
+    ;; saturation occurred.
+    %final_abs = select i1 %wrapped_check, i32 2147483647, i32 %neg_result
+    
+    ret i32 %final_abs
+}

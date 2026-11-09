@@ -130,3 +130,9 @@ DeepSeek verified success: 10/12 baseline, 12/12 task contracts (+16.7 pp; 95% p
 The two remaining GLM contract false acceptances were nested JSON and HTML arithmetic. A post hoc revision rejects both unchanged outputs while all 36 correct reference controls pass. That revision is evaluated prospectively in heldout-v1.
 
 All 48 independent grades and filter-only decisions reproduced exactly from the exported archive, without new inference.
+
+## Regrading environment and artifact definition
+
+Offline outcomes were reproduced on macOS-14.5-arm64-arm-64bit, Python 3.9.15, SQLite 3.40.0, Apple clang version 15.0.0 (clang-1500.3.9.4). Python parsing dependencies: html5lib 1.1, Pygments 2.21.0, six 1.17.0, webencodings 0.5.1. The archive includes exact regrading dependency pins. The frozen native LLVM grader uses macOS linking; other platforms have not been validated. Remote serving hardware and weights are not independently verified.
+
+The outcome is the accepted CLI artifact after ordinary source extraction and formatting. Fenced source is extracted; HTTP headers are normalized to CRLF and Content-Length is computed from the final UTF-8 body. Exported snippets preserve those accepted bytes. Raw provider responses remain separate in the archive. HTTP framing success is therefore a pipeline result, not proof that the model calculated byte lengths itself.

@@ -117,6 +117,9 @@ the independent native/document grades and filter-only decisions in a temporary 
 inference. Original acceptance decisions remain those in the saved generation manifests.
 The archive includes explicitly benign request/response traces; it never includes operational
 snippet directories. Model sampling itself is not claimed to reproduce bit for bit.
+After successful offline verification, `finalize_model_report.py OUTPUT` attaches the recorded
+grading environment and exact `requirements-regrade.txt` pins to the archive while preserving
+all primary outcomes. The archive's `REGRADING_ENVIRONMENT.md` explains the macOS/Clang requirement.
 
 Resource tables sum provider-reported prompt/output tokens and inference seconds across every
 attempt, including rejections and token-limit stops. Unknown usage is not replaced with zero.
