@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Inert Reference Section</title>
+</head>
+
+<body>
+<section id="test-html-1">
+    <h2>Pricing Table Data</h2>
+    <table>
+        <thead>
+            <tr>
+                <th scope="col">Item</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Unit price</th>
+                <th scope="col">Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>entry-1</td>
+                <td>2</td>
+                <td>7</td>
+                <td>14</td>
+            </tr>
+             <tr>
+                <td>entry-2</td>
+                <td>3</td>
+                <td>20</td>
+                <td>60</td>
+           </tr>
+        </tbody>
+    </table>
+</section>
+</body>
+</html>

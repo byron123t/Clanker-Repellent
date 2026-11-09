@@ -11,6 +11,7 @@ outputs in these studies are explicitly benign. Operational snippet directories 
 | [November 7 pilot](../../evaluation/pilot-20261107/REPORT.md) | 52 real model candidates, 45 accepted | GLM/DeepSeek acceptance and exploratory quality diagnostics across 18 formats |
 | [Controlled fault audit](../../evaluation/fault-audit-v1/REPORT.md) | 84 fixed sources, two systems; 84 additional ablation validations | False acceptance and false rejection, independently confirmed; no model generation |
 | [Development comparison](../../evaluation/development-v2/REPORT.md) | 48 actual model candidates, 39 accepted, 30 independently verified | Exploratory generation improvement and concrete failure diagnosis; all independent grades reproduced offline |
+| [Held-out comparison, in progress](../../evaluation/heldout-v1/REPORT.md) | GLM's 144/144 candidates complete; DeepSeek collection continues | Frozen 24-task, three-repeat comparison; the dashboard retains the overall 288-candidate denominator |
 
 The audit reduces acceptance of authored faults from **47/48 to 18/48**: 60.4 percentage
 points, with a paired task-bootstrap 95% interval of **50.0–70.8 points** over 12 task clusters.
@@ -36,6 +37,12 @@ were +33.3 pp (95% interval +8.3 to +58.3) and +16.7 pp (0.0 to +41.7). These ex
 results motivated the selected intervention; they are not pooled with held-out observations.
 The new `heldout-v1` study freezes all 288 planned cells before collection. Its protocol SHA-256
 is `08ddd60dfbd4277c81b04ffaa7cd30ba0ffdbd76da9e9237c3410ee68eb634c1`.
+
+GLM's completed held-out grid gives **16/72 → 25/72** verified candidates (+12.5 pp;
+95% task-bootstrap interval 0.0 to +26.4 pp; related-family interval −1.6 to +30.4 pp).
+Accepted-but-incorrect candidates fall from **32 to 6**, while acceptance falls from 48 to 31.
+The intervals do not establish a positive generalization effect. These results are reported
+separately from development; the incomplete DeepSeek grid is not used for a model ranking.
 
 ## Reproduce the completed audit
 

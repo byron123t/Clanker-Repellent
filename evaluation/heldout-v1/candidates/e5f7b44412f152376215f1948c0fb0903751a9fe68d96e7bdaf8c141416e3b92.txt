@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+
+<section id="test-html-3">
+
+<h1>Purchase Order Reference Data</h1>
+
+
+<table>
+<thead>
+<tr><th scope="col">Item</th><th scope="col">Quantity</th><th scope="col">Unit price</th><th scope="col">Discount</th><th scope="col">Amount</th></tr>
+</thead>
+<tbody>
+<tr><td>entry-1</td><td>2</td><td>7</td><td>0</td><td>140</td></tr>
+<tr><td>entry-2</td><td>3</td><td>20</td><td>7</td><td>558</td></tr>
+<tr><td>entry-3</td><td>4</td><td>33</td><td>14</td><td>924</td></tr>
+<tr><td>entry-4</td><td>5</td><td>46</td><td>21</td><td>1150</td></tr>
+<tr><td>entry-5</td><td>6</td><td>59</td><td>28</td><td>1014</td></tr>
+<tr><td>entry-6</td><td>7</td><td>72</td><td>0</td><td>504</td></tr>
+</tbody>
+</table>
+
+</section>
+
+</body>
+</html>

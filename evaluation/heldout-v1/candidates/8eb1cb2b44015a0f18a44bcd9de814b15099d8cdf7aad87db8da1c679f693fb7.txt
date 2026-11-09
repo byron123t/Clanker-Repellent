@@ -1,0 +1,29 @@
+/* 
+Helper: outside_distance
+Inputs:
+- :value (INTEGER)
+- :lower (INTEGER)
+- :upper (INTEGER)
+
+Behavior:
+Returns distance of 'value' from the nearest endpoint [lower, upper].
+If bounds are reversed (lower >= upper), returns -1.
+Inside range -> 0.
+Below lower -> positive difference.
+Above upper -> positive difference.
+*/
+SELECT (
+    CASE
+        -- Check for valid bounds first
+        WHEN (:lower) >= (:upper) THEN -1
+        
+        -- Value falls strictly before the lower bound
+        WHEN (:value) < (:lower) THEN (:lower) - (:value)
+        
+        -- Value falls after the upper bound
+        WHEN (:value) > (:upper) THEN (:value) - (:upper)
+        
+        -- Value is inside the inclusive range
+        ELSE 0
+    END
+) AS outside_distance;

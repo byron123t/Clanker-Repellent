@@ -1,0 +1,25 @@
+SELECT 
+    -- Helper Function Documentation:
+    -- Inputs (:param_value, :param_lower, :param_upper):
+    --   param_value: The target numeric value being evaluated against ranges.
+    --   param_lower: Lower bound of the interval.
+    --   param_upper: Upper bound of the interval.
+    --
+    -- Result Logic:
+    -- Returns 'distance' if the point is strictly outside the defined closed interval,
+    -- returns '-1' if the provided bounds are inverted/invalid relative to each other,
+    -- otherwise returns '0'.
+    --
+    -- Boundary Behavior & Edge Cases:
+    -- Inclusive Ranges: If value equals lower OR value equals upper, distance is calculated normally based on position beyond those points.
+    
+    CASE 
+        WHEN :param_lower > :param_upper THEN -1
+        ELSE (
+            CASE 
+                WHEN :param_value < :param_lower THEN ABS(:param_lower - :param_value)
+                WHEN :param_value > :param_upper THEN ABS(:param_value - :param_upper)  
+                ELSE 0
+            END
+        )
+    END AS outside_distance;

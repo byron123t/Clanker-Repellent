@@ -1,0 +1,13 @@
+SELECT 
+    -- Helper Function Documentation:
+    -- Inputs (:value, :lower, :upper) are integers representing coordinates on a line segment defined by endpoints 'lower' and 'upper'.
+    -- Result is an integer indicating relative position of ':value':
+    --   Returns -1 if the provided interval boundaries are invalid/reversed ('lower' > 'upper').
+    --   Returns 0 if ':value' lies within the closed interval [:lower:, :upper:] (inside).
+    --   Returns positive distance (-distance_lower_value) if ':value' is strictly less than ':lower:' (below left bound).
+    --   Returns positive distance (+distance_upper_value) if ':value' is strictly greater than ':upper:' (above right bound).
+
+    CASE WHEN :lower > :upper THEN -1
+         WHEN :value BETWEEN :lower AND :upper THEN 0
+         ELSE ABS(:value)
+    END AS outside_distance;

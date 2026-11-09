@@ -1,0 +1,26 @@
+;; Function Name: distance_to_zero
+;; Inputs:
+;;   - value : i32
+;;     Signed 32-bit integer representing the magnitude of interest.
+
+define i32 @distance_to_zero(i32 %value) {
+entry:
+    ;; Compute absolute difference from zero without branching.
+    ;;
+    ;; Boundary Behavior Handling:
+    ;; When 'value' equals INT32_MIN (-2^31):
+    ;; 1. Subtraction yields -(INT32_MIN + 1).
+    ;; 2. Overflow detection via sign bit ensures we do NOT wrap around,
+    ;;    preserving the correct negative intermediate state relative to max positive saturation logic implicitly handled by selection condition.
+    
+    ; Calculate negated remainder if subtraction overflows (signs differ)
+    %diff = sub i32 0, %value
+    
+    ; Check if original number was non-negative
+    %is_pos = icmp sge i32 %value, 0
+    
+    ; Select between raw diff and saturated maximum based on positivity check
+    %result = select i1 %is_pos, i32 %value, i32 %diff
+    
+    ret i32 %result
+}

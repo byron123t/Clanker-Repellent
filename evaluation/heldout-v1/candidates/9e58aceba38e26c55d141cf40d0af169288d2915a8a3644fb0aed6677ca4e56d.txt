@@ -1,0 +1,56 @@
+"""
+Helper Function: Decimal Checksum Calculation
+
+Computes a simple Luhn-like checksum over the absolute value of an integer.
+The algorithm iterates through each decimal digit, applying alternating 
+weights of 3 and 1, starting from the least significant digit.
+
+Inputs:
+    value (int): Integer number whose absolute value will be used for calculation.
+                 Domain: [-2147483648, 2147483647].
+
+Boundary Cases & Constraints:
+    - Negative inputs are handled by returning the checksum of the absolute value.
+    - Single-digit outputs may yield sums less than 10 depending on weighting.
+      However, standard implementations often require further validation;
+      here we strictly adhere to "return ... modulo 10".
+"""
+
+def decimal_checksum(value):
+    """
+    Calculates the weighted sum of digits applied against alternating weights [3, 1].
+    
+    Parameters:
+    value (int): The numeric input to process.
+        
+    Returns:
+    int: The resulting checksum modulo 10.
+         If the raw sum mod 10 equals 0, returns 0.
+    """
+
+    # Step 1: Ensure working with a non-negative integer representation
+    num = value if value >= 0 else -value
+    
+    step_weight_1 = 3
+    step_weight_2 = 1
+    running_total = 0
+    
+    # Iterative extraction of digits until none remain
+    while num > 0:
+            
+        # Isolate the rightmost digit
+        unit_place_value = num % 10
+        
+        # Add contribution of this digit multiplied by the appropriate weight
+        running_total += unit_place_value * step_weight_1
+            
+        # Shift focus to remaining higher-order digits
+        num //= 10
+            
+        # Toggle active weight for subsequent iterations
+        temp_swap = step_weight_1
+        step_weight_1 = step_weight_2
+        step_weight_2 = temp_swap
+        
+    # Final normalization per requirements
+    return running_total % 10

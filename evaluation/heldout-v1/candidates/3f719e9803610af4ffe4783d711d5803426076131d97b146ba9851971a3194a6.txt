@@ -1,0 +1,29 @@
+def middle_value(a, b, c):
+    """
+    Computes the statistical median of three provided integer arguments.
+
+    Args:
+        a (int): First integer within inclusive range [-1000, 1000].
+        b (int): Second integer within inclusive range [-1000, 1000].
+        c (int): Third integer within inclusive range [-1000, 1000].
+
+    Returns:
+        int: The median value among 'a', 'b', and 'c'.
+
+    Boundary Behavior:
+      Handles all permutations of sorted numbers correctly using conditional logic without sorting utilities like min() or max().
+    """
+    # Determine relative ordering to find the element between the smallest and largest.
+    
+    # Case where A is neither the minimum nor maximum.
+    if ((a > b) != (a < c)):
+        return a
+    
+    # Case where B is neither the minimum nor maximum.
+    elif ((b > a) != (b < c)):
+        return b
+        
+    # Remaining case implies C is either greater than both others 
+    # OR less than both others, making it the median when duplicates exist.
+    else:
+        return c

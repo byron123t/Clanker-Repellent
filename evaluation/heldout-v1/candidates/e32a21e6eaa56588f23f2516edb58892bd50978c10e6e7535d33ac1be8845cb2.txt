@@ -1,0 +1,5 @@
+SELECT 
+    CASE 
+        WHEN :unit <= 0 THEN -1
+        ELSE CAST((MAX(:seconds - :grace + (:unit) - 1) / (:unit)) AS INTEGER)
+    END AS billing_units;

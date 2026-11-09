@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Inert Fixture Test Page</title>
+</head>
+
+<body>
+
+<main id="main-container">
+
+<article id="article-section">
+<header>
+<h1>Pricing Table Data Set</h1>
+</header>
+
+<dl id="definition-list-data-set">
+<dt>Description:</dt>
+<dd>A structured dataset containing item details and calculated financial metrics based on specified parameters.</dd>
+</dl>
+
+<table id="pricing-table-reference">
+<thead>
+<tr>
+<th scope="col">Item</th>
+<th scope="col">Quantity</th>
+<th scope="col">Unit price</th>
+<th scope="col">Discount</th>
+<th scope="col">Amount</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>entry-1</td>
+<td>2</td>
+<td>7</td>
+<td>0</td>
+<td>14</td>
+</tr>
+<tr>
+<td>entry-2</td>
+<td>3</td>
+<td>20</td>
+<td>7</td>
+<td>56</td>
+</tr>
+<tr>
+<td>entry-3</td>
+<td>4</td>
+<td>33</td>
+<td>14</td>
+<td>105</td>
+</tr>
+<tr>
+<td>entry-4</td>
+<td>5</td>
+<td>46</td>
+<td>21</td>
+<td>182</td>
+</tr>
+</tbody>
+</table>
+
+<footer>
+<p>Data generated strictly according to floor division rules applied against unit prices.</p>
+</footer>
+
+</article>
+
+</main>
+
+</body>
+</html>

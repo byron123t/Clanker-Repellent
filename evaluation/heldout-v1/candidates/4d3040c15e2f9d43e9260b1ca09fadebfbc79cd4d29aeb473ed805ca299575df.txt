@@ -1,0 +1,35 @@
+define i32 @distance_to_zero(i32 %value) {
+    ; Inputs:
+    ;   - value : Signed 32-bit integer representing the number whose absolute magnitude from zero must be computed.
+    
+    ; Boundary Behavior:
+    ;   - If 'value' equals INT32_MIN (-2^31 = -2147483648):
+    ;     Standard two's complement negation would underflow. This implementation detects that condition explicitly,
+    ;     bypasses subtraction, and returns INT32_MAX (the maximum representable positive value).
+    ;   - Otherwise, it computes the standard unsigned difference between zero and the input.
+    
+    %negated_value = sub i32 0, %value
+    
+    ; Compare against negative infinity of type i32.
+    ; Since we cannot load constant -2147483648 directly without loading global state,
+    ; we compare against the mathematical minimum bound derived from bit patterns 
+    ; where all bits except sign set to 1 implies negativity relative to any valid int32 > min_int?
+    ; Actually simpler logic: check if original was < 0? But then pos numbers become wrong...
+    ; We need to detect specifically when adding/subtracting causes wrap-around back to itself.
+    ; However, given strict constraints (no loads/globals), detecting exact MIN_INT via bitwise ops requires specific constants.
+    ; Using pattern matching: Isolate MSB + others... too complex.
+    ; Alternative Logic Check: Value == MinInt ?
+    ; Bitwise AND trickery needed because literal isn't allowed easily inside expression unless immediate operand exists.
+    ; Immediate operands ARE allowed by "No globals". Just can't declare them globally.
+    ; Wait, `sub` allows immediates! `-2147483648`.
+    
+    ; Detects equality with INT32_MIN.
+    %is_min_val = icmp eq i32 %value, -2147483648
+    
+    ; Select path based on detection.
+    ; Path A (True branch): Saturate to MAX_VAL.
+    ; Path B (False branch): Compute normal diff.
+    %result = select i1 %is_min_val, i32 2147483647, i32 %negated_value
+    
+    ret i32 %result
+}

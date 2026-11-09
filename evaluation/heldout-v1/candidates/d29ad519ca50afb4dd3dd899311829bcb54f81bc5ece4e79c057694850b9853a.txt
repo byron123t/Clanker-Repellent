@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "format": "ELF",
+  "architecture": "x86_64",
+  "sections": [
+    {
+      "name": ".text.math",
+      "kind": "code"
+    },
+    {
+      "name": ".rodata.notes",
+      "kind": "data"
+    }
+  ],
+  "symbols": [
+    {
+      "name": "compute_1_1",
+      "kind": "function",
+      "section": ".text.math"
+    },
+    {
+      "name": "description_2_1",
+      "kind": "object",
+      "section": ".rodata.notes"
+    }
+  ],
+  "strings": [
+    "A mathematical computation library."
+  ]
+}

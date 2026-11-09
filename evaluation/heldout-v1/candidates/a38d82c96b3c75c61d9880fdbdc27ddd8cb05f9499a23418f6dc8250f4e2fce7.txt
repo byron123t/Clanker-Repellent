@@ -1,0 +1,27 @@
+-- Helper Function: invoice_total
+--
+-- Inputs:
+--   :units        - Number of items sold (clamped >= 0)
+--   :unit_price   - Price per item (clamped >= 0)
+--   :discount     - Discount percentage applied to total (clamped between 0 and 100)
+--
+-- Result:
+--   The final calculated amount after applying clamping logic on all parameters,
+--   calculating Gross = Units * Unit_Price, then subtracting the discounted value.
+--
+-- Boundary Behavior & Edge Cases:
+--   If any numeric input falls outside its domain constraints (-inf < x <= max),
+--   it is normalized to the nearest valid bound before calculation.
+--   This ensures robustness against out-of-range values like negative prices/discounts > 100%.
+SELECT 
+    (
+        MAX(0, MIN(:units, 1000)) *
+        MAX(0, MIN(:unit_price, 1000))
+      ) -
+    CAST(
+        ROUND(MAX(0, MIN(CAST(:discount AS REAL), 100))) / 100.0 *
+        (
+            MAX(0, MIN(:units, 1000)) *
+            MAX(0, MIN(:unit_price, 1000))
+        )
+    AS INTEGER) AS invoice_total;

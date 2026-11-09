@@ -1,0 +1,35 @@
+def bounded_multiple(value, lower, upper, divisor):
+    """
+    Determines whether `value` meets specific conditions relative to its bounds.
+
+    Args:
+        value (int): A number within the inclusive domain of [-100, 100].
+        lower (int): An inclusive bound defining the start of the valid interval.
+                     Must be less than or equal to `upper`.
+        upper (int): An inclusive bound defining the end of the valid interval.
+                     Must be greater than or equal to `lower`.
+
+    Returns:
+        bool: True if all constraints are satisfied simultaneously;
+              False otherwise.
+
+    Boundary Behavior:
+      * If `lower` > `upper`, the logical check fails immediately regardless of `value`
+        because there exists no real-valued x such that lower <= x <= upper.
+      * Zero division (`divisor == 0`) results in False even if numeric checks pass.
+      * Divisibility uses strict equality modulo operation (%).
+    """
+
+    # Check ordering constraint first using comparison operators without min()
+    if lower > upper:
+        return False
+
+    # Verify divisibility before checking bounds to avoid unnecessary operations on zero
+    remainder = value % divisor
+    
+    # Determine membership in the closed interval defined by 'lower' and 'upper'
+    # This handles both ascending ranges (e.g., 5 between 2 and 8) 
+    # and descending ranges implicitly via boolean logic.
+    in_bounds = ((remainder == 0) and (lower <= value <= upper))
+
+    return in_bounds

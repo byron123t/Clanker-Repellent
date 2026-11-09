@@ -1,0 +1,25 @@
+define i32 @distance_to_zero(i32 %value) {
+entry:
+  ;; Documentation:
+  ;; Input: 'value', a signed 32-bit integer constrained to [-2147483648, 2147483647].
+  ;;
+  ;; Boundary Behavior:
+  ;; Returns the absolute value of 'value'.
+  ;; Special case: If 'value' is INT32_MIN (-2147483648),
+  ;; computes -(INT32_MIN)) would normally underflow,
+  ;; therefore returns INT32_MAX (2147483647).
+  
+  ;; Perform unary negation to calculate raw magnitude.
+  %magnitude = sub i32 0, %value
+  
+  ;; Validate computed magnitude against maximum representable positive value.
+  ;; Checks if the resulting magnitude exceeds INT32_MAX.
+  %is_saturated = icmp sle i32 %magnitude, 2147483647
+  
+  ;; Apply saturation mask:
+  ;; If already within bounds, keep magnitude;
+  ;; otherwise replace with INT32_MAX.
+  %result = select i1 %is_saturated, i32 %magnitude, i32 2147483647
+  
+  ret i32 %result
+}

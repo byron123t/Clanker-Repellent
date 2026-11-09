@@ -1,24 +1,27 @@
 # Held-out · task-contract evaluation
 
-State: **incomplete**. 72/288 planned observations.
+State: **incomplete**. 167/288 planned observations.
 
 | Model | System | Accepted | Verified | False acceptances | Attempts |
 | --- | --- | ---: | ---: | ---: | ---: |
-| glm | baseline | 20/31 | 6/31 | 14 | 61 |
-| glm | contract | 14/30 | 11/30 | 3 | 66 |
-| glm | filter-only | 7/31 | 6/31 | 1 | 61 |
-| deepseek | baseline | 5/5 | 5/5 | 0 | 5 |
-| deepseek | contract | 6/6 | 6/6 | 0 | 6 |
-| deepseek | filter-only | 5/5 | 5/5 | 0 | 5 |
+| glm | baseline | 48/72 | 16/72 | 32 | 132 |
+| glm | contract | 31/72 | 25/72 | 6 | 171 |
+| glm | filter-only | 18/72 | 16/72 | 2 | 132 |
+| deepseek | baseline | 11/12 | 10/12 | 1 | 14 |
+| deepseek | contract | 10/11 | 10/11 | 0 | 13 |
+| deepseek | filter-only | 10/12 | 10/12 | 0 | 14 |
+
+glm: paired change +12.5 percentage points (95% task-bootstrap interval +0.0 to +26.4; 24 tasks).
+Related-family sensitivity: -1.6 to +30.4 pp (19 family clusters).
 
 ## Observed inference cost
 
 | Model | System | Prompt tokens | Completion tokens | Inference seconds | Token-limit stops |
 | --- | --- | ---: | ---: | ---: | ---: |
-| glm | baseline | 73449 | 71986 | 1249.7904899999996 | 10 |
-| glm | contract | 82661 | 56453 | 976.5347899999999 | 8 |
-| deepseek | baseline | 4814 | 1024 | 809.935 | 0 |
-| deepseek | contract | 7062 | 1508 | 1193.02897 | 0 |
+| glm | baseline | 158457 | 142355 | 2428.8040800000003 | 20 |
+| glm | contract | 203631 | 163896 | 2827.91708 | 24 |
+| deepseek | baseline | 15564 | 3518 | 2752.22227 | 0 |
+| deepseek | contract | 14152 | 3115 | 2450.1744200000003 | 0 |
 
 ## Methodology
 
@@ -78,7 +81,7 @@ Engine, corpus, private fixture, and runner snapshots are pinned by SHA-256. See
   },
   "snapshot_files": 143,
   "study_directory": "heldout-v1",
-  "scores_sha256": "111f8b40d1251c7f9529ed1516d052075f1cd730a8fa68f3753dfa314b8fe21f"
+  "scores_sha256": "2246048372616f1278ba40dedb3458f3a9d4d96b6560ee342d9ccd44f7ea4bce"
 }
 ```
 

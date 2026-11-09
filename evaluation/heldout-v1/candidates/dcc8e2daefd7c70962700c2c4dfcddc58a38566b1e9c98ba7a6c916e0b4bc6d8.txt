@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+
+<section id="test-html-3">
+  <h2>Purchase Order Items</h2>
+  
+  <table>
+    <thead>
+      <tr>
+        <th scope="col">Item</th>
+        <th scope="col">Quantity</th>
+        <th scope="col">Unit price</th>
+        <th scope="col">Discount</th>
+        <th scope="col">Amount</th>
+      </tr>
+    </thead>
+    
+    <tbody>
+      <!-- Row 1 -->
+      <tr>
+        <td>entry-1</td>
+        <td>2</td>
+        <td>7</td>
+        <td>0</td>
+        <td>14</td>
+      </tr>
+      
+      <!-- Row 2 (Calculation Check) 
+           Formula: floor(3 * 20 * (100 - 7) / 100)
+                   = floor(60 * 93 / 100)
+                   = floor(5580 / 100)
+                   = 55
+       -->
+      <tr>
+        <td>entry-2</td>
+        <td>3</td>
+        <td>20</td>
+        <td>7</td>
+        <td>55</td>
+      </tr>
+      
+      <!-- Row 3 (Calculation Check) 
+           Formula: floor(4 * 33 * (100 - 14) / 100)
+                   = floor(132 * 86 / 100)
+                   = floor(11352 / 100)
+                   = 113
+       -->
+      <tr>
+        <td>entry-3</td>
+        <td>4</td>
+        <td>33</td>
+        <td>14</td>
+        <td>113</td>
+      </tr>
+      
+      <!-- Row 4 (Calculation Check) 
+           Formula: floor(5 * 46 * (100 - 21) / 100)
+                   = floor(230 * 79 / 100)
+                   = floor(18170 / 100)
+                   = 181
+       -->
+      <tr>
+        <td>entry-4</td>
+        <td>5</td>
+        <td>46</td>
+        <td>21</td>
+        <td>181</td>
+      </tr>
+
+
+      <!-- Row 5 (Calculation Check) 
+           Formula: floor(6 * 59 * (100 - 28) / 100)
+                   = floor(354 * 72 / 100)
+                   = floor(25488 / 100)
+                   = 254
+       -->
+      <tr>
+        <td>entry-5</td>
+        <td>6</td>
+        <td>59</td>
+        <td>28</td>
+        <td>254</td>
+      </tr>
+      
+      <!-- Row 6 -->
+      <tr>
+        <td>entry-6</td>
+        <td>7</td>
+        <td>72</td>
+        <td>0</td>
+        <td>504</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+</body>
+</html>

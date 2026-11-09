@@ -1,0 +1,10 @@
+-- Compute billing units: return -1 if unit <= 0, else 0 if seconds <= grace,
+-- else ceiling of (seconds - grace) / unit using integer division.
+-- Inputs: :seconds (int), :grace (int), :unit (int)
+-- Result: :billing_units (int)
+SELECT
+    CASE
+        WHEN :unit <= 0 THEN -1
+        WHEN :seconds <= :grace THEN 0
+        ELSE (:seconds - :grace + :unit - 1) / :unit
+    END AS billing_units;

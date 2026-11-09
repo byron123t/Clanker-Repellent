@@ -1,0 +1,41 @@
+{
+  "binary_info": {
+    "format": "JSON",
+    "encoding": "UTF8"
+  },
+  "catalog_calculation": {
+    "currency": "credits",
+    "count": 4,
+    "items": [
+      {
+        "id": "item-1",
+        "quantity": 12,
+        "unit_price": 20,
+        "discount": 7,
+        "amount": 2105
+      },
+      {
+        "id": "item-2",
+        "quantity": 16,
+        "unit_price": 53,
+        "discount": 7,
+        "amount": 7896
+      },
+      {
+        "id": "item-3",
+        "quantity": 6,
+        "unit_price": 25,
+        "discount": 33,
+        "amount": 99
+      },
+      {
+        "id": "item-4",
+        "quantity": 3,
+        "unit_price": 47,
+        "discount": 33,
+        "amount": 94
+      }
+    ],
+    "total": 10104
+  }
+}

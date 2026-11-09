@@ -1,0 +1,37 @@
+; LLVM fixture: piecewise_charge
+; Inputs: value (i32), threshold (i32), rate (i32)
+; Returns i32 total charge:
+;   if value <= 0 or rate <= 0 => 0
+;   else clamp threshold >= 0, then:
+;     first min(value, threshold) units cost rate each,
+;     remaining (value - clamped_threshold) units cost 2*rate each.
+; Domains: rate, threshold, value ∈ [-5, 10000]
+define i32 @piecewise_charge(i32 %value, i32 %threshold, i32 %rate) {
+; Check if value <= 0 or rate <= 0 => return 0
+; value <= 0 check
+  %val_le_zero = icmp sle i32 %value, 0
+; rate <= 0 check
+  %rate_le_zero = icmp sle i32 %rate, 0
+; combine: (value <= 0) or (rate <= 0)
+  %early_exit = or i1 %val_le_zero, %rate_le_zero
+; if early_exit, result = 0, else compute
+; Clamp threshold: max(threshold, 0)
+  %zero = add i32 0, 0
+  %thresh_ge_zero = icmp sgt i32 %threshold, 0
+  %clamped_threshold = select i1 %thresh_ge_zero, i32 %threshold, i32 %zero
+; units at rate: min(value, clamped_threshold)
+  %val_lt_thresh = icmp slt i32 %value, %clamped_threshold
+  %units_at_rate = select i1 %val_lt_thresh, i32 %value, i32 %clamped_threshold
+; remaining units: value - units_at_rate
+  %remaining_units = sub i32 %value, %units_at_rate
+; charge for first part: units_at_rate * rate
+  %charge_first = mul i32 %units_at_rate, %rate
+; charge for remaining: remaining_units * (2*rate)
+  %rate_double = mul i32 %rate, 2
+  %charge_remaining = mul i32 %remaining_units, %rate_double
+; total charge = charge_first + charge_remaining
+  %total_charge = add i32 %charge_first, %charge_remaining
+; select final result: early_exit ? 0 : total_charge
+  %result = select i1 %early_exit, i32 %zero, i32 %total_charge
+  ret i32 %result
+}

@@ -1,0 +1,13 @@
+/* Helper Function: billing_units */
+-- Computes billable units based on time duration, grace period, and per-unit size.
+
+SELECT 
+    -- Logic:
+    -- Returns -1 if 'unit' is non-positive.
+    -- If within grace period ('seconds' <= 'grace'), returns 0.
+    -- Otherwise calculates ceil((seconds - grace) / unit).
+    CASE 
+        WHEN :unit <= 0 THEN -1
+        WHEN :seconds <= :grace THEN 0
+        ELSE CAST( (:seconds - :grace + :unit - 1) AS INTEGER ) / :unit
+    END AS billing_units;

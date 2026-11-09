@@ -80,6 +80,66 @@
       "model_id": "glm-4.7-flash-abliterated",
       "arm": "baseline",
       "task": "test-python-multiple",
+      "trial": 1,
+      "language": "python",
+      "level": 1,
+      "family": "multiple",
+      "stage": "heldout",
+      "seed_requested": 1949602552,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 1,
+      "attempt_outcomes": [
+        "passed"
+      ],
+      "first_attempt_accepted": true,
+      "candidate": {
+        "relative_path": "python/generated.py",
+        "sha256": "329392aa7c2350a3e87fae466c3042fcd79bad239e2f320239184b855ff63828",
+        "bytes": 1514
+      },
+      "generation_manifest_sha256": "c11a71acfbfbb063d1212d630ca44c13714bb1c75bf5a56e3c39ac31ca5c8dc3",
+      "wall_seconds": 5.129,
+      "resources": {
+        "inference_seconds": 4.56933,
+        "prompt_tokens": 574,
+        "completion_tokens": 315,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "diagnostic": "Undefined integer computation in contract example.",
+        "behavior_checked": false
+      },
+      "contract_check": {
+        "passed": false,
+        "diagnostic": "Undefined integer computation in contract example.",
+        "metrics": {
+          "contract_sha256": "24e12cf688b1f0b22d8259c9edd01fb8e09fea5ead2361ad6584f99b25c7edf5",
+          "examples": 1
+        }
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "1731369b18fc042c086d378d792fa18f877ab6487be9d606d20e13cd2f1568f6",
+      "directory": "runs/glm/baseline/test-python-multiple/1"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "baseline",
+      "task": "test-python-multiple",
       "trial": 2,
       "language": "python",
       "level": 1,
@@ -399,6 +459,186 @@
       "model": "glm",
       "model_id": "glm-4.7-flash-abliterated",
       "arm": "baseline",
+      "task": "test-python-median",
+      "trial": 2,
+      "language": "python",
+      "level": 1,
+      "family": "median",
+      "stage": "heldout",
+      "seed_requested": 3043622894,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 1,
+      "attempt_outcomes": [
+        "passed"
+      ],
+      "first_attempt_accepted": true,
+      "candidate": {
+        "relative_path": "python/generated.py",
+        "sha256": "a7c7b4e133ddcd722b15e89b72034a1efeab959b31edeab83f524ecb97f42ac4",
+        "bytes": 1039
+      },
+      "generation_manifest_sha256": "a3e5f276282e3afc7caa76c0bac721001276cfa8490d3de3f58aaf122ac5fa4a",
+      "wall_seconds": 3.737,
+      "resources": {
+        "inference_seconds": 3.3041199999999997,
+        "prompt_tokens": 542,
+        "completion_tokens": 240,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "public_passed": 1,
+        "public_cases": 3,
+        "hidden_passed": 17,
+        "hidden_cases": 320,
+        "behavior_checked": true,
+        "failures": [
+          {
+            "index": 0,
+            "inputs": [
+              3,
+              1,
+              2
+            ],
+            "expected": 2,
+            "actual": 3
+          },
+          {
+            "index": 2,
+            "inputs": [
+              -5,
+              -2,
+              -3
+            ],
+            "expected": -3,
+            "actual": -5
+          },
+          {
+            "index": 3,
+            "inputs": [
+              1,
+              -1000,
+              1000
+            ],
+            "expected": 1,
+            "actual": -1000
+          },
+          {
+            "index": 4,
+            "inputs": [
+              -1000,
+              -1,
+              1000
+            ],
+            "expected": -1,
+            "actual": -1000
+          },
+          {
+            "index": 5,
+            "inputs": [
+              1000,
+              -1000,
+              -1000
+            ],
+            "expected": -1000,
+            "actual": 1000
+          }
+        ]
+      },
+      "contract_check": {
+        "passed": false,
+        "diagnostic": "Public example 1 failed: expected 2, got 3",
+        "metrics": {
+          "contract_sha256": "4f61e32d1d79d21c8c4f8e8050fdbb7e1914da6506e02a8f7d34ec6001c08de3",
+          "examples": 0
+        }
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "3f719e9803610af4ffe4783d711d5803426076131d97b146ba9851971a3194a6",
+      "directory": "runs/glm/baseline/test-python-median/2"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "baseline",
+      "task": "test-python-delivery",
+      "trial": 0,
+      "language": "python",
+      "level": 2,
+      "family": "delivery",
+      "stage": "heldout",
+      "seed_requested": 2384769241,
+      "seed_honored": "not independently verified",
+      "accepted": false,
+      "status": "failed",
+      "attempts": 3,
+      "attempt_outcomes": [
+        "failed",
+        "token_limit",
+        "failed"
+      ],
+      "first_attempt_accepted": false,
+      "candidate": null,
+      "generation_manifest_sha256": "7632ec5469ad9494eaa1e1b1ffb39b05fbc51c00f00f2dcb2c03b624ef984281",
+      "wall_seconds": 118.152,
+      "resources": {
+        "inference_seconds": 117.59639999999999,
+        "prompt_tokens": 2468,
+        "completion_tokens": 7322,
+        "length_stops": 1
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "failed",
+          "failed_checks": [
+            "source_structure"
+          ]
+        },
+        {
+          "attempt": 2,
+          "status": "token_limit",
+          "failed_checks": []
+        },
+        {
+          "attempt": 3,
+          "status": "failed",
+          "failed_checks": [
+            "python_ast",
+            "python_compile",
+            "source_structure"
+          ]
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "diagnostic": "No accepted candidate"
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "4c7b2d712b64e75517be0d18eac95965ddbcd91bd66abc95cf244e328f0b85b0",
+      "directory": "runs/glm/baseline/test-python-delivery/0"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "baseline",
       "task": "test-python-delivery",
       "trial": 1,
       "language": "python",
@@ -452,6 +692,121 @@
       "filter_only_pass": false,
       "id": "49eaa6105392bcab394f2e479a5c9c99a997db0b4c8b6f6872c1d7be9b587dcc",
       "directory": "runs/glm/baseline/test-python-delivery/1"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "baseline",
+      "task": "test-python-delivery",
+      "trial": 2,
+      "language": "python",
+      "level": 2,
+      "family": "delivery",
+      "stage": "heldout",
+      "seed_requested": 2928459411,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 1,
+      "attempt_outcomes": [
+        "passed"
+      ],
+      "first_attempt_accepted": true,
+      "candidate": {
+        "relative_path": "python/generated.py",
+        "sha256": "070e90106fe87f9580f95165426a8d6f68223b74a824d115a9951129ecaac5d3",
+        "bytes": 2241
+      },
+      "generation_manifest_sha256": "2ad954c804c635dabdfd77853cf801d51987460d4f961ccc8b2ba0bd8e19104b",
+      "wall_seconds": 8.154,
+      "resources": {
+        "inference_seconds": 7.57087,
+        "prompt_tokens": 582,
+        "completion_tokens": 443,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "public_passed": 0,
+        "public_cases": 3,
+        "hidden_passed": 172,
+        "hidden_cases": 320,
+        "behavior_checked": true,
+        "failures": [
+          {
+            "index": 0,
+            "inputs": [
+              0,
+              0,
+              1
+            ],
+            "expected": 0,
+            "actual": 12
+          },
+          {
+            "index": 1,
+            "inputs": [
+              10,
+              2,
+              0
+            ],
+            "expected": 29,
+            "actual": 9
+          },
+          {
+            "index": 2,
+            "inputs": [
+              11,
+              2,
+              1
+            ],
+            "expected": 39,
+            "actual": 19
+          },
+          {
+            "index": 4,
+            "inputs": [
+              100,
+              0,
+              -1
+            ],
+            "expected": 302,
+            "actual": 282
+          },
+          {
+            "index": 5,
+            "inputs": [
+              -1,
+              1,
+              -1
+            ],
+            "expected": 0,
+            "actual": 14
+          }
+        ]
+      },
+      "contract_check": {
+        "passed": false,
+        "diagnostic": "Public example 1 failed: expected 0, got 12",
+        "metrics": {
+          "contract_sha256": "d7cc0df75ff7540a46946634677f6b829a05ba2e800fd1724b75cc476b8ca281",
+          "examples": 0
+        }
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "9fea4da2930e1c6c7ab778443494832059641408dd739df6cd795a2cd2601886",
+      "directory": "runs/glm/baseline/test-python-delivery/2"
     },
     {
       "schema_version": 1,
@@ -514,6 +869,250 @@
       "filter_only_pass": false,
       "id": "8056460197958d9fbc72a299ab1eb3c058b1f11937cbd802ac5cc4a8464346b0",
       "directory": "runs/glm/baseline/test-python-overlap/0"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "baseline",
+      "task": "test-python-overlap",
+      "trial": 1,
+      "language": "python",
+      "level": 2,
+      "family": "intersection",
+      "stage": "heldout",
+      "seed_requested": 2834746437,
+      "seed_honored": "not independently verified",
+      "accepted": false,
+      "status": "benign_policy_failed",
+      "attempts": 3,
+      "attempt_outcomes": [
+        "token_limit",
+        "token_limit",
+        "benign_policy_failed"
+      ],
+      "first_attempt_accepted": false,
+      "candidate": null,
+      "generation_manifest_sha256": "930f61a2bf1b07ced5995926383f7312a640292181b043d1bfa0d6ce8b21e95e",
+      "wall_seconds": 149.945,
+      "resources": {
+        "inference_seconds": 149.23849,
+        "prompt_tokens": 1919,
+        "completion_tokens": 8654,
+        "length_stops": 2
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "token_limit",
+          "failed_checks": []
+        },
+        {
+          "attempt": 2,
+          "status": "token_limit",
+          "failed_checks": []
+        },
+        {
+          "attempt": 3,
+          "status": "benign_policy_failed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "diagnostic": "No accepted candidate"
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "6deae50859196baaa905c761b2ba5b342258d5ed4e58820b61e5f9d15cb342bc",
+      "directory": "runs/glm/baseline/test-python-overlap/1"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "baseline",
+      "task": "test-python-overlap",
+      "trial": 2,
+      "language": "python",
+      "level": 2,
+      "family": "intersection",
+      "stage": "heldout",
+      "seed_requested": 1423311822,
+      "seed_honored": "not independently verified",
+      "accepted": false,
+      "status": "benign_policy_failed",
+      "attempts": 3,
+      "attempt_outcomes": [
+        "benign_policy_failed",
+        "benign_policy_failed",
+        "benign_policy_failed"
+      ],
+      "first_attempt_accepted": false,
+      "candidate": null,
+      "generation_manifest_sha256": "d4169e83bc6f632918e900fe59f22d4d815eca46918a8d9c9bb2ce184ee10e9c",
+      "wall_seconds": 20.7,
+      "resources": {
+        "inference_seconds": 19.9464,
+        "prompt_tokens": 2931,
+        "completion_tokens": 1406,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "benign_policy_failed",
+          "failed_checks": []
+        },
+        {
+          "attempt": 2,
+          "status": "benign_policy_failed",
+          "failed_checks": []
+        },
+        {
+          "attempt": 3,
+          "status": "benign_policy_failed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "diagnostic": "No accepted candidate"
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "559f62a3e2d2fb4f0d3ec501a7ce15ebf7ba8b39f5d0fddc326b6f74e9e71b80",
+      "directory": "runs/glm/baseline/test-python-overlap/2"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "baseline",
+      "task": "test-python-checksum",
+      "trial": 0,
+      "language": "python",
+      "level": 3,
+      "family": "checksum",
+      "stage": "heldout",
+      "seed_requested": 2860439447,
+      "seed_honored": "not independently verified",
+      "accepted": false,
+      "status": "failed",
+      "attempts": 3,
+      "attempt_outcomes": [
+        "token_limit",
+        "failed",
+        "failed"
+      ],
+      "first_attempt_accepted": false,
+      "candidate": null,
+      "generation_manifest_sha256": "d4160006fa6a0b9bae0d95309d3f3972cde625fe64436c397d55822b7e4f7ee3",
+      "wall_seconds": 92.583,
+      "resources": {
+        "inference_seconds": 91.52899000000001,
+        "prompt_tokens": 2115,
+        "completion_tokens": 4873,
+        "length_stops": 1
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "token_limit",
+          "failed_checks": []
+        },
+        {
+          "attempt": 2,
+          "status": "failed",
+          "failed_checks": [
+            "source_structure"
+          ]
+        },
+        {
+          "attempt": 3,
+          "status": "failed",
+          "failed_checks": [
+            "source_structure"
+          ]
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "diagnostic": "No accepted candidate"
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "d045417e2a034973872b2e75153fa5af32f461b39aa08f9a4dca42391f2ed6d8",
+      "directory": "runs/glm/baseline/test-python-checksum/0"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "baseline",
+      "task": "test-python-checksum",
+      "trial": 1,
+      "language": "python",
+      "level": 3,
+      "family": "checksum",
+      "stage": "heldout",
+      "seed_requested": 1381916006,
+      "seed_honored": "not independently verified",
+      "accepted": false,
+      "status": "failed",
+      "attempts": 3,
+      "attempt_outcomes": [
+        "token_limit",
+        "failed",
+        "failed"
+      ],
+      "first_attempt_accepted": false,
+      "candidate": null,
+      "generation_manifest_sha256": "8106bef88648c38cc275f2017bd024e12892ff3c99f38d476621d00a97b74963",
+      "wall_seconds": 114.45,
+      "resources": {
+        "inference_seconds": 113.87450000000001,
+        "prompt_tokens": 2221,
+        "completion_tokens": 6630,
+        "length_stops": 1
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "token_limit",
+          "failed_checks": []
+        },
+        {
+          "attempt": 2,
+          "status": "failed",
+          "failed_checks": [
+            "source_structure"
+          ]
+        },
+        {
+          "attempt": 3,
+          "status": "failed",
+          "failed_checks": [
+            "source_structure"
+          ]
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "diagnostic": "No accepted candidate"
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "b8b1bc78aa71d3c39e71ce74c16412be8a26c67035bc14579a40a7265e0cf159",
+      "directory": "runs/glm/baseline/test-python-checksum/1"
     },
     {
       "schema_version": 1,
@@ -644,6 +1243,135 @@
       "model": "glm",
       "model_id": "glm-4.7-flash-abliterated",
       "arm": "baseline",
+      "task": "test-python-gcd",
+      "trial": 1,
+      "language": "python",
+      "level": 3,
+      "family": "gcd",
+      "stage": "heldout",
+      "seed_requested": 2353159109,
+      "seed_honored": "not independently verified",
+      "accepted": false,
+      "status": "token_limit",
+      "attempts": 3,
+      "attempt_outcomes": [
+        "token_limit",
+        "token_limit",
+        "token_limit"
+      ],
+      "first_attempt_accepted": false,
+      "candidate": null,
+      "generation_manifest_sha256": "341cc1f46bc2af3c322b1f26e9fb84e6b6baba66a9f8f65f813e836582e61c76",
+      "wall_seconds": 221.684,
+      "resources": {
+        "inference_seconds": 221.16056,
+        "prompt_tokens": 1793,
+        "completion_tokens": 12288,
+        "length_stops": 3
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "token_limit",
+          "failed_checks": []
+        },
+        {
+          "attempt": 2,
+          "status": "token_limit",
+          "failed_checks": []
+        },
+        {
+          "attempt": 3,
+          "status": "token_limit",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "diagnostic": "No accepted candidate"
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "c81acdc6302f85430ee3f74dafee783ea46566e4df7d4ca1db40691aec30b9e2",
+      "directory": "runs/glm/baseline/test-python-gcd/1"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "baseline",
+      "task": "test-python-gcd",
+      "trial": 2,
+      "language": "python",
+      "level": 3,
+      "family": "gcd",
+      "stage": "heldout",
+      "seed_requested": 2521419382,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 2,
+      "attempt_outcomes": [
+        "failed",
+        "passed"
+      ],
+      "first_attempt_accepted": false,
+      "candidate": {
+        "relative_path": "python/generated.py",
+        "sha256": "a8cc4ff20e1212414250b175fcaeb0759c619817aed16f5d0293acf302bb37b4",
+        "bytes": 2386
+      },
+      "generation_manifest_sha256": "3b8f4b33898ef7de61547c96cf14a9aaca425728bb15d06b8692d54ea911c1b9",
+      "wall_seconds": 32.128,
+      "resources": {
+        "inference_seconds": 31.50669,
+        "prompt_tokens": 2357,
+        "completion_tokens": 2075,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "failed",
+          "failed_checks": [
+            "python_ast",
+            "python_compile",
+            "source_structure"
+          ]
+        },
+        {
+          "attempt": 2,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "diagnostic": "Unsupported syntax in bounded integer helper.",
+        "behavior_checked": false
+      },
+      "contract_check": {
+        "passed": false,
+        "diagnostic": "Unsupported syntax in bounded integer helper.",
+        "metrics": {
+          "contract_sha256": "78c0842f893eff8ea3de048c9f8bbf9c97f0628a2f8010849eeed112546fb134",
+          "examples": 0
+        }
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "430aaa8d15f9b9d07ecc03486832da76dd02e74e5e955498214a4a340ebad15b",
+      "directory": "runs/glm/baseline/test-python-gcd/2"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "baseline",
       "task": "test-sql-distance",
       "trial": 0,
       "language": "sql",
@@ -697,6 +1425,181 @@
       "filter_only_pass": false,
       "id": "a2ad709df61a79ed1c88fa501b88e97c277c3d7bb4c2daf179cb9ef0ad222fba",
       "directory": "runs/glm/baseline/test-sql-distance/0"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "baseline",
+      "task": "test-sql-distance",
+      "trial": 1,
+      "language": "sql",
+      "level": 1,
+      "family": "distance",
+      "stage": "heldout",
+      "seed_requested": 609374771,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 1,
+      "attempt_outcomes": [
+        "passed"
+      ],
+      "first_attempt_accepted": true,
+      "candidate": {
+        "relative_path": "sql/generated.sql",
+        "sha256": "433a3652a48adc2ab9b8b55f700fd9c72d1d778b3cd72b54d2da26ec87d5a076",
+        "bytes": 1057
+      },
+      "generation_manifest_sha256": "5d59547d49e5ee3abdd451601c0291e6ccf60a5142473ffec094fa25b1589214",
+      "wall_seconds": 4.109,
+      "resources": {
+        "inference_seconds": 3.25556,
+        "prompt_tokens": 494,
+        "completion_tokens": 232,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "diagnostic": "You did not supply a value for binding 1.",
+        "behavior_checked": false
+      },
+      "contract_check": {
+        "passed": false,
+        "diagnostic": "SQL alias or parameter names differ from contract",
+        "metrics": {
+          "contract_sha256": "6b59587f3db3d82fca4b0a5fcd02eeb45c2dddf481dc27547f07aa0e1a2fa86d",
+          "examples": 0
+        }
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "4a4c6033758bf5705800441401e8abda9e39f6d7e0ea8aa3b6e07b68ec7408c4",
+      "directory": "runs/glm/baseline/test-sql-distance/1"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "baseline",
+      "task": "test-sql-distance",
+      "trial": 2,
+      "language": "sql",
+      "level": 1,
+      "family": "distance",
+      "stage": "heldout",
+      "seed_requested": 2956963437,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 1,
+      "attempt_outcomes": [
+        "passed"
+      ],
+      "first_attempt_accepted": true,
+      "candidate": {
+        "relative_path": "sql/generated.sql",
+        "sha256": "fd60d698c8d84a12f6b26fa619fe001eaeb57402b6bb77d4bb71a03f6e05ffec",
+        "bytes": 841
+      },
+      "generation_manifest_sha256": "7a7824fa38e5c4bd51cbbb9ceff749ab8db04d5d04d491a418606c5c72004e3b",
+      "wall_seconds": 3.41,
+      "resources": {
+        "inference_seconds": 2.82293,
+        "prompt_tokens": 494,
+        "completion_tokens": 194,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "public_passed": 3,
+        "public_cases": 3,
+        "hidden_passed": 223,
+        "hidden_cases": 320,
+        "behavior_checked": true,
+        "failures": [
+          {
+            "index": 6,
+            "inputs": [
+              1000,
+              -1000,
+              -1000
+            ],
+            "expected": 2000,
+            "actual": 1000
+          },
+          {
+            "index": 9,
+            "inputs": [
+              0,
+              1000,
+              1000
+            ],
+            "expected": 1000,
+            "actual": 0
+          },
+          {
+            "index": 11,
+            "inputs": [
+              1000,
+              -1,
+              1
+            ],
+            "expected": 999,
+            "actual": 1000
+          },
+          {
+            "index": 14,
+            "inputs": [
+              -1000,
+              -1,
+              1000
+            ],
+            "expected": 999,
+            "actual": 1000
+          },
+          {
+            "index": 18,
+            "inputs": [
+              1000,
+              1,
+              1
+            ],
+            "expected": 999,
+            "actual": 1000
+          }
+        ]
+      },
+      "contract_check": {
+        "passed": true,
+        "diagnostic": "",
+        "metrics": {
+          "contract_sha256": "6b59587f3db3d82fca4b0a5fcd02eeb45c2dddf481dc27547f07aa0e1a2fa86d",
+          "examples": 3
+        }
+      },
+      "strict_pass": false,
+      "filter_only_accepted": true,
+      "filter_only_pass": false,
+      "id": "8b3c791f4da2462ffdc12ef3090aa28bcc738d2a2c76427abc3b83102b0aa388",
+      "directory": "runs/glm/baseline/test-sql-distance/2"
     },
     {
       "schema_version": 1,
@@ -783,6 +1686,138 @@
       "model": "glm",
       "model_id": "glm-4.7-flash-abliterated",
       "arm": "baseline",
+      "task": "test-sql-billing",
+      "trial": 1,
+      "language": "sql",
+      "level": 2,
+      "family": "billing",
+      "stage": "heldout",
+      "seed_requested": 908880988,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 1,
+      "attempt_outcomes": [
+        "passed"
+      ],
+      "first_attempt_accepted": true,
+      "candidate": {
+        "relative_path": "sql/generated.sql",
+        "sha256": "4f23ffbb2fb73eca586ee3725099c3cd5c7f42877a00b01c60605d30fff6e8f1",
+        "bytes": 493
+      },
+      "generation_manifest_sha256": "d38f9c3d72f6d50a309b330db5c60bea86b8862da997d08fc899bc4879dd48a8",
+      "wall_seconds": 2.598,
+      "resources": {
+        "inference_seconds": 2.04502,
+        "prompt_tokens": 498,
+        "completion_tokens": 140,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": true,
+        "public_passed": 3,
+        "public_cases": 3,
+        "hidden_passed": 320,
+        "hidden_cases": 320,
+        "behavior_checked": true,
+        "failures": []
+      },
+      "contract_check": {
+        "passed": true,
+        "diagnostic": "",
+        "metrics": {
+          "contract_sha256": "104130d967574e89c16632e09da71f676a03c061345e4ecd310d0f79a367417a",
+          "examples": 3
+        }
+      },
+      "strict_pass": true,
+      "filter_only_accepted": true,
+      "filter_only_pass": true,
+      "id": "f64a3facabf2d8e555719aefec04c4baef49a0d9070f2fee0d7a6c3ee42938d0",
+      "directory": "runs/glm/baseline/test-sql-billing/1"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "baseline",
+      "task": "test-sql-billing",
+      "trial": 2,
+      "language": "sql",
+      "level": 2,
+      "family": "billing",
+      "stage": "heldout",
+      "seed_requested": 421250495,
+      "seed_honored": "not independently verified",
+      "accepted": false,
+      "status": "failed",
+      "attempts": 3,
+      "attempt_outcomes": [
+        "failed",
+        "failed",
+        "failed"
+      ],
+      "first_attempt_accepted": false,
+      "candidate": null,
+      "generation_manifest_sha256": "9c35f56264b319517d10a06d16b736f7e2674bd740884490a83102d107abb68f",
+      "wall_seconds": 10.148,
+      "resources": {
+        "inference_seconds": 9.561359999999999,
+        "prompt_tokens": 2335,
+        "completion_tokens": 621,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "failed",
+          "failed_checks": [
+            "sql_prepare",
+            "source_structure"
+          ]
+        },
+        {
+          "attempt": 2,
+          "status": "failed",
+          "failed_checks": [
+            "sql_prepare",
+            "source_structure"
+          ]
+        },
+        {
+          "attempt": 3,
+          "status": "failed",
+          "failed_checks": [
+            "sql_prepare",
+            "source_structure"
+          ]
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "diagnostic": "No accepted candidate"
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "28845cd75aa6eade3f7fbadae7958e2d979dc8abeb27a365fd2bae39786403ba",
+      "directory": "runs/glm/baseline/test-sql-billing/2"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "baseline",
       "task": "test-sql-invoice",
       "trial": 0,
       "language": "sql",
@@ -841,6 +1876,259 @@
       "filter_only_pass": false,
       "id": "8d5bc1408c5bd5a28b17e3a8aec5ea147752c6e1420deb98659b236d914e2b79",
       "directory": "runs/glm/baseline/test-sql-invoice/0"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "baseline",
+      "task": "test-sql-invoice",
+      "trial": 1,
+      "language": "sql",
+      "level": 3,
+      "family": "invoice",
+      "stage": "heldout",
+      "seed_requested": 24164912,
+      "seed_honored": "not independently verified",
+      "accepted": false,
+      "status": "failed",
+      "attempts": 3,
+      "attempt_outcomes": [
+        "failed",
+        "failed",
+        "failed"
+      ],
+      "first_attempt_accepted": false,
+      "candidate": null,
+      "generation_manifest_sha256": "925c445cd0475134d9ded8b358c1de09a088677a774198d83e5baedddb756691",
+      "wall_seconds": 15.13,
+      "resources": {
+        "inference_seconds": 14.33957,
+        "prompt_tokens": 2473,
+        "completion_tokens": 893,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "failed",
+          "failed_checks": [
+            "sql_prepare",
+            "source_structure"
+          ]
+        },
+        {
+          "attempt": 2,
+          "status": "failed",
+          "failed_checks": [
+            "sql_prepare",
+            "source_structure"
+          ]
+        },
+        {
+          "attempt": 3,
+          "status": "failed",
+          "failed_checks": [
+            "sql_prepare",
+            "source_structure"
+          ]
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "diagnostic": "No accepted candidate"
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "970e5f08e4eef53deac42137e2e957322bd0a43f2719438aff2d7b248e6f7c3c",
+      "directory": "runs/glm/baseline/test-sql-invoice/1"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "baseline",
+      "task": "test-sql-invoice",
+      "trial": 2,
+      "language": "sql",
+      "level": 3,
+      "family": "invoice",
+      "stage": "heldout",
+      "seed_requested": 2186955707,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 2,
+      "attempt_outcomes": [
+        "token_limit",
+        "passed"
+      ],
+      "first_attempt_accepted": false,
+      "candidate": {
+        "relative_path": "sql/generated.sql",
+        "sha256": "18091b6e0aa9c1fe079fa7a9464ee7a40dcca186cf262b82278bf0976c01bd9a",
+        "bytes": 1020
+      },
+      "generation_manifest_sha256": "0a764b9f23b87cb98b37f50138146c1ef35cbc37c3320dab74650243dac4f928",
+      "wall_seconds": 84.84,
+      "resources": {
+        "inference_seconds": 84.10739,
+        "prompt_tokens": 1089,
+        "completion_tokens": 4366,
+        "length_stops": 1
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "token_limit",
+          "failed_checks": []
+        },
+        {
+          "attempt": 2,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": true,
+        "public_passed": 3,
+        "public_cases": 3,
+        "hidden_passed": 320,
+        "hidden_cases": 320,
+        "behavior_checked": true,
+        "failures": []
+      },
+      "contract_check": {
+        "passed": true,
+        "diagnostic": "",
+        "metrics": {
+          "contract_sha256": "db962cafebd0209277807bcc3e7028e1138c8276cef47a11b1fdb3db10e87d68",
+          "examples": 3
+        }
+      },
+      "strict_pass": true,
+      "filter_only_accepted": true,
+      "filter_only_pass": true,
+      "id": "a38d82c96b3c75c61d9880fdbdc27ddd8cb05f9499a23418f6dc8250f4e2fce7",
+      "directory": "runs/glm/baseline/test-sql-invoice/2"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "baseline",
+      "task": "test-llvm-abs",
+      "trial": 0,
+      "language": "llvm",
+      "level": 1,
+      "family": "saturated_abs",
+      "stage": "heldout",
+      "seed_requested": 1314885802,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 2,
+      "attempt_outcomes": [
+        "failed",
+        "passed"
+      ],
+      "first_attempt_accepted": false,
+      "candidate": {
+        "relative_path": "llvm/generated.ll",
+        "sha256": "afeacc6ff7be39618969a60afbd2e47e87da6ee5d0b096a5fa357c27d935a3c0",
+        "bytes": 883
+      },
+      "generation_manifest_sha256": "8a38497e5beaee2cab3b54e8539998238c1a3c0b194b58b7a48cdfd67cf559f4",
+      "wall_seconds": 46.774,
+      "resources": {
+        "inference_seconds": 45.93027,
+        "prompt_tokens": 3357,
+        "completion_tokens": 2941,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "failed",
+          "failed_checks": [
+            "llvm_profile",
+            "source_structure",
+            "llvm_compile"
+          ]
+        },
+        {
+          "attempt": 2,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "public_passed": 2,
+        "public_cases": 3,
+        "hidden_passed": 162,
+        "hidden_cases": 320,
+        "behavior_checked": true,
+        "failures": [
+          {
+            "index": 0,
+            "inputs": [
+              -2147483648
+            ],
+            "expected": 2147483647,
+            "actual": -2147483648
+          },
+          {
+            "index": 3,
+            "inputs": [
+              2147483647
+            ],
+            "expected": 2147483647,
+            "actual": -2147483647
+          },
+          {
+            "index": 5,
+            "inputs": [
+              1
+            ],
+            "expected": 1,
+            "actual": -1
+          },
+          {
+            "index": 10,
+            "inputs": [
+              1744422834
+            ],
+            "expected": 1744422834,
+            "actual": -1744422834
+          },
+          {
+            "index": 11,
+            "inputs": [
+              913662646
+            ],
+            "expected": 913662646,
+            "actual": -913662646
+          }
+        ]
+      },
+      "contract_check": {
+        "passed": false,
+        "diagnostic": "Public example 1 failed: expected 2147483647, got -2147483648",
+        "metrics": {
+          "contract_sha256": "34b3059eac8f8c39c6094e80415a6c9446cb187c8131372e4f5303a9b733d1dc",
+          "examples": 0
+        }
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "ed3dd07639a657e0d7d4fff489b00f01a5feaa33ac423bff9679eabb99846fa5",
+      "directory": "runs/glm/baseline/test-llvm-abs/0"
     },
     {
       "schema_version": 1,
@@ -946,6 +2234,79 @@
       "filter_only_pass": false,
       "id": "2a2e63269bcaeb81e11d408cbb33466f2a0c93dc48accdedf3eb7cd6a7e7f02a",
       "directory": "runs/glm/baseline/test-llvm-abs/1"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "baseline",
+      "task": "test-llvm-abs",
+      "trial": 2,
+      "language": "llvm",
+      "level": 1,
+      "family": "saturated_abs",
+      "stage": "heldout",
+      "seed_requested": 1575694855,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 1,
+      "attempt_outcomes": [
+        "passed"
+      ],
+      "first_attempt_accepted": true,
+      "candidate": {
+        "relative_path": "llvm/generated.ll",
+        "sha256": "8f95fefee739903ff6595a40f74d64573f0e9a0baef3820b1d1059cb5bc4a4ef",
+        "bytes": 967
+      },
+      "generation_manifest_sha256": "150b58da69fd6b4123a9e2303bfe18274a11ddd5d9d6bf07cecf4c149187d4de",
+      "wall_seconds": 4.514,
+      "resources": {
+        "inference_seconds": 3.8537399999999997,
+        "prompt_tokens": 538,
+        "completion_tokens": 237,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "public_passed": 2,
+        "public_cases": 3,
+        "hidden_passed": 320,
+        "hidden_cases": 320,
+        "behavior_checked": true,
+        "failures": [
+          {
+            "index": 0,
+            "inputs": [
+              -2147483648
+            ],
+            "expected": 2147483647,
+            "actual": -2147483648
+          }
+        ]
+      },
+      "contract_check": {
+        "passed": false,
+        "diagnostic": "Public example 1 failed: expected 2147483647, got -2147483648",
+        "metrics": {
+          "contract_sha256": "34b3059eac8f8c39c6094e80415a6c9446cb187c8131372e4f5303a9b733d1dc",
+          "examples": 0
+        }
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "a9eb7fb6238283ecbaf3f4d3f40175b13bb5ba4ba317ee8c9972a99ecf647672",
+      "directory": "runs/glm/baseline/test-llvm-abs/2"
     },
     {
       "schema_version": 1,
@@ -1061,6 +2422,66 @@
       "filter_only_pass": false,
       "id": "716af33aa0e9d10f03618f09c1e3937f82ac5b14d4565bd8afbb3539752fe202",
       "directory": "runs/glm/baseline/test-llvm-bounded/0"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "baseline",
+      "task": "test-llvm-bounded",
+      "trial": 1,
+      "language": "llvm",
+      "level": 2,
+      "family": "bounded_add",
+      "stage": "heldout",
+      "seed_requested": 2117677841,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 1,
+      "attempt_outcomes": [
+        "passed"
+      ],
+      "first_attempt_accepted": true,
+      "candidate": {
+        "relative_path": "llvm/generated.ll",
+        "sha256": "0da7948abbbabd1c12a649b56666bb82e02bab326c3e479f2f480f82ae409659",
+        "bytes": 3022
+      },
+      "generation_manifest_sha256": "80431a05ad29472e571b7701315e0f8b12bab6e8524280bf10868a9f88df2384",
+      "wall_seconds": 12.708,
+      "resources": {
+        "inference_seconds": 12.06043,
+        "prompt_tokens": 569,
+        "completion_tokens": 860,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "diagnostic": "LLVM uses instructions excluded by the task",
+        "behavior_checked": false
+      },
+      "contract_check": {
+        "passed": false,
+        "diagnostic": "LLVM instruction is outside the contract: sub",
+        "metrics": {
+          "contract_sha256": "5ff32706bb967027083a316bf011f1587681b98749a430a86c13afa620e3d107",
+          "examples": 0
+        }
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "4004f34a4abacaefdadcf5303715da0c6e1f26cf8361d273cc065e0ed1ad6c9f",
+      "directory": "runs/glm/baseline/test-llvm-bounded/1"
     },
     {
       "schema_version": 1,
@@ -1374,6 +2795,126 @@
       "model_id": "glm-4.7-flash-abliterated",
       "arm": "baseline",
       "task": "test-json-1",
+      "trial": 0,
+      "language": "json",
+      "level": 1,
+      "family": "catalog-1",
+      "stage": "heldout",
+      "seed_requested": 3047766019,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 1,
+      "attempt_outcomes": [
+        "passed"
+      ],
+      "first_attempt_accepted": true,
+      "candidate": {
+        "relative_path": "json/generated.json",
+        "sha256": "bb2859f8436ce9404826a2f89e503b3b346782624777d0fe0b2034d8ffe0a1dc",
+        "bytes": 297
+      },
+      "generation_manifest_sha256": "5ebee00379e1aeed1b4face0fca00d3d1cbc14477b77705b60dc2b9ee0588dac",
+      "wall_seconds": 1.839,
+      "resources": {
+        "inference_seconds": 1.32405,
+        "prompt_tokens": 830,
+        "completion_tokens": 94,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "diagnostic": "Document calculation, input preservation, or exact field structure differs",
+        "behavior_checked": false
+      },
+      "contract_check": {
+        "passed": false,
+        "diagnostic": "$ missing required field currency",
+        "metrics": {
+          "contract_sha256": "f9153b669ac4d10be0e0d8be965a24890186f24029cae052715d65ece87c2f72",
+          "examples": 0
+        }
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "35277c9a3c5bf07bcc64396aed5abdbae46aa99d48c9626baf64ae54215cd266",
+      "directory": "runs/glm/baseline/test-json-1/0"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "baseline",
+      "task": "test-json-1",
+      "trial": 1,
+      "language": "json",
+      "level": 1,
+      "family": "catalog-1",
+      "stage": "heldout",
+      "seed_requested": 2220111101,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 1,
+      "attempt_outcomes": [
+        "passed"
+      ],
+      "first_attempt_accepted": true,
+      "candidate": {
+        "relative_path": "json/generated.json",
+        "sha256": "f996d41a7be15bb0809d88a7913b23db2e2c2d722627f0690acf47ae901ccd9e",
+        "bytes": 541
+      },
+      "generation_manifest_sha256": "5a069d2d7a57de23de5a1ec6a11435d00610cee251d899d663a19e853cc9ac0f",
+      "wall_seconds": 2.406,
+      "resources": {
+        "inference_seconds": 1.7939100000000001,
+        "prompt_tokens": 830,
+        "completion_tokens": 139,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "diagnostic": "Document calculation, input preservation, or exact field structure differs",
+        "behavior_checked": false
+      },
+      "contract_check": {
+        "passed": false,
+        "diagnostic": "$ missing required field currency",
+        "metrics": {
+          "contract_sha256": "f9153b669ac4d10be0e0d8be965a24890186f24029cae052715d65ece87c2f72",
+          "examples": 0
+        }
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "59efc7f6ea11cfa9944fe541ae9d5d903cd13965bd3a3586705b7efc50393c35",
+      "directory": "runs/glm/baseline/test-json-1/1"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "baseline",
+      "task": "test-json-1",
       "trial": 2,
       "language": "json",
       "level": 1,
@@ -1434,6 +2975,66 @@
       "model_id": "glm-4.7-flash-abliterated",
       "arm": "baseline",
       "task": "test-json-2",
+      "trial": 0,
+      "language": "json",
+      "level": 2,
+      "family": "catalog-2",
+      "stage": "heldout",
+      "seed_requested": 1626020017,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 1,
+      "attempt_outcomes": [
+        "passed"
+      ],
+      "first_attempt_accepted": true,
+      "candidate": {
+        "relative_path": "json/generated.json",
+        "sha256": "9f56d37d284c0c3450557bab13b4442b25c0e68bc547b9488493b1c26ffa784c",
+        "bytes": 731
+      },
+      "generation_manifest_sha256": "bc668991e8e1feb623691dd2739e714bc679e9d38eb45edf57c5d5ca71ae6cbc",
+      "wall_seconds": 3.421,
+      "resources": {
+        "inference_seconds": 3.03715,
+        "prompt_tokens": 1401,
+        "completion_tokens": 239,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "diagnostic": "Document calculation, input preservation, or exact field structure differs",
+        "behavior_checked": false
+      },
+      "contract_check": {
+        "passed": false,
+        "diagnostic": "$ missing required field currency",
+        "metrics": {
+          "contract_sha256": "c2c0ce8b2755d1baf980d68b5be2cb05c8dc9f81396514120b5cc529570ada38",
+          "examples": 0
+        }
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "bf1f6196dc4479591d8e22cbdb8e91acb1254461dcacb2bb415efb6cd374b55a",
+      "directory": "runs/glm/baseline/test-json-2/0"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "baseline",
+      "task": "test-json-2",
       "trial": 1,
       "language": "json",
       "level": 2,
@@ -1486,6 +3087,66 @@
       "filter_only_pass": false,
       "id": "6d07660cd865996066ea88350de648c4c93c995aacd754d2490ed8d220fc9c39",
       "directory": "runs/glm/baseline/test-json-2/1"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "baseline",
+      "task": "test-json-2",
+      "trial": 2,
+      "language": "json",
+      "level": 2,
+      "family": "catalog-2",
+      "stage": "heldout",
+      "seed_requested": 29367234,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 1,
+      "attempt_outcomes": [
+        "passed"
+      ],
+      "first_attempt_accepted": true,
+      "candidate": {
+        "relative_path": "json/generated.json",
+        "sha256": "23ce4abe1a66e5c2c9527e27c3417e7115975f20e00b71a6aae7005fc4bdc74d",
+        "bytes": 754
+      },
+      "generation_manifest_sha256": "f4530f6983dceb95e683ae77676e5127d7dc3862bcc159bb98f67738c656ab25",
+      "wall_seconds": 4.586,
+      "resources": {
+        "inference_seconds": 3.3041199999999997,
+        "prompt_tokens": 1401,
+        "completion_tokens": 244,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "diagnostic": "Document calculation, input preservation, or exact field structure differs",
+        "behavior_checked": false
+      },
+      "contract_check": {
+        "passed": false,
+        "diagnostic": "$ missing required field currency",
+        "metrics": {
+          "contract_sha256": "c2c0ce8b2755d1baf980d68b5be2cb05c8dc9f81396514120b5cc529570ada38",
+          "examples": 0
+        }
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "67991fcaed5112c7cb49d83389fe5ce19650c27fee5876bc4e83c9ced26cc0c5",
+      "directory": "runs/glm/baseline/test-json-2/2"
     },
     {
       "schema_version": 1,
@@ -1800,6 +3461,65 @@
       "model": "glm",
       "model_id": "glm-4.7-flash-abliterated",
       "arm": "baseline",
+      "task": "test-http-1",
+      "trial": 2,
+      "language": "http",
+      "level": 1,
+      "family": "catalog-1",
+      "stage": "heldout",
+      "seed_requested": 1299157052,
+      "seed_honored": "not independently verified",
+      "accepted": false,
+      "status": "extraction_failed",
+      "attempts": 3,
+      "attempt_outcomes": [
+        "extraction_failed",
+        "extraction_failed",
+        "extraction_failed"
+      ],
+      "first_attempt_accepted": false,
+      "candidate": null,
+      "generation_manifest_sha256": "b0c6c5e6b21e4b7dee770a3282924bf8ccd76c7c81b22ebf40c013570791bc59",
+      "wall_seconds": 6.781,
+      "resources": {
+        "inference_seconds": 6.400790000000001,
+        "prompt_tokens": 3460,
+        "completion_tokens": 512,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "extraction_failed",
+          "failed_checks": []
+        },
+        {
+          "attempt": 2,
+          "status": "extraction_failed",
+          "failed_checks": []
+        },
+        {
+          "attempt": 3,
+          "status": "extraction_failed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "diagnostic": "No accepted candidate"
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "bac8decd1f53421ec7d25ffe1086f0ceb001eb104c45efa187e8610bc7f66c1d",
+      "directory": "runs/glm/baseline/test-http-1/2"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "baseline",
       "task": "test-http-2",
       "trial": 0,
       "language": "http",
@@ -1859,6 +3579,124 @@
       "model": "glm",
       "model_id": "glm-4.7-flash-abliterated",
       "arm": "baseline",
+      "task": "test-http-2",
+      "trial": 1,
+      "language": "http",
+      "level": 2,
+      "family": "catalog-2",
+      "stage": "heldout",
+      "seed_requested": 4146659441,
+      "seed_honored": "not independently verified",
+      "accepted": false,
+      "status": "extraction_failed",
+      "attempts": 3,
+      "attempt_outcomes": [
+        "extraction_failed",
+        "extraction_failed",
+        "extraction_failed"
+      ],
+      "first_attempt_accepted": false,
+      "candidate": null,
+      "generation_manifest_sha256": "859414342888e1a2b92895855d89542b987097e28b766a617029d3b80e328851",
+      "wall_seconds": 10.694,
+      "resources": {
+        "inference_seconds": 10.2945,
+        "prompt_tokens": 5480,
+        "completion_tokens": 848,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "extraction_failed",
+          "failed_checks": []
+        },
+        {
+          "attempt": 2,
+          "status": "extraction_failed",
+          "failed_checks": []
+        },
+        {
+          "attempt": 3,
+          "status": "extraction_failed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "diagnostic": "No accepted candidate"
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "88e5144cb8fc7b54de228b6da4c669fabc765648565f81500a2263ee7240a924",
+      "directory": "runs/glm/baseline/test-http-2/1"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "baseline",
+      "task": "test-http-2",
+      "trial": 2,
+      "language": "http",
+      "level": 2,
+      "family": "catalog-2",
+      "stage": "heldout",
+      "seed_requested": 1415245646,
+      "seed_honored": "not independently verified",
+      "accepted": false,
+      "status": "extraction_failed",
+      "attempts": 3,
+      "attempt_outcomes": [
+        "extraction_failed",
+        "extraction_failed",
+        "extraction_failed"
+      ],
+      "first_attempt_accepted": false,
+      "candidate": null,
+      "generation_manifest_sha256": "412387276a1ba27b06f55713a9259d407b9877185f3b165829fa12a4bded3271",
+      "wall_seconds": 11.325,
+      "resources": {
+        "inference_seconds": 10.79893,
+        "prompt_tokens": 5412,
+        "completion_tokens": 798,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "extraction_failed",
+          "failed_checks": []
+        },
+        {
+          "attempt": 2,
+          "status": "extraction_failed",
+          "failed_checks": []
+        },
+        {
+          "attempt": 3,
+          "status": "extraction_failed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "diagnostic": "No accepted candidate"
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "354b88fcaf8780af0b1336e0d54447a31cc99921dd9be5568a281a9c6fd98739",
+      "directory": "runs/glm/baseline/test-http-2/2"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "baseline",
       "task": "test-http-3",
       "trial": 0,
       "language": "http",
@@ -1911,6 +3749,301 @@
       "filter_only_pass": false,
       "id": "580afab3e626926770ba550f8d43ab8b960e69f4d0543010756af5257742fd22",
       "directory": "runs/glm/baseline/test-http-3/0"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "baseline",
+      "task": "test-http-3",
+      "trial": 1,
+      "language": "http",
+      "level": 3,
+      "family": "catalog-3",
+      "stage": "heldout",
+      "seed_requested": 1740942808,
+      "seed_honored": "not independently verified",
+      "accepted": false,
+      "status": "extraction_failed",
+      "attempts": 3,
+      "attempt_outcomes": [
+        "extraction_failed",
+        "token_limit",
+        "extraction_failed"
+      ],
+      "first_attempt_accepted": false,
+      "candidate": null,
+      "generation_manifest_sha256": "f2a12c0fa41667ddbe406a4f369b227ef51cd1d1eb03fdef53b6214c97e05624",
+      "wall_seconds": 118.778,
+      "resources": {
+        "inference_seconds": 118.25403000000001,
+        "prompt_tokens": 8737,
+        "completion_tokens": 6415,
+        "length_stops": 1
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "extraction_failed",
+          "failed_checks": []
+        },
+        {
+          "attempt": 2,
+          "status": "token_limit",
+          "failed_checks": []
+        },
+        {
+          "attempt": 3,
+          "status": "extraction_failed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "diagnostic": "No accepted candidate"
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "2e8fbc238e4af3031205bdb1a9558e11d49aae085f27d262eb1817645c45c5a5",
+      "directory": "runs/glm/baseline/test-http-3/1"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "baseline",
+      "task": "test-http-3",
+      "trial": 2,
+      "language": "http",
+      "level": 3,
+      "family": "catalog-3",
+      "stage": "heldout",
+      "seed_requested": 3830963412,
+      "seed_honored": "not independently verified",
+      "accepted": false,
+      "status": "extraction_failed",
+      "attempts": 3,
+      "attempt_outcomes": [
+        "extraction_failed",
+        "extraction_failed",
+        "extraction_failed"
+      ],
+      "first_attempt_accepted": false,
+      "candidate": null,
+      "generation_manifest_sha256": "176d04ecfd7da0c1ae78c0254e1dae7febf3a71427e2a846a90eeb0eb8bcf882",
+      "wall_seconds": 25.196,
+      "resources": {
+        "inference_seconds": 24.567760000000003,
+        "prompt_tokens": 9356,
+        "completion_tokens": 1784,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "extraction_failed",
+          "failed_checks": []
+        },
+        {
+          "attempt": 2,
+          "status": "extraction_failed",
+          "failed_checks": []
+        },
+        {
+          "attempt": 3,
+          "status": "extraction_failed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "diagnostic": "No accepted candidate"
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "3877826d3ddeecdd642e861cbe4bc7df14da2cec4d9cb6698cefa03859305495",
+      "directory": "runs/glm/baseline/test-http-3/2"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "baseline",
+      "task": "test-binary-1",
+      "trial": 0,
+      "language": "binary-info",
+      "level": 1,
+      "family": "symbolic-ELF",
+      "stage": "heldout",
+      "seed_requested": 2693436145,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 1,
+      "attempt_outcomes": [
+        "passed"
+      ],
+      "first_attempt_accepted": true,
+      "candidate": {
+        "relative_path": "binary-info/generated.binary.json",
+        "sha256": "cb87179551b38e23b68b7ee7bf0f80c97ece0007ee0b0acc21cea879c795da91",
+        "bytes": 529
+      },
+      "generation_manifest_sha256": "bff06afa8bad3449cce4ae0c62308c2a10f6f08dd09a6183ace07b3a22d31773",
+      "wall_seconds": 2.349,
+      "resources": {
+        "inference_seconds": 1.99348,
+        "prompt_tokens": 983,
+        "completion_tokens": 164,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": true,
+        "document_checked": true
+      },
+      "contract_check": {
+        "passed": true,
+        "diagnostic": "",
+        "metrics": {
+          "contract_sha256": "9238025c219cc688202e4e245e33fdd028157b417002c325ef78412d83cef7f6",
+          "examples": 0
+        }
+      },
+      "strict_pass": true,
+      "filter_only_accepted": true,
+      "filter_only_pass": true,
+      "id": "cf43c0c17513be04b8b65b5a01a3696576fc0c6542233badf89d25e8d8c84901",
+      "directory": "runs/glm/baseline/test-binary-1/0"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "baseline",
+      "task": "test-binary-1",
+      "trial": 1,
+      "language": "binary-info",
+      "level": 1,
+      "family": "symbolic-ELF",
+      "stage": "heldout",
+      "seed_requested": 97065694,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 1,
+      "attempt_outcomes": [
+        "passed"
+      ],
+      "first_attempt_accepted": true,
+      "candidate": {
+        "relative_path": "binary-info/generated.binary.json",
+        "sha256": "cb87179551b38e23b68b7ee7bf0f80c97ece0007ee0b0acc21cea879c795da91",
+        "bytes": 529
+      },
+      "generation_manifest_sha256": "b5f321bcc1905b2654c6a47a69cc178fb1dfb7a1a8dc183dc45e2db66fb16802",
+      "wall_seconds": 2.667,
+      "resources": {
+        "inference_seconds": 2.0570399999999998,
+        "prompt_tokens": 983,
+        "completion_tokens": 164,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": true,
+        "document_checked": true
+      },
+      "contract_check": {
+        "passed": true,
+        "diagnostic": "",
+        "metrics": {
+          "contract_sha256": "9238025c219cc688202e4e245e33fdd028157b417002c325ef78412d83cef7f6",
+          "examples": 0
+        }
+      },
+      "strict_pass": true,
+      "filter_only_accepted": true,
+      "filter_only_pass": true,
+      "id": "1b76d4b26f0a85adee2b0b734814d1cefb4b997b05added1b4c2ea29e0f9b381",
+      "directory": "runs/glm/baseline/test-binary-1/1"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "baseline",
+      "task": "test-binary-1",
+      "trial": 2,
+      "language": "binary-info",
+      "level": 1,
+      "family": "symbolic-ELF",
+      "stage": "heldout",
+      "seed_requested": 3684379389,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 1,
+      "attempt_outcomes": [
+        "passed"
+      ],
+      "first_attempt_accepted": true,
+      "candidate": {
+        "relative_path": "binary-info/generated.binary.json",
+        "sha256": "90a202eb213d63e2441bc45a86320fca9679aaaa044916ca72ab6af4c4bd2f2c",
+        "bytes": 536
+      },
+      "generation_manifest_sha256": "4cb2604f830cec88869d52aac64860b50aa5d7298656c152547735f9ecda4899",
+      "wall_seconds": 2.692,
+      "resources": {
+        "inference_seconds": 2.14184,
+        "prompt_tokens": 983,
+        "completion_tokens": 165,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": true,
+        "document_checked": true
+      },
+      "contract_check": {
+        "passed": true,
+        "diagnostic": "",
+        "metrics": {
+          "contract_sha256": "9238025c219cc688202e4e245e33fdd028157b417002c325ef78412d83cef7f6",
+          "examples": 0
+        }
+      },
+      "strict_pass": true,
+      "filter_only_accepted": true,
+      "filter_only_pass": true,
+      "id": "376ad56457cdd498bfdb9f711ad7633b5b3a72b66fecaa04829606d0f69f63ea",
+      "directory": "runs/glm/baseline/test-binary-1/2"
     },
     {
       "schema_version": 1,
@@ -1978,6 +4111,65 @@
       "model_id": "glm-4.7-flash-abliterated",
       "arm": "baseline",
       "task": "test-binary-2",
+      "trial": 1,
+      "language": "binary-info",
+      "level": 2,
+      "family": "symbolic-PE",
+      "stage": "heldout",
+      "seed_requested": 2439794469,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 1,
+      "attempt_outcomes": [
+        "passed"
+      ],
+      "first_attempt_accepted": true,
+      "candidate": {
+        "relative_path": "binary-info/generated.binary.json",
+        "sha256": "82ccf0a49dc6856e45e3bc198f25524586acd3f8619ebb70933e5c7f58b43aa8",
+        "bytes": 833
+      },
+      "generation_manifest_sha256": "fe9e3405c60676262181b34d76f5d6c1aa0df7602f7e97ae241fd7e274eeff9e",
+      "wall_seconds": 4.511,
+      "resources": {
+        "inference_seconds": 3.73012,
+        "prompt_tokens": 1132,
+        "completion_tokens": 264,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": true,
+        "document_checked": true
+      },
+      "contract_check": {
+        "passed": true,
+        "diagnostic": "",
+        "metrics": {
+          "contract_sha256": "bb72f9917bfe3bb812b30b7b28142fecca979a13bfcfddb2fc92eba62a6ed280",
+          "examples": 0
+        }
+      },
+      "strict_pass": true,
+      "filter_only_accepted": true,
+      "filter_only_pass": true,
+      "id": "aa28cadd2561f41ed8ea27c5223bf7cf18131159c825364d3d766432d8c070e1",
+      "directory": "runs/glm/baseline/test-binary-2/1"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "baseline",
+      "task": "test-binary-2",
       "trial": 2,
       "language": "binary-info",
       "level": 2,
@@ -2029,6 +4221,183 @@
       "filter_only_pass": true,
       "id": "1818262295f1695a64f6ce45aa556154bae282ad33daacd37cc582070c2e3c5e",
       "directory": "runs/glm/baseline/test-binary-2/2"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "baseline",
+      "task": "test-binary-3",
+      "trial": 0,
+      "language": "binary-info",
+      "level": 3,
+      "family": "symbolic-JVM",
+      "stage": "heldout",
+      "seed_requested": 3774994310,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 1,
+      "attempt_outcomes": [
+        "passed"
+      ],
+      "first_attempt_accepted": true,
+      "candidate": {
+        "relative_path": "binary-info/generated.binary.json",
+        "sha256": "344900f5554d264ddea1f54c4776e5fddd8756137b1f09440a48208cfbe1403e",
+        "bytes": 1779
+      },
+      "generation_manifest_sha256": "8580ae282c894c78422281a98b0876073a384f07bb1d1bdc9a35ab5c77d69840",
+      "wall_seconds": 7.077,
+      "resources": {
+        "inference_seconds": 6.43846,
+        "prompt_tokens": 1529,
+        "completion_tokens": 544,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": true,
+        "document_checked": true
+      },
+      "contract_check": {
+        "passed": true,
+        "diagnostic": "",
+        "metrics": {
+          "contract_sha256": "fb2722a83d383f43876dee37a5faf1b513c264a5fdb3642d0ca365db06926e06",
+          "examples": 0
+        }
+      },
+      "strict_pass": true,
+      "filter_only_accepted": true,
+      "filter_only_pass": true,
+      "id": "740ae330d059c26e54d2cdebc89b0333ba90eb027facd4387ab4a4da2fed7cc7",
+      "directory": "runs/glm/baseline/test-binary-3/0"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "baseline",
+      "task": "test-binary-3",
+      "trial": 1,
+      "language": "binary-info",
+      "level": 3,
+      "family": "symbolic-JVM",
+      "stage": "heldout",
+      "seed_requested": 587397556,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 1,
+      "attempt_outcomes": [
+        "passed"
+      ],
+      "first_attempt_accepted": true,
+      "candidate": {
+        "relative_path": "binary-info/generated.binary.json",
+        "sha256": "344900f5554d264ddea1f54c4776e5fddd8756137b1f09440a48208cfbe1403e",
+        "bytes": 1779
+      },
+      "generation_manifest_sha256": "4aeb930f3a7137e70f63d7126afabe734a7495c6ddcdbf64580fa1e84da9a4d0",
+      "wall_seconds": 9.942,
+      "resources": {
+        "inference_seconds": 9.44474,
+        "prompt_tokens": 1529,
+        "completion_tokens": 544,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": true,
+        "document_checked": true
+      },
+      "contract_check": {
+        "passed": true,
+        "diagnostic": "",
+        "metrics": {
+          "contract_sha256": "fb2722a83d383f43876dee37a5faf1b513c264a5fdb3642d0ca365db06926e06",
+          "examples": 0
+        }
+      },
+      "strict_pass": true,
+      "filter_only_accepted": true,
+      "filter_only_pass": true,
+      "id": "a4db8f149dd6d3226e4858d71489b7df30bf6f6e1bd6bb43db3a2d66bba7f0ca",
+      "directory": "runs/glm/baseline/test-binary-3/1"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "baseline",
+      "task": "test-binary-3",
+      "trial": 2,
+      "language": "binary-info",
+      "level": 3,
+      "family": "symbolic-JVM",
+      "stage": "heldout",
+      "seed_requested": 3057430487,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 1,
+      "attempt_outcomes": [
+        "passed"
+      ],
+      "first_attempt_accepted": true,
+      "candidate": {
+        "relative_path": "binary-info/generated.binary.json",
+        "sha256": "344900f5554d264ddea1f54c4776e5fddd8756137b1f09440a48208cfbe1403e",
+        "bytes": 1779
+      },
+      "generation_manifest_sha256": "e1541e538a9c3f8cab49fb64dba601c403ea1b1e4ff43a22cf4b042d94cc0912",
+      "wall_seconds": 7.509,
+      "resources": {
+        "inference_seconds": 7.13814,
+        "prompt_tokens": 1529,
+        "completion_tokens": 544,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": true,
+        "document_checked": true
+      },
+      "contract_check": {
+        "passed": true,
+        "diagnostic": "",
+        "metrics": {
+          "contract_sha256": "fb2722a83d383f43876dee37a5faf1b513c264a5fdb3642d0ca365db06926e06",
+          "examples": 0
+        }
+      },
+      "strict_pass": true,
+      "filter_only_accepted": true,
+      "filter_only_pass": true,
+      "id": "aef82abf012965f1201127df51ee29195f4faa3b408f7a6d1a134bd1bc133ea1",
+      "directory": "runs/glm/baseline/test-binary-3/2"
     },
     {
       "schema_version": 1,
@@ -2097,6 +4466,66 @@
       "model_id": "glm-4.7-flash-abliterated",
       "arm": "baseline",
       "task": "test-html-1",
+      "trial": 1,
+      "language": "html",
+      "level": 1,
+      "family": "reference-table",
+      "stage": "heldout",
+      "seed_requested": 601813110,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 1,
+      "attempt_outcomes": [
+        "passed"
+      ],
+      "first_attempt_accepted": true,
+      "candidate": {
+        "relative_path": "html/generated.html",
+        "sha256": "c941de44fe6412acbf939555daa3331845f5f25c22dd8f236327c7a251ed59e3",
+        "bytes": 603
+      },
+      "generation_manifest_sha256": "0abe0a6a907eb79d98adc307bd3cd9b600663d4843efffa2fa71b1901f5bd6fa",
+      "wall_seconds": 3.371,
+      "resources": {
+        "inference_seconds": 2.6550700000000003,
+        "prompt_tokens": 748,
+        "completion_tokens": 198,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": true,
+        "rows_checked": 2
+      },
+      "contract_check": {
+        "passed": true,
+        "diagnostic": "",
+        "metrics": {
+          "contract_sha256": "c4a121b8275802dbd764647ec46bfcc5e82ab80f336efd5ccbff69d79f0a89ed",
+          "examples": 0,
+          "rows": 2
+        }
+      },
+      "strict_pass": true,
+      "filter_only_accepted": true,
+      "filter_only_pass": true,
+      "id": "8a4fca30c2e3d7132fb13ba0d1c097c14e40bea8d292e61af07d253603abeb24",
+      "directory": "runs/glm/baseline/test-html-1/1"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "baseline",
+      "task": "test-html-1",
       "trial": 2,
       "language": "html",
       "level": 1,
@@ -2149,6 +4578,75 @@
       "filter_only_pass": true,
       "id": "818b922510b26a8a676bb38aeafb69d8f09440519a3237f7e0f6659a11866444",
       "directory": "runs/glm/baseline/test-html-1/2"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "baseline",
+      "task": "test-html-2",
+      "trial": 0,
+      "language": "html",
+      "level": 2,
+      "family": "reference-table",
+      "stage": "heldout",
+      "seed_requested": 1258701195,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 2,
+      "attempt_outcomes": [
+        "failed",
+        "passed"
+      ],
+      "first_attempt_accepted": false,
+      "candidate": {
+        "relative_path": "html/generated.html",
+        "sha256": "88b8c6fe278b898d6b9056d6adad6746f32ac3fc60859536545db7c894f84fc8",
+        "bytes": 1102
+      },
+      "generation_manifest_sha256": "33032726404264ce0bf3d1fbfceb7917b4d5daa906caea41ebbbd45ec434481b",
+      "wall_seconds": 9.55,
+      "resources": {
+        "inference_seconds": 8.98189,
+        "prompt_tokens": 3144,
+        "completion_tokens": 661,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "failed",
+          "failed_checks": [
+            "html_parse",
+            "source_structure"
+          ]
+        },
+        {
+          "attempt": 2,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "diagnostic": "HTML identity mismatch",
+        "behavior_checked": false
+      },
+      "contract_check": {
+        "passed": false,
+        "diagnostic": "HTML required IDs are missing or duplicated",
+        "metrics": {
+          "contract_sha256": "70ec31362b9a3e9766fcd77c72cf7cf1781cc7034006834713ff9fbfca7a1a0e",
+          "examples": 0
+        }
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "fc745cb35f38b0b8d55d37ad86a68b79bd5937bbedb2219924ec87280314064c",
+      "directory": "runs/glm/baseline/test-html-2/0"
     },
     {
       "schema_version": 1,
@@ -2218,6 +4716,246 @@
       "filter_only_pass": false,
       "id": "d625d5b61c7aa19309cec8784bf80a1c10cf918921e6e777a060b2429ea03fb6",
       "directory": "runs/glm/baseline/test-html-2/1"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "baseline",
+      "task": "test-html-2",
+      "trial": 2,
+      "language": "html",
+      "level": 2,
+      "family": "reference-table",
+      "stage": "heldout",
+      "seed_requested": 2975437652,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 1,
+      "attempt_outcomes": [
+        "passed"
+      ],
+      "first_attempt_accepted": true,
+      "candidate": {
+        "relative_path": "html/generated.html",
+        "sha256": "b103611289c69f0c6672aeea0848dfcac33253267dca15824cf00ad25956d3c6",
+        "bytes": 777
+      },
+      "generation_manifest_sha256": "f181a58a1a11580a2cc0cb22890bee110703d5fd04c5b20767b2546c8d369384",
+      "wall_seconds": 4.069,
+      "resources": {
+        "inference_seconds": 3.61084,
+        "prompt_tokens": 1266,
+        "completion_tokens": 290,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "diagnostic": "HTML numeric results, inputs, labels, or row ordering differ",
+        "behavior_checked": false
+      },
+      "contract_check": {
+        "passed": false,
+        "diagnostic": "Arithmetic differs at /1/4: expected 55, got 51",
+        "metrics": {
+          "contract_sha256": "70ec31362b9a3e9766fcd77c72cf7cf1781cc7034006834713ff9fbfca7a1a0e",
+          "examples": 0
+        }
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "6f3092fe85c108cbe8f6f27f6e92b344ecd5facf1d1420df9e50715b87234e92",
+      "directory": "runs/glm/baseline/test-html-2/2"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "baseline",
+      "task": "test-html-3",
+      "trial": 0,
+      "language": "html",
+      "level": 3,
+      "family": "reference-table",
+      "stage": "heldout",
+      "seed_requested": 1516229492,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 1,
+      "attempt_outcomes": [
+        "passed"
+      ],
+      "first_attempt_accepted": true,
+      "candidate": {
+        "relative_path": "html/generated.html",
+        "sha256": "ac41db8026e9075a1064134b61a1305010729a64a05cc551d65e84c98cf883df",
+        "bytes": 792
+      },
+      "generation_manifest_sha256": "bd7b8c32e4f827095701e0a1b3209ef80ed4c2cb993d99e580cf7beb20972f11",
+      "wall_seconds": 4.978,
+      "resources": {
+        "inference_seconds": 4.278689999999999,
+        "prompt_tokens": 1642,
+        "completion_tokens": 340,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "diagnostic": "HTML numeric results, inputs, labels, or row ordering differ",
+        "behavior_checked": false
+      },
+      "contract_check": {
+        "passed": false,
+        "diagnostic": "Arithmetic differs at /1/4: expected 55, got 51",
+        "metrics": {
+          "contract_sha256": "3cbf747ec493df44e2bda435b2f1cd50a75007c42618481547a2e473a567c647",
+          "examples": 0
+        }
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "fbf63fd27538ae8f96b56862f04bc742ecec7fc63f8c911e371b213019f47d4d",
+      "directory": "runs/glm/baseline/test-html-3/0"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "baseline",
+      "task": "test-html-3",
+      "trial": 1,
+      "language": "html",
+      "level": 3,
+      "family": "reference-table",
+      "stage": "heldout",
+      "seed_requested": 4199725614,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 1,
+      "attempt_outcomes": [
+        "passed"
+      ],
+      "first_attempt_accepted": true,
+      "candidate": {
+        "relative_path": "html/generated.html",
+        "sha256": "dfd5c8780cb57ed6fb5de33d0e32ed8dc99d0213fde4b2846f3ccc0337c8b201",
+        "bytes": 801
+      },
+      "generation_manifest_sha256": "30f62becc1b325b6533d8e9ccd39654d132a4db142adc0ebed8885265e965d27",
+      "wall_seconds": 4.816,
+      "resources": {
+        "inference_seconds": 4.23504,
+        "prompt_tokens": 1642,
+        "completion_tokens": 344,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "diagnostic": "HTML numeric results, inputs, labels, or row ordering differ",
+        "behavior_checked": false
+      },
+      "contract_check": {
+        "passed": false,
+        "diagnostic": "Arithmetic differs at /0/4: expected 14, got 140",
+        "metrics": {
+          "contract_sha256": "3cbf747ec493df44e2bda435b2f1cd50a75007c42618481547a2e473a567c647",
+          "examples": 0
+        }
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "3a813c0f762f4cbe64e8fe28a72e8ef1be95486f7c277ce584b480e0e1a63e2a",
+      "directory": "runs/glm/baseline/test-html-3/1"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "baseline",
+      "task": "test-html-3",
+      "trial": 2,
+      "language": "html",
+      "level": 3,
+      "family": "reference-table",
+      "stage": "heldout",
+      "seed_requested": 2234536303,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 1,
+      "attempt_outcomes": [
+        "passed"
+      ],
+      "first_attempt_accepted": true,
+      "candidate": {
+        "relative_path": "html/generated.html",
+        "sha256": "dfd5c8780cb57ed6fb5de33d0e32ed8dc99d0213fde4b2846f3ccc0337c8b201",
+        "bytes": 801
+      },
+      "generation_manifest_sha256": "d4c40d305d22a29ff5f0b6e8b2de5e2a15ac2f22dbfc10939cc7cfa60df604ca",
+      "wall_seconds": 4.834,
+      "resources": {
+        "inference_seconds": 4.2603800000000005,
+        "prompt_tokens": 1642,
+        "completion_tokens": 344,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "diagnostic": "HTML numeric results, inputs, labels, or row ordering differ",
+        "behavior_checked": false
+      },
+      "contract_check": {
+        "passed": false,
+        "diagnostic": "Arithmetic differs at /0/4: expected 14, got 140",
+        "metrics": {
+          "contract_sha256": "3cbf747ec493df44e2bda435b2f1cd50a75007c42618481547a2e473a567c647",
+          "examples": 0
+        }
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "e5f7b44412f152376215f1948c0fb0903751a9fe68d96e7bdaf8c141416e3b92",
+      "directory": "runs/glm/baseline/test-html-3/2"
     },
     {
       "schema_version": 1,
@@ -2316,6 +5054,76 @@
       "filter_only_pass": false,
       "id": "3b316153ddc008d09d98929cf2cfc3a30c2912de8650a92478ca3c54d42841b4",
       "directory": "runs/glm/contract/test-python-multiple/0"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "contract",
+      "task": "test-python-multiple",
+      "trial": 1,
+      "language": "python",
+      "level": 1,
+      "family": "multiple",
+      "stage": "heldout",
+      "seed_requested": 1949602552,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 2,
+      "attempt_outcomes": [
+        "token_limit",
+        "passed"
+      ],
+      "first_attempt_accepted": false,
+      "candidate": {
+        "relative_path": "python/generated.py",
+        "sha256": "30ae444cf201f0a1bb3cefd5b6103665b425c918a2868fb0571d8f8eb6789032",
+        "bytes": 1124
+      },
+      "generation_manifest_sha256": "5646ab305b217bb72943fc0c6fcdc1da5457f9d999ebc67cbf73e17aabfcab31",
+      "wall_seconds": 84.031,
+      "resources": {
+        "inference_seconds": 83.55295,
+        "prompt_tokens": 1350,
+        "completion_tokens": 4319,
+        "length_stops": 1
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "token_limit",
+          "failed_checks": []
+        },
+        {
+          "attempt": 2,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": true,
+        "public_passed": 3,
+        "public_cases": 3,
+        "hidden_passed": 320,
+        "hidden_cases": 320,
+        "behavior_checked": true,
+        "failures": []
+      },
+      "contract_check": {
+        "passed": true,
+        "diagnostic": "",
+        "metrics": {
+          "contract_sha256": "24e12cf688b1f0b22d8259c9edd01fb8e09fea5ead2361ad6584f99b25c7edf5",
+          "examples": 3
+        }
+      },
+      "strict_pass": true,
+      "filter_only_accepted": true,
+      "filter_only_pass": true,
+      "id": "31c95b61926a6ba9645c9677948326ca66bc7d2d18996e9a11028fc3d3d957d7",
+      "directory": "runs/glm/contract/test-python-multiple/1"
     },
     {
       "schema_version": 1,
@@ -2581,6 +5389,140 @@
       "model": "glm",
       "model_id": "glm-4.7-flash-abliterated",
       "arm": "contract",
+      "task": "test-python-median",
+      "trial": 2,
+      "language": "python",
+      "level": 1,
+      "family": "median",
+      "stage": "heldout",
+      "seed_requested": 3043622894,
+      "seed_honored": "not independently verified",
+      "accepted": false,
+      "status": "failed",
+      "attempts": 3,
+      "attempt_outcomes": [
+        "failed",
+        "failed",
+        "failed"
+      ],
+      "first_attempt_accepted": false,
+      "candidate": null,
+      "generation_manifest_sha256": "87561e64a90a47ce302ba5f498e09d5590dbd60b6a3cd78182d14b2dc288d578",
+      "wall_seconds": 103.263,
+      "resources": {
+        "inference_seconds": 102.81336,
+        "prompt_tokens": 2895,
+        "completion_tokens": 6542,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "failed",
+          "failed_checks": [
+            "source_structure",
+            "task_contract"
+          ]
+        },
+        {
+          "attempt": 2,
+          "status": "failed",
+          "failed_checks": [
+            "python_compile",
+            "source_structure",
+            "task_contract"
+          ]
+        },
+        {
+          "attempt": 3,
+          "status": "failed",
+          "failed_checks": [
+            "source_structure",
+            "task_contract"
+          ]
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "diagnostic": "No accepted candidate"
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "fe3aa9a8b3cdbfa1319c3ebff724fc00b750981fd1047cb0972c4c5b16397410",
+      "directory": "runs/glm/contract/test-python-median/2"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "contract",
+      "task": "test-python-delivery",
+      "trial": 0,
+      "language": "python",
+      "level": 2,
+      "family": "delivery",
+      "stage": "heldout",
+      "seed_requested": 2384769241,
+      "seed_honored": "not independently verified",
+      "accepted": false,
+      "status": "failed",
+      "attempts": 3,
+      "attempt_outcomes": [
+        "failed",
+        "failed",
+        "failed"
+      ],
+      "first_attempt_accepted": false,
+      "candidate": null,
+      "generation_manifest_sha256": "740fe6eecd0fdb6f74b108d13e93b5b33b630b1ce2cf1ed2ff717c926896083e",
+      "wall_seconds": 42.131,
+      "resources": {
+        "inference_seconds": 41.51253,
+        "prompt_tokens": 3234,
+        "completion_tokens": 2467,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "failed",
+          "failed_checks": [
+            "task_contract"
+          ]
+        },
+        {
+          "attempt": 2,
+          "status": "failed",
+          "failed_checks": [
+            "task_contract"
+          ]
+        },
+        {
+          "attempt": 3,
+          "status": "failed",
+          "failed_checks": [
+            "task_contract"
+          ]
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "diagnostic": "No accepted candidate"
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "fbbbbfc0b49a7b9d7d04df049eeb5e4ba4a3207281c23441d6bbab69921f1a37",
+      "directory": "runs/glm/contract/test-python-delivery/0"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "contract",
       "task": "test-python-delivery",
       "trial": 1,
       "language": "python",
@@ -2645,6 +5587,67 @@
       "model": "glm",
       "model_id": "glm-4.7-flash-abliterated",
       "arm": "contract",
+      "task": "test-python-delivery",
+      "trial": 2,
+      "language": "python",
+      "level": 2,
+      "family": "delivery",
+      "stage": "heldout",
+      "seed_requested": 2928459411,
+      "seed_honored": "not independently verified",
+      "accepted": false,
+      "status": "token_limit",
+      "attempts": 3,
+      "attempt_outcomes": [
+        "failed",
+        "token_limit",
+        "token_limit"
+      ],
+      "first_attempt_accepted": false,
+      "candidate": null,
+      "generation_manifest_sha256": "0f728bb233873219907f90009b4cc2fc21d4eabe0a1c590dcf4a9dc31aff3968",
+      "wall_seconds": 193.352,
+      "resources": {
+        "inference_seconds": 192.80076,
+        "prompt_tokens": 2976,
+        "completion_tokens": 8972,
+        "length_stops": 2
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "failed",
+          "failed_checks": [
+            "task_contract"
+          ]
+        },
+        {
+          "attempt": 2,
+          "status": "token_limit",
+          "failed_checks": []
+        },
+        {
+          "attempt": 3,
+          "status": "token_limit",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "diagnostic": "No accepted candidate"
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "4dc9259b60feb5c1393bed24507b6636854699c3777b2dc1ca96fcec5de8f349",
+      "directory": "runs/glm/contract/test-python-delivery/2"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "contract",
       "task": "test-python-overlap",
       "trial": 0,
       "language": "python",
@@ -2697,6 +5700,264 @@
       "filter_only_pass": false,
       "id": "0df341e5935ab4e83a4e1d35191539581b8f7e8084282e0fff1b9ff2137aa00f",
       "directory": "runs/glm/contract/test-python-overlap/0"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "contract",
+      "task": "test-python-overlap",
+      "trial": 1,
+      "language": "python",
+      "level": 2,
+      "family": "intersection",
+      "stage": "heldout",
+      "seed_requested": 2834746437,
+      "seed_honored": "not independently verified",
+      "accepted": false,
+      "status": "benign_policy_failed",
+      "attempts": 3,
+      "attempt_outcomes": [
+        "benign_policy_failed",
+        "failed",
+        "benign_policy_failed"
+      ],
+      "first_attempt_accepted": false,
+      "candidate": null,
+      "generation_manifest_sha256": "38657afeafeebfe3fe8e847db0ed4e2838154ff0e31726df8c19b103e8abc750",
+      "wall_seconds": 33.801,
+      "resources": {
+        "inference_seconds": 33.318259999999995,
+        "prompt_tokens": 3317,
+        "completion_tokens": 2196,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "benign_policy_failed",
+          "failed_checks": []
+        },
+        {
+          "attempt": 2,
+          "status": "failed",
+          "failed_checks": [
+            "python_ast",
+            "python_compile",
+            "source_structure",
+            "task_contract"
+          ]
+        },
+        {
+          "attempt": 3,
+          "status": "benign_policy_failed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "diagnostic": "No accepted candidate"
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "389e3230527168ba2f46a2377ace5d03fd810564a3a8bf1eba3a126b2c961754",
+      "directory": "runs/glm/contract/test-python-overlap/1"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "contract",
+      "task": "test-python-overlap",
+      "trial": 2,
+      "language": "python",
+      "level": 2,
+      "family": "intersection",
+      "stage": "heldout",
+      "seed_requested": 1423311822,
+      "seed_honored": "not independently verified",
+      "accepted": false,
+      "status": "token_limit",
+      "attempts": 3,
+      "attempt_outcomes": [
+        "benign_policy_failed",
+        "token_limit",
+        "token_limit"
+      ],
+      "first_attempt_accepted": false,
+      "candidate": null,
+      "generation_manifest_sha256": "2475fe6c538a3b56fd2381af49796665279c80cfcc2f74ed7782f90055264217",
+      "wall_seconds": 158.766,
+      "resources": {
+        "inference_seconds": 158.09852,
+        "prompt_tokens": 2498,
+        "completion_tokens": 8541,
+        "length_stops": 2
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "benign_policy_failed",
+          "failed_checks": []
+        },
+        {
+          "attempt": 2,
+          "status": "token_limit",
+          "failed_checks": []
+        },
+        {
+          "attempt": 3,
+          "status": "token_limit",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "diagnostic": "No accepted candidate"
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "90f02950d772bf1433b0920596de3c962428de0f789a626f856166573de637af",
+      "directory": "runs/glm/contract/test-python-overlap/2"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "contract",
+      "task": "test-python-checksum",
+      "trial": 0,
+      "language": "python",
+      "level": 3,
+      "family": "checksum",
+      "stage": "heldout",
+      "seed_requested": 2860439447,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 2,
+      "attempt_outcomes": [
+        "failed",
+        "passed"
+      ],
+      "first_attempt_accepted": false,
+      "candidate": {
+        "relative_path": "python/generated.py",
+        "sha256": "96aabf9cca863aa63b0ec234ca21184ac8bb677bdf9dce822675dce466ba3446",
+        "bytes": 1894
+      },
+      "generation_manifest_sha256": "ca5b5b4f3a90cf90dad4ee14a50290208121cfd19e865e896763cddfe9d2a98b",
+      "wall_seconds": 10.815,
+      "resources": {
+        "inference_seconds": 10.11335,
+        "prompt_tokens": 1645,
+        "completion_tokens": 710,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "failed",
+          "failed_checks": [
+            "task_contract"
+          ]
+        },
+        {
+          "attempt": 2,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": true,
+        "public_passed": 3,
+        "public_cases": 3,
+        "hidden_passed": 320,
+        "hidden_cases": 320,
+        "behavior_checked": true,
+        "failures": []
+      },
+      "contract_check": {
+        "passed": true,
+        "diagnostic": "",
+        "metrics": {
+          "contract_sha256": "6016861dfb3b1cba5314e5ddca4265079dbfd361fb5e9eb56e1dc00841957c91",
+          "examples": 3
+        }
+      },
+      "strict_pass": true,
+      "filter_only_accepted": true,
+      "filter_only_pass": true,
+      "id": "9e58aceba38e26c55d141cf40d0af169288d2915a8a3644fb0aed6677ca4e56d",
+      "directory": "runs/glm/contract/test-python-checksum/0"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "contract",
+      "task": "test-python-checksum",
+      "trial": 1,
+      "language": "python",
+      "level": 3,
+      "family": "checksum",
+      "stage": "heldout",
+      "seed_requested": 1381916006,
+      "seed_honored": "not independently verified",
+      "accepted": false,
+      "status": "failed",
+      "attempts": 3,
+      "attempt_outcomes": [
+        "failed",
+        "token_limit",
+        "failed"
+      ],
+      "first_attempt_accepted": false,
+      "candidate": null,
+      "generation_manifest_sha256": "aff62a49a34b99658503d1d507b4fe86354fc41a56afdaa1f89a678654cc1890",
+      "wall_seconds": 91.874,
+      "resources": {
+        "inference_seconds": 91.17657000000001,
+        "prompt_tokens": 2234,
+        "completion_tokens": 4753,
+        "length_stops": 1
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "failed",
+          "failed_checks": [
+            "task_contract"
+          ]
+        },
+        {
+          "attempt": 2,
+          "status": "token_limit",
+          "failed_checks": []
+        },
+        {
+          "attempt": 3,
+          "status": "failed",
+          "failed_checks": [
+            "task_contract"
+          ]
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "diagnostic": "No accepted candidate"
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "6d2daeb8e55cb1bf742aee497b62ce75b98062f247a6e49e3786caebd26fa281",
+      "directory": "runs/glm/contract/test-python-checksum/1"
     },
     {
       "schema_version": 1,
@@ -2828,6 +6089,141 @@
       "model": "glm",
       "model_id": "glm-4.7-flash-abliterated",
       "arm": "contract",
+      "task": "test-python-gcd",
+      "trial": 1,
+      "language": "python",
+      "level": 3,
+      "family": "gcd",
+      "stage": "heldout",
+      "seed_requested": 2353159109,
+      "seed_honored": "not independently verified",
+      "accepted": false,
+      "status": "failed",
+      "attempts": 3,
+      "attempt_outcomes": [
+        "failed",
+        "failed",
+        "failed"
+      ],
+      "first_attempt_accepted": false,
+      "candidate": null,
+      "generation_manifest_sha256": "882db96817053dd5eb7f294ed1a2ad92fc2a0f1bc9897d1f58a8aa4d6392974a",
+      "wall_seconds": 13.735,
+      "resources": {
+        "inference_seconds": 13.1166,
+        "prompt_tokens": 2906,
+        "completion_tokens": 935,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "failed",
+          "failed_checks": [
+            "task_contract"
+          ]
+        },
+        {
+          "attempt": 2,
+          "status": "failed",
+          "failed_checks": [
+            "task_contract"
+          ]
+        },
+        {
+          "attempt": 3,
+          "status": "failed",
+          "failed_checks": [
+            "python_compile",
+            "source_structure",
+            "task_contract"
+          ]
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "diagnostic": "No accepted candidate"
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "880fd76ab3db9f743631dc88bcc18e037d63fccf16fee33fcfb7f66a3254d9fa",
+      "directory": "runs/glm/contract/test-python-gcd/1"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "contract",
+      "task": "test-python-gcd",
+      "trial": 2,
+      "language": "python",
+      "level": 3,
+      "family": "gcd",
+      "stage": "heldout",
+      "seed_requested": 2521419382,
+      "seed_honored": "not independently verified",
+      "accepted": false,
+      "status": "failed",
+      "attempts": 3,
+      "attempt_outcomes": [
+        "failed",
+        "failed",
+        "failed"
+      ],
+      "first_attempt_accepted": false,
+      "candidate": null,
+      "generation_manifest_sha256": "2c5aa0c0b1cb1cc08e8dbf06df24f74f5eedc92efe369f8fd6c0b450c1103862",
+      "wall_seconds": 30.245,
+      "resources": {
+        "inference_seconds": 29.77609,
+        "prompt_tokens": 2707,
+        "completion_tokens": 1951,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "failed",
+          "failed_checks": [
+            "task_contract"
+          ]
+        },
+        {
+          "attempt": 2,
+          "status": "failed",
+          "failed_checks": [
+            "source_structure",
+            "task_contract"
+          ]
+        },
+        {
+          "attempt": 3,
+          "status": "failed",
+          "failed_checks": [
+            "python_compile",
+            "source_structure",
+            "task_contract"
+          ]
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "diagnostic": "No accepted candidate"
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "cde7e06147d6f1b553b2f1b887b2e12c393b04ac1781163d75b941475b21bc32",
+      "directory": "runs/glm/contract/test-python-gcd/2"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "contract",
       "task": "test-sql-distance",
       "trial": 0,
       "language": "sql",
@@ -2910,6 +6306,200 @@
       "model": "glm",
       "model_id": "glm-4.7-flash-abliterated",
       "arm": "contract",
+      "task": "test-sql-distance",
+      "trial": 1,
+      "language": "sql",
+      "level": 1,
+      "family": "distance",
+      "stage": "heldout",
+      "seed_requested": 609374771,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 3,
+      "attempt_outcomes": [
+        "failed",
+        "failed",
+        "passed"
+      ],
+      "first_attempt_accepted": false,
+      "candidate": {
+        "relative_path": "sql/generated.sql",
+        "sha256": "97bdf28c170130c4b349d22f1e667aeee94441fd63c1e555b9c9443163dfef38",
+        "bytes": 758
+      },
+      "generation_manifest_sha256": "23dd6afa62ae4e2c2ab63d4ed3d65129ed1fd8ed097ddbb964573a755a0c8a63",
+      "wall_seconds": 10.837,
+      "resources": {
+        "inference_seconds": 10.14031,
+        "prompt_tokens": 2578,
+        "completion_tokens": 682,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "failed",
+          "failed_checks": [
+            "sql_prepare",
+            "source_structure",
+            "task_contract"
+          ]
+        },
+        {
+          "attempt": 2,
+          "status": "failed",
+          "failed_checks": [
+            "task_contract"
+          ]
+        },
+        {
+          "attempt": 3,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "public_passed": 3,
+        "public_cases": 3,
+        "hidden_passed": 304,
+        "hidden_cases": 320,
+        "behavior_checked": true,
+        "failures": [
+          {
+            "index": 6,
+            "inputs": [
+              1000,
+              -1000,
+              -1000
+            ],
+            "expected": 2000,
+            "actual": -1
+          },
+          {
+            "index": 7,
+            "inputs": [
+              1,
+              1,
+              1
+            ],
+            "expected": 0,
+            "actual": -1
+          },
+          {
+            "index": 9,
+            "inputs": [
+              0,
+              1000,
+              1000
+            ],
+            "expected": 1000,
+            "actual": -1
+          },
+          {
+            "index": 18,
+            "inputs": [
+              1000,
+              1,
+              1
+            ],
+            "expected": 999,
+            "actual": -1
+          },
+          {
+            "index": 19,
+            "inputs": [
+              -1000,
+              -1000,
+              -1000
+            ],
+            "expected": 0,
+            "actual": -1
+          }
+        ]
+      },
+      "contract_check": {
+        "passed": true,
+        "diagnostic": "",
+        "metrics": {
+          "contract_sha256": "6b59587f3db3d82fca4b0a5fcd02eeb45c2dddf481dc27547f07aa0e1a2fa86d",
+          "examples": 3
+        }
+      },
+      "strict_pass": false,
+      "filter_only_accepted": true,
+      "filter_only_pass": false,
+      "id": "8eb1cb2b44015a0f18a44bcd9de814b15099d8cdf7aad87db8da1c679f693fb7",
+      "directory": "runs/glm/contract/test-sql-distance/1"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "contract",
+      "task": "test-sql-distance",
+      "trial": 2,
+      "language": "sql",
+      "level": 1,
+      "family": "distance",
+      "stage": "heldout",
+      "seed_requested": 2956963437,
+      "seed_honored": "not independently verified",
+      "accepted": false,
+      "status": "token_limit",
+      "attempts": 3,
+      "attempt_outcomes": [
+        "failed",
+        "token_limit",
+        "token_limit"
+      ],
+      "first_attempt_accepted": false,
+      "candidate": null,
+      "generation_manifest_sha256": "126b310d51dd67dcfc675bdfca4c1171bee5737965b84576543aacb6cdb5421f",
+      "wall_seconds": 139.626,
+      "resources": {
+        "inference_seconds": 138.68497999999997,
+        "prompt_tokens": 2051,
+        "completion_tokens": 8379,
+        "length_stops": 2
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "failed",
+          "failed_checks": [
+            "task_contract"
+          ]
+        },
+        {
+          "attempt": 2,
+          "status": "token_limit",
+          "failed_checks": []
+        },
+        {
+          "attempt": 3,
+          "status": "token_limit",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "diagnostic": "No accepted candidate"
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "84684e404b3811459c0fd8d12008bfc72e43efc80b4ca15e9e306d39e847901a",
+      "directory": "runs/glm/contract/test-sql-distance/2"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "contract",
       "task": "test-sql-billing",
       "trial": 0,
       "language": "sql",
@@ -2967,6 +6557,186 @@
       "filter_only_pass": true,
       "id": "31ceeb6764d660db1aa9df23630f74e49b4847e1c82fd741715a1a0f6fd93ea2",
       "directory": "runs/glm/contract/test-sql-billing/0"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "contract",
+      "task": "test-sql-billing",
+      "trial": 1,
+      "language": "sql",
+      "level": 2,
+      "family": "billing",
+      "stage": "heldout",
+      "seed_requested": 908880988,
+      "seed_honored": "not independently verified",
+      "accepted": false,
+      "status": "token_limit",
+      "attempts": 3,
+      "attempt_outcomes": [
+        "token_limit",
+        "token_limit",
+        "token_limit"
+      ],
+      "first_attempt_accepted": false,
+      "candidate": null,
+      "generation_manifest_sha256": "6f348ec009224322ce568bc857209c3b6edfbc36c298391eea35d0fc9850d942",
+      "wall_seconds": 235.05,
+      "resources": {
+        "inference_seconds": 234.67658999999998,
+        "prompt_tokens": 1833,
+        "completion_tokens": 12288,
+        "length_stops": 3
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "token_limit",
+          "failed_checks": []
+        },
+        {
+          "attempt": 2,
+          "status": "token_limit",
+          "failed_checks": []
+        },
+        {
+          "attempt": 3,
+          "status": "token_limit",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "diagnostic": "No accepted candidate"
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "3828444e8bd6bd63b6b938db397e377fecd4d9114c36646ef19e9061555cf892",
+      "directory": "runs/glm/contract/test-sql-billing/1"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "contract",
+      "task": "test-sql-billing",
+      "trial": 2,
+      "language": "sql",
+      "level": 2,
+      "family": "billing",
+      "stage": "heldout",
+      "seed_requested": 421250495,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 2,
+      "attempt_outcomes": [
+        "token_limit",
+        "passed"
+      ],
+      "first_attempt_accepted": false,
+      "candidate": {
+        "relative_path": "sql/generated.sql",
+        "sha256": "be659b18936846350221cb79b2d7673c91a1898fd28986be2737fafec71e7d44",
+        "bytes": 155
+      },
+      "generation_manifest_sha256": "6b92e8111f2058b48251195c99a0eb485a7b428ac80cc219427393c4d5075be0",
+      "wall_seconds": 69.395,
+      "resources": {
+        "inference_seconds": 68.80032000000001,
+        "prompt_tokens": 1200,
+        "completion_tokens": 4360,
+        "length_stops": 1
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "token_limit",
+          "failed_checks": []
+        },
+        {
+          "attempt": 2,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "public_passed": 3,
+        "public_cases": 3,
+        "hidden_passed": 311,
+        "hidden_cases": 320,
+        "behavior_checked": true,
+        "failures": [
+          {
+            "index": 5,
+            "inputs": [
+              0,
+              100,
+              1
+            ],
+            "expected": 0,
+            "actual": -100
+          },
+          {
+            "index": 19,
+            "inputs": [
+              -20,
+              100,
+              1
+            ],
+            "expected": 0,
+            "actual": -120
+          },
+          {
+            "index": 23,
+            "inputs": [
+              -1,
+              100,
+              1
+            ],
+            "expected": 0,
+            "actual": -101
+          },
+          {
+            "index": 40,
+            "inputs": [
+              -20,
+              1,
+              1
+            ],
+            "expected": 0,
+            "actual": -21
+          },
+          {
+            "index": 44,
+            "inputs": [
+              0,
+              1,
+              1
+            ],
+            "expected": 0,
+            "actual": -1
+          }
+        ]
+      },
+      "contract_check": {
+        "passed": true,
+        "diagnostic": "",
+        "metrics": {
+          "contract_sha256": "104130d967574e89c16632e09da71f676a03c061345e4ecd310d0f79a367417a",
+          "examples": 3
+        }
+      },
+      "strict_pass": false,
+      "filter_only_accepted": true,
+      "filter_only_pass": false,
+      "id": "e32a21e6eaa56588f23f2516edb58892bd50978c10e6e7535d33ac1be8845cb2",
+      "directory": "runs/glm/contract/test-sql-billing/2"
     },
     {
       "schema_version": 1,
@@ -3045,6 +6815,265 @@
       "model": "glm",
       "model_id": "glm-4.7-flash-abliterated",
       "arm": "contract",
+      "task": "test-sql-invoice",
+      "trial": 1,
+      "language": "sql",
+      "level": 3,
+      "family": "invoice",
+      "stage": "heldout",
+      "seed_requested": 24164912,
+      "seed_honored": "not independently verified",
+      "accepted": false,
+      "status": "failed",
+      "attempts": 3,
+      "attempt_outcomes": [
+        "failed",
+        "failed",
+        "failed"
+      ],
+      "first_attempt_accepted": false,
+      "candidate": null,
+      "generation_manifest_sha256": "6cf4bb1a24dfad680713e2c876446645984540b2c547e325d1d12dbdc502961b",
+      "wall_seconds": 9.937,
+      "resources": {
+        "inference_seconds": 9.210709999999999,
+        "prompt_tokens": 2648,
+        "completion_tokens": 648,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "failed",
+          "failed_checks": [
+            "sql_prepare",
+            "source_structure",
+            "task_contract"
+          ]
+        },
+        {
+          "attempt": 2,
+          "status": "failed",
+          "failed_checks": [
+            "sql_prepare",
+            "source_structure",
+            "task_contract"
+          ]
+        },
+        {
+          "attempt": 3,
+          "status": "failed",
+          "failed_checks": [
+            "task_contract"
+          ]
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "diagnostic": "No accepted candidate"
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "a30cf2e7437d240791a3ea9d9938c7356e268864c21e4de6799476edb7e49c08",
+      "directory": "runs/glm/contract/test-sql-invoice/1"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "contract",
+      "task": "test-sql-invoice",
+      "trial": 2,
+      "language": "sql",
+      "level": 3,
+      "family": "invoice",
+      "stage": "heldout",
+      "seed_requested": 2186955707,
+      "seed_honored": "not independently verified",
+      "accepted": false,
+      "status": "failed",
+      "attempts": 3,
+      "attempt_outcomes": [
+        "failed",
+        "failed",
+        "failed"
+      ],
+      "first_attempt_accepted": false,
+      "candidate": null,
+      "generation_manifest_sha256": "26c8831fe202d24d61b86cfdd97933ae72e142dcc6b6731c05215473272e163b",
+      "wall_seconds": 20.436,
+      "resources": {
+        "inference_seconds": 19.62394,
+        "prompt_tokens": 2999,
+        "completion_tokens": 1110,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "failed",
+          "failed_checks": [
+            "sql_prepare",
+            "source_structure",
+            "task_contract"
+          ]
+        },
+        {
+          "attempt": 2,
+          "status": "failed",
+          "failed_checks": [
+            "sql_prepare",
+            "source_structure",
+            "task_contract"
+          ]
+        },
+        {
+          "attempt": 3,
+          "status": "failed",
+          "failed_checks": [
+            "sql_prepare",
+            "source_structure",
+            "task_contract"
+          ]
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "diagnostic": "No accepted candidate"
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "ef7809c726fd8ea93b9e586aa212847554e89cf209e4ea2053a4ee872c2087e2",
+      "directory": "runs/glm/contract/test-sql-invoice/2"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "contract",
+      "task": "test-llvm-abs",
+      "trial": 0,
+      "language": "llvm",
+      "level": 1,
+      "family": "saturated_abs",
+      "stage": "heldout",
+      "seed_requested": 1314885802,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 3,
+      "attempt_outcomes": [
+        "failed",
+        "token_limit",
+        "passed"
+      ],
+      "first_attempt_accepted": false,
+      "candidate": {
+        "relative_path": "llvm/generated.ll",
+        "sha256": "13a22377c264e89c6dc22a0a2f1f4111c1942c6d481fdf41a64730ae78f89262",
+        "bytes": 1978
+      },
+      "generation_manifest_sha256": "67f4f39c029f811d7757b30265eef77002d089c241740420a4e93b834024bd97",
+      "wall_seconds": 87.165,
+      "resources": {
+        "inference_seconds": 86.21154000000001,
+        "prompt_tokens": 2342,
+        "completion_tokens": 4906,
+        "length_stops": 1
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "failed",
+          "failed_checks": [
+            "task_contract"
+          ]
+        },
+        {
+          "attempt": 2,
+          "status": "token_limit",
+          "failed_checks": []
+        },
+        {
+          "attempt": 3,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "public_passed": 3,
+        "public_cases": 3,
+        "hidden_passed": 162,
+        "hidden_cases": 320,
+        "behavior_checked": true,
+        "failures": [
+          {
+            "index": 3,
+            "inputs": [
+              2147483647
+            ],
+            "expected": 2147483647,
+            "actual": -2147483647
+          },
+          {
+            "index": 5,
+            "inputs": [
+              1
+            ],
+            "expected": 1,
+            "actual": -1
+          },
+          {
+            "index": 10,
+            "inputs": [
+              1744422834
+            ],
+            "expected": 1744422834,
+            "actual": -1744422834
+          },
+          {
+            "index": 11,
+            "inputs": [
+              913662646
+            ],
+            "expected": 913662646,
+            "actual": -913662646
+          },
+          {
+            "index": 18,
+            "inputs": [
+              1053104050
+            ],
+            "expected": 1053104050,
+            "actual": -1053104050
+          }
+        ]
+      },
+      "contract_check": {
+        "passed": true,
+        "diagnostic": "",
+        "metrics": {
+          "contract_sha256": "34b3059eac8f8c39c6094e80415a6c9446cb187c8131372e4f5303a9b733d1dc",
+          "examples": 3
+        }
+      },
+      "strict_pass": false,
+      "filter_only_accepted": true,
+      "filter_only_pass": false,
+      "id": "4d3040c15e2f9d43e9260b1ca09fadebfbc79cd4d29aeb473ed805ca299575df",
+      "directory": "runs/glm/contract/test-llvm-abs/0"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "contract",
       "task": "test-llvm-abs",
       "trial": 1,
       "language": "llvm",
@@ -3113,6 +7142,67 @@
       "model": "glm",
       "model_id": "glm-4.7-flash-abliterated",
       "arm": "contract",
+      "task": "test-llvm-abs",
+      "trial": 2,
+      "language": "llvm",
+      "level": 1,
+      "family": "saturated_abs",
+      "stage": "heldout",
+      "seed_requested": 1575694855,
+      "seed_honored": "not independently verified",
+      "accepted": false,
+      "status": "token_limit",
+      "attempts": 3,
+      "attempt_outcomes": [
+        "failed",
+        "token_limit",
+        "token_limit"
+      ],
+      "first_attempt_accepted": false,
+      "candidate": null,
+      "generation_manifest_sha256": "203992be0d97249af8bc6ab06dd6ccc3bcd2494fb96f4d2ddf32bada489afccb",
+      "wall_seconds": 159.054,
+      "resources": {
+        "inference_seconds": 158.62253,
+        "prompt_tokens": 2231,
+        "completion_tokens": 8431,
+        "length_stops": 2
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "failed",
+          "failed_checks": [
+            "task_contract"
+          ]
+        },
+        {
+          "attempt": 2,
+          "status": "token_limit",
+          "failed_checks": []
+        },
+        {
+          "attempt": 3,
+          "status": "token_limit",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "diagnostic": "No accepted candidate"
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "e398cdd556d09cc07791d862132bf90da44c51c4991d771b62d8d9e50fb79bf8",
+      "directory": "runs/glm/contract/test-llvm-abs/2"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "contract",
       "task": "test-llvm-bounded",
       "trial": 0,
       "language": "llvm",
@@ -3174,6 +7264,139 @@
       "filter_only_pass": false,
       "id": "baa2d0266d98a3ed513ad5b4031022d3daffa2d483ad122a00ef9080a1801cb3",
       "directory": "runs/glm/contract/test-llvm-bounded/0"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "contract",
+      "task": "test-llvm-bounded",
+      "trial": 1,
+      "language": "llvm",
+      "level": 2,
+      "family": "bounded_add",
+      "stage": "heldout",
+      "seed_requested": 2117677841,
+      "seed_honored": "not independently verified",
+      "accepted": false,
+      "status": "failed",
+      "attempts": 3,
+      "attempt_outcomes": [
+        "failed",
+        "failed",
+        "failed"
+      ],
+      "first_attempt_accepted": false,
+      "candidate": null,
+      "generation_manifest_sha256": "5a6ef04959a15095d6b3be8ae8901bdb43f516a26a9c155f31bd26fde5e6b528",
+      "wall_seconds": 14.07,
+      "resources": {
+        "inference_seconds": 13.171989999999997,
+        "prompt_tokens": 2842,
+        "completion_tokens": 935,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "failed",
+          "failed_checks": [
+            "task_contract"
+          ]
+        },
+        {
+          "attempt": 2,
+          "status": "failed",
+          "failed_checks": [
+            "task_contract"
+          ]
+        },
+        {
+          "attempt": 3,
+          "status": "failed",
+          "failed_checks": [
+            "task_contract"
+          ]
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "diagnostic": "No accepted candidate"
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "7a78cb75293e278d7bf69e796b2fce094734895465366b605f9d596f5cb62c25",
+      "directory": "runs/glm/contract/test-llvm-bounded/1"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "contract",
+      "task": "test-llvm-bounded",
+      "trial": 2,
+      "language": "llvm",
+      "level": 2,
+      "family": "bounded_add",
+      "stage": "heldout",
+      "seed_requested": 3947497618,
+      "seed_honored": "not independently verified",
+      "accepted": false,
+      "status": "failed",
+      "attempts": 3,
+      "attempt_outcomes": [
+        "failed",
+        "failed",
+        "failed"
+      ],
+      "first_attempt_accepted": false,
+      "candidate": null,
+      "generation_manifest_sha256": "c12de486b910ea069059e6fda6bfddb616ac0a0105cbe1f86f0818bff69fd934",
+      "wall_seconds": 43.789,
+      "resources": {
+        "inference_seconds": 42.96997999999999,
+        "prompt_tokens": 2722,
+        "completion_tokens": 2762,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "failed",
+          "failed_checks": [
+            "task_contract"
+          ]
+        },
+        {
+          "attempt": 2,
+          "status": "failed",
+          "failed_checks": [
+            "task_contract"
+          ]
+        },
+        {
+          "attempt": 3,
+          "status": "failed",
+          "failed_checks": [
+            "llvm_profile",
+            "source_structure",
+            "llvm_compile",
+            "task_contract"
+          ]
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "diagnostic": "No accepted candidate"
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "ff96c2b93875feec86193a0d320bb1ca101dfe9b30fd9f4f8f09f7a3784fd8d2",
+      "directory": "runs/glm/contract/test-llvm-bounded/2"
     },
     {
       "schema_version": 1,
@@ -3367,6 +7590,151 @@
       "model_id": "glm-4.7-flash-abliterated",
       "arm": "contract",
       "task": "test-json-1",
+      "trial": 0,
+      "language": "json",
+      "level": 1,
+      "family": "catalog-1",
+      "stage": "heldout",
+      "seed_requested": 3047766019,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 3,
+      "attempt_outcomes": [
+        "failed",
+        "failed",
+        "passed"
+      ],
+      "first_attempt_accepted": false,
+      "candidate": {
+        "relative_path": "json/generated.json",
+        "sha256": "ed01b7e842c57f9ad3747a8f7d915e751a118b31c1a4d3b2c7a8f3b0e469b0f8",
+        "bytes": 278
+      },
+      "generation_manifest_sha256": "c261d012a08f7f50e80cc97f22d63c2ab9af6df1512c2c787aa80814530d80ee",
+      "wall_seconds": 4.348,
+      "resources": {
+        "inference_seconds": 3.9532200000000004,
+        "prompt_tokens": 2760,
+        "completion_tokens": 291,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "failed",
+          "failed_checks": [
+            "source_structure",
+            "task_contract"
+          ]
+        },
+        {
+          "attempt": 2,
+          "status": "failed",
+          "failed_checks": [
+            "source_structure",
+            "task_contract"
+          ]
+        },
+        {
+          "attempt": 3,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": true,
+        "document_checked": true
+      },
+      "contract_check": {
+        "passed": true,
+        "diagnostic": "",
+        "metrics": {
+          "contract_sha256": "f9153b669ac4d10be0e0d8be965a24890186f24029cae052715d65ece87c2f72",
+          "examples": 0
+        }
+      },
+      "strict_pass": true,
+      "filter_only_accepted": true,
+      "filter_only_pass": true,
+      "id": "0e7088275b168d17079835cb78b8e3789c7056dd2115a0d4ac7a86970fd62e2a",
+      "directory": "runs/glm/contract/test-json-1/0"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "contract",
+      "task": "test-json-1",
+      "trial": 1,
+      "language": "json",
+      "level": 1,
+      "family": "catalog-1",
+      "stage": "heldout",
+      "seed_requested": 2220111101,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 2,
+      "attempt_outcomes": [
+        "failed",
+        "passed"
+      ],
+      "first_attempt_accepted": false,
+      "candidate": {
+        "relative_path": "json/generated.json",
+        "sha256": "ed01b7e842c57f9ad3747a8f7d915e751a118b31c1a4d3b2c7a8f3b0e469b0f8",
+        "bytes": 278
+      },
+      "generation_manifest_sha256": "8e22c81e94bf1483fa81fd1cb829d9d473bad5a9dd49a611e538d3722f78cb1d",
+      "wall_seconds": 3.501,
+      "resources": {
+        "inference_seconds": 3.13981,
+        "prompt_tokens": 1759,
+        "completion_tokens": 223,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "failed",
+          "failed_checks": [
+            "source_structure",
+            "task_contract"
+          ]
+        },
+        {
+          "attempt": 2,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": true,
+        "document_checked": true
+      },
+      "contract_check": {
+        "passed": true,
+        "diagnostic": "",
+        "metrics": {
+          "contract_sha256": "f9153b669ac4d10be0e0d8be965a24890186f24029cae052715d65ece87c2f72",
+          "examples": 0
+        }
+      },
+      "strict_pass": true,
+      "filter_only_accepted": true,
+      "filter_only_pass": true,
+      "id": "27b25994642ba83ba737410f7de4d2a36972e7648f075f7f763c0677e8d82c78",
+      "directory": "runs/glm/contract/test-json-1/1"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "contract",
+      "task": "test-json-1",
       "trial": 2,
       "language": "json",
       "level": 1,
@@ -3435,6 +7803,72 @@
       "model_id": "glm-4.7-flash-abliterated",
       "arm": "contract",
       "task": "test-json-2",
+      "trial": 0,
+      "language": "json",
+      "level": 2,
+      "family": "catalog-2",
+      "stage": "heldout",
+      "seed_requested": 1626020017,
+      "seed_honored": "not independently verified",
+      "accepted": false,
+      "status": "failed",
+      "attempts": 3,
+      "attempt_outcomes": [
+        "failed",
+        "failed",
+        "failed"
+      ],
+      "first_attempt_accepted": false,
+      "candidate": null,
+      "generation_manifest_sha256": "03fe5ba5525b49966b8f7bac493dfcc89416e846111889d5f8aaedb0d0a00ab7",
+      "wall_seconds": 8.961,
+      "resources": {
+        "inference_seconds": 8.167380000000001,
+        "prompt_tokens": 4100,
+        "completion_tokens": 632,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "failed",
+          "failed_checks": [
+            "source_structure",
+            "task_contract"
+          ]
+        },
+        {
+          "attempt": 2,
+          "status": "failed",
+          "failed_checks": [
+            "task_contract"
+          ]
+        },
+        {
+          "attempt": 3,
+          "status": "failed",
+          "failed_checks": [
+            "task_contract"
+          ]
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "diagnostic": "No accepted candidate"
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "2917e9d7339c929770598fee001772ae310bc8e48d067f7b9425c3bb45d73067",
+      "directory": "runs/glm/contract/test-json-2/0"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "contract",
+      "task": "test-json-2",
       "trial": 1,
       "language": "json",
       "level": 2,
@@ -3494,6 +7928,72 @@
       "filter_only_pass": false,
       "id": "1fcf01a196fcec7ea0e90926c5d082592e02133dcb96cffd5d4787348ba40f7c",
       "directory": "runs/glm/contract/test-json-2/1"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "contract",
+      "task": "test-json-2",
+      "trial": 2,
+      "language": "json",
+      "level": 2,
+      "family": "catalog-2",
+      "stage": "heldout",
+      "seed_requested": 29367234,
+      "seed_honored": "not independently verified",
+      "accepted": false,
+      "status": "failed",
+      "attempts": 3,
+      "attempt_outcomes": [
+        "failed",
+        "failed",
+        "failed"
+      ],
+      "first_attempt_accepted": false,
+      "candidate": null,
+      "generation_manifest_sha256": "a27901886bf75072b818f856c1a24b3b022bc2f680047a199e2c6aab62cc5376",
+      "wall_seconds": 9.526,
+      "resources": {
+        "inference_seconds": 8.840530000000001,
+        "prompt_tokens": 4232,
+        "completion_tokens": 686,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "failed",
+          "failed_checks": [
+            "source_structure",
+            "task_contract"
+          ]
+        },
+        {
+          "attempt": 2,
+          "status": "failed",
+          "failed_checks": [
+            "task_contract"
+          ]
+        },
+        {
+          "attempt": 3,
+          "status": "failed",
+          "failed_checks": [
+            "task_contract"
+          ]
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "diagnostic": "No accepted candidate"
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "ca88acd353833a7bc2337f8c93fa58df0d4ceacfb446cc899901c8241b2403d2",
+      "directory": "runs/glm/contract/test-json-2/2"
     },
     {
       "schema_version": 1,
@@ -3814,6 +8314,65 @@
       "model": "glm",
       "model_id": "glm-4.7-flash-abliterated",
       "arm": "contract",
+      "task": "test-http-1",
+      "trial": 2,
+      "language": "http",
+      "level": 1,
+      "family": "catalog-1",
+      "stage": "heldout",
+      "seed_requested": 1299157052,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 1,
+      "attempt_outcomes": [
+        "passed"
+      ],
+      "first_attempt_accepted": true,
+      "candidate": {
+        "relative_path": "http/generated.http",
+        "sha256": "edd26b7bbcadd39f3f27d1b5f07a33e6ec40793156a44d5a44028acf58003d6e",
+        "bytes": 457
+      },
+      "generation_manifest_sha256": "0fccc1eb750cd070f08e865da8b4c471ce9456d120f40582e74b27fdb3a7f513",
+      "wall_seconds": 2.027,
+      "resources": {
+        "inference_seconds": 1.67256,
+        "prompt_tokens": 860,
+        "completion_tokens": 135,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": true,
+        "document_checked": true
+      },
+      "contract_check": {
+        "passed": true,
+        "diagnostic": "",
+        "metrics": {
+          "contract_sha256": "3c4177c3173dafbcc93cada7fef051fb126c527f335f3ac732a7499642e1c991",
+          "examples": 0
+        }
+      },
+      "strict_pass": true,
+      "filter_only_accepted": true,
+      "filter_only_pass": true,
+      "id": "638f8eca0af60a24bb3631e53b39d383c09bcde6068d7f2708520780483a512f",
+      "directory": "runs/glm/contract/test-http-1/2"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "contract",
       "task": "test-http-2",
       "trial": 0,
       "language": "http",
@@ -3868,6 +8427,128 @@
       "filter_only_pass": false,
       "id": "8c50ac90a2f13c4a1175e55c3a98ca4eb2b43756296cd875ca0cbe724d40ce67",
       "directory": "runs/glm/contract/test-http-2/0"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "contract",
+      "task": "test-http-2",
+      "trial": 1,
+      "language": "http",
+      "level": 2,
+      "family": "catalog-2",
+      "stage": "heldout",
+      "seed_requested": 4146659441,
+      "seed_honored": "not independently verified",
+      "accepted": false,
+      "status": "extraction_failed",
+      "attempts": 3,
+      "attempt_outcomes": [
+        "failed",
+        "extraction_failed",
+        "extraction_failed"
+      ],
+      "first_attempt_accepted": false,
+      "candidate": null,
+      "generation_manifest_sha256": "7136aefd684486726d4242650a987d469b09f42f8b64177b869e0dba2061bd60",
+      "wall_seconds": 46.71,
+      "resources": {
+        "inference_seconds": 45.938520000000004,
+        "prompt_tokens": 4456,
+        "completion_tokens": 3007,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "failed",
+          "failed_checks": [
+            "task_contract"
+          ]
+        },
+        {
+          "attempt": 2,
+          "status": "extraction_failed",
+          "failed_checks": []
+        },
+        {
+          "attempt": 3,
+          "status": "extraction_failed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "diagnostic": "No accepted candidate"
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "e297fde41ac344b060d36a4aa3334a71643df27741d16c9c092f722eb0b9069e",
+      "directory": "runs/glm/contract/test-http-2/1"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "contract",
+      "task": "test-http-2",
+      "trial": 2,
+      "language": "http",
+      "level": 2,
+      "family": "catalog-2",
+      "stage": "heldout",
+      "seed_requested": 1415245646,
+      "seed_honored": "not independently verified",
+      "accepted": false,
+      "status": "extraction_failed",
+      "attempts": 3,
+      "attempt_outcomes": [
+        "failed",
+        "extraction_failed",
+        "extraction_failed"
+      ],
+      "first_attempt_accepted": false,
+      "candidate": null,
+      "generation_manifest_sha256": "907fd595fe0272ac2711dac6d2540a7cf030f5680fa4ccf88b8c7d819da238d9",
+      "wall_seconds": 9.268,
+      "resources": {
+        "inference_seconds": 8.766549999999999,
+        "prompt_tokens": 4404,
+        "completion_tokens": 700,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "failed",
+          "failed_checks": [
+            "task_contract"
+          ]
+        },
+        {
+          "attempt": 2,
+          "status": "extraction_failed",
+          "failed_checks": []
+        },
+        {
+          "attempt": 3,
+          "status": "extraction_failed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "diagnostic": "No accepted candidate"
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "ad9b828eb248162854bb8468ebe99c5b9e4b98ffdc26a063e98e392d9085df0b",
+      "directory": "runs/glm/contract/test-http-2/2"
     },
     {
       "schema_version": 1,
@@ -3936,6 +8617,307 @@
       "model": "glm",
       "model_id": "glm-4.7-flash-abliterated",
       "arm": "contract",
+      "task": "test-http-3",
+      "trial": 1,
+      "language": "http",
+      "level": 3,
+      "family": "catalog-3",
+      "stage": "heldout",
+      "seed_requested": 1740942808,
+      "seed_honored": "not independently verified",
+      "accepted": false,
+      "status": "failed",
+      "attempts": 3,
+      "attempt_outcomes": [
+        "failed",
+        "extraction_failed",
+        "failed"
+      ],
+      "first_attempt_accepted": false,
+      "candidate": null,
+      "generation_manifest_sha256": "c17705cfd70466bd4c007c49e1a426d63c950d526b07bac06e36f561b216e771",
+      "wall_seconds": 19.434,
+      "resources": {
+        "inference_seconds": 18.92825,
+        "prompt_tokens": 7893,
+        "completion_tokens": 1452,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "failed",
+          "failed_checks": [
+            "task_contract"
+          ]
+        },
+        {
+          "attempt": 2,
+          "status": "extraction_failed",
+          "failed_checks": []
+        },
+        {
+          "attempt": 3,
+          "status": "failed",
+          "failed_checks": [
+            "task_contract"
+          ]
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "diagnostic": "No accepted candidate"
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "e45622ca8ed2a1a4c3cbd8126f774319b44481e1072dee0dd58c855a72f21fb2",
+      "directory": "runs/glm/contract/test-http-3/1"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "contract",
+      "task": "test-http-3",
+      "trial": 2,
+      "language": "http",
+      "level": 3,
+      "family": "catalog-3",
+      "stage": "heldout",
+      "seed_requested": 3830963412,
+      "seed_honored": "not independently verified",
+      "accepted": false,
+      "status": "extraction_failed",
+      "attempts": 3,
+      "attempt_outcomes": [
+        "failed",
+        "extraction_failed",
+        "extraction_failed"
+      ],
+      "first_attempt_accepted": false,
+      "candidate": null,
+      "generation_manifest_sha256": "d78f370ef9cb87cba38c8196a7babe2f2d6b0b091143ead2b909d67e869b7e79",
+      "wall_seconds": 20.527,
+      "resources": {
+        "inference_seconds": 19.91939,
+        "prompt_tokens": 7890,
+        "completion_tokens": 1453,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "failed",
+          "failed_checks": [
+            "task_contract"
+          ]
+        },
+        {
+          "attempt": 2,
+          "status": "extraction_failed",
+          "failed_checks": []
+        },
+        {
+          "attempt": 3,
+          "status": "extraction_failed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "diagnostic": "No accepted candidate"
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "d755598b51ddfd61f2a60cd5e8496e57587b1eedce160b6c01e4d60dbbb166b0",
+      "directory": "runs/glm/contract/test-http-3/2"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "contract",
+      "task": "test-binary-1",
+      "trial": 0,
+      "language": "binary-info",
+      "level": 1,
+      "family": "symbolic-ELF",
+      "stage": "heldout",
+      "seed_requested": 2693436145,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 1,
+      "attempt_outcomes": [
+        "passed"
+      ],
+      "first_attempt_accepted": true,
+      "candidate": {
+        "relative_path": "binary-info/generated.binary.json",
+        "sha256": "eeb04e9f52450a5a654e7cdfed5df4c4a1d12608675d6d6d253adce824b6d0f1",
+        "bytes": 502
+      },
+      "generation_manifest_sha256": "bcb0450643ecbad746361d7bb3b9004196f790f971677b3540abd240abbaacaa",
+      "wall_seconds": 2.35,
+      "resources": {
+        "inference_seconds": 1.95042,
+        "prompt_tokens": 909,
+        "completion_tokens": 161,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": true,
+        "document_checked": true
+      },
+      "contract_check": {
+        "passed": true,
+        "diagnostic": "",
+        "metrics": {
+          "contract_sha256": "9238025c219cc688202e4e245e33fdd028157b417002c325ef78412d83cef7f6",
+          "examples": 0
+        }
+      },
+      "strict_pass": true,
+      "filter_only_accepted": true,
+      "filter_only_pass": true,
+      "id": "d29ad519ca50afb4dd3dd899311829bcb54f81bc5ece4e79c057694850b9853a",
+      "directory": "runs/glm/contract/test-binary-1/0"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "contract",
+      "task": "test-binary-1",
+      "trial": 1,
+      "language": "binary-info",
+      "level": 1,
+      "family": "symbolic-ELF",
+      "stage": "heldout",
+      "seed_requested": 97065694,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 1,
+      "attempt_outcomes": [
+        "passed"
+      ],
+      "first_attempt_accepted": true,
+      "candidate": {
+        "relative_path": "binary-info/generated.binary.json",
+        "sha256": "e26f10bd0ecbfa3160160d57d5c3a488b84bad2ee0bf0526e4fb5c424619c4b1",
+        "bytes": 501
+      },
+      "generation_manifest_sha256": "1e96efcee2628bbcf2a78cc1093340508377625a7d5703ad3803ff6c1a3931f1",
+      "wall_seconds": 2.335,
+      "resources": {
+        "inference_seconds": 1.98333,
+        "prompt_tokens": 909,
+        "completion_tokens": 161,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": true,
+        "document_checked": true
+      },
+      "contract_check": {
+        "passed": true,
+        "diagnostic": "",
+        "metrics": {
+          "contract_sha256": "9238025c219cc688202e4e245e33fdd028157b417002c325ef78412d83cef7f6",
+          "examples": 0
+        }
+      },
+      "strict_pass": true,
+      "filter_only_accepted": true,
+      "filter_only_pass": true,
+      "id": "01ff26acfdb275375740bc689821924a8cdce920ee0d69ef7ed23fb81a40b803",
+      "directory": "runs/glm/contract/test-binary-1/1"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "contract",
+      "task": "test-binary-1",
+      "trial": 2,
+      "language": "binary-info",
+      "level": 1,
+      "family": "symbolic-ELF",
+      "stage": "heldout",
+      "seed_requested": 3684379389,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 1,
+      "attempt_outcomes": [
+        "passed"
+      ],
+      "first_attempt_accepted": true,
+      "candidate": {
+        "relative_path": "binary-info/generated.binary.json",
+        "sha256": "0ec696ed87aea1bc61f4d62e9da9bdb5b68719d73d60e5a7defe38363d1963d7",
+        "bytes": 502
+      },
+      "generation_manifest_sha256": "afee05a4b2c6ae0b73f9b5e57fb526bc4fcac0efe6929b4d9f404b192099b8fe",
+      "wall_seconds": 2.526,
+      "resources": {
+        "inference_seconds": 2.03099,
+        "prompt_tokens": 909,
+        "completion_tokens": 161,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": true,
+        "document_checked": true
+      },
+      "contract_check": {
+        "passed": true,
+        "diagnostic": "",
+        "metrics": {
+          "contract_sha256": "9238025c219cc688202e4e245e33fdd028157b417002c325ef78412d83cef7f6",
+          "examples": 0
+        }
+      },
+      "strict_pass": true,
+      "filter_only_accepted": true,
+      "filter_only_pass": true,
+      "id": "6bd9914b17b8a269329cd6c3e018b57665d1c1e6c38ee824513c15b84ee5736f",
+      "directory": "runs/glm/contract/test-binary-1/2"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "contract",
       "task": "test-binary-2",
       "trial": 0,
       "language": "binary-info",
@@ -3996,6 +8978,65 @@
       "model_id": "glm-4.7-flash-abliterated",
       "arm": "contract",
       "task": "test-binary-2",
+      "trial": 1,
+      "language": "binary-info",
+      "level": 2,
+      "family": "symbolic-PE",
+      "stage": "heldout",
+      "seed_requested": 2439794469,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 1,
+      "attempt_outcomes": [
+        "passed"
+      ],
+      "first_attempt_accepted": true,
+      "candidate": {
+        "relative_path": "binary-info/generated.binary.json",
+        "sha256": "0ba00e9eaa29975062175d7ed82d3d6b522a160b04cf6f52ddca813ce5406bf3",
+        "bytes": 849
+      },
+      "generation_manifest_sha256": "3ceaeb8b8f6115f56c42f71babf457ae0ca1a200ccafdd63c2b7dd97d83d892e",
+      "wall_seconds": 3.895,
+      "resources": {
+        "inference_seconds": 3.3562600000000002,
+        "prompt_tokens": 1030,
+        "completion_tokens": 263,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": true,
+        "document_checked": true
+      },
+      "contract_check": {
+        "passed": true,
+        "diagnostic": "",
+        "metrics": {
+          "contract_sha256": "bb72f9917bfe3bb812b30b7b28142fecca979a13bfcfddb2fc92eba62a6ed280",
+          "examples": 0
+        }
+      },
+      "strict_pass": true,
+      "filter_only_accepted": true,
+      "filter_only_pass": true,
+      "id": "1ee2978a19c72a1e7202f3a927f363d69ebf4141a869f169305324cd93d1f103",
+      "directory": "runs/glm/contract/test-binary-2/1"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "contract",
+      "task": "test-binary-2",
       "trial": 2,
       "language": "binary-info",
       "level": 2,
@@ -4047,6 +9088,183 @@
       "filter_only_pass": true,
       "id": "a57b6793a6275a6110b215fc28dde4e8c7e9606cef0c8c85ccc59425f897de66",
       "directory": "runs/glm/contract/test-binary-2/2"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "contract",
+      "task": "test-binary-3",
+      "trial": 0,
+      "language": "binary-info",
+      "level": 3,
+      "family": "symbolic-JVM",
+      "stage": "heldout",
+      "seed_requested": 3774994310,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 1,
+      "attempt_outcomes": [
+        "passed"
+      ],
+      "first_attempt_accepted": true,
+      "candidate": {
+        "relative_path": "binary-info/generated.binary.json",
+        "sha256": "174831d87365a9a2acfac32978896512ee09e40ae9e1c8508bab119642b4fcba",
+        "bytes": 1795
+      },
+      "generation_manifest_sha256": "99a46e492539cd52d2a47a428794b1ca0771910171a338c5c99716a067269b01",
+      "wall_seconds": 7.944,
+      "resources": {
+        "inference_seconds": 7.04534,
+        "prompt_tokens": 1351,
+        "completion_tokens": 546,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": true,
+        "document_checked": true
+      },
+      "contract_check": {
+        "passed": true,
+        "diagnostic": "",
+        "metrics": {
+          "contract_sha256": "fb2722a83d383f43876dee37a5faf1b513c264a5fdb3642d0ca365db06926e06",
+          "examples": 0
+        }
+      },
+      "strict_pass": true,
+      "filter_only_accepted": true,
+      "filter_only_pass": true,
+      "id": "367ca5dffc240f4bcfa583a6d4ae430190a445cd6ec9514debe09d53dfabc50c",
+      "directory": "runs/glm/contract/test-binary-3/0"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "contract",
+      "task": "test-binary-3",
+      "trial": 1,
+      "language": "binary-info",
+      "level": 3,
+      "family": "symbolic-JVM",
+      "stage": "heldout",
+      "seed_requested": 587397556,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 1,
+      "attempt_outcomes": [
+        "passed"
+      ],
+      "first_attempt_accepted": true,
+      "candidate": {
+        "relative_path": "binary-info/generated.binary.json",
+        "sha256": "174831d87365a9a2acfac32978896512ee09e40ae9e1c8508bab119642b4fcba",
+        "bytes": 1795
+      },
+      "generation_manifest_sha256": "7bc2510e0722a46b514b5ff0fb6e9ace11322a37c5bfa2c9d835237edbdac56d",
+      "wall_seconds": 7.048,
+      "resources": {
+        "inference_seconds": 6.55587,
+        "prompt_tokens": 1351,
+        "completion_tokens": 546,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": true,
+        "document_checked": true
+      },
+      "contract_check": {
+        "passed": true,
+        "diagnostic": "",
+        "metrics": {
+          "contract_sha256": "fb2722a83d383f43876dee37a5faf1b513c264a5fdb3642d0ca365db06926e06",
+          "examples": 0
+        }
+      },
+      "strict_pass": true,
+      "filter_only_accepted": true,
+      "filter_only_pass": true,
+      "id": "5285caa355a45844333a3597096b89c509290d0b76fcac7e6f02b590876ff231",
+      "directory": "runs/glm/contract/test-binary-3/1"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "contract",
+      "task": "test-binary-3",
+      "trial": 2,
+      "language": "binary-info",
+      "level": 3,
+      "family": "symbolic-JVM",
+      "stage": "heldout",
+      "seed_requested": 3057430487,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 1,
+      "attempt_outcomes": [
+        "passed"
+      ],
+      "first_attempt_accepted": true,
+      "candidate": {
+        "relative_path": "binary-info/generated.binary.json",
+        "sha256": "174831d87365a9a2acfac32978896512ee09e40ae9e1c8508bab119642b4fcba",
+        "bytes": 1795
+      },
+      "generation_manifest_sha256": "eee8dcb62bcf014daf6ce7a8043112c88df68cb25d0142eb43d807a3c2c4d138",
+      "wall_seconds": 9.82,
+      "resources": {
+        "inference_seconds": 9.453059999999999,
+        "prompt_tokens": 1351,
+        "completion_tokens": 546,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": true,
+        "document_checked": true
+      },
+      "contract_check": {
+        "passed": true,
+        "diagnostic": "",
+        "metrics": {
+          "contract_sha256": "fb2722a83d383f43876dee37a5faf1b513c264a5fdb3642d0ca365db06926e06",
+          "examples": 0
+        }
+      },
+      "strict_pass": true,
+      "filter_only_accepted": true,
+      "filter_only_pass": true,
+      "id": "0820f105d1b538888379d1a91dd51537e27bbac1424770e4206d09d74348c268",
+      "directory": "runs/glm/contract/test-binary-3/2"
     },
     {
       "schema_version": 1,
@@ -4125,6 +9343,85 @@
       "model_id": "glm-4.7-flash-abliterated",
       "arm": "contract",
       "task": "test-html-1",
+      "trial": 1,
+      "language": "html",
+      "level": 1,
+      "family": "reference-table",
+      "stage": "heldout",
+      "seed_requested": 601813110,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 3,
+      "attempt_outcomes": [
+        "failed",
+        "failed",
+        "passed"
+      ],
+      "first_attempt_accepted": false,
+      "candidate": {
+        "relative_path": "html/generated.html",
+        "sha256": "0c8d4d75e6d3e599b27ef5ea486eb7ef6875c3b2457191734f857a996a4effbb",
+        "bytes": 821
+      },
+      "generation_manifest_sha256": "05e4c3de3a6356f32bd50e0b29533b2aca0e8328ab4711989ceda1d4c39bd2da",
+      "wall_seconds": 10.195,
+      "resources": {
+        "inference_seconds": 9.67199,
+        "prompt_tokens": 3384,
+        "completion_tokens": 722,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "failed",
+          "failed_checks": [
+            "html_parse",
+            "source_structure"
+          ]
+        },
+        {
+          "attempt": 2,
+          "status": "failed",
+          "failed_checks": [
+            "html_parse",
+            "source_structure",
+            "task_contract"
+          ]
+        },
+        {
+          "attempt": 3,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": true,
+        "rows_checked": 2
+      },
+      "contract_check": {
+        "passed": true,
+        "diagnostic": "",
+        "metrics": {
+          "contract_sha256": "c4a121b8275802dbd764647ec46bfcc5e82ab80f336efd5ccbff69d79f0a89ed",
+          "examples": 0,
+          "rows": 2
+        }
+      },
+      "strict_pass": true,
+      "filter_only_accepted": true,
+      "filter_only_pass": true,
+      "id": "e198b9aff8c8bc0d2caa9b4af67f3458bbb12c50ce0888b05e8a8bc8ca66cc52",
+      "directory": "runs/glm/contract/test-html-1/1"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "contract",
+      "task": "test-html-1",
       "trial": 2,
       "language": "html",
       "level": 1,
@@ -4177,6 +9474,71 @@
       "filter_only_pass": true,
       "id": "a063688159c50b8620ed604b710776766084f4f8a126e81e94e61cfa6cbd8b5f",
       "directory": "runs/glm/contract/test-html-1/2"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "contract",
+      "task": "test-html-2",
+      "trial": 0,
+      "language": "html",
+      "level": 2,
+      "family": "reference-table",
+      "stage": "heldout",
+      "seed_requested": 1258701195,
+      "seed_honored": "not independently verified",
+      "accepted": false,
+      "status": "failed",
+      "attempts": 3,
+      "attempt_outcomes": [
+        "failed",
+        "failed",
+        "failed"
+      ],
+      "first_attempt_accepted": false,
+      "candidate": null,
+      "generation_manifest_sha256": "a90befec15aa36aff55b556ff8491300503eda867f7c94c4ac24386244b1017d",
+      "wall_seconds": 13.679,
+      "resources": {
+        "inference_seconds": 13.07393,
+        "prompt_tokens": 4255,
+        "completion_tokens": 1073,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "failed",
+          "failed_checks": [
+            "task_contract"
+          ]
+        },
+        {
+          "attempt": 2,
+          "status": "failed",
+          "failed_checks": [
+            "task_contract"
+          ]
+        },
+        {
+          "attempt": 3,
+          "status": "failed",
+          "failed_checks": [
+            "task_contract"
+          ]
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "diagnostic": "No accepted candidate"
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "b9533fe3777216a9de0dd90a58428623d1d3fabe5efb3e8ab1464126ab00d07f",
+      "directory": "runs/glm/contract/test-html-2/0"
     },
     {
       "schema_version": 1,
@@ -4248,6 +9610,269 @@
     {
       "schema_version": 1,
       "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "contract",
+      "task": "test-html-2",
+      "trial": 2,
+      "language": "html",
+      "level": 2,
+      "family": "reference-table",
+      "stage": "heldout",
+      "seed_requested": 2975437652,
+      "seed_honored": "not independently verified",
+      "accepted": false,
+      "status": "failed",
+      "attempts": 3,
+      "attempt_outcomes": [
+        "failed",
+        "failed",
+        "failed"
+      ],
+      "first_attempt_accepted": false,
+      "candidate": null,
+      "generation_manifest_sha256": "3d3963a8fe99509208324a467bf43f1dd08169a7b6ec3b987d806d1039f72a62",
+      "wall_seconds": 15.872,
+      "resources": {
+        "inference_seconds": 14.72638,
+        "prompt_tokens": 4711,
+        "completion_tokens": 1171,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "failed",
+          "failed_checks": [
+            "html_parse",
+            "source_structure",
+            "task_contract"
+          ]
+        },
+        {
+          "attempt": 2,
+          "status": "failed",
+          "failed_checks": [
+            "task_contract"
+          ]
+        },
+        {
+          "attempt": 3,
+          "status": "failed",
+          "failed_checks": [
+            "task_contract"
+          ]
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "diagnostic": "No accepted candidate"
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "06dab1bce246e333e69e37a52f75fac022511e57f4f97a0821a082506f7a6bea",
+      "directory": "runs/glm/contract/test-html-2/2"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "contract",
+      "task": "test-html-3",
+      "trial": 0,
+      "language": "html",
+      "level": 3,
+      "family": "reference-table",
+      "stage": "heldout",
+      "seed_requested": 1516229492,
+      "seed_honored": "not independently verified",
+      "accepted": false,
+      "status": "failed",
+      "attempts": 3,
+      "attempt_outcomes": [
+        "failed",
+        "failed",
+        "failed"
+      ],
+      "first_attempt_accepted": false,
+      "candidate": null,
+      "generation_manifest_sha256": "3fd6827a6ce028a371ea9dbb8a72b518e722416ec347290bc32d3a62a1ce98e9",
+      "wall_seconds": 18.58,
+      "resources": {
+        "inference_seconds": 17.6175,
+        "prompt_tokens": 5281,
+        "completion_tokens": 1418,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "failed",
+          "failed_checks": [
+            "task_contract"
+          ]
+        },
+        {
+          "attempt": 2,
+          "status": "failed",
+          "failed_checks": [
+            "task_contract"
+          ]
+        },
+        {
+          "attempt": 3,
+          "status": "failed",
+          "failed_checks": [
+            "task_contract"
+          ]
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "diagnostic": "No accepted candidate"
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "df033f5b442bab803cf4219d74818febc4e56331ca3232108b19e8ec593793a6",
+      "directory": "runs/glm/contract/test-html-3/0"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "contract",
+      "task": "test-html-3",
+      "trial": 1,
+      "language": "html",
+      "level": 3,
+      "family": "reference-table",
+      "stage": "heldout",
+      "seed_requested": 4199725614,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 2,
+      "attempt_outcomes": [
+        "token_limit",
+        "passed"
+      ],
+      "first_attempt_accepted": false,
+      "candidate": {
+        "relative_path": "html/generated.html",
+        "sha256": "b07c7412ab1e98ea2c4f73f5991384d72f09b5dba6db0de80a19f4b14023e74a",
+        "bytes": 2128
+      },
+      "generation_manifest_sha256": "7100ea1acfecd8efb501d1ba54a3717b946f68260cecb350f9c89e141822cbcf",
+      "wall_seconds": 89.398,
+      "resources": {
+        "inference_seconds": 88.97295,
+        "prompt_tokens": 2696,
+        "completion_tokens": 4807,
+        "length_stops": 1
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "token_limit",
+          "failed_checks": []
+        },
+        {
+          "attempt": 2,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": true,
+        "rows_checked": 6
+      },
+      "contract_check": {
+        "passed": true,
+        "diagnostic": "",
+        "metrics": {
+          "contract_sha256": "3cbf747ec493df44e2bda435b2f1cd50a75007c42618481547a2e473a567c647",
+          "examples": 0,
+          "rows": 6
+        }
+      },
+      "strict_pass": true,
+      "filter_only_accepted": true,
+      "filter_only_pass": true,
+      "id": "dcc8e2daefd7c70962700c2c4dfcddc58a38566b1e9c98ba7a6c916e0b4bc6d8",
+      "directory": "runs/glm/contract/test-html-3/1"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "arm": "contract",
+      "task": "test-html-3",
+      "trial": 2,
+      "language": "html",
+      "level": 3,
+      "family": "reference-table",
+      "stage": "heldout",
+      "seed_requested": 2234536303,
+      "seed_honored": "not independently verified",
+      "accepted": false,
+      "status": "failed",
+      "attempts": 3,
+      "attempt_outcomes": [
+        "failed",
+        "failed",
+        "failed"
+      ],
+      "first_attempt_accepted": false,
+      "candidate": null,
+      "generation_manifest_sha256": "a5200ffb7e443418703a75059fb3e2e56ab82e70c4c66c45a38f33443544ff99",
+      "wall_seconds": 17.876,
+      "resources": {
+        "inference_seconds": 17.22618,
+        "prompt_tokens": 5271,
+        "completion_tokens": 1402,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "failed",
+          "failed_checks": [
+            "task_contract"
+          ]
+        },
+        {
+          "attempt": 2,
+          "status": "failed",
+          "failed_checks": [
+            "task_contract"
+          ]
+        },
+        {
+          "attempt": 3,
+          "status": "failed",
+          "failed_checks": [
+            "task_contract"
+          ]
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "diagnostic": "No accepted candidate"
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "99ee2d52efe25bce0afdfd93c16dd46b6c9d40cabddb00a5ed51c354065bc284",
+      "directory": "runs/glm/contract/test-html-3/2"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
       "model": "deepseek",
       "model_id": "deepseek-v4-flash-abliterated",
       "arm": "baseline",
@@ -4308,6 +9933,193 @@
       "filter_only_pass": true,
       "id": "0e392fa37974dfe2baf5013eb439d669e63413c927d57141f24310c14cc4e4b6",
       "directory": "runs/deepseek/baseline/test-python-multiple/0"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "deepseek",
+      "model_id": "deepseek-v4-flash-abliterated",
+      "arm": "baseline",
+      "task": "test-python-overlap",
+      "trial": 0,
+      "language": "python",
+      "level": 2,
+      "family": "intersection",
+      "stage": "heldout",
+      "seed_requested": 1592475783,
+      "seed_honored": "not independently verified",
+      "accepted": false,
+      "status": "benign_policy_failed",
+      "attempts": 3,
+      "attempt_outcomes": [
+        "benign_policy_failed",
+        "benign_policy_failed",
+        "benign_policy_failed"
+      ],
+      "first_attempt_accepted": false,
+      "candidate": null,
+      "generation_manifest_sha256": "e9e8b1498d749324a1525e3c584400f32cc509c0c0db615747b5289826399b16",
+      "wall_seconds": 501.781,
+      "resources": {
+        "inference_seconds": 501.04918000000004,
+        "prompt_tokens": 2418,
+        "completion_tokens": 645,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "benign_policy_failed",
+          "failed_checks": []
+        },
+        {
+          "attempt": 2,
+          "status": "benign_policy_failed",
+          "failed_checks": []
+        },
+        {
+          "attempt": 3,
+          "status": "benign_policy_failed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "diagnostic": "No accepted candidate"
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "755f84a0d4e8caed86f8325bfa6fbe247beef7ea10a1459f55219623f38de359",
+      "directory": "runs/deepseek/baseline/test-python-overlap/0"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "deepseek",
+      "model_id": "deepseek-v4-flash-abliterated",
+      "arm": "baseline",
+      "task": "test-sql-distance",
+      "trial": 0,
+      "language": "sql",
+      "level": 1,
+      "family": "distance",
+      "stage": "heldout",
+      "seed_requested": 1328951476,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 1,
+      "attempt_outcomes": [
+        "passed"
+      ],
+      "first_attempt_accepted": true,
+      "candidate": {
+        "relative_path": "sql/generated.sql",
+        "sha256": "7178008b71986e096b817a039be46e4acda85d017627d3ab2637c02e26e551ff",
+        "bytes": 197
+      },
+      "generation_manifest_sha256": "27baf67634bb7ec0a204171271429035f7c888287b9e41a90cb294a502c46038",
+      "wall_seconds": 49.327,
+      "resources": {
+        "inference_seconds": 48.787690000000005,
+        "prompt_tokens": 503,
+        "completion_tokens": 60,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": true,
+        "public_passed": 3,
+        "public_cases": 3,
+        "hidden_passed": 320,
+        "hidden_cases": 320,
+        "behavior_checked": true,
+        "failures": []
+      },
+      "contract_check": {
+        "passed": true,
+        "diagnostic": "",
+        "metrics": {
+          "contract_sha256": "6b59587f3db3d82fca4b0a5fcd02eeb45c2dddf481dc27547f07aa0e1a2fa86d",
+          "examples": 3
+        }
+      },
+      "strict_pass": true,
+      "filter_only_accepted": true,
+      "filter_only_pass": true,
+      "id": "c2aac3361d03efd37073b122a8cf318d8e61d72c870300d02ee65f7f0f501937",
+      "directory": "runs/deepseek/baseline/test-sql-distance/0"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "deepseek",
+      "model_id": "deepseek-v4-flash-abliterated",
+      "arm": "baseline",
+      "task": "test-sql-billing",
+      "trial": 0,
+      "language": "sql",
+      "level": 2,
+      "family": "billing",
+      "stage": "heldout",
+      "seed_requested": 3207050068,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 1,
+      "attempt_outcomes": [
+        "passed"
+      ],
+      "first_attempt_accepted": true,
+      "candidate": {
+        "relative_path": "sql/generated.sql",
+        "sha256": "f231fc0c22dd3bf4913f688be029642a7a03ec3af48972827b5aa363b1ae5378",
+        "bytes": 397
+      },
+      "generation_manifest_sha256": "c6516c06b58fa7571771c3310050b7a2b24ab3129028f241d8da14351cb3888a",
+      "wall_seconds": 100.468,
+      "resources": {
+        "inference_seconds": 99.86577,
+        "prompt_tokens": 507,
+        "completion_tokens": 124,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": true,
+        "public_passed": 3,
+        "public_cases": 3,
+        "hidden_passed": 320,
+        "hidden_cases": 320,
+        "behavior_checked": true,
+        "failures": []
+      },
+      "contract_check": {
+        "passed": true,
+        "diagnostic": "",
+        "metrics": {
+          "contract_sha256": "104130d967574e89c16632e09da71f676a03c061345e4ecd310d0f79a367417a",
+          "examples": 3
+        }
+      },
+      "strict_pass": true,
+      "filter_only_accepted": true,
+      "filter_only_pass": true,
+      "id": "7a305e0d24787123f462cf09533bf48eecc7858d633bd7bbc9747fced533330d",
+      "directory": "runs/deepseek/baseline/test-sql-billing/0"
     },
     {
       "schema_version": 1,
@@ -4379,6 +10191,70 @@
       "model": "deepseek",
       "model_id": "deepseek-v4-flash-abliterated",
       "arm": "baseline",
+      "task": "test-llvm-charge",
+      "trial": 2,
+      "language": "llvm",
+      "level": 3,
+      "family": "charge",
+      "stage": "heldout",
+      "seed_requested": 587469642,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 1,
+      "attempt_outcomes": [
+        "passed"
+      ],
+      "first_attempt_accepted": true,
+      "candidate": {
+        "relative_path": "llvm/generated.ll",
+        "sha256": "65ab3c5673a8511eeca762f71b55b9271c5615bdbe26183e3ae454bc9fdcd96f",
+        "bytes": 1671
+      },
+      "generation_manifest_sha256": "37cabb86fdd8aa5bb69b745aed6fe7a87ef0cc511cd5b2655c9da3251831871f",
+      "wall_seconds": 437.943,
+      "resources": {
+        "inference_seconds": 437.21567,
+        "prompt_tokens": 635,
+        "completion_tokens": 571,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": true,
+        "public_passed": 3,
+        "public_cases": 3,
+        "hidden_passed": 320,
+        "hidden_cases": 320,
+        "behavior_checked": true,
+        "failures": []
+      },
+      "contract_check": {
+        "passed": true,
+        "diagnostic": "",
+        "metrics": {
+          "contract_sha256": "9e892cd59075310eafc41b41149f98ecffb4c4ce23b96ddc94ec9696628cdeaf",
+          "examples": 3
+        }
+      },
+      "strict_pass": true,
+      "filter_only_accepted": true,
+      "filter_only_pass": true,
+      "id": "5a9f4dd5c03243a798fc10dc8fa2c30d8b7dd5931d543834c1e1ccfb3ef61684",
+      "directory": "runs/deepseek/baseline/test-llvm-charge/2"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "deepseek",
+      "model_id": "deepseek-v4-flash-abliterated",
+      "arm": "baseline",
       "task": "test-json-1",
       "trial": 2,
       "language": "json",
@@ -4431,6 +10307,125 @@
       "filter_only_pass": true,
       "id": "f025d6a0698c235c33c42bca8915b25d75b87fe978a0e7383bf292a1646e4ace",
       "directory": "runs/deepseek/baseline/test-json-1/2"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "deepseek",
+      "model_id": "deepseek-v4-flash-abliterated",
+      "arm": "baseline",
+      "task": "test-json-3",
+      "trial": 0,
+      "language": "json",
+      "level": 3,
+      "family": "catalog-3",
+      "stage": "heldout",
+      "seed_requested": 4137432272,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 1,
+      "attempt_outcomes": [
+        "passed"
+      ],
+      "first_attempt_accepted": true,
+      "candidate": {
+        "relative_path": "json/generated.json",
+        "sha256": "68562b395e2c9938fd6b50030460f480d7617c38241ff2b54686ff75115f787d",
+        "bytes": 1417
+      },
+      "generation_manifest_sha256": "17875dc014b66db0568e793d0cd9b447190ad378bf79ebdc41c0ccf5814c574c",
+      "wall_seconds": 357.506,
+      "resources": {
+        "inference_seconds": 356.9535,
+        "prompt_tokens": 2951,
+        "completion_tokens": 451,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": true,
+        "document_checked": true
+      },
+      "contract_check": {
+        "passed": true,
+        "diagnostic": "",
+        "metrics": {
+          "contract_sha256": "3ac1b949c27730c6b171cc52433907acda736b99f82d663215cc9ebd39fa06e8",
+          "examples": 0
+        }
+      },
+      "strict_pass": true,
+      "filter_only_accepted": true,
+      "filter_only_pass": true,
+      "id": "f31717306b657d93a92e604120848112c60d8834da678b666254af649d3b3c77",
+      "directory": "runs/deepseek/baseline/test-json-3/0"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "deepseek",
+      "model_id": "deepseek-v4-flash-abliterated",
+      "arm": "baseline",
+      "task": "test-json-3",
+      "trial": 1,
+      "language": "json",
+      "level": 3,
+      "family": "catalog-3",
+      "stage": "heldout",
+      "seed_requested": 302221576,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 1,
+      "attempt_outcomes": [
+        "passed"
+      ],
+      "first_attempt_accepted": true,
+      "candidate": {
+        "relative_path": "json/generated.json",
+        "sha256": "7244db1ba9f242a07b92aa59a273d83227ee8b4fd5d9b687e2867a7c5911573a",
+        "bytes": 1417
+      },
+      "generation_manifest_sha256": "84738419f4b21cd9c617ec0040d8f51ef3756d62dabb064537a5b939214f018e",
+      "wall_seconds": 347.27,
+      "resources": {
+        "inference_seconds": 346.76522,
+        "prompt_tokens": 2951,
+        "completion_tokens": 451,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "diagnostic": "Document calculation, input preservation, or exact field structure differs",
+        "behavior_checked": false
+      },
+      "contract_check": {
+        "passed": false,
+        "diagnostic": "Arithmetic differs at /groups/0/items/0/amount: expected 172, got 173",
+        "metrics": {
+          "contract_sha256": "3ac1b949c27730c6b171cc52433907acda736b99f82d663215cc9ebd39fa06e8",
+          "examples": 0
+        }
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "bf8e340e6c834529e16c1a8faab06ba37ee5912a00c4a4ffefa52f1e5ce04dbf",
+      "directory": "runs/deepseek/baseline/test-json-3/1"
     },
     {
       "schema_version": 1,
@@ -4555,6 +10550,66 @@
       "benign": true,
       "model": "deepseek",
       "model_id": "deepseek-v4-flash-abliterated",
+      "arm": "baseline",
+      "task": "test-html-1",
+      "trial": 2,
+      "language": "html",
+      "level": 1,
+      "family": "reference-table",
+      "stage": "heldout",
+      "seed_requested": 1168939168,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 1,
+      "attempt_outcomes": [
+        "passed"
+      ],
+      "first_attempt_accepted": true,
+      "candidate": {
+        "relative_path": "html/generated.html",
+        "sha256": "4e1688064c1c627adff231f2aeb4792d644bb2c23b423b8a76ad6dee120a781d",
+        "bytes": 668
+      },
+      "generation_manifest_sha256": "d5de89708f22402aafc24da8c1d67f0e020bf8d138d0bf36e82ca89419c1f938",
+      "wall_seconds": 152.19,
+      "resources": {
+        "inference_seconds": 151.65024,
+        "prompt_tokens": 785,
+        "completion_tokens": 192,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": true,
+        "rows_checked": 2
+      },
+      "contract_check": {
+        "passed": true,
+        "diagnostic": "",
+        "metrics": {
+          "contract_sha256": "c4a121b8275802dbd764647ec46bfcc5e82ab80f336efd5ccbff69d79f0a89ed",
+          "examples": 0,
+          "rows": 2
+        }
+      },
+      "strict_pass": true,
+      "filter_only_accepted": true,
+      "filter_only_pass": true,
+      "id": "15821e5e4b5733012623dcc0871e19f4d542d4b417ab7d89003a4173857c203a",
+      "directory": "runs/deepseek/baseline/test-html-1/2"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "deepseek",
+      "model_id": "deepseek-v4-flash-abliterated",
       "arm": "contract",
       "task": "test-python-multiple",
       "trial": 0,
@@ -4613,6 +10668,193 @@
       "filter_only_pass": true,
       "id": "bcc2e4fc26f5c22036508c843556df8ebbfa20bb8f1b1a01159c78cdaffcda72",
       "directory": "runs/deepseek/contract/test-python-multiple/0"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "deepseek",
+      "model_id": "deepseek-v4-flash-abliterated",
+      "arm": "contract",
+      "task": "test-python-overlap",
+      "trial": 0,
+      "language": "python",
+      "level": 2,
+      "family": "intersection",
+      "stage": "heldout",
+      "seed_requested": 1592475783,
+      "seed_honored": "not independently verified",
+      "accepted": false,
+      "status": "benign_policy_failed",
+      "attempts": 3,
+      "attempt_outcomes": [
+        "benign_policy_failed",
+        "benign_policy_failed",
+        "benign_policy_failed"
+      ],
+      "first_attempt_accepted": false,
+      "candidate": null,
+      "generation_manifest_sha256": "6cb4e274961e57be6897561a326d08408a9d9eb8e251cb042eb04a78136069f7",
+      "wall_seconds": 541.046,
+      "resources": {
+        "inference_seconds": 540.40221,
+        "prompt_tokens": 2689,
+        "completion_tokens": 693,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "benign_policy_failed",
+          "failed_checks": []
+        },
+        {
+          "attempt": 2,
+          "status": "benign_policy_failed",
+          "failed_checks": []
+        },
+        {
+          "attempt": 3,
+          "status": "benign_policy_failed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": false,
+        "diagnostic": "No accepted candidate"
+      },
+      "strict_pass": false,
+      "filter_only_accepted": false,
+      "filter_only_pass": false,
+      "id": "fc382db18dc7a084ca83cec50c7af58d33e97451713c5c43261e0b40ac3a8fa4",
+      "directory": "runs/deepseek/contract/test-python-overlap/0"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "deepseek",
+      "model_id": "deepseek-v4-flash-abliterated",
+      "arm": "contract",
+      "task": "test-sql-distance",
+      "trial": 0,
+      "language": "sql",
+      "level": 1,
+      "family": "distance",
+      "stage": "heldout",
+      "seed_requested": 1328951476,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 1,
+      "attempt_outcomes": [
+        "passed"
+      ],
+      "first_attempt_accepted": true,
+      "candidate": {
+        "relative_path": "sql/generated.sql",
+        "sha256": "01d36c6b6e8bd8de77802c56df1172ac607ffcd467155ef16f59c8fb743985fb",
+        "bytes": 526
+      },
+      "generation_manifest_sha256": "6b8bdc467872faf4979b8e23625f2886881310569586f57c32ff5cd102c7ae86",
+      "wall_seconds": 116.176,
+      "resources": {
+        "inference_seconds": 115.60853,
+        "prompt_tokens": 579,
+        "completion_tokens": 147,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": true,
+        "public_passed": 3,
+        "public_cases": 3,
+        "hidden_passed": 320,
+        "hidden_cases": 320,
+        "behavior_checked": true,
+        "failures": []
+      },
+      "contract_check": {
+        "passed": true,
+        "diagnostic": "",
+        "metrics": {
+          "contract_sha256": "6b59587f3db3d82fca4b0a5fcd02eeb45c2dddf481dc27547f07aa0e1a2fa86d",
+          "examples": 3
+        }
+      },
+      "strict_pass": true,
+      "filter_only_accepted": true,
+      "filter_only_pass": true,
+      "id": "de1a4cadecc27f3ba3ae3bc6e2a8a73ede015df2d1744b9bf6bb9adf050295aa",
+      "directory": "runs/deepseek/contract/test-sql-distance/0"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "deepseek",
+      "model_id": "deepseek-v4-flash-abliterated",
+      "arm": "contract",
+      "task": "test-sql-billing",
+      "trial": 0,
+      "language": "sql",
+      "level": 2,
+      "family": "billing",
+      "stage": "heldout",
+      "seed_requested": 3207050068,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 1,
+      "attempt_outcomes": [
+        "passed"
+      ],
+      "first_attempt_accepted": true,
+      "candidate": {
+        "relative_path": "sql/generated.sql",
+        "sha256": "a83c4be42996582ca02d3d9da16e23d7e27772f4f3dcb2ee4b088bf091019f92",
+        "bytes": 523
+      },
+      "generation_manifest_sha256": "ab80f66176a6f2765aebcd3b378e1e4eb2da76b4714656a2dc8469f53951de5b",
+      "wall_seconds": 122.313,
+      "resources": {
+        "inference_seconds": 121.75075,
+        "prompt_tokens": 582,
+        "completion_tokens": 155,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": true,
+        "public_passed": 3,
+        "public_cases": 3,
+        "hidden_passed": 320,
+        "hidden_cases": 320,
+        "behavior_checked": true,
+        "failures": []
+      },
+      "contract_check": {
+        "passed": true,
+        "diagnostic": "",
+        "metrics": {
+          "contract_sha256": "104130d967574e89c16632e09da71f676a03c061345e4ecd310d0f79a367417a",
+          "examples": 3
+        }
+      },
+      "strict_pass": true,
+      "filter_only_accepted": true,
+      "filter_only_pass": true,
+      "id": "fa5c9b1f6d20e9318ae7d9fe17db181ec47ef3b8fcf8336a6f7b1e396468ff39",
+      "directory": "runs/deepseek/contract/test-sql-billing/0"
     },
     {
       "schema_version": 1,
@@ -4802,6 +11044,65 @@
       "model": "deepseek",
       "model_id": "deepseek-v4-flash-abliterated",
       "arm": "contract",
+      "task": "test-json-3",
+      "trial": 1,
+      "language": "json",
+      "level": 3,
+      "family": "catalog-3",
+      "stage": "heldout",
+      "seed_requested": 302221576,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 1,
+      "attempt_outcomes": [
+        "passed"
+      ],
+      "first_attempt_accepted": true,
+      "candidate": {
+        "relative_path": "json/generated.json",
+        "sha256": "68562b395e2c9938fd6b50030460f480d7617c38241ff2b54686ff75115f787d",
+        "bytes": 1417
+      },
+      "generation_manifest_sha256": "7ade2fb34b58ed3b44dde29ba467d1e82c692308fa2b61d71be73f73d3d03c1a",
+      "wall_seconds": 351.244,
+      "resources": {
+        "inference_seconds": 350.70388,
+        "prompt_tokens": 2427,
+        "completion_tokens": 451,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": true,
+        "document_checked": true
+      },
+      "contract_check": {
+        "passed": true,
+        "diagnostic": "",
+        "metrics": {
+          "contract_sha256": "3ac1b949c27730c6b171cc52433907acda736b99f82d663215cc9ebd39fa06e8",
+          "examples": 0
+        }
+      },
+      "strict_pass": true,
+      "filter_only_accepted": true,
+      "filter_only_pass": true,
+      "id": "f60ae02a2362ab1b1c19fa6405a2f8f345c197cbcb7e9f45232474fbb8673b26",
+      "directory": "runs/deepseek/contract/test-json-3/1"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "deepseek",
+      "model_id": "deepseek-v4-flash-abliterated",
+      "arm": "contract",
       "task": "test-http-2",
       "trial": 0,
       "language": "http",
@@ -4913,6 +11214,66 @@
       "filter_only_pass": true,
       "id": "ff2e946e8d306d3d138a6c0f078577eff9674c9775e59714f9868fc84b669550",
       "directory": "runs/deepseek/contract/test-binary-2/0"
+    },
+    {
+      "schema_version": 1,
+      "benign": true,
+      "model": "deepseek",
+      "model_id": "deepseek-v4-flash-abliterated",
+      "arm": "contract",
+      "task": "test-html-1",
+      "trial": 2,
+      "language": "html",
+      "level": 1,
+      "family": "reference-table",
+      "stage": "heldout",
+      "seed_requested": 1168939168,
+      "seed_honored": "not independently verified",
+      "accepted": true,
+      "status": "passed",
+      "attempts": 1,
+      "attempt_outcomes": [
+        "passed"
+      ],
+      "first_attempt_accepted": true,
+      "candidate": {
+        "relative_path": "html/generated.html",
+        "sha256": "c30df2740e3d0a5041f91bc227be6cd74d06432615b54b070894c7913012f9dc",
+        "bytes": 386
+      },
+      "generation_manifest_sha256": "893f13f8950f492aea50f55cdc8b21399316d0c348cbecf62c623b218b718534",
+      "wall_seconds": 129.245,
+      "resources": {
+        "inference_seconds": 128.68008,
+        "prompt_tokens": 813,
+        "completion_tokens": 161,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ],
+      "grade": {
+        "passed": true,
+        "rows_checked": 2
+      },
+      "contract_check": {
+        "passed": true,
+        "diagnostic": "",
+        "metrics": {
+          "contract_sha256": "c4a121b8275802dbd764647ec46bfcc5e82ab80f336efd5ccbff69d79f0a89ed",
+          "examples": 0,
+          "rows": 2
+        }
+      },
+      "strict_pass": true,
+      "filter_only_accepted": true,
+      "filter_only_pass": true,
+      "id": "b733aa930ed0aaeb5b9f08f5de5d6a2f1e9fb578a5dc1570d3d2710744cdbaa5",
+      "directory": "runs/deepseek/contract/test-html-1/2"
     }
   ]
 }

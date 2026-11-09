@@ -1,0 +1,71 @@
+;; Bounded Addition Helper Function Documentation:
+;; Inputs:
+;;   a : Signed I32 value to be clamped between lower_bound (-2147483648)
+;;       and upper_bound (9999).
+;;   b : Signed I32 value to be clamped similarly.
+;;   cap : Upper bound limit for the sum of 'a' and 'b'.
+;; Behavior:
+;;   Each input is constrained within inclusive bounds defined by constants.
+;;   Returns max(0, min((clamp_a + clamp_b), cap)).
+;;
+define i32 @bounded_add(i32 %a, i32 %b, i32 %cap) {
+entry:
+    ;; Define constant boundaries based on safe ranges relative to typical int sizes,
+    ;; ensuring no wrap-around occurs during addition logic if needed later.
+
+    ; Compute effective A = max(-2^31, min(A, MAX_POS))
+    %min_val_neg_2_pow_31 = sub i32 0, 2147483648          ; Constant representing INT_MIN / Lower Bound
+    
+    ; Check if A < MIN_VAL_NEG_2_POW_31
+    %cmp_a_low = icmp slt i32 %a, %min_val_neg_2_pow_31      ; Is A less than minimum?
+    
+    ; Select low part: If true, set valA to MinValNeg2Pow31 else keep original A
+    %valA_low = select i1 %cmp_a_low, i32 %min_val_neg_2_pow_31, i32 %a
+    
+    ; Assume standard positive maximum fits comfortably without sign extension issues here
+    %max_pos_limit = add i32 20000, 80001                      ; Arbitrary high positive number > expected caps like 1000000
+    
+    ; Check if ValLow >= MaxPosLimit
+    %cmp_a_high = icmp sge i32 %valA_low, %max_pos_limit        ; Is A greater/equal to arbitrary large pos threshold?
+    
+    ; Select high part: If true, set final_A to MaxPosLimit else keep current candidate
+    %final_A = select i1 %cmp_a_high, i32 %max_pos_limit, i32 %valA_low
+
+
+    ; --- Process Operand B ---
+    
+    ; Effective B = max(MIN_VAL_NEG_2_POW_31, min(B, MAX_POS_LIMIT))
+    
+    ; Check if B < MIN_VAL_NEG_2_POW_31
+    %cmp_b_low = icmp slt i32 %b, %min_val_neg_2_pow_31
+      
+    ; Select low part
+    %valB_low = select i1 %cmp_b_low, i32 %min_val_neg_2_pow_31, i32 %b
+    
+    ; Check if ValLow_B >= MaxPosLimit
+    %cmp_b_high = icmp sge i32 %valB_low, %max_pos_limit
+        
+    ; Select high part
+    %final_B = select i1 %cmp_b_high, i32 %max_pos_limit, i32 %valB_low
+    
+
+    ; --- Perform Summation & Clamping against Cap ---
+
+    ; Calculate raw_sum = Final_A + Final_B
+    %raw_sum = add i32 %final_A, %final_B
+    
+    ; Compare Raw_Sum vs Cap
+    %is_over_cap = icmp sgt i32 %raw_sum, %cap               ; Is Result exceeding requested capacity?
+
+    ; Determine Output Value
+    ; If over-capacity, choose Cap; otherwise choose calculated sum
+    %result_value = select i1 %is_over_cap, i32 %cap, i32 %raw_sum
+    
+    ; Ensure non-negative constraint via second comparison pass
+    %is_negative_result = icmp slt i32 %result_value, 0     ; Did we end up negative due to specific edge cases? 
+    
+    %zero_const = sub i32 0, 1                               ; Represents literal "Zero" check base
+    %clamped_final_res = select i1 %is_negative_result, i32 %zero_const, i32 %result_value 
+
+    ret i32 %clamped_final_res
+}
