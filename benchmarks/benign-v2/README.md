@@ -141,3 +141,11 @@ and compiles its AST without execution to check Python control-flow rules. Ten a
 expressions over 49 integer/Boolean input pairs also agree with native Python values and types.
 These are software regression checks, not model observations. Frozen study engines remain
 unchanged; the held-out results do not measure this later fix.
+
+Interim rejection diagnostics also motivated an authored documentation check: “half-open
+interval” in a Python docstring was misclassified as an `open` operation. The live benign
+validator now identifies docstrings with the Python AST and excludes only those spans from
+operation matching. It retains the documentation in the accepted artifact and continues
+checking actual code and all text for the existing content rules. Tests cover Unicode, CRLF,
+code following a docstring on the same line, and end-to-end benign generation. This is a
+post-freeze correction, not a revision or reclassification of the registered study outcomes.

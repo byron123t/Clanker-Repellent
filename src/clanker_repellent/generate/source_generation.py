@@ -200,17 +200,41 @@ class GenerationAlreadyComplete(ValueError):
     """All requested candidates are complete in a successful generation run."""
 
 
+def _mask_python_docstrings(source: str) -> str:
+    """Ignore documentation for operation checks, preserving real code and byte offsets."""
+    try:
+        tree = ast.parse(source)
+    except (SyntaxError, RecursionError):
+        return source
+    encoded = source.encode("utf-8")
+    offsets = [0]
+    for line in encoded.splitlines(keepends=True):
+        offsets.append(offsets[-1] + len(line))
+    masked = bytearray(encoded)
+    for node in ast.walk(tree):
+        if not isinstance(node, (ast.Module, ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)) or not node.body:
+            continue
+        first = node.body[0]
+        if not (isinstance(first, ast.Expr) and isinstance(first.value, ast.Constant)
+                and isinstance(first.value.value, str)):
+            continue
+        start = offsets[first.lineno - 1] + first.col_offset
+        end = offsets[first.end_lineno - 1] + first.end_col_offset
+        masked[start:end] = re.sub(rb"[^\r\n]", b" ", encoded[start:end])
+    return masked.decode("utf-8")
+
+
 def benign_policy_error(snippet: str, language: Optional[str] = None) -> Optional[str]:
     """Return a safe diagnostic when a benign candidate contains a forbidden pattern."""
 
-    code = snippet
+    code = _mask_python_docstrings(snippet) if language == "python" else snippet
     if language and language not in {"html", "sql", "llvm"} | DOCUMENT_TARGETS:
         from pygments import lex
         from pygments.lexers import get_lexer_by_name
         from pygments.token import Comment
         code = "".join(re.sub(r"[^\r\n]", " ", value)
                        if kind in Comment and kind not in Comment.Preproc and kind not in Comment.PreprocFile else value
-                       for kind, value in lex(snippet, get_lexer_by_name(language)))
+                       for kind, value in lex(code, get_lexer_by_name(language)))
     for label, pattern in _BENIGN_POLICY_RULES:
         content_rule = label == "harmful or weaponized terms"
         # Document/IR targets have required format validators; visible

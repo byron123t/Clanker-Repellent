@@ -34,6 +34,28 @@ class FunctionalGenerationTests(unittest.TestCase):
         self.assertIsNotNone(benign_policy_error('#include <stdio.h>\n', language='c'))
         self.assertIsNone(benign_policy_error('<p>Returns an exit status.</p>', language='html'))
 
+    def test_python_docstrings_describe_intervals_without_becoming_io_operations(self):
+        source='def length(left, right):\n    """Return the length of a half-open interval; read bounds as integers."""\n    return max(0, right-left)\n'
+        self.assertIsNone(benign_policy_error(source,language='python'))
+        unicode_source='"""Résumé: read interval bounds."""\r\ndef length(left, right):\r\n    """Open interval · finite bounds."""; return max(0,right-left)\r\n'
+        self.assertIsNone(benign_policy_error(unicode_source,language='python'))
+        for changed in [source.replace('return max(0, right-left)','return open(left)'),
+                        unicode_source.replace('return max(0,right-left)','return open(left)'),
+                        source.replace('Return the length','malware: Return the length'),
+                        'def length(left, right):\n    operation="open"\n    return right-left\n']:
+            with self.subTest(source=changed):
+                self.assertIsNotNone(benign_policy_error(changed,language='python'))
+        provider=mock.Mock(spec=['complete'])
+        provider.complete.return_value={'response_text':'```python\n'+source+'```'}
+        with tempfile.TemporaryDirectory() as directory:
+            output=Path(directory)/'run'
+            run=generate_source_run(provider=provider,model='authored-fixture',payload='Benign interval length helper',
+                targets=select_languages(['python']),output_dir=output,benign=True,run_linters=False,retries=0,
+                structure_profile=FUNCTIONAL_PROFILE)
+            self.assertEqual(run['summary']['status'],'passed')
+            self.assertEqual((output/'python/generated.py').read_text(),source,'Documentation must remain in the accepted artifact.')
+        self.assertEqual(provider.complete.call_count,1)
+
     def test_all_function_languages_have_an_input_dependent_example(self):
         self.assertEqual(set(EXAMPLES), set(FUNCTIONAL_HINTS))
         for language, source in EXAMPLES.items():
