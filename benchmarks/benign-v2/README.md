@@ -120,6 +120,12 @@ snippet directories. Model sampling itself is not claimed to reproduce bit for b
 After successful offline verification, `finalize_model_report.py OUTPUT` attaches the recorded
 grading environment and exact `requirements-regrade.txt` pins to the archive while preserving
 all primary outcomes. The archive's `REGRADING_ENVIRONMENT.md` explains the macOS/Clang requirement.
+The development archive also records an exact 48-outcome reproduction in a fresh virtual
+environment with no installed project or inference SDK. This checks dependency isolation on
+the same host; it is not a separate model experiment or an independent replication.
+Optional `--clean-verification FILE` and repeatable `--serving-metadata FILE` arguments attach
+matching verification evidence and timestamped server self-reports. They cannot change primary
+results, and the finalizer verifies existing archive checksums before updating the publication.
 
 Resource tables sum provider-reported prompt/output tokens and inference seconds across every
 attempt, including rejections and token-limit stops. Unknown usage is not replaced with zero.

@@ -31,7 +31,8 @@ class ExperimentIntegrationTests(unittest.TestCase):
             def do_GET(self): self.respond({'object':'list','data':[{'id':owner.model_id,'object':'model'}]})
             def do_POST(self):
                 owner.requests.append(json.loads(self.rfile.read(int(self.headers['Content-Length']))))
-                if owner.mode=='transport': return self.respond({'error':{'message':'synthetic outage','type':'server_error'}},503)
+                if owner.mode=='transport' or owner.mode=='outage_after_first' and len(owner.requests)==2:
+                    return self.respond({'error':{'message':'synthetic outage','type':'server_error'}},503)
                 code=WRONG if owner.mode=='wrong' or len(owner.requests)==1 else CORRECT
                 self.respond({'id':'fixture','object':'chat.completion','created':0,'model':owner.model_id,
                     'choices':[{'index':0,'finish_reason':'stop','message':{'role':'assistant','content':'```python\n'+code+'```'}}],
@@ -95,6 +96,24 @@ class ExperimentIntegrationTests(unittest.TestCase):
         (self.root/'tasks.json').write_text('{}')
         result=self.worker(); self.assertNotEqual(result.returncode,0); self.assertIn('Frozen study artifact changed',result.stderr)
         self.assertEqual(self.requests,[])
+
+    def test_mid_retry_transport_recovery_reuses_saved_response_and_seed(self):
+        self.mode='outage_after_first'
+        interrupted=self.worker(); self.assertEqual(interrupted.returncode,75,interrupted.stderr)
+        self.assertFalse((self.job/'record.json').exists())
+        saved=(self.job/'traces/01.json').read_bytes()
+        self.assertTrue(json.loads(saved)['benign'])
+        self.assertEqual(len(self.requests),2)
+        self.mode='repair'
+        recovered=self.worker(); self.assertEqual(recovered.returncode,0,recovered.stderr)
+        record=json.loads((self.job/'record.json').read_text())
+        self.assertTrue(record['accepted']); self.assertEqual(record['attempts'],2)
+        self.assertEqual(len(self.requests),3)
+        self.assertEqual(self.requests[1],self.requests[2], 'The interrupted request must retain its exact prompt and seed.')
+        self.assertEqual((self.job/'traces/01.json').read_bytes(),saved)
+        self.assertEqual(sorted(p.name for p in (self.job/'traces').glob('*.json')),['01.json','02.json'])
+        self.assertEqual(self.worker().returncode,0)
+        self.assertEqual(len(self.requests),3, 'A completed candidate must not trigger another inference request.')
 
 
 if __name__=='__main__': unittest.main()
