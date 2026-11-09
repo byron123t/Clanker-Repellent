@@ -1,0 +1,13 @@
+def clamp(value, lower, upper):
+    """
+    Return value clamped inclusively between lower and upper.
+    If lower > upper (reversed bounds), return value unchanged.
+    Inputs: value, lower, upper are integers in [-100, 100].
+    """
+    if lower > upper:
+        return value
+    if value < lower:
+        return lower
+    if value > upper:
+        return upper
+    return value

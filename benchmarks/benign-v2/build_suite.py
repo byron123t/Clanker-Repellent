@@ -115,7 +115,27 @@ def records(identity,split,language,level):
         relations += [{'op':'count','left':'/group_count','right':'/groups'},{'op':'sum','left':'/total','right':'/groups','field':'total'},
                       {'op':'unique','right':'/groups','field':'id'}]
         instruction='Preserve group id, tax_percent, and item id/quantity/unit_price/discount in order. Add each item amount=floor(quantity*unit_price*(100-discount)/100). Add group subtotal=sum(item amounts), tax=floor(subtotal*tax_percent/100), total=subtotal+tax. Root fields exactly currency="credits", group_count, groups, total; root total sums group totals.'
-    contract={'schema_version':1,'language':language,'document':{'shape':shape(expected),'equals':[{'path':'/currency','value':'credits'}],'relations':relations}}
+    equal=[{'path':'/currency','value':'credits'}]; equations=[]
+    def op(name,a,b): return {'op':name,'args':[a,b]}
+    def ref(path): return {'path':path}
+    def item_rules(items,prefix):
+        for index,item in enumerate(items):
+            path=prefix+'/'+str(index)
+            equal.extend({'path':path+'/'+key,'value':value} for key,value in item.items())
+            gross=op('mul',ref(path+'/quantity'),ref(path+'/unit_price'))
+            expression=op('floordiv',op('mul',gross,op('sub',100,ref(path+'/discount'))),100) if level>1 else gross
+            equations.append({'left':path+'/amount','expression':expression})
+    if level<3:
+        item_rules(inputs,'/items')
+    else:
+        for index,group in enumerate(inputs):
+            path='/groups/'+str(index)
+            equal.extend({'path':path+'/'+key,'value':group[key]} for key in ('id','tax_percent'))
+            item_rules(group['items'],path+'/items')
+            equations.extend([
+                {'left':path+'/tax','expression':op('floordiv',op('mul',ref(path+'/subtotal'),ref(path+'/tax_percent')),100)},
+                {'left':path+'/total','expression':op('add',ref(path+'/subtotal'),ref(path+'/tax'))}])
+    contract={'schema_version':1,'language':language,'document':{'shape':shape(expected),'equals':equal,'relations':relations,'equations':equations}}
     prompt='Produce an offline fictional catalog calculation. '+instruction+' All calculations use integers, all arrays preserve input order, no extra fields or wrappers. Inputs: '+json.dumps(inputs,separators=(',',':'))
     control=json.dumps(expected,indent=2)+'\n'
     if language=='http':
@@ -154,6 +174,15 @@ def html(identity,split,level):
         amount=item['quantity']*item['price']*(100-(item['discount'] if level>1 else 0))//100
         rows.append([item['item'],str(item['quantity']),str(item['price'])]+([str(item['discount'])] if level>1 else [])+[str(amount)])
     contract={'schema_version':1,'language':'html','html':{'required_ids':[identity],'table':{'columns':columns,'row_count':len(rows)}}}
+    table=contract['html']['table']; table['equals']=[]; table['equations']=[]
+    for index,item in enumerate(inputs):
+        prefix='/'+str(index)
+        values=[item['item'],str(item['quantity']),str(item['price'])]+([str(item['discount'])] if level>1 else [])
+        table['equals'].extend({'path':prefix+'/'+str(column),'value':value} for column,value in enumerate(values))
+        expression={'op':'mul','args':[{'path':prefix+'/1'},{'path':prefix+'/2'}]}
+        if level>1:
+            expression={'op':'floordiv','args':[{'op':'mul','args':[expression,{'op':'sub','args':[100,{'path':prefix+'/3'}]}]},100]}
+        table['equations'].append({'left':prefix+'/'+str(len(columns)-1),'expression':expression})
     prompt='Create an inert HTML reference section with id '+identity+', a heading, and one table. Columns in order: '+json.dumps(columns)+'. Use decimal integer text, no units or formatting within numeric cells. Preserve row order and input values. Amount=floor(quantity*price*(100-discount)/100), '+('ignore discount (use 0)' if level==1 else 'using the supplied discount')+'. Inputs: '+json.dumps(inputs,separators=(',',':'))+'. No scripts, resources, styles, or extra tables.'
     source='<!DOCTYPE html>\n<html lang="en"><head><title>Reference</title></head><body><section id="'+identity+'"><h2>Calculation reference</h2><table><thead><tr>'+''.join('<th>'+cell+'</th>' for cell in columns)+'</tr></thead><tbody>'+''.join('<tr>'+''.join('<td>'+cell+'</td>' for cell in row)+'</tr>' for row in rows)+'</tbody></table></section></body></html>\n'
     TASKS.append({'id':identity,'split':split,'language':'html','level':level,'family':'reference-table','prompt':prompt,'contract':contract})

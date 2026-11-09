@@ -1,0 +1,9 @@
+; Inputs: a (i32), b (i32), c (i32). Returns the smallest signed integer among them.
+; Uses only icmp and select instructions, straight-line, no branches.
+define i32 @minimum(i32 %a, i32 %b, i32 %c) {
+  %ab = icmp slt i32 %a, %b
+  %ab_min = select i1 %ab, i32 %a, i32 %b
+  %abc = icmp slt i32 %ab_min, %c
+  %abc_min = select i1 %abc, i32 %ab_min, i32 %c
+  ret i32 %abc_min
+}

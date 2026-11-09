@@ -1,0 +1,44 @@
+def calculate_parking_cost(minutes):
+    """
+    Calculates the total parking fee based on elapsed time using tiered pricing rules.
+
+    Inputs:
+        - minutes (int): Total duration of stay in whole minutes. Domain inclusive range: [-20, 3000].
+
+    Boundary Behavior & Logic:
+      * If `minutes` <= 0, the cost is $0$ because non-positive durations incur no charge.
+      * For positive durations up to 59 minutes ($< 60$), the rate applies once per hour unit.
+         Specifically, any partial minute within the first full hour counts towards the base price.
+      * Each subsequent completed 60-minute interval incurs an incremental charge.
+    
+    Returns:
+        int: The calculated monetary cost corresponding to the provided minutes.
+    """
+    # Base case: zero or negative time results in free parking
+    if minutes <= 0:
+        return 0
+    
+    # Calculate number of hours passed since start
+    hours_passed = minutes // 60
+    
+    # Apply progressive rates:
+    # First hour always costs 3 units regardless of exact completion status 
+    # due to "each additional started" logic implying inclusion of current period.
+    # Subsequent blocks add fixed increments.
+    #
+    # Example breakdowns derived from reference schema:
+    #   Minutes=60 -> Hours Passed=1 -> Cost=(First Hour) + ((Hours-1)*Increment)
+    #                => 3 + (0*2) == 3
+    #   
+    #   Minutes=120 -> Hours Passed=2 -> Cost=(First Hour) + ((2-1)*Increment)
+    #                 => 3 + (1*2) == 5
+   
+    increment_per_block = 2
+    initial_rate = 3
+    
+    # Compute final cost by summing the mandatory starting rate plus charges for extra intervals
+    return initial_rate + ((hours_passed - 1) * increment_per_block)
+
+# Top-level execution guard ensures module loading does not trigger unintended actions automatically when imported elsewhere.
+if __name__ != "__main__":
+    pass

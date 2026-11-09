@@ -10,6 +10,7 @@ outputs in these studies are explicitly benign. Operational snippet directories 
 | --- | ---: | --- |
 | [November 7 pilot](../../evaluation/pilot-20261107/REPORT.md) | 52 real model candidates, 45 accepted | GLM/DeepSeek acceptance and exploratory quality diagnostics across 18 formats |
 | [Controlled fault audit](../../evaluation/fault-audit-v1/REPORT.md) | 84 fixed sources, two systems; 84 additional ablation validations | False acceptance and false rejection, independently confirmed; no model generation |
+| [Development comparison](../../evaluation/development-v2/REPORT.md) | 48 actual model candidates, 39 accepted, 30 independently verified | Exploratory generation improvement and concrete failure diagnosis; all independent grades reproduced offline |
 
 The audit reduces acceptance of authored faults from **47/48 to 18/48**: 60.4 percentage
 points, with a paired task-bootstrap 95% interval of **50.0–70.8 points** over 12 task clusters.
@@ -20,14 +21,21 @@ The complete primary and ablation outcomes reproduced exactly in isolated copies
 [figure (PDF)](../../evaluation/fault-audit-v1/figure.pdf) is also available as
 [SVG](../../evaluation/fault-audit-v1/figure.svg) and [PNG](../../evaluation/fault-audit-v1/figure.png).
 
-The new model experiment has **not collected outputs while the inference tunnels are unavailable**.
-Its planned counts are not results. Development has 12 tasks × 2 models × 2 arms = 48 candidates.
+The new model experiment resumed on November 9 with both inference tunnels open. Its
+[development report](../../evaluation/development-v2/REPORT.md) contains measured observations;
+planned counts are not results. Development has 12 tasks × 2 models × 2 arms = 48 candidates.
 The held-out design has 24 tasks × 3 replicates × 2 models × 2 arms = 288 candidates. Three authored
 complexity levels cover arithmetic/boundaries, composition/structured records, and loops/nested
 calculations. There are seven formats: Python, SQL, LLVM, JSON, HTTP, binary descriptions, HTML.
-The attempted `development-v2` run stopped at model discovery for both endpoints and records
-0/48 completed observations. Its frozen local directory can be resumed without preparing a
-replacement study once the tunnels are restored.
+The original model-discovery interruption and every completed outcome are preserved in the
+frozen `development-v2` directory. New arithmetic checks address observed GLM JSON/HTML
+calculation errors; they do not retroactively change that development experiment's engine.
+
+Development verified success was GLM 2/12 → 6/12 and DeepSeek 10/12 → 12/12. The paired changes
+were +33.3 pp (95% interval +8.3 to +58.3) and +16.7 pp (0.0 to +41.7). These exploratory
+results motivated the selected intervention; they are not pooled with held-out observations.
+The new `heldout-v1` study freezes all 288 planned cells before collection. Its protocol SHA-256
+is `08ddd60dfbd4277c81b04ffaa7cd30ba0ffdbd76da9e9237c3410ee68eb634c1`.
 
 ## Reproduce the completed audit
 
@@ -101,3 +109,16 @@ Choose **Research**. It displays study-specific denominators, confidence interva
 cases, exact benign source previews, limitations, and downloadable reports/protocols/observations.
 The audit and historical model pilot are separate studies with different metrics. No metric is
 filled with a placeholder or a planned result.
+
+Completed model studies can be exported with `publish_models.py STUDY OUTPUT`, then plotted
+with `plot_models.py OUTPUT`. The publisher uses the frozen analysis and includes a checksum-pinned
+offline reproduction archive. Extract it and run `python runner/reproduce_models.py .` to repeat
+the independent native/document grades and filter-only decisions in a temporary copy, without
+inference. Original acceptance decisions remain those in the saved generation manifests.
+The archive includes explicitly benign request/response traces; it never includes operational
+snippet directories. Model sampling itself is not claimed to reproduce bit for bit.
+
+Resource tables sum provider-reported prompt/output tokens and inference seconds across every
+attempt, including rejections and token-limit stops. Unknown usage is not replaced with zero.
+The related-family interval accompanies the task-unit interval because some format instances
+share calculation templates. Both uncertainty methods are specified before held-out collection.

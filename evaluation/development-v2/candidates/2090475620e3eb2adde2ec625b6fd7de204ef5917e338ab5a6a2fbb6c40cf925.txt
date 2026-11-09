@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+
+<section id="dev-html-table" aria-labelledby="section-heading">
+
+<h2 id="section-heading">Reference Data Table</h2>
+
+<table>
+<thead>
+<tr>
+<th scope="col">Item</th>
+<th scope="col">Quantity</th>
+<th scope="col">Unit price</th>
+<th scope="col">Discount</th>
+<th scope="col">Amount</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>entry-1</td>
+<td>2</td>
+<td>7</td>
+<td>0</td>
+<td>13</td>
+</tr>
+<tr>
+<td>entry-2</td>
+<td>3</td>
+<td>20</td>
+<td>7</td>
+<td>51</td>
+</tr>
+<tr>
+<td>entry-3</td>
+<td>4</td>
+<td>33</td>
+<td>14</td>
+<td>108</td>
+</tr>
+<tr>
+<td>entry-4</td>
+<td>5</td>
+<td>46</td>
+<td>21</td>
+<td>172</td>
+</tr>
+</tbody>
+</table>
+
+<p>The calculation follows the formula floor( quantity * unit_price * (100 - discount) / 100 ). For example, entry-3 has a total value greater than its discounted amount.</p>
+
+</section>
+
+</body>
+</html>

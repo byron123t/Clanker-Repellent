@@ -47,12 +47,31 @@ def metrics(records,model,arm):
     n=len(selected)
     accepted=sum(r['filter_only_accepted'] if arm=='filter-only' else r['accepted'] for r in selected)
     correct=sum(r['filter_only_pass'] if arm=='filter-only' else r['strict_pass'] for r in selected)
+    def resource(name):
+        values=[r.get('resources',{}).get(name) for r in selected]
+        return sum(values) if values and all(type(v) in {int,float} for v in values) else None
     return {'model':model,'arm':arm,'n':n,'accepted':accepted,'verified':correct,
             'acceptance_rate':accepted/n if n else None,'verified_rate':correct/n if n else None,
             'false_acceptance':accepted-correct,'accepted_precision':correct/accepted if accepted else None,
             'first_attempt_accepted':sum(r['first_attempt_accepted'] and (arm!='filter-only' or r['filter_only_accepted']) for r in selected),
+            'verified_after_retry':sum(r['attempts']>1 and (r['filter_only_pass'] if arm=='filter-only' else r['strict_pass']) for r in selected),
             'attempts':sum(r['attempts'] for r in selected),
+            'inference_seconds':resource('inference_seconds'),'prompt_tokens':resource('prompt_tokens'),
+            'completion_tokens':resource('completion_tokens'),'length_stops':resource('length_stops'),
             'description':'Offline baseline filtering; no new generation' if arm=='filter-only' else 'Generated with the registered attempt budget'}
+
+
+def family_interval(records, model, draws=10000):
+    """Sensitivity to related format/task instances sharing an authored family."""
+    grouped=defaultdict(list)
+    for record in records:
+        if record['model']==model:
+            grouped[record['family']].append((1 if record['arm']=='contract' else -1)*record['strict_pass'])
+    clusters=list(grouped.values()); rng=random.Random(20261109); samples=[]
+    for _ in range(draws):
+        chosen=[clusters[rng.randrange(len(clusters))] for _ in clusters]
+        samples.append(2*sum(sum(cluster) for cluster in chosen)/sum(len(cluster) for cluster in chosen))
+    return {'family_clusters':len(clusters),'family_ci95':[quantile(samples,.025),quantile(samples,.975)]}
 
 
 def report(root):
@@ -70,6 +89,8 @@ def report(root):
     rows=[metrics(records,model,arm) for model in protocol['models'] for arm in ['baseline','contract','filter-only']]
     effects=[paired_bootstrap(records,model,protocol['repeats'],protocol['task_ids']) for model in protocol['models']]
     effects=[effect for effect in effects if effect is not None]
+    for effect in effects:
+        if all('family' in r for r in records): effect.update(family_interval(records,effect['model']))
     for row in rows:
         effect=next((e for e in effects if e['model']==row['model']),None)
         row['ci95']=effect.get(row['arm']+'_ci95') if effect else None
@@ -84,6 +105,7 @@ def report(root):
         task=tasks[record['task']]
         cases.append({key:record[key] for key in ['id','model','arm','task','trial','language','level','accepted','strict_pass','attempts','status','grade']})
         cases[-1].update(prompt=task['prompt'],public_contract=task['contract'],
+                         resources=record.get('resources'),attempt_checks=record.get('attempt_checks'),
                          source_sha256=record['candidate']['sha256'] if record.get('candidate') else None,
                          diagnostic=record.get('grade',{}).get('diagnostic') or record.get('contract_check',{}).get('diagnostic') or '')
     stage=protocol['stage']
@@ -98,6 +120,12 @@ def report(root):
     else:
         findings=['All planned observations are recorded.' if complete else 'The study is incomplete; missing observations are not model-quality failures.',
                   'Filter-only rows describe rejection of existing baseline outputs, not repair or additional generation.']
+        for model in protocol['models']:
+            before=next(row for row in rows if row['model']==model and row['arm']=='baseline')
+            after=next(row for row in rows if row['model']==model and row['arm']=='contract')
+            if before['n'] and after['n']:
+                findings.append(f"{model}: {before['verified']}/{before['n']} baseline candidates and {after['verified']}/{after['n']} contract candidates passed every independent check. Accepted-but-incorrect outputs: {before['false_acceptance']} versus {after['false_acceptance']}.")
+                findings.append(f"{model}: {after['verified_after_retry']} contract candidates became verified successes after a rejected attempt; {after['n']-after['accepted']} ended without an accepted candidate.")
     return {'schema_version':1,'benign':True,'id':root.name,'stage':stage,'state':'complete' if complete else 'incomplete',
             'title':('Held-out' if stage=='heldout' else 'Development')+' · task-contract evaluation',
             'created_at':protocol['created_at'],'updated_at':datetime.now(timezone.utc).isoformat(),
@@ -113,9 +141,12 @@ def report(root):
                 {'title':'Design','body':f"{len(protocol['task_ids'])} {stage} task/format units; {protocol['repeats']} replicates, two models, two generation arms. Randomized block and arm order; equal token/attempt budgets. Filter-only is a post hoc re-scoring ablation, not a generation arm."},
                 {'title':'Independent outcomes','body':'Acceptance and correctness are separate. Each numeric program must pass three public and 320 private cases. Documents must match independently computed records, fields, references, ordering, and framing. The model worker never loads the private oracle file as prompt data.'},
                 {'title':'Uncertainty','body':'95% paired task-bootstrap intervals use 10,000 draws. Tasks are resampled with all replicates and both arms retained; individual test inputs are not independent observations. Intervals appear only for complete paired data. Boundary intervals can degenerate and do not prove universal correctness.'},
+                {'title':'Related-task sensitivity','body':'Some authored task instances share calculation families across formats. An additional 10,000-draw paired bootstrap resamples entire named families, retaining all member tasks, arms, and replicates, and weights the rate by the sampled candidate count. Its interval is reported separately from the registered task-unit interval.'},
+                {'title':'Resource accounting','body':'Provider-reported prompt/completion tokens and inference latency include all attempts, including failed and truncated responses. Missing usage remains unknown. Filter-only reuses the baseline cost and adds no inference. Latencies describe this run, not an intrinsic model speed comparison; server load and hardware are uncontrolled.'},
                 {'title':'Reproduction','body':'Engine, corpus, private fixture, and runner snapshots are pinned by SHA-256. Seeds are requested, not assumed to guarantee server determinism. Completed failures are preserved. Infrastructure interruptions are disclosed, not counted as model failures.'}],
             'limitations':['Synthetic, narrow integer/data tasks across seven formats; not a general software-engineering benchmark.',
                            'Authored complexity levels are not calibrated difficulty measurements.',
+                           'Held-out means new task instances, not wholly unseen algorithm families. JSON/HTTP calculations and HTML tables share templates; related-family intervals are a sensitivity analysis, not evidence of generalization to arbitrary software.',
                            'The generator and grader share parsing/eligibility dependencies, although primary native results and reference outcomes are separate.',
                            'Symbolic binary metadata does not demonstrate compilation/decompilation survival; HTTP fixtures are never replayed.',
                            'Model training/fine-tuning provenance and serving hardware/load are not controlled. No contamination-free or causal speed claim.',
@@ -160,6 +191,17 @@ def markdown(value):
         lines.append(f"| {row['model']} | {row['arm']} | {row['accepted']}/{row['n']} | {row['verified']}/{row['n']} | {row['false_acceptance']} | {row['attempts']} |")
     for effect in value['effects']:
         lines+=['',f"{effect['model']}: paired change {effect['difference']*100:+.1f} percentage points (95% task-bootstrap interval {effect['ci95'][0]*100:+.1f} to {effect['ci95'][1]*100:+.1f}; {effect['paired_tasks']} tasks)."]
+        if 'family_ci95' in effect:
+            lines += [f"Related-family sensitivity: {effect['family_ci95'][0]*100:+.1f} to {effect['family_ci95'][1]*100:+.1f} pp ({effect['family_clusters']} family clusters)."]
+    if any(row.get('inference_seconds') is not None for row in value['metrics']):
+        lines+=['','## Observed inference cost','',
+                '| Model | System | Prompt tokens | Completion tokens | Inference seconds | Token-limit stops |',
+                '| --- | --- | ---: | ---: | ---: | ---: |']
+        for row in value['metrics']:
+            if row['arm']=='filter-only': continue
+            fields=[str(row.get(key)) if row.get(key) is not None else 'unknown'
+                    for key in ('prompt_tokens','completion_tokens','inference_seconds','length_stops')]
+            lines.append('| '+row['model']+' | '+row['arm']+' | '+' | '.join(fields)+' |')
     lines+=['','## Methodology','']
     for item in value['methodology']: lines+=['### '+item['title'],'',item['body'],'']
     lines+=['## Limitations','']+['- '+item for item in value['limitations']]

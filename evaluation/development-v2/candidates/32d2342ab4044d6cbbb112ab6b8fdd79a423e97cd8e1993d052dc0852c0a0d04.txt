@@ -1,0 +1,84 @@
+"""
+Helper module providing safe numeric constraint utilities.
+
+Function:
+--------
+clamp(value, lower, upper)
+
+Description:
+--------------
+Constrains a given numerical value to lie within specified boundaries.
+The operation handles edge cases where the provided limits may be inverted.
+
+Inputs:
+-------
+value : int
+    The target value to be constrained.
+lower : int
+    The intended lower limit of the acceptable domain.
+upper : int
+    The intended upper limit of the acceptable domain.
+
+Boundary Behavior:
+------------------
+Returns the input value unchanged when the logical ordering of bounds is 
+reversed (i.e., when lower exceeds upper). Otherwise, ensures the
+result lies inclusively between lower and upper.
+
+Implementation Details:
+----------------------
+Uses fundamental comparison operators and conditional branching to determine
+the appropriate adjustment factor applied through simple arithmetic additions.
+"""
+
+def clamp(value, lower, upper):
+    """
+    Constrains a value to the inclusive range defined by lower and upper bounds.
+
+    Parameters:
+    ----------
+    value : int
+        The initial value to potentially adjust.
+    lower : int
+        The expected minimum threshold.
+    upper : int
+        The expected maximum threshold.
+
+    Returns:
+    -------
+    int
+        The clamped value respecting the bounds.
+    """
+
+    # Identify whether the bounds represent a valid ascending sequence.
+    # This prevents incorrect inversion during subsequent checks.
+    if lower > upper:
+        return value
+    
+    # Initialize variables tracking adjustments necessary to fit the value.
+    
+    # Compare current position against the lower bound.
+    # Positive difference indicates need to raise the value upwards.
+    above_lower = value - lower
+    
+    # Negative difference implies the value falls short of the floor;
+    # we calculate the deficit amount here but defer application until later.
+    under_lower = lower - value
+    
+    # Evaluate relationship against the ceiling.
+    # Positive difference signifies exceeding the permitted height.
+    over_upper = value - upper
+    
+    # Accumulate total upward correction required across both axes.
+    # We sum deficits found while ensuring they remain non-negative integers.
+    up_correction = (
+        (under_lower if under_lower > 0 else 0)
+        +
+        (over_upper if over_upper > 0 else 0)
+       )
+       
+    # Adjust the base value according to the calculated offsets.
+    # Only apply changes derived strictly from positive deltas.
+    new_val = value + up_correction
+    
+    return new_val

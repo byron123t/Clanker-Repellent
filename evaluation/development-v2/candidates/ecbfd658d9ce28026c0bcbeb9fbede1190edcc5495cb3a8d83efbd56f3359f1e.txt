@@ -1,0 +1,18 @@
+define i1 @within(i32 %value, i32 %lower, i32 %upper) {
+    ; Inputs:
+    ;   - %value : Signed 32-bit integer to test against inclusive boundaries [low, high].
+    ;   - %lower  : Lower bound of the valid interval.
+    ;   - %upper  : Upper bound of the valid interval.
+
+    ; Compute whether 'value' is greater than or equal to 'lower'.
+    %ge_lower = icmp sge i32 %value, %lower
+    
+    ; Compute whether 'value' is less than or equal to 'upper'.
+    %le_upper = icmp sle i32 %value, %upper
+    
+    ; Combine conditions such that both must be true simultaneously.
+    %in_range = and i1 %ge_lower, %le_upper
+    
+    ; Result is True (i1=1) iff low <= val <= high.
+    ret i1 %in_range
+}

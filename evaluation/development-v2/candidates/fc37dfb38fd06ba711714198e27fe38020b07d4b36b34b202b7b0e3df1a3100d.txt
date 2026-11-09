@@ -1,0 +1,27 @@
+; Minimum Helper Function
+;
+; Inputs:
+;   - a : i32 [Range: -100000 to 100000]
+;   - b : i32 [Range: -100000 to 100000]
+;   - c : i32 [Range: -100000 to 100000]
+;
+; Behavior:
+; Returns the smallest of three signed integers 'a', 'b', and 'c'.
+; Boundary conditions handled by direct comparison logic.
+
+define i32 @minimum(i32 %a, i32 %b, i32 %c) {
+entry:
+    ; Compare A against B
+    %cmp_ab = icmp slt i32 %a, %b
+    
+    ; Select min(A,B)
+    %min_ab = select i1 %cmp_ab, i32 %a, i32 %b
+    
+    ; Compare selected value against C
+    %cmp_min_c = icmp slt i32 %min_ab, %c
+    
+    ; Final selection returns either previous min or C
+    %result = select i1 %cmp_min_c, i32 %min_ab, i32 %c
+    
+    ret i32 %result
+}

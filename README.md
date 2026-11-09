@@ -455,7 +455,9 @@ Contracts infer one target format and check helper names, parameter order, publi
 document fields/relations, or HTML table requirements. Failures enter the normal retry feedback.
 `--seed N` requests and records a server seed. Accepted source hashes, contracts, and seeds are
 checked on resume. See the [recorded evaluation](benchmarks/benign-v2/README.md) and the dashboard's
-**Research** view for the completed benign pilot, controlled fault audit, uncertainties, and limitations.
+**Research** view for the completed benign pilot, controlled fault audit, measured model comparison,
+uncertainties, and limitations. Document/table contracts can preserve input values and check bounded
+integer equations, including per-item calculations that aggregate totals alone would miss.
 
 Python uses AST checks; HTML uses a parsed element tree; SQL uses prepared-query checks;
 other languages use tokenized declaration checks alongside their native

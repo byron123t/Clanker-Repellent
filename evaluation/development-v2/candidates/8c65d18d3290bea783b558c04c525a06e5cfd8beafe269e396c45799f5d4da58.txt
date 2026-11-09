@@ -1,0 +1,17 @@
+def parking(minutes):
+    """
+    Calculate parking cost based on minutes.
+    Args:
+        minutes: int, nonpositive -> cost 0.
+    Returns:
+        int cost: first 60 min cost 3, each additional started 60-min block cost 2.
+    """
+    if minutes <= 0:
+        return 0
+    # first 60 minutes cost 3
+    if minutes <= 60:
+        return 3
+    # subtract first 60 minutes, then each additional started 60-min block costs 2
+    extra = minutes - 60
+    blocks = (extra + 59) // 60  # ceiling division for started blocks
+    return 3 + blocks * 2

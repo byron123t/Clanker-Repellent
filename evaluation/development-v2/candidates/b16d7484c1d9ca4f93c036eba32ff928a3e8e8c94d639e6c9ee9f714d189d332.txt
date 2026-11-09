@@ -1,0 +1,14 @@
+-- Helper Function: Distance Calculation
+--
+-- Inputs:
+--   :param_a (INTEGER) - First coordinate value within domain [-1000, 1000].
+--   :param_b (INTEGER) - Second coordinate value within domain [-1000, 1000].
+--
+-- Result:
+--   The absolute numeric difference between `:param_a` and `:param_b`.
+--
+-- Edge Cases / Boundary Behavior:
+--   If both values are equal, returns 0.
+--   Returns positive results regardless of sign.
+
+SELECT ABS(:param_a - :param_b) AS distance;

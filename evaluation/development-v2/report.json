@@ -3,10 +3,10 @@
   "benign": true,
   "id": "development-v2",
   "stage": "development",
-  "state": "incomplete",
+  "state": "complete",
   "title": "Development \u00b7 task-contract evaluation",
   "created_at": "2026-11-09T19:30:34.719393+00:00",
-  "updated_at": "2026-11-09T19:39:57.065302+00:00",
+  "updated_at": "2026-11-09T21:10:06.363774+00:00",
   "design": {
     "tasks": 12,
     "replicates": 1,
@@ -46,128 +46,5727 @@
   },
   "counts": {
     "planned": 48,
-    "completed": 0,
-    "accepted": 0,
-    "verified": 0,
-    "hidden_checks": 0
+    "completed": 48,
+    "accepted": 39,
+    "verified": 30,
+    "hidden_checks": 5760
   },
   "metrics": [
     {
       "model": "glm",
       "arm": "baseline",
-      "n": 0,
-      "accepted": 0,
-      "verified": 0,
-      "acceptance_rate": null,
-      "verified_rate": null,
-      "false_acceptance": 0,
-      "accepted_precision": null,
-      "first_attempt_accepted": 0,
-      "attempts": 0,
+      "n": 12,
+      "accepted": 9,
+      "verified": 2,
+      "acceptance_rate": 0.75,
+      "verified_rate": 0.16666666666666666,
+      "false_acceptance": 7,
+      "accepted_precision": 0.2222222222222222,
+      "first_attempt_accepted": 5,
+      "attempts": 22,
       "description": "Generated with the registered attempt budget",
-      "ci95": null
+      "ci95": [
+        0.0,
+        0.4166666666666667
+      ],
+      "prompt_tokens": 16745,
+      "completion_tokens": 17391,
+      "inference_seconds": 310.66754,
+      "length_stops": 3
     },
     {
       "model": "glm",
       "arm": "contract",
-      "n": 0,
-      "accepted": 0,
-      "verified": 0,
-      "acceptance_rate": null,
-      "verified_rate": null,
-      "false_acceptance": 0,
-      "accepted_precision": null,
-      "first_attempt_accepted": 0,
-      "attempts": 0,
+      "n": 12,
+      "accepted": 8,
+      "verified": 6,
+      "acceptance_rate": 0.6666666666666666,
+      "verified_rate": 0.5,
+      "false_acceptance": 2,
+      "accepted_precision": 0.75,
+      "first_attempt_accepted": 6,
+      "attempts": 22,
       "description": "Generated with the registered attempt budget",
-      "ci95": null
+      "ci95": [
+        0.25,
+        0.75
+      ],
+      "prompt_tokens": 17532,
+      "completion_tokens": 20726,
+      "inference_seconds": 362.7795700000001,
+      "length_stops": 4
     },
     {
       "model": "glm",
       "arm": "filter-only",
-      "n": 0,
-      "accepted": 0,
-      "verified": 0,
-      "acceptance_rate": null,
-      "verified_rate": null,
-      "false_acceptance": 0,
-      "accepted_precision": null,
-      "first_attempt_accepted": 0,
-      "attempts": 0,
+      "n": 12,
+      "accepted": 3,
+      "verified": 2,
+      "acceptance_rate": 0.25,
+      "verified_rate": 0.16666666666666666,
+      "false_acceptance": 1,
+      "accepted_precision": 0.6666666666666666,
+      "first_attempt_accepted": 3,
+      "attempts": 22,
       "description": "Offline baseline filtering; no new generation",
-      "ci95": null
+      "ci95": null,
+      "prompt_tokens": 16745,
+      "completion_tokens": 17391,
+      "inference_seconds": 310.66754,
+      "length_stops": 3
     },
     {
       "model": "deepseek",
       "arm": "baseline",
-      "n": 0,
-      "accepted": 0,
-      "verified": 0,
-      "acceptance_rate": null,
-      "verified_rate": null,
+      "n": 12,
+      "accepted": 10,
+      "verified": 10,
+      "acceptance_rate": 0.8333333333333334,
+      "verified_rate": 0.8333333333333334,
       "false_acceptance": 0,
-      "accepted_precision": null,
-      "first_attempt_accepted": 0,
-      "attempts": 0,
+      "accepted_precision": 1.0,
+      "first_attempt_accepted": 10,
+      "attempts": 16,
       "description": "Generated with the registered attempt budget",
-      "ci95": null
+      "ci95": [
+        0.5833333333333334,
+        1.0
+      ],
+      "prompt_tokens": 11103,
+      "completion_tokens": 2623,
+      "inference_seconds": 549.4407800000001,
+      "length_stops": 0
     },
     {
       "model": "deepseek",
       "arm": "contract",
-      "n": 0,
-      "accepted": 0,
-      "verified": 0,
-      "acceptance_rate": null,
-      "verified_rate": null,
+      "n": 12,
+      "accepted": 12,
+      "verified": 12,
+      "acceptance_rate": 1.0,
+      "verified_rate": 1.0,
       "false_acceptance": 0,
-      "accepted_precision": null,
-      "first_attempt_accepted": 0,
-      "attempts": 0,
+      "accepted_precision": 1.0,
+      "first_attempt_accepted": 11,
+      "attempts": 13,
       "description": "Generated with the registered attempt budget",
-      "ci95": null
+      "ci95": [
+        1.0,
+        1.0
+      ],
+      "prompt_tokens": 9257,
+      "completion_tokens": 2309,
+      "inference_seconds": 591.731,
+      "length_stops": 0
     },
     {
       "model": "deepseek",
       "arm": "filter-only",
-      "n": 0,
-      "accepted": 0,
-      "verified": 0,
-      "acceptance_rate": null,
-      "verified_rate": null,
+      "n": 12,
+      "accepted": 10,
+      "verified": 10,
+      "acceptance_rate": 0.8333333333333334,
+      "verified_rate": 0.8333333333333334,
       "false_acceptance": 0,
-      "accepted_precision": null,
-      "first_attempt_accepted": 0,
-      "attempts": 0,
+      "accepted_precision": 1.0,
+      "first_attempt_accepted": 10,
+      "attempts": 16,
       "description": "Offline baseline filtering; no new generation",
-      "ci95": null
+      "ci95": null,
+      "prompt_tokens": 11103,
+      "completion_tokens": 2623,
+      "inference_seconds": 549.4407800000001,
+      "length_stops": 0
     }
   ],
-  "effects": [],
-  "groups": [],
-  "cases": [],
-  "findings": [
-    "No model observations have completed. The inference queues are interrupted.",
-    "The study is frozen and ready to resume when the inference tunnels are available. Missing observations are not quality failures.",
-    "The completed authored audit and historical model pilot are separate studies; neither substitutes for this model comparison."
+  "effects": [
+    {
+      "model": "glm",
+      "paired_tasks": 12,
+      "replicates": 1,
+      "bootstrap_draws": 10000,
+      "difference": 0.3333333333333333,
+      "ci95": [
+        0.08333333333333333,
+        0.5833333333333334
+      ],
+      "baseline_ci95": [
+        0.0,
+        0.4166666666666667
+      ],
+      "contract_ci95": [
+        0.25,
+        0.75
+      ],
+      "method": "Paired percentile bootstrap over tasks, retaining all replicates and arms within each task."
+    },
+    {
+      "model": "deepseek",
+      "paired_tasks": 12,
+      "replicates": 1,
+      "bootstrap_draws": 10000,
+      "difference": 0.16666666666666666,
+      "ci95": [
+        0.0,
+        0.41666666666666663
+      ],
+      "baseline_ci95": [
+        0.5833333333333334,
+        1.0
+      ],
+      "contract_ci95": [
+        1.0,
+        1.0
+      ],
+      "method": "Paired percentile bootstrap over tasks, retaining all replicates and arms within each task."
+    }
   ],
-  "infrastructure": {
-    "state": "interrupted",
-    "interruptions": {
-      "glm": {
-        "task": "dev-llvm-minimum",
-        "trial": 0,
-        "arm": "contract",
-        "exit_code": 75
+  "groups": [
+    {
+      "dimension": "level",
+      "value": 1,
+      "metrics": [
+        {
+          "model": "glm",
+          "arm": "baseline",
+          "n": 4,
+          "accepted": 3,
+          "verified": 1,
+          "acceptance_rate": 0.75,
+          "verified_rate": 0.25,
+          "false_acceptance": 2,
+          "accepted_precision": 0.3333333333333333,
+          "first_attempt_accepted": 2,
+          "attempts": 7,
+          "description": "Generated with the registered attempt budget"
+        },
+        {
+          "model": "glm",
+          "arm": "contract",
+          "n": 4,
+          "accepted": 3,
+          "verified": 3,
+          "acceptance_rate": 0.75,
+          "verified_rate": 0.75,
+          "false_acceptance": 0,
+          "accepted_precision": 1.0,
+          "first_attempt_accepted": 2,
+          "attempts": 7,
+          "description": "Generated with the registered attempt budget"
+        },
+        {
+          "model": "deepseek",
+          "arm": "baseline",
+          "n": 4,
+          "accepted": 4,
+          "verified": 4,
+          "acceptance_rate": 1.0,
+          "verified_rate": 1.0,
+          "false_acceptance": 0,
+          "accepted_precision": 1.0,
+          "first_attempt_accepted": 4,
+          "attempts": 4,
+          "description": "Generated with the registered attempt budget"
+        },
+        {
+          "model": "deepseek",
+          "arm": "contract",
+          "n": 4,
+          "accepted": 4,
+          "verified": 4,
+          "acceptance_rate": 1.0,
+          "verified_rate": 1.0,
+          "false_acceptance": 0,
+          "accepted_precision": 1.0,
+          "first_attempt_accepted": 4,
+          "attempts": 4,
+          "description": "Generated with the registered attempt budget"
+        }
+      ]
+    },
+    {
+      "dimension": "level",
+      "value": 2,
+      "metrics": [
+        {
+          "model": "glm",
+          "arm": "baseline",
+          "n": 6,
+          "accepted": 4,
+          "verified": 1,
+          "acceptance_rate": 0.6666666666666666,
+          "verified_rate": 0.16666666666666666,
+          "false_acceptance": 3,
+          "accepted_precision": 0.25,
+          "first_attempt_accepted": 2,
+          "attempts": 12,
+          "description": "Generated with the registered attempt budget"
+        },
+        {
+          "model": "glm",
+          "arm": "contract",
+          "n": 6,
+          "accepted": 4,
+          "verified": 3,
+          "acceptance_rate": 0.6666666666666666,
+          "verified_rate": 0.5,
+          "false_acceptance": 1,
+          "accepted_precision": 0.75,
+          "first_attempt_accepted": 3,
+          "attempts": 11,
+          "description": "Generated with the registered attempt budget"
+        },
+        {
+          "model": "deepseek",
+          "arm": "baseline",
+          "n": 6,
+          "accepted": 4,
+          "verified": 4,
+          "acceptance_rate": 0.6666666666666666,
+          "verified_rate": 0.6666666666666666,
+          "false_acceptance": 0,
+          "accepted_precision": 1.0,
+          "first_attempt_accepted": 4,
+          "attempts": 10,
+          "description": "Generated with the registered attempt budget"
+        },
+        {
+          "model": "deepseek",
+          "arm": "contract",
+          "n": 6,
+          "accepted": 6,
+          "verified": 6,
+          "acceptance_rate": 1.0,
+          "verified_rate": 1.0,
+          "false_acceptance": 0,
+          "accepted_precision": 1.0,
+          "first_attempt_accepted": 5,
+          "attempts": 7,
+          "description": "Generated with the registered attempt budget"
+        }
+      ]
+    },
+    {
+      "dimension": "level",
+      "value": 3,
+      "metrics": [
+        {
+          "model": "glm",
+          "arm": "baseline",
+          "n": 2,
+          "accepted": 2,
+          "verified": 0,
+          "acceptance_rate": 1.0,
+          "verified_rate": 0.0,
+          "false_acceptance": 2,
+          "accepted_precision": 0.0,
+          "first_attempt_accepted": 1,
+          "attempts": 3,
+          "description": "Generated with the registered attempt budget"
+        },
+        {
+          "model": "glm",
+          "arm": "contract",
+          "n": 2,
+          "accepted": 1,
+          "verified": 0,
+          "acceptance_rate": 0.5,
+          "verified_rate": 0.0,
+          "false_acceptance": 1,
+          "accepted_precision": 0.0,
+          "first_attempt_accepted": 1,
+          "attempts": 4,
+          "description": "Generated with the registered attempt budget"
+        },
+        {
+          "model": "deepseek",
+          "arm": "baseline",
+          "n": 2,
+          "accepted": 2,
+          "verified": 2,
+          "acceptance_rate": 1.0,
+          "verified_rate": 1.0,
+          "false_acceptance": 0,
+          "accepted_precision": 1.0,
+          "first_attempt_accepted": 2,
+          "attempts": 2,
+          "description": "Generated with the registered attempt budget"
+        },
+        {
+          "model": "deepseek",
+          "arm": "contract",
+          "n": 2,
+          "accepted": 2,
+          "verified": 2,
+          "acceptance_rate": 1.0,
+          "verified_rate": 1.0,
+          "false_acceptance": 0,
+          "accepted_precision": 1.0,
+          "first_attempt_accepted": 2,
+          "attempts": 2,
+          "description": "Generated with the registered attempt budget"
+        }
+      ]
+    },
+    {
+      "dimension": "language",
+      "value": "binary-info",
+      "metrics": [
+        {
+          "model": "glm",
+          "arm": "baseline",
+          "n": 1,
+          "accepted": 1,
+          "verified": 1,
+          "acceptance_rate": 1.0,
+          "verified_rate": 1.0,
+          "false_acceptance": 0,
+          "accepted_precision": 1.0,
+          "first_attempt_accepted": 1,
+          "attempts": 1,
+          "description": "Generated with the registered attempt budget"
+        },
+        {
+          "model": "glm",
+          "arm": "contract",
+          "n": 1,
+          "accepted": 1,
+          "verified": 1,
+          "acceptance_rate": 1.0,
+          "verified_rate": 1.0,
+          "false_acceptance": 0,
+          "accepted_precision": 1.0,
+          "first_attempt_accepted": 1,
+          "attempts": 1,
+          "description": "Generated with the registered attempt budget"
+        },
+        {
+          "model": "deepseek",
+          "arm": "baseline",
+          "n": 1,
+          "accepted": 1,
+          "verified": 1,
+          "acceptance_rate": 1.0,
+          "verified_rate": 1.0,
+          "false_acceptance": 0,
+          "accepted_precision": 1.0,
+          "first_attempt_accepted": 1,
+          "attempts": 1,
+          "description": "Generated with the registered attempt budget"
+        },
+        {
+          "model": "deepseek",
+          "arm": "contract",
+          "n": 1,
+          "accepted": 1,
+          "verified": 1,
+          "acceptance_rate": 1.0,
+          "verified_rate": 1.0,
+          "false_acceptance": 0,
+          "accepted_precision": 1.0,
+          "first_attempt_accepted": 1,
+          "attempts": 1,
+          "description": "Generated with the registered attempt budget"
+        }
+      ]
+    },
+    {
+      "dimension": "language",
+      "value": "html",
+      "metrics": [
+        {
+          "model": "glm",
+          "arm": "baseline",
+          "n": 1,
+          "accepted": 1,
+          "verified": 0,
+          "acceptance_rate": 1.0,
+          "verified_rate": 0.0,
+          "false_acceptance": 1,
+          "accepted_precision": 0.0,
+          "first_attempt_accepted": 1,
+          "attempts": 1,
+          "description": "Generated with the registered attempt budget"
+        },
+        {
+          "model": "glm",
+          "arm": "contract",
+          "n": 1,
+          "accepted": 1,
+          "verified": 0,
+          "acceptance_rate": 1.0,
+          "verified_rate": 0.0,
+          "false_acceptance": 1,
+          "accepted_precision": 0.0,
+          "first_attempt_accepted": 0,
+          "attempts": 2,
+          "description": "Generated with the registered attempt budget"
+        },
+        {
+          "model": "deepseek",
+          "arm": "baseline",
+          "n": 1,
+          "accepted": 1,
+          "verified": 1,
+          "acceptance_rate": 1.0,
+          "verified_rate": 1.0,
+          "false_acceptance": 0,
+          "accepted_precision": 1.0,
+          "first_attempt_accepted": 1,
+          "attempts": 1,
+          "description": "Generated with the registered attempt budget"
+        },
+        {
+          "model": "deepseek",
+          "arm": "contract",
+          "n": 1,
+          "accepted": 1,
+          "verified": 1,
+          "acceptance_rate": 1.0,
+          "verified_rate": 1.0,
+          "false_acceptance": 0,
+          "accepted_precision": 1.0,
+          "first_attempt_accepted": 1,
+          "attempts": 1,
+          "description": "Generated with the registered attempt budget"
+        }
+      ]
+    },
+    {
+      "dimension": "language",
+      "value": "http",
+      "metrics": [
+        {
+          "model": "glm",
+          "arm": "baseline",
+          "n": 1,
+          "accepted": 0,
+          "verified": 0,
+          "acceptance_rate": 0.0,
+          "verified_rate": 0.0,
+          "false_acceptance": 0,
+          "accepted_precision": null,
+          "first_attempt_accepted": 0,
+          "attempts": 3,
+          "description": "Generated with the registered attempt budget"
+        },
+        {
+          "model": "glm",
+          "arm": "contract",
+          "n": 1,
+          "accepted": 1,
+          "verified": 1,
+          "acceptance_rate": 1.0,
+          "verified_rate": 1.0,
+          "false_acceptance": 0,
+          "accepted_precision": 1.0,
+          "first_attempt_accepted": 1,
+          "attempts": 1,
+          "description": "Generated with the registered attempt budget"
+        },
+        {
+          "model": "deepseek",
+          "arm": "baseline",
+          "n": 1,
+          "accepted": 1,
+          "verified": 1,
+          "acceptance_rate": 1.0,
+          "verified_rate": 1.0,
+          "false_acceptance": 0,
+          "accepted_precision": 1.0,
+          "first_attempt_accepted": 1,
+          "attempts": 1,
+          "description": "Generated with the registered attempt budget"
+        },
+        {
+          "model": "deepseek",
+          "arm": "contract",
+          "n": 1,
+          "accepted": 1,
+          "verified": 1,
+          "acceptance_rate": 1.0,
+          "verified_rate": 1.0,
+          "false_acceptance": 0,
+          "accepted_precision": 1.0,
+          "first_attempt_accepted": 1,
+          "attempts": 1,
+          "description": "Generated with the registered attempt budget"
+        }
+      ]
+    },
+    {
+      "dimension": "language",
+      "value": "json",
+      "metrics": [
+        {
+          "model": "glm",
+          "arm": "baseline",
+          "n": 2,
+          "accepted": 1,
+          "verified": 0,
+          "acceptance_rate": 0.5,
+          "verified_rate": 0.0,
+          "false_acceptance": 1,
+          "accepted_precision": 0.0,
+          "first_attempt_accepted": 1,
+          "attempts": 4,
+          "description": "Generated with the registered attempt budget"
+        },
+        {
+          "model": "glm",
+          "arm": "contract",
+          "n": 2,
+          "accepted": 2,
+          "verified": 1,
+          "acceptance_rate": 1.0,
+          "verified_rate": 0.5,
+          "false_acceptance": 1,
+          "accepted_precision": 0.5,
+          "first_attempt_accepted": 1,
+          "attempts": 3,
+          "description": "Generated with the registered attempt budget"
+        },
+        {
+          "model": "deepseek",
+          "arm": "baseline",
+          "n": 2,
+          "accepted": 2,
+          "verified": 2,
+          "acceptance_rate": 1.0,
+          "verified_rate": 1.0,
+          "false_acceptance": 0,
+          "accepted_precision": 1.0,
+          "first_attempt_accepted": 2,
+          "attempts": 2,
+          "description": "Generated with the registered attempt budget"
+        },
+        {
+          "model": "deepseek",
+          "arm": "contract",
+          "n": 2,
+          "accepted": 2,
+          "verified": 2,
+          "acceptance_rate": 1.0,
+          "verified_rate": 1.0,
+          "false_acceptance": 0,
+          "accepted_precision": 1.0,
+          "first_attempt_accepted": 2,
+          "attempts": 2,
+          "description": "Generated with the registered attempt budget"
+        }
+      ]
+    },
+    {
+      "dimension": "language",
+      "value": "llvm",
+      "metrics": [
+        {
+          "model": "glm",
+          "arm": "baseline",
+          "n": 2,
+          "accepted": 2,
+          "verified": 1,
+          "acceptance_rate": 1.0,
+          "verified_rate": 0.5,
+          "false_acceptance": 1,
+          "accepted_precision": 0.5,
+          "first_attempt_accepted": 1,
+          "attempts": 3,
+          "description": "Generated with the registered attempt budget"
+        },
+        {
+          "model": "glm",
+          "arm": "contract",
+          "n": 2,
+          "accepted": 2,
+          "verified": 2,
+          "acceptance_rate": 1.0,
+          "verified_rate": 1.0,
+          "false_acceptance": 0,
+          "accepted_precision": 1.0,
+          "first_attempt_accepted": 2,
+          "attempts": 2,
+          "description": "Generated with the registered attempt budget"
+        },
+        {
+          "model": "deepseek",
+          "arm": "baseline",
+          "n": 2,
+          "accepted": 2,
+          "verified": 2,
+          "acceptance_rate": 1.0,
+          "verified_rate": 1.0,
+          "false_acceptance": 0,
+          "accepted_precision": 1.0,
+          "first_attempt_accepted": 2,
+          "attempts": 2,
+          "description": "Generated with the registered attempt budget"
+        },
+        {
+          "model": "deepseek",
+          "arm": "contract",
+          "n": 2,
+          "accepted": 2,
+          "verified": 2,
+          "acceptance_rate": 1.0,
+          "verified_rate": 1.0,
+          "false_acceptance": 0,
+          "accepted_precision": 1.0,
+          "first_attempt_accepted": 1,
+          "attempts": 3,
+          "description": "Generated with the registered attempt budget"
+        }
+      ]
+    },
+    {
+      "dimension": "language",
+      "value": "python",
+      "metrics": [
+        {
+          "model": "glm",
+          "arm": "baseline",
+          "n": 3,
+          "accepted": 2,
+          "verified": 0,
+          "acceptance_rate": 0.6666666666666666,
+          "verified_rate": 0.0,
+          "false_acceptance": 2,
+          "accepted_precision": 0.0,
+          "first_attempt_accepted": 0,
+          "attempts": 7,
+          "description": "Generated with the registered attempt budget"
+        },
+        {
+          "model": "glm",
+          "arm": "contract",
+          "n": 3,
+          "accepted": 0,
+          "verified": 0,
+          "acceptance_rate": 0.0,
+          "verified_rate": 0.0,
+          "false_acceptance": 0,
+          "accepted_precision": null,
+          "first_attempt_accepted": 0,
+          "attempts": 9,
+          "description": "Generated with the registered attempt budget"
+        },
+        {
+          "model": "deepseek",
+          "arm": "baseline",
+          "n": 3,
+          "accepted": 2,
+          "verified": 2,
+          "acceptance_rate": 0.6666666666666666,
+          "verified_rate": 0.6666666666666666,
+          "false_acceptance": 0,
+          "accepted_precision": 1.0,
+          "first_attempt_accepted": 2,
+          "attempts": 5,
+          "description": "Generated with the registered attempt budget"
+        },
+        {
+          "model": "deepseek",
+          "arm": "contract",
+          "n": 3,
+          "accepted": 3,
+          "verified": 3,
+          "acceptance_rate": 1.0,
+          "verified_rate": 1.0,
+          "false_acceptance": 0,
+          "accepted_precision": 1.0,
+          "first_attempt_accepted": 3,
+          "attempts": 3,
+          "description": "Generated with the registered attempt budget"
+        }
+      ]
+    },
+    {
+      "dimension": "language",
+      "value": "sql",
+      "metrics": [
+        {
+          "model": "glm",
+          "arm": "baseline",
+          "n": 2,
+          "accepted": 2,
+          "verified": 0,
+          "acceptance_rate": 1.0,
+          "verified_rate": 0.0,
+          "false_acceptance": 2,
+          "accepted_precision": 0.0,
+          "first_attempt_accepted": 1,
+          "attempts": 3,
+          "description": "Generated with the registered attempt budget"
+        },
+        {
+          "model": "glm",
+          "arm": "contract",
+          "n": 2,
+          "accepted": 1,
+          "verified": 1,
+          "acceptance_rate": 0.5,
+          "verified_rate": 0.5,
+          "false_acceptance": 0,
+          "accepted_precision": 1.0,
+          "first_attempt_accepted": 1,
+          "attempts": 4,
+          "description": "Generated with the registered attempt budget"
+        },
+        {
+          "model": "deepseek",
+          "arm": "baseline",
+          "n": 2,
+          "accepted": 1,
+          "verified": 1,
+          "acceptance_rate": 0.5,
+          "verified_rate": 0.5,
+          "false_acceptance": 0,
+          "accepted_precision": 1.0,
+          "first_attempt_accepted": 1,
+          "attempts": 4,
+          "description": "Generated with the registered attempt budget"
+        },
+        {
+          "model": "deepseek",
+          "arm": "contract",
+          "n": 2,
+          "accepted": 2,
+          "verified": 2,
+          "acceptance_rate": 1.0,
+          "verified_rate": 1.0,
+          "false_acceptance": 0,
+          "accepted_precision": 1.0,
+          "first_attempt_accepted": 2,
+          "attempts": 2,
+          "description": "Generated with the registered attempt budget"
+        }
+      ]
+    }
+  ],
+  "cases": [
+    {
+      "id": "32d2342ab4044d6cbbb112ab6b8fdd79a423e97cd8e1993d052dc0852c0a0d04",
+      "model": "glm",
+      "arm": "baseline",
+      "task": "dev-python-clamp",
+      "trial": 0,
+      "language": "python",
+      "level": 1,
+      "accepted": true,
+      "strict_pass": false,
+      "attempts": 2,
+      "status": "passed",
+      "grade": {
+        "passed": false,
+        "public_passed": 2,
+        "public_cases": 3,
+        "hidden_passed": 265,
+        "hidden_cases": 320,
+        "behavior_checked": true,
+        "failures": [
+          {
+            "index": 2,
+            "inputs": [
+              15,
+              0,
+              10
+            ],
+            "expected": 10,
+            "actual": 20
+          },
+          {
+            "index": 4,
+            "inputs": [
+              0,
+              -1,
+              -1
+            ],
+            "expected": -1,
+            "actual": 1
+          },
+          {
+            "index": 5,
+            "inputs": [
+              -1,
+              -100,
+              -100
+            ],
+            "expected": -100,
+            "actual": 98
+          },
+          {
+            "index": 10,
+            "inputs": [
+              1,
+              -100,
+              -1
+            ],
+            "expected": -1,
+            "actual": 3
+          },
+          {
+            "index": 28,
+            "inputs": [
+              100,
+              -1,
+              -1
+            ],
+            "expected": -1,
+            "actual": 201
+          }
+        ]
       },
-      "deepseek": {
-        "task": "dev-llvm-minimum",
-        "trial": 0,
-        "arm": "contract",
-        "exit_code": 75
-      }
+      "prompt": "Create the pure python helper clamp with inputs in this order: value, lower, upper. Return value unchanged for reversed bounds; otherwise clamp inclusively. Input domains (inclusive): {\"lower\": [-100, 100], \"upper\": [-100, 100], \"value\": [-100, 100]}. Use integer/bool values, scalar locals, comparisons, arithmetic (+, -, *, //, %), if/while, flat tuple unpacking, and optionally abs/min/max only. No imports, other calls, recursion, comprehensions, for loops, or top-level calls. Briefly document inputs and boundary behavior. Return substantive input-dependent computation.",
+      "public_contract": {
+        "schema_version": 1,
+        "language": "python",
+        "function": {
+          "name": "clamp",
+          "parameters": [
+            "value",
+            "lower",
+            "upper"
+          ]
+        },
+        "examples": [
+          {
+            "inputs": [
+              5,
+              10,
+              0
+            ],
+            "expected": 5
+          },
+          {
+            "inputs": [
+              -2,
+              0,
+              10
+            ],
+            "expected": 0
+          },
+          {
+            "inputs": [
+              15,
+              0,
+              10
+            ],
+            "expected": 10
+          }
+        ]
+      },
+      "source_sha256": "4a090601d7f999abb31cb19ad1b1bf0ee475ad3b2841a9df65077059f3f49c65",
+      "diagnostic": "Public example 3 failed: expected 10, got 20",
+      "resources": {
+        "inference_seconds": 12.900799999999998,
+        "prompt_tokens": 1681,
+        "completion_tokens": 854,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "failed",
+          "failed_checks": [
+            "python_ast",
+            "python_compile",
+            "source_structure"
+          ]
+        },
+        {
+          "attempt": 2,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ]
+    },
+    {
+      "id": "136636941e4f57c45e9752fe100c121d179a145108823e2062ac4ccc2ab5a2b8",
+      "model": "glm",
+      "arm": "baseline",
+      "task": "dev-python-digits",
+      "trial": 0,
+      "language": "python",
+      "level": 2,
+      "accepted": false,
+      "strict_pass": false,
+      "attempts": 3,
+      "status": "failed",
+      "grade": {
+        "passed": false,
+        "diagnostic": "No accepted candidate"
+      },
+      "prompt": "Create the pure python helper digit_sum with inputs in this order: value. Return the sum of decimal digits of abs(value); zero returns zero. Input domains (inclusive): {\"value\": [-100000, 100000]}. Use integer/bool values, scalar locals, comparisons, arithmetic (+, -, *, //, %), if/while, flat tuple unpacking, and optionally abs/min/max only. No imports, other calls, recursion, comprehensions, for loops, or top-level calls. Briefly document inputs and boundary behavior. Return substantive input-dependent computation.",
+      "public_contract": {
+        "schema_version": 1,
+        "language": "python",
+        "function": {
+          "name": "digit_sum",
+          "parameters": [
+            "value"
+          ]
+        },
+        "examples": [
+          {
+            "inputs": [
+              0
+            ],
+            "expected": 0
+          },
+          {
+            "inputs": [
+              -129
+            ],
+            "expected": 12
+          },
+          {
+            "inputs": [
+              5005
+            ],
+            "expected": 10
+          }
+        ]
+      },
+      "source_sha256": null,
+      "diagnostic": "No accepted candidate",
+      "resources": {
+        "inference_seconds": 86.46775000000001,
+        "prompt_tokens": 2037,
+        "completion_tokens": 4579,
+        "length_stops": 1
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "token_limit",
+          "failed_checks": []
+        },
+        {
+          "attempt": 2,
+          "status": "failed",
+          "failed_checks": [
+            "python_ast",
+            "python_compile",
+            "source_structure"
+          ]
+        },
+        {
+          "attempt": 3,
+          "status": "failed",
+          "failed_checks": [
+            "source_structure"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "add36c7938bbc3f3e037b8230ad36c484986f9cbf322b264a0114eb96d9c23da",
+      "model": "glm",
+      "arm": "baseline",
+      "task": "dev-python-parking",
+      "trial": 0,
+      "language": "python",
+      "level": 3,
+      "accepted": true,
+      "strict_pass": false,
+      "attempts": 2,
+      "status": "passed",
+      "grade": {
+        "passed": false,
+        "diagnostic": "Only the requested helper and documentation are allowed at top level.",
+        "behavior_checked": false
+      },
+      "prompt": "Create the pure python helper parking with inputs in this order: minutes. Nonpositive minutes cost 0. The first 60 minutes cost 3; each additional started 60-minute block costs 2. Input domains (inclusive): {\"minutes\": [-20, 3000]}. Use integer/bool values, scalar locals, comparisons, arithmetic (+, -, *, //, %), if/while, flat tuple unpacking, and optionally abs/min/max only. No imports, other calls, recursion, comprehensions, for loops, or top-level calls. Briefly document inputs and boundary behavior. Return substantive input-dependent computation.",
+      "public_contract": {
+        "schema_version": 1,
+        "language": "python",
+        "function": {
+          "name": "parking",
+          "parameters": [
+            "minutes"
+          ]
+        },
+        "examples": [
+          {
+            "inputs": [
+              0
+            ],
+            "expected": 0
+          },
+          {
+            "inputs": [
+              60
+            ],
+            "expected": 3
+          },
+          {
+            "inputs": [
+              61
+            ],
+            "expected": 5
+          }
+        ]
+      },
+      "source_sha256": "f5238ed02b7ecf549c3abaa71332d36819312b87aed2e367c563bc3cfc602ad8",
+      "diagnostic": "Only the requested helper and documentation are allowed at top level.",
+      "resources": {
+        "inference_seconds": 84.02081,
+        "prompt_tokens": 1077,
+        "completion_tokens": 4526,
+        "length_stops": 1
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "token_limit",
+          "failed_checks": []
+        },
+        {
+          "attempt": 2,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ]
+    },
+    {
+      "id": "b16d7484c1d9ca4f93c036eba32ff928a3e8e8c94d639e6c9ee9f714d189d332",
+      "model": "glm",
+      "arm": "baseline",
+      "task": "dev-sql-distance",
+      "trial": 0,
+      "language": "sql",
+      "level": 1,
+      "accepted": true,
+      "strict_pass": false,
+      "attempts": 1,
+      "status": "passed",
+      "grade": {
+        "passed": false,
+        "diagnostic": "You did not supply a value for binding 1.",
+        "behavior_checked": false
+      },
+      "prompt": "Create the pure sql helper distance with inputs in this order: a, b. Return the absolute difference. Input domains (inclusive): {\"a\": [-1000, 1000], \"b\": [-1000, 1000]}. Use one SQLite SELECT with named :parameter inputs and exactly one AS distance result; integer arithmetic only, no tables. Briefly document inputs and boundary behavior. Return substantive input-dependent computation.",
+      "public_contract": {
+        "schema_version": 1,
+        "language": "sql",
+        "function": {
+          "name": "distance",
+          "parameters": [
+            "a",
+            "b"
+          ]
+        },
+        "examples": [
+          {
+            "inputs": [
+              -2,
+              3
+            ],
+            "expected": 5
+          },
+          {
+            "inputs": [
+              3,
+              -2
+            ],
+            "expected": 5
+          },
+          {
+            "inputs": [
+              5,
+              5
+            ],
+            "expected": 0
+          }
+        ]
+      },
+      "source_sha256": "96c80661ac8dc4a42de1cfec4e40e4075e069633e7fae4ce5d443b60c07f0e73",
+      "diagnostic": "You did not supply a value for binding 1.",
+      "resources": {
+        "inference_seconds": 1.86539,
+        "prompt_tokens": 444,
+        "completion_tokens": 124,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ]
+    },
+    {
+      "id": "a7cad8bc52935581ffc846d85c7cdb5ac54303e1201639470abb62a7db2a75a3",
+      "model": "glm",
+      "arm": "baseline",
+      "task": "dev-sql-percent",
+      "trial": 0,
+      "language": "sql",
+      "level": 2,
+      "accepted": true,
+      "strict_pass": false,
+      "attempts": 2,
+      "status": "passed",
+      "grade": {
+        "passed": false,
+        "diagnostic": "SQL result alias does not match the public API",
+        "behavior_checked": false
+      },
+      "prompt": "Create the pure sql helper portion with inputs in this order: value, percent. Clamp value below at zero and percent to 0..100; return floor(value*percent/100). Input domains (inclusive): {\"percent\": [-20, 120], \"value\": [-100, 10000]}. Use one SQLite SELECT with named :parameter inputs and exactly one AS portion result; integer arithmetic only, no tables. Briefly document inputs and boundary behavior. Return substantive input-dependent computation.",
+      "public_contract": {
+        "schema_version": 1,
+        "language": "sql",
+        "function": {
+          "name": "portion",
+          "parameters": [
+            "value",
+            "percent"
+          ]
+        },
+        "examples": [
+          {
+            "inputs": [
+              5,
+              50
+            ],
+            "expected": 2
+          },
+          {
+            "inputs": [
+              -1,
+              80
+            ],
+            "expected": 0
+          },
+          {
+            "inputs": [
+              7,
+              150
+            ],
+            "expected": 7
+          }
+        ]
+      },
+      "source_sha256": "0e12792fbbed214ff63ded75a857376db8e29cab90a96dda92b778aa6bfc9f72",
+      "diagnostic": "SQL result alias does not match the public API",
+      "resources": {
+        "inference_seconds": 6.74369,
+        "prompt_tokens": 1416,
+        "completion_tokens": 425,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "failed",
+          "failed_checks": [
+            "sql_prepare",
+            "source_structure"
+          ]
+        },
+        {
+          "attempt": 2,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ]
+    },
+    {
+      "id": "ab322ff76c945f2eac076083607ba853741c6356aa0de436c648b640bb25daea",
+      "model": "glm",
+      "arm": "baseline",
+      "task": "dev-llvm-minimum",
+      "trial": 0,
+      "language": "llvm",
+      "level": 1,
+      "accepted": true,
+      "strict_pass": true,
+      "attempts": 1,
+      "status": "passed",
+      "grade": {
+        "passed": true,
+        "public_passed": 3,
+        "public_cases": 3,
+        "hidden_passed": 320,
+        "hidden_cases": 320,
+        "behavior_checked": true,
+        "failures": []
+      },
+      "prompt": "Create the pure llvm helper minimum with inputs in this order: a, b, c. Return the smallest signed integer. Input domains (inclusive): {\"a\": [-100000, 100000], \"b\": [-100000, 100000], \"c\": [-100000, 100000]}. Use one straight-line LLVM helper with signed i32 inputs, i32 result, and only icmp, select, ret. No branches, calls, memory, flags, or extra functions. Briefly document inputs and boundary behavior. Return substantive input-dependent computation.",
+      "public_contract": {
+        "schema_version": 1,
+        "language": "llvm",
+        "function": {
+          "name": "minimum",
+          "parameters": [
+            "a",
+            "b",
+            "c"
+          ],
+          "parameter_types": [
+            "i32",
+            "i32",
+            "i32"
+          ],
+          "return_type": "i32"
+        },
+        "examples": [
+          {
+            "inputs": [
+              3,
+              1,
+              2
+            ],
+            "expected": 1
+          },
+          {
+            "inputs": [
+              -2,
+              4,
+              -1
+            ],
+            "expected": -2
+          },
+          {
+            "inputs": [
+              5,
+              5,
+              5
+            ],
+            "expected": 5
+          }
+        ],
+        "llvm": {
+          "instructions": [
+            "icmp",
+            "select",
+            "ret"
+          ]
+        }
+      },
+      "source_sha256": "4fec61035cb9f0fbe6c56ea6834fec788ab9f1e6ab9b7001b15d4b430231e08a",
+      "diagnostic": "",
+      "resources": {
+        "inference_seconds": 3.55473,
+        "prompt_tokens": 547,
+        "completion_tokens": 259,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ]
+    },
+    {
+      "id": "3bb09b5963762263b3d3101e38429896c099e54639988f827f30a3572ccf5d50",
+      "model": "glm",
+      "arm": "baseline",
+      "task": "dev-llvm-range",
+      "trial": 0,
+      "language": "llvm",
+      "level": 2,
+      "accepted": true,
+      "strict_pass": false,
+      "attempts": 2,
+      "status": "passed",
+      "grade": {
+        "passed": false,
+        "public_passed": 2,
+        "public_cases": 3,
+        "hidden_passed": 179,
+        "hidden_cases": 320,
+        "behavior_checked": true,
+        "failures": [
+          {
+            "index": 2,
+            "inputs": [
+              -2,
+              -4,
+              -1
+            ],
+            "expected": true,
+            "actual": false
+          },
+          {
+            "index": 4,
+            "inputs": [
+              0,
+              100000,
+              100000
+            ],
+            "expected": false,
+            "actual": true
+          },
+          {
+            "index": 9,
+            "inputs": [
+              -1,
+              1,
+              0
+            ],
+            "expected": false,
+            "actual": true
+          },
+          {
+            "index": 10,
+            "inputs": [
+              0,
+              1,
+              100000
+            ],
+            "expected": false,
+            "actual": true
+          },
+          {
+            "index": 11,
+            "inputs": [
+              0,
+              -1,
+              100000
+            ],
+            "expected": true,
+            "actual": false
+          }
+        ]
+      },
+      "prompt": "Create the pure llvm helper within with inputs in this order: value, lower, upper. Return true exactly when lower <= value <= upper; reversed bounds return false. Input domains (inclusive): {\"lower\": [-100000, 100000], \"upper\": [-100000, 100000], \"value\": [-100000, 100000]}. Use one straight-line LLVM helper with signed i32 inputs, i1 result, and only icmp, select, ret, and. No branches, calls, memory, flags, or extra functions. Briefly document inputs and boundary behavior. Return substantive input-dependent computation.",
+      "public_contract": {
+        "schema_version": 1,
+        "language": "llvm",
+        "function": {
+          "name": "within",
+          "parameters": [
+            "value",
+            "lower",
+            "upper"
+          ],
+          "parameter_types": [
+            "i32",
+            "i32",
+            "i32"
+          ],
+          "return_type": "i1"
+        },
+        "examples": [
+          {
+            "inputs": [
+              0,
+              0,
+              10
+            ],
+            "expected": true
+          },
+          {
+            "inputs": [
+              5,
+              10,
+              0
+            ],
+            "expected": false
+          },
+          {
+            "inputs": [
+              -2,
+              -4,
+              -1
+            ],
+            "expected": true
+          }
+        ],
+        "llvm": {
+          "instructions": [
+            "icmp",
+            "select",
+            "ret",
+            "and"
+          ]
+        }
+      },
+      "source_sha256": "bb5a6554976f72fe70c12596495e3a800dd6f2b65a34eaf873109de9f5096ef6",
+      "diagnostic": "Public example 3 failed: expected True, got False",
+      "resources": {
+        "inference_seconds": 85.53155000000001,
+        "prompt_tokens": 1183,
+        "completion_tokens": 4281,
+        "length_stops": 1
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "token_limit",
+          "failed_checks": []
+        },
+        {
+          "attempt": 2,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ]
+    },
+    {
+      "id": "002793ddae74c918781313c140ef81b4c80833e63670af65851313c94401997c",
+      "model": "glm",
+      "arm": "baseline",
+      "task": "dev-json-simple",
+      "trial": 0,
+      "language": "json",
+      "level": 1,
+      "accepted": false,
+      "strict_pass": false,
+      "attempts": 3,
+      "status": "failed",
+      "grade": {
+        "passed": false,
+        "diagnostic": "No accepted candidate"
+      },
+      "prompt": "Produce an offline fictional catalog calculation. Preserve each supplied id, quantity, unit_price. Add amount = floor(quantity * unit_price * (100 - discount) / 100), with discount=0 when absent. Root fields exactly currency=\"credits\", count, items, total. total sums amounts. All calculations use integers, all arrays preserve input order, no extra fields or wrappers. Inputs: [{\"id\":\"item-1\",\"quantity\":0,\"unit_price\":28},{\"id\":\"item-2\",\"quantity\":1,\"unit_price\":76}]",
+      "public_contract": {
+        "schema_version": 1,
+        "language": "json",
+        "document": {
+          "shape": {
+            "type": "object",
+            "required": [
+              "currency",
+              "count",
+              "items",
+              "total"
+            ],
+            "additional_properties": false,
+            "properties": {
+              "currency": {
+                "type": "string"
+              },
+              "count": {
+                "type": "integer"
+              },
+              "items": {
+                "type": "array",
+                "min_items": 2,
+                "max_items": 2,
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "id",
+                    "quantity",
+                    "unit_price",
+                    "amount"
+                  ],
+                  "additional_properties": false,
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "quantity": {
+                      "type": "integer"
+                    },
+                    "unit_price": {
+                      "type": "integer"
+                    },
+                    "amount": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              },
+              "total": {
+                "type": "integer"
+              }
+            }
+          },
+          "equals": [
+            {
+              "path": "/currency",
+              "value": "credits"
+            }
+          ],
+          "relations": [
+            {
+              "op": "count",
+              "left": "/count",
+              "right": "/items"
+            },
+            {
+              "op": "sum",
+              "left": "/total",
+              "right": "/items",
+              "field": "amount"
+            },
+            {
+              "op": "unique",
+              "right": "/items",
+              "field": "id"
+            }
+          ]
+        }
+      },
+      "source_sha256": null,
+      "diagnostic": "No accepted candidate",
+      "resources": {
+        "inference_seconds": 4.56137,
+        "prompt_tokens": 2343,
+        "completion_tokens": 363,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "failed",
+          "failed_checks": [
+            "source_structure"
+          ]
+        },
+        {
+          "attempt": 2,
+          "status": "failed",
+          "failed_checks": [
+            "source_structure"
+          ]
+        },
+        {
+          "attempt": 3,
+          "status": "failed",
+          "failed_checks": [
+            "source_structure"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "c844f46e256d2dc61bdc625ed06f7bba4d7a30ac31a271d9a6c3a14e93a15969",
+      "model": "glm",
+      "arm": "baseline",
+      "task": "dev-json-groups",
+      "trial": 0,
+      "language": "json",
+      "level": 3,
+      "accepted": true,
+      "strict_pass": false,
+      "attempts": 1,
+      "status": "passed",
+      "grade": {
+        "passed": false,
+        "diagnostic": "Document calculation, input preservation, or exact field structure differs",
+        "behavior_checked": false
+      },
+      "prompt": "Produce an offline fictional catalog calculation. Preserve group id, tax_percent, and item id/quantity/unit_price/discount in order. Add each item amount=floor(quantity*unit_price*(100-discount)/100). Add group subtotal=sum(item amounts), tax=floor(subtotal*tax_percent/100), total=subtotal+tax. Root fields exactly currency=\"credits\", group_count, groups, total; root total sums group totals. All calculations use integers, all arrays preserve input order, no extra fields or wrappers. Inputs: [{\"id\":\"group-1\",\"tax_percent\":5,\"items\":[{\"id\":\"item-1\",\"quantity\":7,\"unit_price\":64,\"discount\":0},{\"id\":\"item-2\",\"quantity\":13,\"unit_price\":21,\"discount\":33}]},{\"id\":\"group-2\",\"tax_percent\":9,\"items\":[{\"id\":\"item-1\",\"quantity\":7,\"unit_price\":73,\"discount\":15},{\"id\":\"item-2\",\"quantity\":8,\"unit_price\":91,\"discount\":15}]},{\"id\":\"group-3\",\"tax_percent\":13,\"items\":[{\"id\":\"item-1\",\"quantity\":13,\"unit_price\":3,\"discount\":15},{\"id\":\"item-2\",\"quantity\":17,\"unit_price\":38,\"discount\":0}]}]",
+      "public_contract": {
+        "schema_version": 1,
+        "language": "json",
+        "document": {
+          "shape": {
+            "type": "object",
+            "required": [
+              "currency",
+              "group_count",
+              "groups",
+              "total"
+            ],
+            "additional_properties": false,
+            "properties": {
+              "currency": {
+                "type": "string"
+              },
+              "group_count": {
+                "type": "integer"
+              },
+              "groups": {
+                "type": "array",
+                "min_items": 3,
+                "max_items": 3,
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "id",
+                    "tax_percent",
+                    "items",
+                    "subtotal",
+                    "tax",
+                    "total"
+                  ],
+                  "additional_properties": false,
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "tax_percent": {
+                      "type": "integer"
+                    },
+                    "items": {
+                      "type": "array",
+                      "min_items": 2,
+                      "max_items": 2,
+                      "items": {
+                        "type": "object",
+                        "required": [
+                          "id",
+                          "quantity",
+                          "unit_price",
+                          "discount",
+                          "amount"
+                        ],
+                        "additional_properties": false,
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "quantity": {
+                            "type": "integer"
+                          },
+                          "unit_price": {
+                            "type": "integer"
+                          },
+                          "discount": {
+                            "type": "integer"
+                          },
+                          "amount": {
+                            "type": "integer"
+                          }
+                        }
+                      }
+                    },
+                    "subtotal": {
+                      "type": "integer"
+                    },
+                    "tax": {
+                      "type": "integer"
+                    },
+                    "total": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              },
+              "total": {
+                "type": "integer"
+              }
+            }
+          },
+          "equals": [
+            {
+              "path": "/currency",
+              "value": "credits"
+            }
+          ],
+          "relations": [
+            {
+              "op": "sum",
+              "left": "/groups/0/subtotal",
+              "right": "/groups/0/items",
+              "field": "amount"
+            },
+            {
+              "op": "sum",
+              "left": "/groups/1/subtotal",
+              "right": "/groups/1/items",
+              "field": "amount"
+            },
+            {
+              "op": "sum",
+              "left": "/groups/2/subtotal",
+              "right": "/groups/2/items",
+              "field": "amount"
+            },
+            {
+              "op": "count",
+              "left": "/group_count",
+              "right": "/groups"
+            },
+            {
+              "op": "sum",
+              "left": "/total",
+              "right": "/groups",
+              "field": "total"
+            },
+            {
+              "op": "unique",
+              "right": "/groups",
+              "field": "id"
+            }
+          ]
+        }
+      },
+      "source_sha256": "b9b878bbda4c0277b8e423e694dec32e985633f137f17a8cd1e8d3383a6b7892",
+      "diagnostic": "Document calculation, input preservation, or exact field structure differs",
+      "resources": {
+        "inference_seconds": 3.78748,
+        "prompt_tokens": 1020,
+        "completion_tokens": 298,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ]
+    },
+    {
+      "id": "9176f5a82c883094d52ac01680c5b166081cafa3ecc5be9207f073b51a7f6d60",
+      "model": "glm",
+      "arm": "baseline",
+      "task": "dev-http-discount",
+      "trial": 0,
+      "language": "http",
+      "level": 2,
+      "accepted": false,
+      "strict_pass": false,
+      "attempts": 3,
+      "status": "extraction_failed",
+      "grade": {
+        "passed": false,
+        "diagnostic": "No accepted candidate"
+      },
+      "prompt": "Produce an offline fictional catalog calculation. Preserve each supplied id, quantity, unit_price, and discount. Add amount = floor(quantity * unit_price * (100 - discount) / 100), with discount=0 when absent. Root fields exactly currency=\"credits\", count, items, total. total sums amounts. All calculations use integers, all arrays preserve input order, no extra fields or wrappers. Inputs: [{\"id\":\"item-1\",\"quantity\":5,\"unit_price\":58,\"discount\":0},{\"id\":\"item-2\",\"quantity\":13,\"unit_price\":61,\"discount\":0},{\"id\":\"item-3\",\"quantity\":2,\"unit_price\":70,\"discount\":15},{\"id\":\"item-4\",\"quantity\":17,\"unit_price\":27,\"discount\":33}] Wrap the JSON document in one HTTP/1.1 200 response with Content-Type application/json and X-Example-Id: dev-http-discount. No cookies or credentials.",
+      "public_contract": {
+        "schema_version": 1,
+        "language": "http",
+        "document": {
+          "shape": {
+            "type": "object",
+            "required": [
+              "currency",
+              "count",
+              "items",
+              "total"
+            ],
+            "additional_properties": false,
+            "properties": {
+              "currency": {
+                "type": "string"
+              },
+              "count": {
+                "type": "integer"
+              },
+              "items": {
+                "type": "array",
+                "min_items": 4,
+                "max_items": 4,
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "id",
+                    "quantity",
+                    "unit_price",
+                    "discount",
+                    "amount"
+                  ],
+                  "additional_properties": false,
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "quantity": {
+                      "type": "integer"
+                    },
+                    "unit_price": {
+                      "type": "integer"
+                    },
+                    "discount": {
+                      "type": "integer"
+                    },
+                    "amount": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              },
+              "total": {
+                "type": "integer"
+              }
+            }
+          },
+          "equals": [
+            {
+              "path": "/currency",
+              "value": "credits"
+            }
+          ],
+          "relations": [
+            {
+              "op": "count",
+              "left": "/count",
+              "right": "/items"
+            },
+            {
+              "op": "sum",
+              "left": "/total",
+              "right": "/items",
+              "field": "amount"
+            },
+            {
+              "op": "unique",
+              "right": "/items",
+              "field": "id"
+            }
+          ]
+        },
+        "http": {
+          "status": 200,
+          "headers": {
+            "X-Example-Id": "dev-http-discount"
+          }
+        }
+      },
+      "source_sha256": null,
+      "diagnostic": "No accepted candidate",
+      "resources": {
+        "inference_seconds": 13.77104,
+        "prompt_tokens": 3281,
+        "completion_tokens": 1099,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "extraction_failed",
+          "failed_checks": []
+        },
+        {
+          "attempt": 2,
+          "status": "extraction_failed",
+          "failed_checks": []
+        },
+        {
+          "attempt": 3,
+          "status": "extraction_failed",
+          "failed_checks": []
+        }
+      ]
+    },
+    {
+      "id": "a9295c8429b2f9e524b4d0835c53e05856419091c93cb48810365ae9fb2323d1",
+      "model": "glm",
+      "arm": "baseline",
+      "task": "dev-binary-macho",
+      "trial": 0,
+      "language": "binary-info",
+      "level": 2,
+      "accepted": true,
+      "strict_pass": true,
+      "attempts": 1,
+      "status": "passed",
+      "grade": {
+        "passed": true,
+        "document_checked": true
+      },
+      "prompt": "Describe a fictional Mach-O artifact for aarch64 as symbolic schema metadata only. Use exactly the following sections and symbols in their listed order, with names unchanged: {\"sections\":[{\"name\":\".text.core\",\"kind\":\"code\"},{\"name\":\".text.math\",\"kind\":\"code\"},{\"name\":\".rdata.info\",\"kind\":\"data\"},{\"name\":\".rdata.tags\",\"kind\":\"data\"}],\"symbols\":[{\"name\":\"compute_1_1\",\"kind\":\"function\",\"section\":\".text.core\"},{\"name\":\"compute_2_1\",\"kind\":\"function\",\"section\":\".text.math\"},{\"name\":\"description_3_1\",\"kind\":\"object\",\"section\":\".rdata.info\"},{\"name\":\"description_4_1\",\"kind\":\"object\",\"section\":\".rdata.tags\"}]}. Include one ordinary descriptive string. No addresses, sizes, encoded bytes, or executable content.",
+      "public_contract": {
+        "schema_version": 1,
+        "language": "binary-info",
+        "document": {
+          "shape": {
+            "type": "object",
+            "required": [
+              "schema_version",
+              "format",
+              "architecture",
+              "sections",
+              "symbols",
+              "strings"
+            ],
+            "additional_properties": false,
+            "properties": {
+              "schema_version": {
+                "type": "integer"
+              },
+              "format": {
+                "type": "string"
+              },
+              "architecture": {
+                "type": "string"
+              },
+              "sections": {
+                "type": "array",
+                "min_items": 4,
+                "max_items": 4,
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "name",
+                    "kind"
+                  ],
+                  "additional_properties": false,
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "kind": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "symbols": {
+                "type": "array",
+                "min_items": 4,
+                "max_items": 4,
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "name",
+                    "kind",
+                    "section"
+                  ],
+                  "additional_properties": false,
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "kind": {
+                      "type": "string"
+                    },
+                    "section": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "strings": {
+                "type": "array",
+                "min_items": 1,
+                "max_items": 4,
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "equals": [
+            {
+              "path": "/schema_version",
+              "value": 1
+            },
+            {
+              "path": "/format",
+              "value": "Mach-O"
+            },
+            {
+              "path": "/architecture",
+              "value": "aarch64"
+            },
+            {
+              "path": "/sections",
+              "value": [
+                {
+                  "name": ".text.core",
+                  "kind": "code"
+                },
+                {
+                  "name": ".text.math",
+                  "kind": "code"
+                },
+                {
+                  "name": ".rdata.info",
+                  "kind": "data"
+                },
+                {
+                  "name": ".rdata.tags",
+                  "kind": "data"
+                }
+              ]
+            },
+            {
+              "path": "/symbols",
+              "value": [
+                {
+                  "name": "compute_1_1",
+                  "kind": "function",
+                  "section": ".text.core"
+                },
+                {
+                  "name": "compute_2_1",
+                  "kind": "function",
+                  "section": ".text.math"
+                },
+                {
+                  "name": "description_3_1",
+                  "kind": "object",
+                  "section": ".rdata.info"
+                },
+                {
+                  "name": "description_4_1",
+                  "kind": "object",
+                  "section": ".rdata.tags"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "source_sha256": "ed7074561faff7b281b31015746f30c8b7dc254280f2f30adc4de92b87ae1b0c",
+      "diagnostic": "",
+      "resources": {
+        "inference_seconds": 3.26613,
+        "prompt_tokens": 1135,
+        "completion_tokens": 263,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ]
+    },
+    {
+      "id": "2090475620e3eb2adde2ec625b6fd7de204ef5917e338ab5a6a2fbb6c40cf925",
+      "model": "glm",
+      "arm": "baseline",
+      "task": "dev-html-table",
+      "trial": 0,
+      "language": "html",
+      "level": 2,
+      "accepted": true,
+      "strict_pass": false,
+      "attempts": 1,
+      "status": "passed",
+      "grade": {
+        "passed": false,
+        "diagnostic": "HTML numeric results, inputs, labels, or row ordering differ",
+        "behavior_checked": false
+      },
+      "prompt": "Create an inert HTML reference section with id dev-html-table, a heading, and one table. Columns in order: [\"Item\", \"Quantity\", \"Unit price\", \"Discount\", \"Amount\"]. Use decimal integer text, no units or formatting within numeric cells. Preserve row order and input values. Amount=floor(quantity*price*(100-discount)/100), using the supplied discount. Inputs: [{\"item\":\"entry-1\",\"quantity\":2,\"price\":7,\"discount\":0},{\"item\":\"entry-2\",\"quantity\":3,\"price\":20,\"discount\":7},{\"item\":\"entry-3\",\"quantity\":4,\"price\":33,\"discount\":14},{\"item\":\"entry-4\",\"quantity\":5,\"price\":46,\"discount\":21}]. No scripts, resources, styles, or extra tables.",
+      "public_contract": {
+        "schema_version": 1,
+        "language": "html",
+        "html": {
+          "required_ids": [
+            "dev-html-table"
+          ],
+          "table": {
+            "columns": [
+              "Item",
+              "Quantity",
+              "Unit price",
+              "Discount",
+              "Amount"
+            ],
+            "row_count": 4
+          }
+        }
+      },
+      "source_sha256": "5373361083bf5592d8e290e09db6adf16c920684060899024641efb0f8c7819f",
+      "diagnostic": "HTML numeric results, inputs, labels, or row ordering differ",
+      "resources": {
+        "inference_seconds": 4.1968000000000005,
+        "prompt_tokens": 581,
+        "completion_tokens": 320,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ]
+    },
+    {
+      "id": "a162839022f5ed0d188e484dbe49c8c8f423b5fa605da8d38f5a0812bf848a62",
+      "model": "glm",
+      "arm": "contract",
+      "task": "dev-python-clamp",
+      "trial": 0,
+      "language": "python",
+      "level": 1,
+      "accepted": false,
+      "strict_pass": false,
+      "attempts": 3,
+      "status": "token_limit",
+      "grade": {
+        "passed": false,
+        "diagnostic": "No accepted candidate"
+      },
+      "prompt": "Create the pure python helper clamp with inputs in this order: value, lower, upper. Return value unchanged for reversed bounds; otherwise clamp inclusively. Input domains (inclusive): {\"lower\": [-100, 100], \"upper\": [-100, 100], \"value\": [-100, 100]}. Use integer/bool values, scalar locals, comparisons, arithmetic (+, -, *, //, %), if/while, flat tuple unpacking, and optionally abs/min/max only. No imports, other calls, recursion, comprehensions, for loops, or top-level calls. Briefly document inputs and boundary behavior. Return substantive input-dependent computation.",
+      "public_contract": {
+        "schema_version": 1,
+        "language": "python",
+        "function": {
+          "name": "clamp",
+          "parameters": [
+            "value",
+            "lower",
+            "upper"
+          ]
+        },
+        "examples": [
+          {
+            "inputs": [
+              5,
+              10,
+              0
+            ],
+            "expected": 5
+          },
+          {
+            "inputs": [
+              -2,
+              0,
+              10
+            ],
+            "expected": 0
+          },
+          {
+            "inputs": [
+              15,
+              0,
+              10
+            ],
+            "expected": 10
+          }
+        ]
+      },
+      "source_sha256": null,
+      "diagnostic": "No accepted candidate",
+      "resources": {
+        "inference_seconds": 155.54371000000003,
+        "prompt_tokens": 2300,
+        "completion_tokens": 8488,
+        "length_stops": 2
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "token_limit",
+          "failed_checks": []
+        },
+        {
+          "attempt": 2,
+          "status": "failed",
+          "failed_checks": [
+            "task_contract"
+          ]
+        },
+        {
+          "attempt": 3,
+          "status": "token_limit",
+          "failed_checks": []
+        }
+      ]
+    },
+    {
+      "id": "0da26e575189c22db26df04694eea9aed9051df89bc3222af001ee79222a11f6",
+      "model": "glm",
+      "arm": "contract",
+      "task": "dev-python-digits",
+      "trial": 0,
+      "language": "python",
+      "level": 2,
+      "accepted": false,
+      "strict_pass": false,
+      "attempts": 3,
+      "status": "failed",
+      "grade": {
+        "passed": false,
+        "diagnostic": "No accepted candidate"
+      },
+      "prompt": "Create the pure python helper digit_sum with inputs in this order: value. Return the sum of decimal digits of abs(value); zero returns zero. Input domains (inclusive): {\"value\": [-100000, 100000]}. Use integer/bool values, scalar locals, comparisons, arithmetic (+, -, *, //, %), if/while, flat tuple unpacking, and optionally abs/min/max only. No imports, other calls, recursion, comprehensions, for loops, or top-level calls. Briefly document inputs and boundary behavior. Return substantive input-dependent computation.",
+      "public_contract": {
+        "schema_version": 1,
+        "language": "python",
+        "function": {
+          "name": "digit_sum",
+          "parameters": [
+            "value"
+          ]
+        },
+        "examples": [
+          {
+            "inputs": [
+              0
+            ],
+            "expected": 0
+          },
+          {
+            "inputs": [
+              -129
+            ],
+            "expected": 12
+          },
+          {
+            "inputs": [
+              5005
+            ],
+            "expected": 10
+          }
+        ]
+      },
+      "source_sha256": null,
+      "diagnostic": "No accepted candidate",
+      "resources": {
+        "inference_seconds": 11.0806,
+        "prompt_tokens": 2641,
+        "completion_tokens": 744,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "failed",
+          "failed_checks": [
+            "task_contract"
+          ]
+        },
+        {
+          "attempt": 2,
+          "status": "failed",
+          "failed_checks": [
+            "python_ast",
+            "python_compile",
+            "source_structure",
+            "task_contract"
+          ]
+        },
+        {
+          "attempt": 3,
+          "status": "failed",
+          "failed_checks": [
+            "python_compile",
+            "source_structure",
+            "task_contract"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "8a90798f47ae4a80ba465d5d78a8d08bc93803f4af3e6d545f081f6d90beaef7",
+      "model": "glm",
+      "arm": "contract",
+      "task": "dev-python-parking",
+      "trial": 0,
+      "language": "python",
+      "level": 3,
+      "accepted": false,
+      "strict_pass": false,
+      "attempts": 3,
+      "status": "token_limit",
+      "grade": {
+        "passed": false,
+        "diagnostic": "No accepted candidate"
+      },
+      "prompt": "Create the pure python helper parking with inputs in this order: minutes. Nonpositive minutes cost 0. The first 60 minutes cost 3; each additional started 60-minute block costs 2. Input domains (inclusive): {\"minutes\": [-20, 3000]}. Use integer/bool values, scalar locals, comparisons, arithmetic (+, -, *, //, %), if/while, flat tuple unpacking, and optionally abs/min/max only. No imports, other calls, recursion, comprehensions, for loops, or top-level calls. Briefly document inputs and boundary behavior. Return substantive input-dependent computation.",
+      "public_contract": {
+        "schema_version": 1,
+        "language": "python",
+        "function": {
+          "name": "parking",
+          "parameters": [
+            "minutes"
+          ]
+        },
+        "examples": [
+          {
+            "inputs": [
+              0
+            ],
+            "expected": 0
+          },
+          {
+            "inputs": [
+              60
+            ],
+            "expected": 3
+          },
+          {
+            "inputs": [
+              61
+            ],
+            "expected": 5
+          }
+        ]
+      },
+      "source_sha256": null,
+      "diagnostic": "No accepted candidate",
+      "resources": {
+        "inference_seconds": 154.19213,
+        "prompt_tokens": 2161,
+        "completion_tokens": 8415,
+        "length_stops": 2
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "failed",
+          "failed_checks": [
+            "task_contract"
+          ]
+        },
+        {
+          "attempt": 2,
+          "status": "token_limit",
+          "failed_checks": []
+        },
+        {
+          "attempt": 3,
+          "status": "token_limit",
+          "failed_checks": []
+        }
+      ]
+    },
+    {
+      "id": "b82e90cef09f2ed826264c99b17737ff3f32a04e6897dc86eb51bde6ae231d7a",
+      "model": "glm",
+      "arm": "contract",
+      "task": "dev-sql-distance",
+      "trial": 0,
+      "language": "sql",
+      "level": 1,
+      "accepted": true,
+      "strict_pass": true,
+      "attempts": 1,
+      "status": "passed",
+      "grade": {
+        "passed": true,
+        "public_passed": 3,
+        "public_cases": 3,
+        "hidden_passed": 320,
+        "hidden_cases": 320,
+        "behavior_checked": true,
+        "failures": []
+      },
+      "prompt": "Create the pure sql helper distance with inputs in this order: a, b. Return the absolute difference. Input domains (inclusive): {\"a\": [-1000, 1000], \"b\": [-1000, 1000]}. Use one SQLite SELECT with named :parameter inputs and exactly one AS distance result; integer arithmetic only, no tables. Briefly document inputs and boundary behavior. Return substantive input-dependent computation.",
+      "public_contract": {
+        "schema_version": 1,
+        "language": "sql",
+        "function": {
+          "name": "distance",
+          "parameters": [
+            "a",
+            "b"
+          ]
+        },
+        "examples": [
+          {
+            "inputs": [
+              -2,
+              3
+            ],
+            "expected": 5
+          },
+          {
+            "inputs": [
+              3,
+              -2
+            ],
+            "expected": 5
+          },
+          {
+            "inputs": [
+              5,
+              5
+            ],
+            "expected": 0
+          }
+        ]
+      },
+      "source_sha256": "ab91db8373066c6329f2f7c12106cb605154539894e4685e70b789dc9e2d9431",
+      "diagnostic": "",
+      "resources": {
+        "inference_seconds": 1.7665,
+        "prompt_tokens": 517,
+        "completion_tokens": 119,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ]
+    },
+    {
+      "id": "bb542de08d811406defff30a820951edd232ab541d1dcf35487e8ae8436c4164",
+      "model": "glm",
+      "arm": "contract",
+      "task": "dev-sql-percent",
+      "trial": 0,
+      "language": "sql",
+      "level": 2,
+      "accepted": false,
+      "strict_pass": false,
+      "attempts": 3,
+      "status": "failed",
+      "grade": {
+        "passed": false,
+        "diagnostic": "No accepted candidate"
+      },
+      "prompt": "Create the pure sql helper portion with inputs in this order: value, percent. Clamp value below at zero and percent to 0..100; return floor(value*percent/100). Input domains (inclusive): {\"percent\": [-20, 120], \"value\": [-100, 10000]}. Use one SQLite SELECT with named :parameter inputs and exactly one AS portion result; integer arithmetic only, no tables. Briefly document inputs and boundary behavior. Return substantive input-dependent computation.",
+      "public_contract": {
+        "schema_version": 1,
+        "language": "sql",
+        "function": {
+          "name": "portion",
+          "parameters": [
+            "value",
+            "percent"
+          ]
+        },
+        "examples": [
+          {
+            "inputs": [
+              5,
+              50
+            ],
+            "expected": 2
+          },
+          {
+            "inputs": [
+              -1,
+              80
+            ],
+            "expected": 0
+          },
+          {
+            "inputs": [
+              7,
+              150
+            ],
+            "expected": 7
+          }
+        ]
+      },
+      "source_sha256": null,
+      "diagnostic": "No accepted candidate",
+      "resources": {
+        "inference_seconds": 11.79061,
+        "prompt_tokens": 2482,
+        "completion_tokens": 773,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "failed",
+          "failed_checks": [
+            "sql_prepare",
+            "source_structure",
+            "task_contract"
+          ]
+        },
+        {
+          "attempt": 2,
+          "status": "failed",
+          "failed_checks": [
+            "sql_prepare",
+            "source_structure",
+            "task_contract"
+          ]
+        },
+        {
+          "attempt": 3,
+          "status": "failed",
+          "failed_checks": [
+            "task_contract"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fc37dfb38fd06ba711714198e27fe38020b07d4b36b34b202b7b0e3df1a3100d",
+      "model": "glm",
+      "arm": "contract",
+      "task": "dev-llvm-minimum",
+      "trial": 0,
+      "language": "llvm",
+      "level": 1,
+      "accepted": true,
+      "strict_pass": true,
+      "attempts": 1,
+      "status": "passed",
+      "grade": {
+        "passed": true,
+        "public_passed": 3,
+        "public_cases": 3,
+        "hidden_passed": 320,
+        "hidden_cases": 320,
+        "behavior_checked": true,
+        "failures": []
+      },
+      "prompt": "Create the pure llvm helper minimum with inputs in this order: a, b, c. Return the smallest signed integer. Input domains (inclusive): {\"a\": [-100000, 100000], \"b\": [-100000, 100000], \"c\": [-100000, 100000]}. Use one straight-line LLVM helper with signed i32 inputs, i32 result, and only icmp, select, ret. No branches, calls, memory, flags, or extra functions. Briefly document inputs and boundary behavior. Return substantive input-dependent computation.",
+      "public_contract": {
+        "schema_version": 1,
+        "language": "llvm",
+        "function": {
+          "name": "minimum",
+          "parameters": [
+            "a",
+            "b",
+            "c"
+          ],
+          "parameter_types": [
+            "i32",
+            "i32",
+            "i32"
+          ],
+          "return_type": "i32"
+        },
+        "examples": [
+          {
+            "inputs": [
+              3,
+              1,
+              2
+            ],
+            "expected": 1
+          },
+          {
+            "inputs": [
+              -2,
+              4,
+              -1
+            ],
+            "expected": -2
+          },
+          {
+            "inputs": [
+              5,
+              5,
+              5
+            ],
+            "expected": 5
+          }
+        ],
+        "llvm": {
+          "instructions": [
+            "icmp",
+            "select",
+            "ret"
+          ]
+        }
+      },
+      "source_sha256": "958c2c3a3f50097c7370d523cdd330f879f8f5f93d934d23e1cd4f80e54a7566",
+      "diagnostic": "",
+      "resources": {
+        "inference_seconds": 3.4272199999999997,
+        "prompt_tokens": 599,
+        "completion_tokens": 242,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ]
+    },
+    {
+      "id": "ecbfd658d9ce28026c0bcbeb9fbede1190edcc5495cb3a8d83efbd56f3359f1e",
+      "model": "glm",
+      "arm": "contract",
+      "task": "dev-llvm-range",
+      "trial": 0,
+      "language": "llvm",
+      "level": 2,
+      "accepted": true,
+      "strict_pass": true,
+      "attempts": 1,
+      "status": "passed",
+      "grade": {
+        "passed": true,
+        "public_passed": 3,
+        "public_cases": 3,
+        "hidden_passed": 320,
+        "hidden_cases": 320,
+        "behavior_checked": true,
+        "failures": []
+      },
+      "prompt": "Create the pure llvm helper within with inputs in this order: value, lower, upper. Return true exactly when lower <= value <= upper; reversed bounds return false. Input domains (inclusive): {\"lower\": [-100000, 100000], \"upper\": [-100000, 100000], \"value\": [-100000, 100000]}. Use one straight-line LLVM helper with signed i32 inputs, i1 result, and only icmp, select, ret, and. No branches, calls, memory, flags, or extra functions. Briefly document inputs and boundary behavior. Return substantive input-dependent computation.",
+      "public_contract": {
+        "schema_version": 1,
+        "language": "llvm",
+        "function": {
+          "name": "within",
+          "parameters": [
+            "value",
+            "lower",
+            "upper"
+          ],
+          "parameter_types": [
+            "i32",
+            "i32",
+            "i32"
+          ],
+          "return_type": "i1"
+        },
+        "examples": [
+          {
+            "inputs": [
+              0,
+              0,
+              10
+            ],
+            "expected": true
+          },
+          {
+            "inputs": [
+              5,
+              10,
+              0
+            ],
+            "expected": false
+          },
+          {
+            "inputs": [
+              -2,
+              -4,
+              -1
+            ],
+            "expected": true
+          }
+        ],
+        "llvm": {
+          "instructions": [
+            "icmp",
+            "select",
+            "ret",
+            "and"
+          ]
+        }
+      },
+      "source_sha256": "0215591f3d7e8b8f102ad8374f73dbc43be201ec1064e1b2d1b06059129f1d0d",
+      "diagnostic": "",
+      "resources": {
+        "inference_seconds": 3.03537,
+        "prompt_tokens": 612,
+        "completion_tokens": 200,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ]
+    },
+    {
+      "id": "a380234424d691c1e5b0d88be59b1881ff8ff479a0d3e4335613c4ca80d8d6d4",
+      "model": "glm",
+      "arm": "contract",
+      "task": "dev-json-simple",
+      "trial": 0,
+      "language": "json",
+      "level": 1,
+      "accepted": true,
+      "strict_pass": true,
+      "attempts": 2,
+      "status": "passed",
+      "grade": {
+        "passed": true,
+        "document_checked": true
+      },
+      "prompt": "Produce an offline fictional catalog calculation. Preserve each supplied id, quantity, unit_price. Add amount = floor(quantity * unit_price * (100 - discount) / 100), with discount=0 when absent. Root fields exactly currency=\"credits\", count, items, total. total sums amounts. All calculations use integers, all arrays preserve input order, no extra fields or wrappers. Inputs: [{\"id\":\"item-1\",\"quantity\":0,\"unit_price\":28},{\"id\":\"item-2\",\"quantity\":1,\"unit_price\":76}]",
+      "public_contract": {
+        "schema_version": 1,
+        "language": "json",
+        "document": {
+          "shape": {
+            "type": "object",
+            "required": [
+              "currency",
+              "count",
+              "items",
+              "total"
+            ],
+            "additional_properties": false,
+            "properties": {
+              "currency": {
+                "type": "string"
+              },
+              "count": {
+                "type": "integer"
+              },
+              "items": {
+                "type": "array",
+                "min_items": 2,
+                "max_items": 2,
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "id",
+                    "quantity",
+                    "unit_price",
+                    "amount"
+                  ],
+                  "additional_properties": false,
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "quantity": {
+                      "type": "integer"
+                    },
+                    "unit_price": {
+                      "type": "integer"
+                    },
+                    "amount": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              },
+              "total": {
+                "type": "integer"
+              }
+            }
+          },
+          "equals": [
+            {
+              "path": "/currency",
+              "value": "credits"
+            }
+          ],
+          "relations": [
+            {
+              "op": "count",
+              "left": "/count",
+              "right": "/items"
+            },
+            {
+              "op": "sum",
+              "left": "/total",
+              "right": "/items",
+              "field": "amount"
+            },
+            {
+              "op": "unique",
+              "right": "/items",
+              "field": "id"
+            }
+          ]
+        }
+      },
+      "source_sha256": "f9ead933a021d12c0d6a7fba70a6a0f414e22207c61808426ce32e4d14bc5bab",
+      "diagnostic": "",
+      "resources": {
+        "inference_seconds": 2.81202,
+        "prompt_tokens": 1461,
+        "completion_tokens": 214,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "failed",
+          "failed_checks": [
+            "source_structure",
+            "task_contract"
+          ]
+        },
+        {
+          "attempt": 2,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ]
+    },
+    {
+      "id": "ef3ef9433239d0a25a34c12f90a3d7917c9292f4ba6d7856c5bb4262f007d18c",
+      "model": "glm",
+      "arm": "contract",
+      "task": "dev-json-groups",
+      "trial": 0,
+      "language": "json",
+      "level": 3,
+      "accepted": true,
+      "strict_pass": false,
+      "attempts": 1,
+      "status": "passed",
+      "grade": {
+        "passed": false,
+        "diagnostic": "Document calculation, input preservation, or exact field structure differs",
+        "behavior_checked": false
+      },
+      "prompt": "Produce an offline fictional catalog calculation. Preserve group id, tax_percent, and item id/quantity/unit_price/discount in order. Add each item amount=floor(quantity*unit_price*(100-discount)/100). Add group subtotal=sum(item amounts), tax=floor(subtotal*tax_percent/100), total=subtotal+tax. Root fields exactly currency=\"credits\", group_count, groups, total; root total sums group totals. All calculations use integers, all arrays preserve input order, no extra fields or wrappers. Inputs: [{\"id\":\"group-1\",\"tax_percent\":5,\"items\":[{\"id\":\"item-1\",\"quantity\":7,\"unit_price\":64,\"discount\":0},{\"id\":\"item-2\",\"quantity\":13,\"unit_price\":21,\"discount\":33}]},{\"id\":\"group-2\",\"tax_percent\":9,\"items\":[{\"id\":\"item-1\",\"quantity\":7,\"unit_price\":73,\"discount\":15},{\"id\":\"item-2\",\"quantity\":8,\"unit_price\":91,\"discount\":15}]},{\"id\":\"group-3\",\"tax_percent\":13,\"items\":[{\"id\":\"item-1\",\"quantity\":13,\"unit_price\":3,\"discount\":15},{\"id\":\"item-2\",\"quantity\":17,\"unit_price\":38,\"discount\":0}]}]",
+      "public_contract": {
+        "schema_version": 1,
+        "language": "json",
+        "document": {
+          "shape": {
+            "type": "object",
+            "required": [
+              "currency",
+              "group_count",
+              "groups",
+              "total"
+            ],
+            "additional_properties": false,
+            "properties": {
+              "currency": {
+                "type": "string"
+              },
+              "group_count": {
+                "type": "integer"
+              },
+              "groups": {
+                "type": "array",
+                "min_items": 3,
+                "max_items": 3,
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "id",
+                    "tax_percent",
+                    "items",
+                    "subtotal",
+                    "tax",
+                    "total"
+                  ],
+                  "additional_properties": false,
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "tax_percent": {
+                      "type": "integer"
+                    },
+                    "items": {
+                      "type": "array",
+                      "min_items": 2,
+                      "max_items": 2,
+                      "items": {
+                        "type": "object",
+                        "required": [
+                          "id",
+                          "quantity",
+                          "unit_price",
+                          "discount",
+                          "amount"
+                        ],
+                        "additional_properties": false,
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "quantity": {
+                            "type": "integer"
+                          },
+                          "unit_price": {
+                            "type": "integer"
+                          },
+                          "discount": {
+                            "type": "integer"
+                          },
+                          "amount": {
+                            "type": "integer"
+                          }
+                        }
+                      }
+                    },
+                    "subtotal": {
+                      "type": "integer"
+                    },
+                    "tax": {
+                      "type": "integer"
+                    },
+                    "total": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              },
+              "total": {
+                "type": "integer"
+              }
+            }
+          },
+          "equals": [
+            {
+              "path": "/currency",
+              "value": "credits"
+            }
+          ],
+          "relations": [
+            {
+              "op": "sum",
+              "left": "/groups/0/subtotal",
+              "right": "/groups/0/items",
+              "field": "amount"
+            },
+            {
+              "op": "sum",
+              "left": "/groups/1/subtotal",
+              "right": "/groups/1/items",
+              "field": "amount"
+            },
+            {
+              "op": "sum",
+              "left": "/groups/2/subtotal",
+              "right": "/groups/2/items",
+              "field": "amount"
+            },
+            {
+              "op": "count",
+              "left": "/group_count",
+              "right": "/groups"
+            },
+            {
+              "op": "sum",
+              "left": "/total",
+              "right": "/groups",
+              "field": "total"
+            },
+            {
+              "op": "unique",
+              "right": "/groups",
+              "field": "id"
+            }
+          ]
+        }
+      },
+      "source_sha256": "09a0950941b2a745c0c697469cfb73cbd2a4d0df062d36162e5a63b695467b6f",
+      "diagnostic": "Document calculation, input preservation, or exact field structure differs",
+      "resources": {
+        "inference_seconds": 5.09383,
+        "prompt_tokens": 916,
+        "completion_tokens": 403,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ]
+    },
+    {
+      "id": "c4d5e46cf31b7a9ddd5efa2bed8cb5876506379287d9d42b391f3850376e3d1c",
+      "model": "glm",
+      "arm": "contract",
+      "task": "dev-http-discount",
+      "trial": 0,
+      "language": "http",
+      "level": 2,
+      "accepted": true,
+      "strict_pass": true,
+      "attempts": 1,
+      "status": "passed",
+      "grade": {
+        "passed": true,
+        "document_checked": true
+      },
+      "prompt": "Produce an offline fictional catalog calculation. Preserve each supplied id, quantity, unit_price, and discount. Add amount = floor(quantity * unit_price * (100 - discount) / 100), with discount=0 when absent. Root fields exactly currency=\"credits\", count, items, total. total sums amounts. All calculations use integers, all arrays preserve input order, no extra fields or wrappers. Inputs: [{\"id\":\"item-1\",\"quantity\":5,\"unit_price\":58,\"discount\":0},{\"id\":\"item-2\",\"quantity\":13,\"unit_price\":61,\"discount\":0},{\"id\":\"item-3\",\"quantity\":2,\"unit_price\":70,\"discount\":15},{\"id\":\"item-4\",\"quantity\":17,\"unit_price\":27,\"discount\":33}] Wrap the JSON document in one HTTP/1.1 200 response with Content-Type application/json and X-Example-Id: dev-http-discount. No cookies or credentials.",
+      "public_contract": {
+        "schema_version": 1,
+        "language": "http",
+        "document": {
+          "shape": {
+            "type": "object",
+            "required": [
+              "currency",
+              "count",
+              "items",
+              "total"
+            ],
+            "additional_properties": false,
+            "properties": {
+              "currency": {
+                "type": "string"
+              },
+              "count": {
+                "type": "integer"
+              },
+              "items": {
+                "type": "array",
+                "min_items": 4,
+                "max_items": 4,
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "id",
+                    "quantity",
+                    "unit_price",
+                    "discount",
+                    "amount"
+                  ],
+                  "additional_properties": false,
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "quantity": {
+                      "type": "integer"
+                    },
+                    "unit_price": {
+                      "type": "integer"
+                    },
+                    "discount": {
+                      "type": "integer"
+                    },
+                    "amount": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              },
+              "total": {
+                "type": "integer"
+              }
+            }
+          },
+          "equals": [
+            {
+              "path": "/currency",
+              "value": "credits"
+            }
+          ],
+          "relations": [
+            {
+              "op": "count",
+              "left": "/count",
+              "right": "/items"
+            },
+            {
+              "op": "sum",
+              "left": "/total",
+              "right": "/items",
+              "field": "amount"
+            },
+            {
+              "op": "unique",
+              "right": "/items",
+              "field": "id"
+            }
+          ]
+        },
+        "http": {
+          "status": 200,
+          "headers": {
+            "X-Example-Id": "dev-http-discount"
+          }
+        }
+      },
+      "source_sha256": "63c88b26ac69fe3f30ffab9d2b2ffc28e6da790baf8249ad8b51ae76d843dda5",
+      "diagnostic": "",
+      "resources": {
+        "inference_seconds": 2.8756999999999997,
+        "prompt_tokens": 775,
+        "completion_tokens": 232,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ]
+    },
+    {
+      "id": "06e8ff519944d87ec5ea684ab5050b74af8769d9942dcd53a074be1772006032",
+      "model": "glm",
+      "arm": "contract",
+      "task": "dev-binary-macho",
+      "trial": 0,
+      "language": "binary-info",
+      "level": 2,
+      "accepted": true,
+      "strict_pass": true,
+      "attempts": 1,
+      "status": "passed",
+      "grade": {
+        "passed": true,
+        "document_checked": true
+      },
+      "prompt": "Describe a fictional Mach-O artifact for aarch64 as symbolic schema metadata only. Use exactly the following sections and symbols in their listed order, with names unchanged: {\"sections\":[{\"name\":\".text.core\",\"kind\":\"code\"},{\"name\":\".text.math\",\"kind\":\"code\"},{\"name\":\".rdata.info\",\"kind\":\"data\"},{\"name\":\".rdata.tags\",\"kind\":\"data\"}],\"symbols\":[{\"name\":\"compute_1_1\",\"kind\":\"function\",\"section\":\".text.core\"},{\"name\":\"compute_2_1\",\"kind\":\"function\",\"section\":\".text.math\"},{\"name\":\"description_3_1\",\"kind\":\"object\",\"section\":\".rdata.info\"},{\"name\":\"description_4_1\",\"kind\":\"object\",\"section\":\".rdata.tags\"}]}. Include one ordinary descriptive string. No addresses, sizes, encoded bytes, or executable content.",
+      "public_contract": {
+        "schema_version": 1,
+        "language": "binary-info",
+        "document": {
+          "shape": {
+            "type": "object",
+            "required": [
+              "schema_version",
+              "format",
+              "architecture",
+              "sections",
+              "symbols",
+              "strings"
+            ],
+            "additional_properties": false,
+            "properties": {
+              "schema_version": {
+                "type": "integer"
+              },
+              "format": {
+                "type": "string"
+              },
+              "architecture": {
+                "type": "string"
+              },
+              "sections": {
+                "type": "array",
+                "min_items": 4,
+                "max_items": 4,
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "name",
+                    "kind"
+                  ],
+                  "additional_properties": false,
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "kind": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "symbols": {
+                "type": "array",
+                "min_items": 4,
+                "max_items": 4,
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "name",
+                    "kind",
+                    "section"
+                  ],
+                  "additional_properties": false,
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "kind": {
+                      "type": "string"
+                    },
+                    "section": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "strings": {
+                "type": "array",
+                "min_items": 1,
+                "max_items": 4,
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "equals": [
+            {
+              "path": "/schema_version",
+              "value": 1
+            },
+            {
+              "path": "/format",
+              "value": "Mach-O"
+            },
+            {
+              "path": "/architecture",
+              "value": "aarch64"
+            },
+            {
+              "path": "/sections",
+              "value": [
+                {
+                  "name": ".text.core",
+                  "kind": "code"
+                },
+                {
+                  "name": ".text.math",
+                  "kind": "code"
+                },
+                {
+                  "name": ".rdata.info",
+                  "kind": "data"
+                },
+                {
+                  "name": ".rdata.tags",
+                  "kind": "data"
+                }
+              ]
+            },
+            {
+              "path": "/symbols",
+              "value": [
+                {
+                  "name": "compute_1_1",
+                  "kind": "function",
+                  "section": ".text.core"
+                },
+                {
+                  "name": "compute_2_1",
+                  "kind": "function",
+                  "section": ".text.math"
+                },
+                {
+                  "name": "description_3_1",
+                  "kind": "object",
+                  "section": ".rdata.info"
+                },
+                {
+                  "name": "description_4_1",
+                  "kind": "object",
+                  "section": ".rdata.tags"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "source_sha256": "c6ac9be764abeeda0f2f859237e814f0fbec5513f954604ac5181d5e0453c593",
+      "diagnostic": "",
+      "resources": {
+        "inference_seconds": 3.2576799999999997,
+        "prompt_tokens": 1033,
+        "completion_tokens": 262,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ]
+    },
+    {
+      "id": "782225e433aefd2d2a813203f7713acf3b5f260f3510199e3b742c3dda4291a8",
+      "model": "glm",
+      "arm": "contract",
+      "task": "dev-html-table",
+      "trial": 0,
+      "language": "html",
+      "level": 2,
+      "accepted": true,
+      "strict_pass": false,
+      "attempts": 2,
+      "status": "passed",
+      "grade": {
+        "passed": false,
+        "diagnostic": "HTML numeric results, inputs, labels, or row ordering differ",
+        "behavior_checked": false
+      },
+      "prompt": "Create an inert HTML reference section with id dev-html-table, a heading, and one table. Columns in order: [\"Item\", \"Quantity\", \"Unit price\", \"Discount\", \"Amount\"]. Use decimal integer text, no units or formatting within numeric cells. Preserve row order and input values. Amount=floor(quantity*price*(100-discount)/100), using the supplied discount. Inputs: [{\"item\":\"entry-1\",\"quantity\":2,\"price\":7,\"discount\":0},{\"item\":\"entry-2\",\"quantity\":3,\"price\":20,\"discount\":7},{\"item\":\"entry-3\",\"quantity\":4,\"price\":33,\"discount\":14},{\"item\":\"entry-4\",\"quantity\":5,\"price\":46,\"discount\":21}]. No scripts, resources, styles, or extra tables.",
+      "public_contract": {
+        "schema_version": 1,
+        "language": "html",
+        "html": {
+          "required_ids": [
+            "dev-html-table"
+          ],
+          "table": {
+            "columns": [
+              "Item",
+              "Quantity",
+              "Unit price",
+              "Discount",
+              "Amount"
+            ],
+            "row_count": 4
+          }
+        }
+      },
+      "source_sha256": "a4b1be24e16b05976ff02afef24adb75ed675eeaafa4c680d167d8556936cd61",
+      "diagnostic": "HTML numeric results, inputs, labels, or row ordering differ",
+      "resources": {
+        "inference_seconds": 7.9042,
+        "prompt_tokens": 2035,
+        "completion_tokens": 634,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "failed",
+          "failed_checks": [
+            "html_parse",
+            "source_structure",
+            "task_contract"
+          ]
+        },
+        {
+          "attempt": 2,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ]
+    },
+    {
+      "id": "a74ffe58aeabb28442b12bf260930d3d61fca57538682ba0679fc62f5c56bf98",
+      "model": "deepseek",
+      "arm": "baseline",
+      "task": "dev-python-clamp",
+      "trial": 0,
+      "language": "python",
+      "level": 1,
+      "accepted": true,
+      "strict_pass": true,
+      "attempts": 1,
+      "status": "passed",
+      "grade": {
+        "passed": true,
+        "public_passed": 3,
+        "public_cases": 3,
+        "hidden_passed": 320,
+        "hidden_cases": 320,
+        "behavior_checked": true,
+        "failures": []
+      },
+      "prompt": "Create the pure python helper clamp with inputs in this order: value, lower, upper. Return value unchanged for reversed bounds; otherwise clamp inclusively. Input domains (inclusive): {\"lower\": [-100, 100], \"upper\": [-100, 100], \"value\": [-100, 100]}. Use integer/bool values, scalar locals, comparisons, arithmetic (+, -, *, //, %), if/while, flat tuple unpacking, and optionally abs/min/max only. No imports, other calls, recursion, comprehensions, for loops, or top-level calls. Briefly document inputs and boundary behavior. Return substantive input-dependent computation.",
+      "public_contract": {
+        "schema_version": 1,
+        "language": "python",
+        "function": {
+          "name": "clamp",
+          "parameters": [
+            "value",
+            "lower",
+            "upper"
+          ]
+        },
+        "examples": [
+          {
+            "inputs": [
+              5,
+              10,
+              0
+            ],
+            "expected": 5
+          },
+          {
+            "inputs": [
+              -2,
+              0,
+              10
+            ],
+            "expected": 0
+          },
+          {
+            "inputs": [
+              15,
+              0,
+              10
+            ],
+            "expected": 10
+          }
+        ]
+      },
+      "source_sha256": "388818b5590689b5725636af0681dad5efab2a54d5f5d7fada58c88b789c3fce",
+      "diagnostic": "",
+      "resources": {
+        "inference_seconds": 7.77064,
+        "prompt_tokens": 545,
+        "completion_tokens": 94,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ]
+    },
+    {
+      "id": "67971a6731a62b2227350f5b22412e5f8966d5e11f6f8820dd19a8cefc584af9",
+      "model": "deepseek",
+      "arm": "baseline",
+      "task": "dev-python-digits",
+      "trial": 0,
+      "language": "python",
+      "level": 2,
+      "accepted": false,
+      "strict_pass": false,
+      "attempts": 3,
+      "status": "failed",
+      "grade": {
+        "passed": false,
+        "diagnostic": "No accepted candidate"
+      },
+      "prompt": "Create the pure python helper digit_sum with inputs in this order: value. Return the sum of decimal digits of abs(value); zero returns zero. Input domains (inclusive): {\"value\": [-100000, 100000]}. Use integer/bool values, scalar locals, comparisons, arithmetic (+, -, *, //, %), if/while, flat tuple unpacking, and optionally abs/min/max only. No imports, other calls, recursion, comprehensions, for loops, or top-level calls. Briefly document inputs and boundary behavior. Return substantive input-dependent computation.",
+      "public_contract": {
+        "schema_version": 1,
+        "language": "python",
+        "function": {
+          "name": "digit_sum",
+          "parameters": [
+            "value"
+          ]
+        },
+        "examples": [
+          {
+            "inputs": [
+              0
+            ],
+            "expected": 0
+          },
+          {
+            "inputs": [
+              -129
+            ],
+            "expected": 12
+          },
+          {
+            "inputs": [
+              5005
+            ],
+            "expected": 10
+          }
+        ]
+      },
+      "source_sha256": null,
+      "diagnostic": "No accepted candidate",
+      "resources": {
+        "inference_seconds": 23.97068,
+        "prompt_tokens": 2005,
+        "completion_tokens": 279,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "failed",
+          "failed_checks": [
+            "source_structure"
+          ]
+        },
+        {
+          "attempt": 2,
+          "status": "failed",
+          "failed_checks": [
+            "source_structure"
+          ]
+        },
+        {
+          "attempt": 3,
+          "status": "failed",
+          "failed_checks": [
+            "source_structure"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "8c65d18d3290bea783b558c04c525a06e5cfd8beafe269e396c45799f5d4da58",
+      "model": "deepseek",
+      "arm": "baseline",
+      "task": "dev-python-parking",
+      "trial": 0,
+      "language": "python",
+      "level": 3,
+      "accepted": true,
+      "strict_pass": true,
+      "attempts": 1,
+      "status": "passed",
+      "grade": {
+        "passed": true,
+        "public_passed": 3,
+        "public_cases": 3,
+        "hidden_passed": 320,
+        "hidden_cases": 320,
+        "behavior_checked": true,
+        "failures": []
+      },
+      "prompt": "Create the pure python helper parking with inputs in this order: minutes. Nonpositive minutes cost 0. The first 60 minutes cost 3; each additional started 60-minute block costs 2. Input domains (inclusive): {\"minutes\": [-20, 3000]}. Use integer/bool values, scalar locals, comparisons, arithmetic (+, -, *, //, %), if/while, flat tuple unpacking, and optionally abs/min/max only. No imports, other calls, recursion, comprehensions, for loops, or top-level calls. Briefly document inputs and boundary behavior. Return substantive input-dependent computation.",
+      "public_contract": {
+        "schema_version": 1,
+        "language": "python",
+        "function": {
+          "name": "parking",
+          "parameters": [
+            "minutes"
+          ]
+        },
+        "examples": [
+          {
+            "inputs": [
+              0
+            ],
+            "expected": 0
+          },
+          {
+            "inputs": [
+              60
+            ],
+            "expected": 3
+          },
+          {
+            "inputs": [
+              61
+            ],
+            "expected": 5
+          }
+        ]
+      },
+      "source_sha256": "70d3ca031680b5bdfdc2a02ceb6bd2ba3f49d010f0d6ee3d16eea9bb24002c5d",
+      "diagnostic": "",
+      "resources": {
+        "inference_seconds": 13.18127,
+        "prompt_tokens": 515,
+        "completion_tokens": 155,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ]
+    },
+    {
+      "id": "15fe1a8d098f63b0398bf345bcbcf37396632d677e0eef1e6d0b1e97f44a8bc3",
+      "model": "deepseek",
+      "arm": "baseline",
+      "task": "dev-sql-distance",
+      "trial": 0,
+      "language": "sql",
+      "level": 1,
+      "accepted": true,
+      "strict_pass": true,
+      "attempts": 1,
+      "status": "passed",
+      "grade": {
+        "passed": true,
+        "public_passed": 3,
+        "public_cases": 3,
+        "hidden_passed": 320,
+        "hidden_cases": 320,
+        "behavior_checked": true,
+        "failures": []
+      },
+      "prompt": "Create the pure sql helper distance with inputs in this order: a, b. Return the absolute difference. Input domains (inclusive): {\"a\": [-1000, 1000], \"b\": [-1000, 1000]}. Use one SQLite SELECT with named :parameter inputs and exactly one AS distance result; integer arithmetic only, no tables. Briefly document inputs and boundary behavior. Return substantive input-dependent computation.",
+      "public_contract": {
+        "schema_version": 1,
+        "language": "sql",
+        "function": {
+          "name": "distance",
+          "parameters": [
+            "a",
+            "b"
+          ]
+        },
+        "examples": [
+          {
+            "inputs": [
+              -2,
+              3
+            ],
+            "expected": 5
+          },
+          {
+            "inputs": [
+              3,
+              -2
+            ],
+            "expected": 5
+          },
+          {
+            "inputs": [
+              5,
+              5
+            ],
+            "expected": 0
+          }
+        ]
+      },
+      "source_sha256": "97b5d66f55eddc82da0bdb43ed473190c98ad7338a25382736519adf476817b2",
+      "diagnostic": "",
+      "resources": {
+        "inference_seconds": 18.46002,
+        "prompt_tokens": 452,
+        "completion_tokens": 63,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ]
+    },
+    {
+      "id": "6d2a230d3cf52b15065a7653a4e40670c9dc6cf7f9b89ad94fd7886a4d4ed58e",
+      "model": "deepseek",
+      "arm": "baseline",
+      "task": "dev-sql-percent",
+      "trial": 0,
+      "language": "sql",
+      "level": 2,
+      "accepted": false,
+      "strict_pass": false,
+      "attempts": 3,
+      "status": "failed",
+      "grade": {
+        "passed": false,
+        "diagnostic": "No accepted candidate"
+      },
+      "prompt": "Create the pure sql helper portion with inputs in this order: value, percent. Clamp value below at zero and percent to 0..100; return floor(value*percent/100). Input domains (inclusive): {\"percent\": [-20, 120], \"value\": [-100, 10000]}. Use one SQLite SELECT with named :parameter inputs and exactly one AS portion result; integer arithmetic only, no tables. Briefly document inputs and boundary behavior. Return substantive input-dependent computation.",
+      "public_contract": {
+        "schema_version": 1,
+        "language": "sql",
+        "function": {
+          "name": "portion",
+          "parameters": [
+            "value",
+            "percent"
+          ]
+        },
+        "examples": [
+          {
+            "inputs": [
+              5,
+              50
+            ],
+            "expected": 2
+          },
+          {
+            "inputs": [
+              -1,
+              80
+            ],
+            "expected": 0
+          },
+          {
+            "inputs": [
+              7,
+              150
+            ],
+            "expected": 7
+          }
+        ]
+      },
+      "source_sha256": null,
+      "diagnostic": "No accepted candidate",
+      "resources": {
+        "inference_seconds": 35.908449999999995,
+        "prompt_tokens": 2032,
+        "completion_tokens": 324,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "failed",
+          "failed_checks": [
+            "sql_prepare",
+            "source_structure"
+          ]
+        },
+        {
+          "attempt": 2,
+          "status": "failed",
+          "failed_checks": [
+            "sql_prepare",
+            "source_structure"
+          ]
+        },
+        {
+          "attempt": 3,
+          "status": "failed",
+          "failed_checks": [
+            "sql_prepare",
+            "source_structure"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "e2d16af14656fa0e615383863f2a02c4ddf4d0597e7f557813736ff7c095ec37",
+      "model": "deepseek",
+      "arm": "baseline",
+      "task": "dev-llvm-minimum",
+      "trial": 0,
+      "language": "llvm",
+      "level": 1,
+      "accepted": true,
+      "strict_pass": true,
+      "attempts": 1,
+      "status": "passed",
+      "grade": {
+        "passed": true,
+        "public_passed": 3,
+        "public_cases": 3,
+        "hidden_passed": 320,
+        "hidden_cases": 320,
+        "behavior_checked": true,
+        "failures": []
+      },
+      "prompt": "Create the pure llvm helper minimum with inputs in this order: a, b, c. Return the smallest signed integer. Input domains (inclusive): {\"a\": [-100000, 100000], \"b\": [-100000, 100000], \"c\": [-100000, 100000]}. Use one straight-line LLVM helper with signed i32 inputs, i32 result, and only icmp, select, ret. No branches, calls, memory, flags, or extra functions. Briefly document inputs and boundary behavior. Return substantive input-dependent computation.",
+      "public_contract": {
+        "schema_version": 1,
+        "language": "llvm",
+        "function": {
+          "name": "minimum",
+          "parameters": [
+            "a",
+            "b",
+            "c"
+          ],
+          "parameter_types": [
+            "i32",
+            "i32",
+            "i32"
+          ],
+          "return_type": "i32"
+        },
+        "examples": [
+          {
+            "inputs": [
+              3,
+              1,
+              2
+            ],
+            "expected": 1
+          },
+          {
+            "inputs": [
+              -2,
+              4,
+              -1
+            ],
+            "expected": -2
+          },
+          {
+            "inputs": [
+              5,
+              5,
+              5
+            ],
+            "expected": 5
+          }
+        ],
+        "llvm": {
+          "instructions": [
+            "icmp",
+            "select",
+            "ret"
+          ]
+        }
+      },
+      "source_sha256": "f9bf5aeac63eee7a2da702001f6a167144f31b3dd3c4d4166459b5fe84d5cd0c",
+      "diagnostic": "",
+      "resources": {
+        "inference_seconds": 146.84309,
+        "prompt_tokens": 569,
+        "completion_tokens": 189,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ]
+    },
+    {
+      "id": "5ee6ad2860cf6c8d596781aad9e17c2edeeb02e63685103cfec8951bc0baafec",
+      "model": "deepseek",
+      "arm": "baseline",
+      "task": "dev-llvm-range",
+      "trial": 0,
+      "language": "llvm",
+      "level": 2,
+      "accepted": true,
+      "strict_pass": true,
+      "attempts": 1,
+      "status": "passed",
+      "grade": {
+        "passed": true,
+        "public_passed": 3,
+        "public_cases": 3,
+        "hidden_passed": 320,
+        "hidden_cases": 320,
+        "behavior_checked": true,
+        "failures": []
+      },
+      "prompt": "Create the pure llvm helper within with inputs in this order: value, lower, upper. Return true exactly when lower <= value <= upper; reversed bounds return false. Input domains (inclusive): {\"lower\": [-100000, 100000], \"upper\": [-100000, 100000], \"value\": [-100000, 100000]}. Use one straight-line LLVM helper with signed i32 inputs, i1 result, and only icmp, select, ret, and. No branches, calls, memory, flags, or extra functions. Briefly document inputs and boundary behavior. Return substantive input-dependent computation.",
+      "public_contract": {
+        "schema_version": 1,
+        "language": "llvm",
+        "function": {
+          "name": "within",
+          "parameters": [
+            "value",
+            "lower",
+            "upper"
+          ],
+          "parameter_types": [
+            "i32",
+            "i32",
+            "i32"
+          ],
+          "return_type": "i1"
+        },
+        "examples": [
+          {
+            "inputs": [
+              0,
+              0,
+              10
+            ],
+            "expected": true
+          },
+          {
+            "inputs": [
+              5,
+              10,
+              0
+            ],
+            "expected": false
+          },
+          {
+            "inputs": [
+              -2,
+              -4,
+              -1
+            ],
+            "expected": true
+          }
+        ],
+        "llvm": {
+          "instructions": [
+            "icmp",
+            "select",
+            "ret",
+            "and"
+          ]
+        }
+      },
+      "source_sha256": "d4a964bfa3fa2b5425ab7724d20fe9e109b0a82c33c3b1f6016e9ab38dd07221",
+      "diagnostic": "",
+      "resources": {
+        "inference_seconds": 115.28044,
+        "prompt_tokens": 580,
+        "completion_tokens": 146,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ]
+    },
+    {
+      "id": "81c2c34a9718de6a3fb5a12554caea46cf8891a148c01da4b6c063796e7b5abc",
+      "model": "deepseek",
+      "arm": "baseline",
+      "task": "dev-json-simple",
+      "trial": 0,
+      "language": "json",
+      "level": 1,
+      "accepted": true,
+      "strict_pass": true,
+      "attempts": 1,
+      "status": "passed",
+      "grade": {
+        "passed": true,
+        "document_checked": true
+      },
+      "prompt": "Produce an offline fictional catalog calculation. Preserve each supplied id, quantity, unit_price. Add amount = floor(quantity * unit_price * (100 - discount) / 100), with discount=0 when absent. Root fields exactly currency=\"credits\", count, items, total. total sums amounts. All calculations use integers, all arrays preserve input order, no extra fields or wrappers. Inputs: [{\"id\":\"item-1\",\"quantity\":0,\"unit_price\":28},{\"id\":\"item-2\",\"quantity\":1,\"unit_price\":76}]",
+      "public_contract": {
+        "schema_version": 1,
+        "language": "json",
+        "document": {
+          "shape": {
+            "type": "object",
+            "required": [
+              "currency",
+              "count",
+              "items",
+              "total"
+            ],
+            "additional_properties": false,
+            "properties": {
+              "currency": {
+                "type": "string"
+              },
+              "count": {
+                "type": "integer"
+              },
+              "items": {
+                "type": "array",
+                "min_items": 2,
+                "max_items": 2,
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "id",
+                    "quantity",
+                    "unit_price",
+                    "amount"
+                  ],
+                  "additional_properties": false,
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "quantity": {
+                      "type": "integer"
+                    },
+                    "unit_price": {
+                      "type": "integer"
+                    },
+                    "amount": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              },
+              "total": {
+                "type": "integer"
+              }
+            }
+          },
+          "equals": [
+            {
+              "path": "/currency",
+              "value": "credits"
+            }
+          ],
+          "relations": [
+            {
+              "op": "count",
+              "left": "/count",
+              "right": "/items"
+            },
+            {
+              "op": "sum",
+              "left": "/total",
+              "right": "/items",
+              "field": "amount"
+            },
+            {
+              "op": "unique",
+              "right": "/items",
+              "field": "id"
+            }
+          ]
+        }
+      },
+      "source_sha256": "f9ead933a021d12c0d6a7fba70a6a0f414e22207c61808426ce32e4d14bc5bab",
+      "diagnostic": "",
+      "resources": {
+        "inference_seconds": 9.10978,
+        "prompt_tokens": 632,
+        "completion_tokens": 106,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ]
+    },
+    {
+      "id": "ad9b5c9824e0b1f405a8f4a991cf64b95aeac42896ad80895291107c82cc3ee5",
+      "model": "deepseek",
+      "arm": "baseline",
+      "task": "dev-json-groups",
+      "trial": 0,
+      "language": "json",
+      "level": 3,
+      "accepted": true,
+      "strict_pass": true,
+      "attempts": 1,
+      "status": "passed",
+      "grade": {
+        "passed": true,
+        "document_checked": true
+      },
+      "prompt": "Produce an offline fictional catalog calculation. Preserve group id, tax_percent, and item id/quantity/unit_price/discount in order. Add each item amount=floor(quantity*unit_price*(100-discount)/100). Add group subtotal=sum(item amounts), tax=floor(subtotal*tax_percent/100), total=subtotal+tax. Root fields exactly currency=\"credits\", group_count, groups, total; root total sums group totals. All calculations use integers, all arrays preserve input order, no extra fields or wrappers. Inputs: [{\"id\":\"group-1\",\"tax_percent\":5,\"items\":[{\"id\":\"item-1\",\"quantity\":7,\"unit_price\":64,\"discount\":0},{\"id\":\"item-2\",\"quantity\":13,\"unit_price\":21,\"discount\":33}]},{\"id\":\"group-2\",\"tax_percent\":9,\"items\":[{\"id\":\"item-1\",\"quantity\":7,\"unit_price\":73,\"discount\":15},{\"id\":\"item-2\",\"quantity\":8,\"unit_price\":91,\"discount\":15}]},{\"id\":\"group-3\",\"tax_percent\":13,\"items\":[{\"id\":\"item-1\",\"quantity\":13,\"unit_price\":3,\"discount\":15},{\"id\":\"item-2\",\"quantity\":17,\"unit_price\":38,\"discount\":0}]}]",
+      "public_contract": {
+        "schema_version": 1,
+        "language": "json",
+        "document": {
+          "shape": {
+            "type": "object",
+            "required": [
+              "currency",
+              "group_count",
+              "groups",
+              "total"
+            ],
+            "additional_properties": false,
+            "properties": {
+              "currency": {
+                "type": "string"
+              },
+              "group_count": {
+                "type": "integer"
+              },
+              "groups": {
+                "type": "array",
+                "min_items": 3,
+                "max_items": 3,
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "id",
+                    "tax_percent",
+                    "items",
+                    "subtotal",
+                    "tax",
+                    "total"
+                  ],
+                  "additional_properties": false,
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "tax_percent": {
+                      "type": "integer"
+                    },
+                    "items": {
+                      "type": "array",
+                      "min_items": 2,
+                      "max_items": 2,
+                      "items": {
+                        "type": "object",
+                        "required": [
+                          "id",
+                          "quantity",
+                          "unit_price",
+                          "discount",
+                          "amount"
+                        ],
+                        "additional_properties": false,
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "quantity": {
+                            "type": "integer"
+                          },
+                          "unit_price": {
+                            "type": "integer"
+                          },
+                          "discount": {
+                            "type": "integer"
+                          },
+                          "amount": {
+                            "type": "integer"
+                          }
+                        }
+                      }
+                    },
+                    "subtotal": {
+                      "type": "integer"
+                    },
+                    "tax": {
+                      "type": "integer"
+                    },
+                    "total": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              },
+              "total": {
+                "type": "integer"
+              }
+            }
+          },
+          "equals": [
+            {
+              "path": "/currency",
+              "value": "credits"
+            }
+          ],
+          "relations": [
+            {
+              "op": "sum",
+              "left": "/groups/0/subtotal",
+              "right": "/groups/0/items",
+              "field": "amount"
+            },
+            {
+              "op": "sum",
+              "left": "/groups/1/subtotal",
+              "right": "/groups/1/items",
+              "field": "amount"
+            },
+            {
+              "op": "sum",
+              "left": "/groups/2/subtotal",
+              "right": "/groups/2/items",
+              "field": "amount"
+            },
+            {
+              "op": "count",
+              "left": "/group_count",
+              "right": "/groups"
+            },
+            {
+              "op": "sum",
+              "left": "/total",
+              "right": "/groups",
+              "field": "total"
+            },
+            {
+              "op": "unique",
+              "right": "/groups",
+              "field": "id"
+            }
+          ]
+        }
+      },
+      "source_sha256": "f75c5c75c8caa757380fcae72551fd7480ed062d5aa185248a03d76dc8a46c8a",
+      "diagnostic": "",
+      "resources": {
+        "inference_seconds": 33.57136,
+        "prompt_tokens": 1103,
+        "completion_tokens": 451,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ]
+    },
+    {
+      "id": "4260e73cf4210f4e141b3474e09fee43ddfe26ff77a05b7c7d9071edcb33603f",
+      "model": "deepseek",
+      "arm": "baseline",
+      "task": "dev-http-discount",
+      "trial": 0,
+      "language": "http",
+      "level": 2,
+      "accepted": true,
+      "strict_pass": true,
+      "attempts": 1,
+      "status": "passed",
+      "grade": {
+        "passed": true,
+        "document_checked": true
+      },
+      "prompt": "Produce an offline fictional catalog calculation. Preserve each supplied id, quantity, unit_price, and discount. Add amount = floor(quantity * unit_price * (100 - discount) / 100), with discount=0 when absent. Root fields exactly currency=\"credits\", count, items, total. total sums amounts. All calculations use integers, all arrays preserve input order, no extra fields or wrappers. Inputs: [{\"id\":\"item-1\",\"quantity\":5,\"unit_price\":58,\"discount\":0},{\"id\":\"item-2\",\"quantity\":13,\"unit_price\":61,\"discount\":0},{\"id\":\"item-3\",\"quantity\":2,\"unit_price\":70,\"discount\":15},{\"id\":\"item-4\",\"quantity\":17,\"unit_price\":27,\"discount\":33}] Wrap the JSON document in one HTTP/1.1 200 response with Content-Type application/json and X-Example-Id: dev-http-discount. No cookies or credentials.",
+      "public_contract": {
+        "schema_version": 1,
+        "language": "http",
+        "document": {
+          "shape": {
+            "type": "object",
+            "required": [
+              "currency",
+              "count",
+              "items",
+              "total"
+            ],
+            "additional_properties": false,
+            "properties": {
+              "currency": {
+                "type": "string"
+              },
+              "count": {
+                "type": "integer"
+              },
+              "items": {
+                "type": "array",
+                "min_items": 4,
+                "max_items": 4,
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "id",
+                    "quantity",
+                    "unit_price",
+                    "discount",
+                    "amount"
+                  ],
+                  "additional_properties": false,
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "quantity": {
+                      "type": "integer"
+                    },
+                    "unit_price": {
+                      "type": "integer"
+                    },
+                    "discount": {
+                      "type": "integer"
+                    },
+                    "amount": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              },
+              "total": {
+                "type": "integer"
+              }
+            }
+          },
+          "equals": [
+            {
+              "path": "/currency",
+              "value": "credits"
+            }
+          ],
+          "relations": [
+            {
+              "op": "count",
+              "left": "/count",
+              "right": "/items"
+            },
+            {
+              "op": "sum",
+              "left": "/total",
+              "right": "/items",
+              "field": "amount"
+            },
+            {
+              "op": "unique",
+              "right": "/items",
+              "field": "id"
+            }
+          ]
+        },
+        "http": {
+          "status": 200,
+          "headers": {
+            "X-Example-Id": "dev-http-discount"
+          }
+        }
+      },
+      "source_sha256": "a90e6a49b32f8f1babac67c739374ecc5fef89db4e2c27a294aebe9c7b4f0196",
+      "diagnostic": "",
+      "resources": {
+        "inference_seconds": 97.95149,
+        "prompt_tokens": 844,
+        "completion_tokens": 236,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ]
+    },
+    {
+      "id": "e936e430c978578f5ed55585bbaf1c04b797086810e2402c0f2312c81abbecf1",
+      "model": "deepseek",
+      "arm": "baseline",
+      "task": "dev-binary-macho",
+      "trial": 0,
+      "language": "binary-info",
+      "level": 2,
+      "accepted": true,
+      "strict_pass": true,
+      "attempts": 1,
+      "status": "passed",
+      "grade": {
+        "passed": true,
+        "document_checked": true
+      },
+      "prompt": "Describe a fictional Mach-O artifact for aarch64 as symbolic schema metadata only. Use exactly the following sections and symbols in their listed order, with names unchanged: {\"sections\":[{\"name\":\".text.core\",\"kind\":\"code\"},{\"name\":\".text.math\",\"kind\":\"code\"},{\"name\":\".rdata.info\",\"kind\":\"data\"},{\"name\":\".rdata.tags\",\"kind\":\"data\"}],\"symbols\":[{\"name\":\"compute_1_1\",\"kind\":\"function\",\"section\":\".text.core\"},{\"name\":\"compute_2_1\",\"kind\":\"function\",\"section\":\".text.math\"},{\"name\":\"description_3_1\",\"kind\":\"object\",\"section\":\".rdata.info\"},{\"name\":\"description_4_1\",\"kind\":\"object\",\"section\":\".rdata.tags\"}]}. Include one ordinary descriptive string. No addresses, sizes, encoded bytes, or executable content.",
+      "public_contract": {
+        "schema_version": 1,
+        "language": "binary-info",
+        "document": {
+          "shape": {
+            "type": "object",
+            "required": [
+              "schema_version",
+              "format",
+              "architecture",
+              "sections",
+              "symbols",
+              "strings"
+            ],
+            "additional_properties": false,
+            "properties": {
+              "schema_version": {
+                "type": "integer"
+              },
+              "format": {
+                "type": "string"
+              },
+              "architecture": {
+                "type": "string"
+              },
+              "sections": {
+                "type": "array",
+                "min_items": 4,
+                "max_items": 4,
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "name",
+                    "kind"
+                  ],
+                  "additional_properties": false,
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "kind": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "symbols": {
+                "type": "array",
+                "min_items": 4,
+                "max_items": 4,
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "name",
+                    "kind",
+                    "section"
+                  ],
+                  "additional_properties": false,
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "kind": {
+                      "type": "string"
+                    },
+                    "section": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "strings": {
+                "type": "array",
+                "min_items": 1,
+                "max_items": 4,
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "equals": [
+            {
+              "path": "/schema_version",
+              "value": 1
+            },
+            {
+              "path": "/format",
+              "value": "Mach-O"
+            },
+            {
+              "path": "/architecture",
+              "value": "aarch64"
+            },
+            {
+              "path": "/sections",
+              "value": [
+                {
+                  "name": ".text.core",
+                  "kind": "code"
+                },
+                {
+                  "name": ".text.math",
+                  "kind": "code"
+                },
+                {
+                  "name": ".rdata.info",
+                  "kind": "data"
+                },
+                {
+                  "name": ".rdata.tags",
+                  "kind": "data"
+                }
+              ]
+            },
+            {
+              "path": "/symbols",
+              "value": [
+                {
+                  "name": "compute_1_1",
+                  "kind": "function",
+                  "section": ".text.core"
+                },
+                {
+                  "name": "compute_2_1",
+                  "kind": "function",
+                  "section": ".text.math"
+                },
+                {
+                  "name": "description_3_1",
+                  "kind": "object",
+                  "section": ".rdata.info"
+                },
+                {
+                  "name": "description_4_1",
+                  "kind": "object",
+                  "section": ".rdata.tags"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "source_sha256": "8d3a0d325bdbcf5e6b61adba293e5b193f549d1711beda84971fa2f9e5164a94",
+      "diagnostic": "",
+      "resources": {
+        "inference_seconds": 19.94973,
+        "prompt_tokens": 1204,
+        "completion_tokens": 237,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ]
+    },
+    {
+      "id": "7458a3c87b49d28a599eb1a7b404b32a3ffa5c691b2ceb1dfb8e5ad63af2a3e5",
+      "model": "deepseek",
+      "arm": "baseline",
+      "task": "dev-html-table",
+      "trial": 0,
+      "language": "html",
+      "level": 2,
+      "accepted": true,
+      "strict_pass": true,
+      "attempts": 1,
+      "status": "passed",
+      "grade": {
+        "passed": true,
+        "rows_checked": 4
+      },
+      "prompt": "Create an inert HTML reference section with id dev-html-table, a heading, and one table. Columns in order: [\"Item\", \"Quantity\", \"Unit price\", \"Discount\", \"Amount\"]. Use decimal integer text, no units or formatting within numeric cells. Preserve row order and input values. Amount=floor(quantity*price*(100-discount)/100), using the supplied discount. Inputs: [{\"item\":\"entry-1\",\"quantity\":2,\"price\":7,\"discount\":0},{\"item\":\"entry-2\",\"quantity\":3,\"price\":20,\"discount\":7},{\"item\":\"entry-3\",\"quantity\":4,\"price\":33,\"discount\":14},{\"item\":\"entry-4\",\"quantity\":5,\"price\":46,\"discount\":21}]. No scripts, resources, styles, or extra tables.",
+      "public_contract": {
+        "schema_version": 1,
+        "language": "html",
+        "html": {
+          "required_ids": [
+            "dev-html-table"
+          ],
+          "table": {
+            "columns": [
+              "Item",
+              "Quantity",
+              "Unit price",
+              "Discount",
+              "Amount"
+            ],
+            "row_count": 4
+          }
+        }
+      },
+      "source_sha256": "0779017dab47364cc26e009f941d73b7ed67f93bc104775522573b833fd2c72e",
+      "diagnostic": "",
+      "resources": {
+        "inference_seconds": 27.443830000000002,
+        "prompt_tokens": 622,
+        "completion_tokens": 343,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ]
+    },
+    {
+      "id": "a066a3a685333e88039f6bb963283c384338f719005fb76881dc09968ad8e278",
+      "model": "deepseek",
+      "arm": "contract",
+      "task": "dev-python-clamp",
+      "trial": 0,
+      "language": "python",
+      "level": 1,
+      "accepted": true,
+      "strict_pass": true,
+      "attempts": 1,
+      "status": "passed",
+      "grade": {
+        "passed": true,
+        "public_passed": 3,
+        "public_cases": 3,
+        "hidden_passed": 320,
+        "hidden_cases": 320,
+        "behavior_checked": true,
+        "failures": []
+      },
+      "prompt": "Create the pure python helper clamp with inputs in this order: value, lower, upper. Return value unchanged for reversed bounds; otherwise clamp inclusively. Input domains (inclusive): {\"lower\": [-100, 100], \"upper\": [-100, 100], \"value\": [-100, 100]}. Use integer/bool values, scalar locals, comparisons, arithmetic (+, -, *, //, %), if/while, flat tuple unpacking, and optionally abs/min/max only. No imports, other calls, recursion, comprehensions, for loops, or top-level calls. Briefly document inputs and boundary behavior. Return substantive input-dependent computation.",
+      "public_contract": {
+        "schema_version": 1,
+        "language": "python",
+        "function": {
+          "name": "clamp",
+          "parameters": [
+            "value",
+            "lower",
+            "upper"
+          ]
+        },
+        "examples": [
+          {
+            "inputs": [
+              5,
+              10,
+              0
+            ],
+            "expected": 5
+          },
+          {
+            "inputs": [
+              -2,
+              0,
+              10
+            ],
+            "expected": 0
+          },
+          {
+            "inputs": [
+              15,
+              0,
+              10
+            ],
+            "expected": 10
+          }
+        ]
+      },
+      "source_sha256": "6f3a30edd965730be51c10156605a72a923d752e7de10f874b171be2e0322518",
+      "diagnostic": "",
+      "resources": {
+        "inference_seconds": 8.60954,
+        "prompt_tokens": 620,
+        "completion_tokens": 106,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ]
+    },
+    {
+      "id": "bd4e0c4c1e293378c70f7fea7f7f641dd7606257b645390a2e8c3ba9b4dfdc72",
+      "model": "deepseek",
+      "arm": "contract",
+      "task": "dev-python-digits",
+      "trial": 0,
+      "language": "python",
+      "level": 2,
+      "accepted": true,
+      "strict_pass": true,
+      "attempts": 1,
+      "status": "passed",
+      "grade": {
+        "passed": true,
+        "public_passed": 3,
+        "public_cases": 3,
+        "hidden_passed": 320,
+        "hidden_cases": 320,
+        "behavior_checked": true,
+        "failures": []
+      },
+      "prompt": "Create the pure python helper digit_sum with inputs in this order: value. Return the sum of decimal digits of abs(value); zero returns zero. Input domains (inclusive): {\"value\": [-100000, 100000]}. Use integer/bool values, scalar locals, comparisons, arithmetic (+, -, *, //, %), if/while, flat tuple unpacking, and optionally abs/min/max only. No imports, other calls, recursion, comprehensions, for loops, or top-level calls. Briefly document inputs and boundary behavior. Return substantive input-dependent computation.",
+      "public_contract": {
+        "schema_version": 1,
+        "language": "python",
+        "function": {
+          "name": "digit_sum",
+          "parameters": [
+            "value"
+          ]
+        },
+        "examples": [
+          {
+            "inputs": [
+              0
+            ],
+            "expected": 0
+          },
+          {
+            "inputs": [
+              -129
+            ],
+            "expected": 12
+          },
+          {
+            "inputs": [
+              5005
+            ],
+            "expected": 10
+          }
+        ]
+      },
+      "source_sha256": "70a6d6ff4359e0fef9baeeb7cf13120e0f7a834b77f0f4ec58db56789819bb15",
+      "diagnostic": "",
+      "resources": {
+        "inference_seconds": 12.277610000000001,
+        "prompt_tokens": 588,
+        "completion_tokens": 93,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ]
+    },
+    {
+      "id": "5d10aa4ff8a9868f74d1710b7de701b048a0f1e177ba54b0a9dfcfc76f2f67c3",
+      "model": "deepseek",
+      "arm": "contract",
+      "task": "dev-python-parking",
+      "trial": 0,
+      "language": "python",
+      "level": 3,
+      "accepted": true,
+      "strict_pass": true,
+      "attempts": 1,
+      "status": "passed",
+      "grade": {
+        "passed": true,
+        "public_passed": 3,
+        "public_cases": 3,
+        "hidden_passed": 320,
+        "hidden_cases": 320,
+        "behavior_checked": true,
+        "failures": []
+      },
+      "prompt": "Create the pure python helper parking with inputs in this order: minutes. Nonpositive minutes cost 0. The first 60 minutes cost 3; each additional started 60-minute block costs 2. Input domains (inclusive): {\"minutes\": [-20, 3000]}. Use integer/bool values, scalar locals, comparisons, arithmetic (+, -, *, //, %), if/while, flat tuple unpacking, and optionally abs/min/max only. No imports, other calls, recursion, comprehensions, for loops, or top-level calls. Briefly document inputs and boundary behavior. Return substantive input-dependent computation.",
+      "public_contract": {
+        "schema_version": 1,
+        "language": "python",
+        "function": {
+          "name": "parking",
+          "parameters": [
+            "minutes"
+          ]
+        },
+        "examples": [
+          {
+            "inputs": [
+              0
+            ],
+            "expected": 0
+          },
+          {
+            "inputs": [
+              60
+            ],
+            "expected": 3
+          },
+          {
+            "inputs": [
+              61
+            ],
+            "expected": 5
+          }
+        ]
+      },
+      "source_sha256": "f2376bb491783de3e25408492699954aa8edc0afbb3bd93b74b31ad2e1d34fb2",
+      "diagnostic": "",
+      "resources": {
+        "inference_seconds": 23.449830000000002,
+        "prompt_tokens": 597,
+        "completion_tokens": 126,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ]
+    },
+    {
+      "id": "fc258a2394a04b17743e716e9c5d0a93dff3964b60b2ad46b81bccce35c4cf0d",
+      "model": "deepseek",
+      "arm": "contract",
+      "task": "dev-sql-distance",
+      "trial": 0,
+      "language": "sql",
+      "level": 1,
+      "accepted": true,
+      "strict_pass": true,
+      "attempts": 1,
+      "status": "passed",
+      "grade": {
+        "passed": true,
+        "public_passed": 3,
+        "public_cases": 3,
+        "hidden_passed": 320,
+        "hidden_cases": 320,
+        "behavior_checked": true,
+        "failures": []
+      },
+      "prompt": "Create the pure sql helper distance with inputs in this order: a, b. Return the absolute difference. Input domains (inclusive): {\"a\": [-1000, 1000], \"b\": [-1000, 1000]}. Use one SQLite SELECT with named :parameter inputs and exactly one AS distance result; integer arithmetic only, no tables. Briefly document inputs and boundary behavior. Return substantive input-dependent computation.",
+      "public_contract": {
+        "schema_version": 1,
+        "language": "sql",
+        "function": {
+          "name": "distance",
+          "parameters": [
+            "a",
+            "b"
+          ]
+        },
+        "examples": [
+          {
+            "inputs": [
+              -2,
+              3
+            ],
+            "expected": 5
+          },
+          {
+            "inputs": [
+              3,
+              -2
+            ],
+            "expected": 5
+          },
+          {
+            "inputs": [
+              5,
+              5
+            ],
+            "expected": 0
+          }
+        ]
+      },
+      "source_sha256": "4957144ab6d5654998d819c5ff572a6c93fc2af3a31f54dfe3d933f29e1cb7b8",
+      "diagnostic": "",
+      "resources": {
+        "inference_seconds": 7.56774,
+        "prompt_tokens": 531,
+        "completion_tokens": 102,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ]
+    },
+    {
+      "id": "caebb0c480ba8b637140f6f04db474a8040590e74023f1857f275c74f50435b5",
+      "model": "deepseek",
+      "arm": "contract",
+      "task": "dev-sql-percent",
+      "trial": 0,
+      "language": "sql",
+      "level": 2,
+      "accepted": true,
+      "strict_pass": true,
+      "attempts": 1,
+      "status": "passed",
+      "grade": {
+        "passed": true,
+        "public_passed": 3,
+        "public_cases": 3,
+        "hidden_passed": 320,
+        "hidden_cases": 320,
+        "behavior_checked": true,
+        "failures": []
+      },
+      "prompt": "Create the pure sql helper portion with inputs in this order: value, percent. Clamp value below at zero and percent to 0..100; return floor(value*percent/100). Input domains (inclusive): {\"percent\": [-20, 120], \"value\": [-100, 10000]}. Use one SQLite SELECT with named :parameter inputs and exactly one AS portion result; integer arithmetic only, no tables. Briefly document inputs and boundary behavior. Return substantive input-dependent computation.",
+      "public_contract": {
+        "schema_version": 1,
+        "language": "sql",
+        "function": {
+          "name": "portion",
+          "parameters": [
+            "value",
+            "percent"
+          ]
+        },
+        "examples": [
+          {
+            "inputs": [
+              5,
+              50
+            ],
+            "expected": 2
+          },
+          {
+            "inputs": [
+              -1,
+              80
+            ],
+            "expected": 0
+          },
+          {
+            "inputs": [
+              7,
+              150
+            ],
+            "expected": 7
+          }
+        ]
+      },
+      "source_sha256": "f20ea0bb4f2f9939f417a1030d2380c3808170f547bcba70d618a2309cba3d57",
+      "diagnostic": "",
+      "resources": {
+        "inference_seconds": 10.77177,
+        "prompt_tokens": 545,
+        "completion_tokens": 125,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ]
+    },
+    {
+      "id": "a8bfec10b05f948907cd0d37065e51b5ff4437306abd2bf8711cd3ae4f1b60e1",
+      "model": "deepseek",
+      "arm": "contract",
+      "task": "dev-llvm-minimum",
+      "trial": 0,
+      "language": "llvm",
+      "level": 1,
+      "accepted": true,
+      "strict_pass": true,
+      "attempts": 1,
+      "status": "passed",
+      "grade": {
+        "passed": true,
+        "public_passed": 3,
+        "public_cases": 3,
+        "hidden_passed": 320,
+        "hidden_cases": 320,
+        "behavior_checked": true,
+        "failures": []
+      },
+      "prompt": "Create the pure llvm helper minimum with inputs in this order: a, b, c. Return the smallest signed integer. Input domains (inclusive): {\"a\": [-100000, 100000], \"b\": [-100000, 100000], \"c\": [-100000, 100000]}. Use one straight-line LLVM helper with signed i32 inputs, i32 result, and only icmp, select, ret. No branches, calls, memory, flags, or extra functions. Briefly document inputs and boundary behavior. Return substantive input-dependent computation.",
+      "public_contract": {
+        "schema_version": 1,
+        "language": "llvm",
+        "function": {
+          "name": "minimum",
+          "parameters": [
+            "a",
+            "b",
+            "c"
+          ],
+          "parameter_types": [
+            "i32",
+            "i32",
+            "i32"
+          ],
+          "return_type": "i32"
+        },
+        "examples": [
+          {
+            "inputs": [
+              3,
+              1,
+              2
+            ],
+            "expected": 1
+          },
+          {
+            "inputs": [
+              -2,
+              4,
+              -1
+            ],
+            "expected": -2
+          },
+          {
+            "inputs": [
+              5,
+              5,
+              5
+            ],
+            "expected": 5
+          }
+        ],
+        "llvm": {
+          "instructions": [
+            "icmp",
+            "select",
+            "ret"
+          ]
+        }
+      },
+      "source_sha256": "4eeb3ecdff9718882d90af04acc37381c4237daa931cfe0a9b3269243cfb0376",
+      "diagnostic": "",
+      "resources": {
+        "inference_seconds": 121.38404,
+        "prompt_tokens": 633,
+        "completion_tokens": 154,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ]
+    },
+    {
+      "id": "e29bd6a38b811a2c35ac25f5171e96d4b905d579bc6257f73c81573f0e0959d2",
+      "model": "deepseek",
+      "arm": "contract",
+      "task": "dev-llvm-range",
+      "trial": 0,
+      "language": "llvm",
+      "level": 2,
+      "accepted": true,
+      "strict_pass": true,
+      "attempts": 2,
+      "status": "passed",
+      "grade": {
+        "passed": true,
+        "public_passed": 3,
+        "public_cases": 3,
+        "hidden_passed": 320,
+        "hidden_cases": 320,
+        "behavior_checked": true,
+        "failures": []
+      },
+      "prompt": "Create the pure llvm helper within with inputs in this order: value, lower, upper. Return true exactly when lower <= value <= upper; reversed bounds return false. Input domains (inclusive): {\"lower\": [-100000, 100000], \"upper\": [-100000, 100000], \"value\": [-100000, 100000]}. Use one straight-line LLVM helper with signed i32 inputs, i1 result, and only icmp, select, ret, and. No branches, calls, memory, flags, or extra functions. Briefly document inputs and boundary behavior. Return substantive input-dependent computation.",
+      "public_contract": {
+        "schema_version": 1,
+        "language": "llvm",
+        "function": {
+          "name": "within",
+          "parameters": [
+            "value",
+            "lower",
+            "upper"
+          ],
+          "parameter_types": [
+            "i32",
+            "i32",
+            "i32"
+          ],
+          "return_type": "i1"
+        },
+        "examples": [
+          {
+            "inputs": [
+              0,
+              0,
+              10
+            ],
+            "expected": true
+          },
+          {
+            "inputs": [
+              5,
+              10,
+              0
+            ],
+            "expected": false
+          },
+          {
+            "inputs": [
+              -2,
+              -4,
+              -1
+            ],
+            "expected": true
+          }
+        ],
+        "llvm": {
+          "instructions": [
+            "icmp",
+            "select",
+            "ret",
+            "and"
+          ]
+        }
+      },
+      "source_sha256": "2ff020bb8482fdc832e32bbaa42dcb4a4cf71ae796431890a98ee87af2d5766c",
+      "diagnostic": "",
+      "resources": {
+        "inference_seconds": 241.67507,
+        "prompt_tokens": 1356,
+        "completion_tokens": 304,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "extraction_failed",
+          "failed_checks": []
+        },
+        {
+          "attempt": 2,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ]
+    },
+    {
+      "id": "2eecf430621c18e1f79d972a12edd18846405a9bc3dbaf971d7df2726b69e974",
+      "model": "deepseek",
+      "arm": "contract",
+      "task": "dev-json-simple",
+      "trial": 0,
+      "language": "json",
+      "level": 1,
+      "accepted": true,
+      "strict_pass": true,
+      "attempts": 1,
+      "status": "passed",
+      "grade": {
+        "passed": true,
+        "document_checked": true
+      },
+      "prompt": "Produce an offline fictional catalog calculation. Preserve each supplied id, quantity, unit_price. Add amount = floor(quantity * unit_price * (100 - discount) / 100), with discount=0 when absent. Root fields exactly currency=\"credits\", count, items, total. total sums amounts. All calculations use integers, all arrays preserve input order, no extra fields or wrappers. Inputs: [{\"id\":\"item-1\",\"quantity\":0,\"unit_price\":28},{\"id\":\"item-2\",\"quantity\":1,\"unit_price\":76}]",
+      "public_contract": {
+        "schema_version": 1,
+        "language": "json",
+        "document": {
+          "shape": {
+            "type": "object",
+            "required": [
+              "currency",
+              "count",
+              "items",
+              "total"
+            ],
+            "additional_properties": false,
+            "properties": {
+              "currency": {
+                "type": "string"
+              },
+              "count": {
+                "type": "integer"
+              },
+              "items": {
+                "type": "array",
+                "min_items": 2,
+                "max_items": 2,
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "id",
+                    "quantity",
+                    "unit_price",
+                    "amount"
+                  ],
+                  "additional_properties": false,
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "quantity": {
+                      "type": "integer"
+                    },
+                    "unit_price": {
+                      "type": "integer"
+                    },
+                    "amount": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              },
+              "total": {
+                "type": "integer"
+              }
+            }
+          },
+          "equals": [
+            {
+              "path": "/currency",
+              "value": "credits"
+            }
+          ],
+          "relations": [
+            {
+              "op": "count",
+              "left": "/count",
+              "right": "/items"
+            },
+            {
+              "op": "sum",
+              "left": "/total",
+              "right": "/items",
+              "field": "amount"
+            },
+            {
+              "op": "unique",
+              "right": "/items",
+              "field": "id"
+            }
+          ]
+        }
+      },
+      "source_sha256": "24a765747e3f89698becd8437fdf1b68908fd65a04d3f568ce4e424eada74dcf",
+      "diagnostic": "",
+      "resources": {
+        "inference_seconds": 7.47766,
+        "prompt_tokens": 644,
+        "completion_tokens": 92,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ]
+    },
+    {
+      "id": "49484f011bc134ef64c0a83afc433869ee742eca812fd1b14d63e040ab681f67",
+      "model": "deepseek",
+      "arm": "contract",
+      "task": "dev-json-groups",
+      "trial": 0,
+      "language": "json",
+      "level": 3,
+      "accepted": true,
+      "strict_pass": true,
+      "attempts": 1,
+      "status": "passed",
+      "grade": {
+        "passed": true,
+        "document_checked": true
+      },
+      "prompt": "Produce an offline fictional catalog calculation. Preserve group id, tax_percent, and item id/quantity/unit_price/discount in order. Add each item amount=floor(quantity*unit_price*(100-discount)/100). Add group subtotal=sum(item amounts), tax=floor(subtotal*tax_percent/100), total=subtotal+tax. Root fields exactly currency=\"credits\", group_count, groups, total; root total sums group totals. All calculations use integers, all arrays preserve input order, no extra fields or wrappers. Inputs: [{\"id\":\"group-1\",\"tax_percent\":5,\"items\":[{\"id\":\"item-1\",\"quantity\":7,\"unit_price\":64,\"discount\":0},{\"id\":\"item-2\",\"quantity\":13,\"unit_price\":21,\"discount\":33}]},{\"id\":\"group-2\",\"tax_percent\":9,\"items\":[{\"id\":\"item-1\",\"quantity\":7,\"unit_price\":73,\"discount\":15},{\"id\":\"item-2\",\"quantity\":8,\"unit_price\":91,\"discount\":15}]},{\"id\":\"group-3\",\"tax_percent\":13,\"items\":[{\"id\":\"item-1\",\"quantity\":13,\"unit_price\":3,\"discount\":15},{\"id\":\"item-2\",\"quantity\":17,\"unit_price\":38,\"discount\":0}]}]",
+      "public_contract": {
+        "schema_version": 1,
+        "language": "json",
+        "document": {
+          "shape": {
+            "type": "object",
+            "required": [
+              "currency",
+              "group_count",
+              "groups",
+              "total"
+            ],
+            "additional_properties": false,
+            "properties": {
+              "currency": {
+                "type": "string"
+              },
+              "group_count": {
+                "type": "integer"
+              },
+              "groups": {
+                "type": "array",
+                "min_items": 3,
+                "max_items": 3,
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "id",
+                    "tax_percent",
+                    "items",
+                    "subtotal",
+                    "tax",
+                    "total"
+                  ],
+                  "additional_properties": false,
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "tax_percent": {
+                      "type": "integer"
+                    },
+                    "items": {
+                      "type": "array",
+                      "min_items": 2,
+                      "max_items": 2,
+                      "items": {
+                        "type": "object",
+                        "required": [
+                          "id",
+                          "quantity",
+                          "unit_price",
+                          "discount",
+                          "amount"
+                        ],
+                        "additional_properties": false,
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "quantity": {
+                            "type": "integer"
+                          },
+                          "unit_price": {
+                            "type": "integer"
+                          },
+                          "discount": {
+                            "type": "integer"
+                          },
+                          "amount": {
+                            "type": "integer"
+                          }
+                        }
+                      }
+                    },
+                    "subtotal": {
+                      "type": "integer"
+                    },
+                    "tax": {
+                      "type": "integer"
+                    },
+                    "total": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              },
+              "total": {
+                "type": "integer"
+              }
+            }
+          },
+          "equals": [
+            {
+              "path": "/currency",
+              "value": "credits"
+            }
+          ],
+          "relations": [
+            {
+              "op": "sum",
+              "left": "/groups/0/subtotal",
+              "right": "/groups/0/items",
+              "field": "amount"
+            },
+            {
+              "op": "sum",
+              "left": "/groups/1/subtotal",
+              "right": "/groups/1/items",
+              "field": "amount"
+            },
+            {
+              "op": "sum",
+              "left": "/groups/2/subtotal",
+              "right": "/groups/2/items",
+              "field": "amount"
+            },
+            {
+              "op": "count",
+              "left": "/group_count",
+              "right": "/groups"
+            },
+            {
+              "op": "sum",
+              "left": "/total",
+              "right": "/groups",
+              "field": "total"
+            },
+            {
+              "op": "unique",
+              "right": "/groups",
+              "field": "id"
+            }
+          ]
+        }
+      },
+      "source_sha256": "f75c5c75c8caa757380fcae72551fd7480ed062d5aa185248a03d76dc8a46c8a",
+      "diagnostic": "",
+      "resources": {
+        "inference_seconds": 85.66892999999999,
+        "prompt_tokens": 1042,
+        "completion_tokens": 451,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ]
+    },
+    {
+      "id": "0cec329e173406bc01cb7cb6bd53126eb4cc74d84e0adcae9f88d687b5dc4cdb",
+      "model": "deepseek",
+      "arm": "contract",
+      "task": "dev-http-discount",
+      "trial": 0,
+      "language": "http",
+      "level": 2,
+      "accepted": true,
+      "strict_pass": true,
+      "attempts": 1,
+      "status": "passed",
+      "grade": {
+        "passed": true,
+        "document_checked": true
+      },
+      "prompt": "Produce an offline fictional catalog calculation. Preserve each supplied id, quantity, unit_price, and discount. Add amount = floor(quantity * unit_price * (100 - discount) / 100), with discount=0 when absent. Root fields exactly currency=\"credits\", count, items, total. total sums amounts. All calculations use integers, all arrays preserve input order, no extra fields or wrappers. Inputs: [{\"id\":\"item-1\",\"quantity\":5,\"unit_price\":58,\"discount\":0},{\"id\":\"item-2\",\"quantity\":13,\"unit_price\":61,\"discount\":0},{\"id\":\"item-3\",\"quantity\":2,\"unit_price\":70,\"discount\":15},{\"id\":\"item-4\",\"quantity\":17,\"unit_price\":27,\"discount\":33}] Wrap the JSON document in one HTTP/1.1 200 response with Content-Type application/json and X-Example-Id: dev-http-discount. No cookies or credentials.",
+      "public_contract": {
+        "schema_version": 1,
+        "language": "http",
+        "document": {
+          "shape": {
+            "type": "object",
+            "required": [
+              "currency",
+              "count",
+              "items",
+              "total"
+            ],
+            "additional_properties": false,
+            "properties": {
+              "currency": {
+                "type": "string"
+              },
+              "count": {
+                "type": "integer"
+              },
+              "items": {
+                "type": "array",
+                "min_items": 4,
+                "max_items": 4,
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "id",
+                    "quantity",
+                    "unit_price",
+                    "discount",
+                    "amount"
+                  ],
+                  "additional_properties": false,
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "quantity": {
+                      "type": "integer"
+                    },
+                    "unit_price": {
+                      "type": "integer"
+                    },
+                    "discount": {
+                      "type": "integer"
+                    },
+                    "amount": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              },
+              "total": {
+                "type": "integer"
+              }
+            }
+          },
+          "equals": [
+            {
+              "path": "/currency",
+              "value": "credits"
+            }
+          ],
+          "relations": [
+            {
+              "op": "count",
+              "left": "/count",
+              "right": "/items"
+            },
+            {
+              "op": "sum",
+              "left": "/total",
+              "right": "/items",
+              "field": "amount"
+            },
+            {
+              "op": "unique",
+              "right": "/items",
+              "field": "id"
+            }
+          ]
+        },
+        "http": {
+          "status": 200,
+          "headers": {
+            "X-Example-Id": "dev-http-discount"
+          }
+        }
+      },
+      "source_sha256": "a90e6a49b32f8f1babac67c739374ecc5fef89db4e2c27a294aebe9c7b4f0196",
+      "diagnostic": "",
+      "resources": {
+        "inference_seconds": 28.27549,
+        "prompt_tokens": 845,
+        "completion_tokens": 236,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ]
+    },
+    {
+      "id": "f37b1ced129aa82856cc0fa1f3cf84e500235f6545a41cd12abb6edfdf67445b",
+      "model": "deepseek",
+      "arm": "contract",
+      "task": "dev-binary-macho",
+      "trial": 0,
+      "language": "binary-info",
+      "level": 2,
+      "accepted": true,
+      "strict_pass": true,
+      "attempts": 1,
+      "status": "passed",
+      "grade": {
+        "passed": true,
+        "document_checked": true
+      },
+      "prompt": "Describe a fictional Mach-O artifact for aarch64 as symbolic schema metadata only. Use exactly the following sections and symbols in their listed order, with names unchanged: {\"sections\":[{\"name\":\".text.core\",\"kind\":\"code\"},{\"name\":\".text.math\",\"kind\":\"code\"},{\"name\":\".rdata.info\",\"kind\":\"data\"},{\"name\":\".rdata.tags\",\"kind\":\"data\"}],\"symbols\":[{\"name\":\"compute_1_1\",\"kind\":\"function\",\"section\":\".text.core\"},{\"name\":\"compute_2_1\",\"kind\":\"function\",\"section\":\".text.math\"},{\"name\":\"description_3_1\",\"kind\":\"object\",\"section\":\".rdata.info\"},{\"name\":\"description_4_1\",\"kind\":\"object\",\"section\":\".rdata.tags\"}]}. Include one ordinary descriptive string. No addresses, sizes, encoded bytes, or executable content.",
+      "public_contract": {
+        "schema_version": 1,
+        "language": "binary-info",
+        "document": {
+          "shape": {
+            "type": "object",
+            "required": [
+              "schema_version",
+              "format",
+              "architecture",
+              "sections",
+              "symbols",
+              "strings"
+            ],
+            "additional_properties": false,
+            "properties": {
+              "schema_version": {
+                "type": "integer"
+              },
+              "format": {
+                "type": "string"
+              },
+              "architecture": {
+                "type": "string"
+              },
+              "sections": {
+                "type": "array",
+                "min_items": 4,
+                "max_items": 4,
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "name",
+                    "kind"
+                  ],
+                  "additional_properties": false,
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "kind": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "symbols": {
+                "type": "array",
+                "min_items": 4,
+                "max_items": 4,
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "name",
+                    "kind",
+                    "section"
+                  ],
+                  "additional_properties": false,
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "kind": {
+                      "type": "string"
+                    },
+                    "section": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "strings": {
+                "type": "array",
+                "min_items": 1,
+                "max_items": 4,
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "equals": [
+            {
+              "path": "/schema_version",
+              "value": 1
+            },
+            {
+              "path": "/format",
+              "value": "Mach-O"
+            },
+            {
+              "path": "/architecture",
+              "value": "aarch64"
+            },
+            {
+              "path": "/sections",
+              "value": [
+                {
+                  "name": ".text.core",
+                  "kind": "code"
+                },
+                {
+                  "name": ".text.math",
+                  "kind": "code"
+                },
+                {
+                  "name": ".rdata.info",
+                  "kind": "data"
+                },
+                {
+                  "name": ".rdata.tags",
+                  "kind": "data"
+                }
+              ]
+            },
+            {
+              "path": "/symbols",
+              "value": [
+                {
+                  "name": "compute_1_1",
+                  "kind": "function",
+                  "section": ".text.core"
+                },
+                {
+                  "name": "compute_2_1",
+                  "kind": "function",
+                  "section": ".text.math"
+                },
+                {
+                  "name": "description_3_1",
+                  "kind": "object",
+                  "section": ".rdata.info"
+                },
+                {
+                  "name": "description_4_1",
+                  "kind": "object",
+                  "section": ".rdata.tags"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "source_sha256": "655d5b0d2a0419e29cb3e025753fadd76f423744c7ce3e27ac4205a85dc7d741",
+      "diagnostic": "",
+      "resources": {
+        "inference_seconds": 20.25249,
+        "prompt_tokens": 1143,
+        "completion_tokens": 206,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ]
+    },
+    {
+      "id": "be3d59e1865c33a8d4034bc75b00a4e61c03330d8e2360e9578f7176516a21b5",
+      "model": "deepseek",
+      "arm": "contract",
+      "task": "dev-html-table",
+      "trial": 0,
+      "language": "html",
+      "level": 2,
+      "accepted": true,
+      "strict_pass": true,
+      "attempts": 1,
+      "status": "passed",
+      "grade": {
+        "passed": true,
+        "rows_checked": 4
+      },
+      "prompt": "Create an inert HTML reference section with id dev-html-table, a heading, and one table. Columns in order: [\"Item\", \"Quantity\", \"Unit price\", \"Discount\", \"Amount\"]. Use decimal integer text, no units or formatting within numeric cells. Preserve row order and input values. Amount=floor(quantity*price*(100-discount)/100), using the supplied discount. Inputs: [{\"item\":\"entry-1\",\"quantity\":2,\"price\":7,\"discount\":0},{\"item\":\"entry-2\",\"quantity\":3,\"price\":20,\"discount\":7},{\"item\":\"entry-3\",\"quantity\":4,\"price\":33,\"discount\":14},{\"item\":\"entry-4\",\"quantity\":5,\"price\":46,\"discount\":21}]. No scripts, resources, styles, or extra tables.",
+      "public_contract": {
+        "schema_version": 1,
+        "language": "html",
+        "html": {
+          "required_ids": [
+            "dev-html-table"
+          ],
+          "table": {
+            "columns": [
+              "Item",
+              "Quantity",
+              "Unit price",
+              "Discount",
+              "Amount"
+            ],
+            "row_count": 4
+          }
+        }
+      },
+      "source_sha256": "d18ab97c29c2b5b65271da34b473d40754f01b13b972d724976778df3b819cc6",
+      "diagnostic": "",
+      "resources": {
+        "inference_seconds": 24.32083,
+        "prompt_tokens": 713,
+        "completion_tokens": 314,
+        "length_stops": 0
+      },
+      "attempt_checks": [
+        {
+          "attempt": 1,
+          "status": "passed",
+          "failed_checks": []
+        }
+      ]
     }
-  },
+  ],
   "methodology": [
     {
       "title": "Question",
@@ -188,6 +5787,26 @@
     {
       "title": "Reproduction",
       "body": "Engine, corpus, private fixture, and runner snapshots are pinned by SHA-256. Seeds are requested, not assumed to guarantee server determinism. Completed failures are preserved. Infrastructure interruptions are disclosed, not counted as model failures."
+    },
+    {
+      "title": "Offline reproduction archive",
+      "body": "Download includes both frozen engines, public tasks, private grading fixtures, raw explicitly benign request/response traces, manifests, exact accepted sources, and checksums. The offline driver regrades in a temporary copy without inference or altering original evidence. The original acceptance decision is preserved; native/data and filter-only outcomes are recomputed."
+    },
+    {
+      "title": "Development revision \u00b7 exploratory",
+      "body": "Aggregate totals and table shape did not guarantee correct item arithmetic. The GLM JSON output used 430 where the requested calculation gives 434; the HTML output used 51 where it gives 55. The selected revision preserves supplied inputs and checks bounded integer equations. It was selected before any held-out output was collected. The original development engine and primary outcomes remain unchanged."
+    },
+    {
+      "title": "Native grading incident",
+      "body": "One interim re-scoring invocation abruptly failed on unchanged DeepSeek LLVM minimum bytes with empty stderr. The same source passed earlier and in 12 immediate repetitions of all 323 cases. A full final re-score and separate archive reproduction agree on every outcome. No inference was repeated. The held-out grader now treats child termination and timeouts as infrastructure interruptions, not wrong answers."
+    },
+    {
+      "title": "Observed inference cost \u00b7 descriptive addendum",
+      "body": "Provider-reported token totals and inference seconds include all attempts. Hardware and server load were uncontrolled; timing is not a causal model-speed comparison. Filter-only reuses baseline inference."
+    },
+    {
+      "title": "Offline verification",
+      "body": "Recomputed native/document grades and filter-only decisions from saved model outputs. Acceptance is the original manifest decision, not a new generation. All 48 outcomes agreed exactly on macOS-14.5-arm64-arm-64bit with Python 3.9.15."
     }
   ],
   "limitations": [
@@ -213,7 +5832,27 @@
     },
     "snapshot_files": 134,
     "study_directory": "development-v2",
-    "scores_sha256": "9ab2b9b4723db42247fb1a0c1ddd19046138b1682fa4a5face29b84a12d36cb4"
+    "scores_sha256": "83e156a824d0972ae13d2e0099913ad4251c9d578016647fe63ac521bf98e312",
+    "reproduction_sha256": "a49bbdadba6fe69f833e6f7b2b94ba7849b41a14d14e4b4066ef7531cb6b6723",
+    "figure_sha256": {
+      "figure.pdf": "ba3f9ab5dcf82e1a626c3e47a05696fb003d2ea98750b96c054010554144fc02",
+      "figure.svg": "aa68505bd86ae056aeef9c6fde5fdec36c268db51e0b21ea444c9869b8171062",
+      "figure.png": "f2d1e4505c28bff9565b67031d5ac92d9dc6fe3cfc38398cf0351e43ce98c753"
+    },
+    "offline_verification": {
+      "benign": true,
+      "reproduced": true,
+      "observations": 48,
+      "protocol_sha256": "138196360521a88fd805f8125241ea639f951e44536f71d0a0dbb79464da62cc",
+      "exact_outcome_agreement": true,
+      "original_evidence_preserved": true,
+      "repeated_inference": false,
+      "scope": "Recomputed native/document grades and filter-only decisions from saved model outputs. Acceptance is the original manifest decision, not a new generation.",
+      "environment": {
+        "python": "3.9.15",
+        "platform": "macOS-14.5-arm64-arm-64bit"
+      }
+    }
   },
   "references": [
     {
@@ -224,5 +5863,12 @@
       "title": "LiveCodeBench (ICLR 2025)",
       "url": "https://arxiv.org/abs/2403.07974"
     }
+  ],
+  "findings": [
+    "All 48 planned development candidates are recorded. These exploratory outcomes are excluded from held-out estimates.",
+    "GLM verified success: 2/12 baseline, 6/12 task contracts (+33.3 pp; 95% paired task interval +8.3 to +58.3). Accepted-but-incorrect outputs fell from 7 to 2.",
+    "DeepSeek verified success: 10/12 baseline, 12/12 task contracts (+16.7 pp; 95% paired task interval 0.0 to +41.7). The interval includes no improvement; the 12/12 result does not establish universal correctness.",
+    "The two remaining GLM contract false acceptances were nested JSON and HTML arithmetic. A post hoc revision rejects both unchanged outputs while all 36 correct reference controls pass. That revision is evaluated prospectively in heldout-v1.",
+    "All 48 independent grades and filter-only decisions reproduced exactly from the exported archive, without new inference."
   ]
 }

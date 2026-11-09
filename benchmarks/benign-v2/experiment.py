@@ -41,10 +41,19 @@ def prepare(root,split,repeats):
     for name,source in [('baseline',snapshot),('contract',REPO/'src')]:
         shutil.copytree(source,root/'engines'/name,ignore=shutil.ignore_patterns('__pycache__','*.pyc'))
     (root/'runner').mkdir()
-    for name in ['experiment.py','grade.py','analyze.py','build_suite.py','PROTOCOL.md']:
+    for name in ['experiment.py','grade.py','analyze.py','build_suite.py','PROTOCOL.md',
+                 'publish_models.py','reproduce_models.py','plot_models.py','requirements.txt']:
         shutil.copyfile(HERE/name,root/'runner'/name)
     for name in ['tasks.json','oracles.json']:
         shutil.copyfile(HERE/name,root/name)
+    if split=='heldout':
+        evidence=REPO/'.repel-workspaces/benign-eval-v2'
+        for name in ['intervention-selection.json','arithmetic-control-checks.json','arithmetic-development-checks.json',
+                     'native-grader-incident/notes.json','development-v2/scores.json']:
+            path=evidence/name
+            if path.is_file():
+                if json.loads(path.read_text()).get('benign') is not True: raise ValueError('Selection evidence must be benign')
+                target=root/'evidence'/name; target.parent.mkdir(parents=True,exist_ok=True); shutil.copyfile(path,target)
     tasks=json.loads((root/'tasks.json').read_text())
     assert tasks['benign'] is True
     selected=[task for task in tasks['tasks'] if task['split']==split]
@@ -214,6 +223,19 @@ def score(root):
                     candidate=manifest['candidates'][0]
                     if (candidate['language']!=tasks[identity]['language'] or candidate['accepted']!=record['accepted']
                             or candidate.get('candidate')!=record.get('candidate')): raise ValueError('Candidate record differs from its manifest')
+                    attempts=candidate['attempts']
+                    if record['attempts']!=len(attempts): raise ValueError('Attempt count differs from manifest')
+                    def total(field, usage=False):
+                        values=[(attempt.get('response',{}).get('usage') or {}).get(field) if usage
+                                else attempt.get('response',{}).get(field) for attempt in attempts]
+                        return sum(values) if all(type(v) in {int,float} and v>=0 for v in values) else None
+                    latency=total('latency_ms')
+                    record['resources']={'inference_seconds':latency/1000 if latency is not None else None,
+                                         'prompt_tokens':total('prompt_tokens',True),'completion_tokens':total('completion_tokens',True),
+                                         'length_stops':sum(a.get('response',{}).get('finish_reason')=='length' for a in attempts)}
+                    record['attempt_checks']=[{'attempt':a['attempt'],'status':a['status'],
+                        'failed_checks':[c['name'] for c in a.get('validation',{}).get('checks',[]) if c.get('required') and c['status']=='failed']}
+                        for a in attempts]
                     if record['accepted']:
                         relative=Path(record['candidate']['relative_path'])
                         if relative.is_absolute() or '..' in relative.parts: raise ValueError('Unsafe candidate path')

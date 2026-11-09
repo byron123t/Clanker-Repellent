@@ -74,6 +74,11 @@ class ExperimentIntegrationTests(unittest.TestCase):
         self.assertEqual(score.returncode,0,score.stderr)
         scored=json.loads((self.root/'scores.json').read_text())['records'][0]
         self.assertTrue(scored['strict_pass']); self.assertEqual(scored['grade']['hidden_passed'],1)
+        self.assertEqual(scored['resources']['prompt_tokens'],2)
+        self.assertEqual(scored['resources']['completion_tokens'],2)
+        self.assertEqual(scored['resources']['length_stops'],0)
+        self.assertIn('task_contract',scored['attempt_checks'][0]['failed_checks'])
+        self.assertEqual(scored['attempt_checks'][1]['failed_checks'],[])
 
     def test_completed_failure_is_preserved_and_transport_is_missing_not_failure(self):
         self.mode='wrong'; result=self.worker(); self.assertEqual(result.returncode,0,result.stderr)

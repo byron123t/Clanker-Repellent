@@ -37,6 +37,11 @@ async function main() {
       assert.equal(await page.locator("#study-case-count").innerText(),`${report.cases.length} / ${report.cases.length}`);
       assert.match(await page.locator("#study-stats").innerText(),new RegExp(`${report.counts.completed} / ${report.counts.planned}`));
       assert.equal(await page.locator("#study-metrics tr").count(),report.metrics.length);
+      const costRows=report.metrics.filter(row => row.arm!=="filter-only" && typeof row.inference_seconds==="number");
+      assert.equal(await page.locator("#study-costs tbody tr").count(),costRows.length);
+      await page.setViewportSize({width:390,height:844});
+      assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth),false,`${metadata.id}: mobile page must not overflow.`);
+      await page.setViewportSize({width:1512,height:1100});
       assert.equal(bodies.length,0,"Metadata navigation must not fetch source bodies.");
       if (report.stage === "audit") {
         assert.match(await page.locator("#study-chart-title").innerText(),/Faulty candidates/);
@@ -77,6 +82,11 @@ async function main() {
     const figureDownload = await figurePending; assert.equal(await figureDownload.failure(),null);
     const figure = await fs.readFile(await figureDownload.path());
     assert.equal(createHash("sha256").update(figure).digest("hex"),audit.provenance.figure_sha256["figure.pdf"]);
+    const measured=catalog.studies.find(item=>item.stage==="heldout") || catalog.studies.find(item=>item.stage==="development");
+    if (measured) {
+      await page.locator("#study-select").selectOption(measured.id);
+      await page.waitForFunction(id => window.RepelResearch?.current()?.id === id,measured.id);
+    }
     await page.locator("#toast").waitFor({state:"hidden"});
     await page.screenshot({path:process.env.REPEL_RESEARCH_SCREENSHOT || "/tmp/repel-research-desktop.png",fullPage:true});
     await page.setViewportSize({width:390,height:844});

@@ -76,6 +76,10 @@ authored fault study shows false acceptance (lower is better) and control false 
 task-clustered uncertainty. Model development and held-out reports use verified success, with
 acceptance and correctness separated. Planned but absent observations are not counted as failures.
 Reports explain the statistical unit and whether confidence intervals are available.
+Completed model studies also expose per-attempt failures, provider-reported token usage and
+inference time, related-family sensitivity intervals where specified, standalone figures,
+and an offline reproduction archive. Resource totals include failed attempts; missing usage
+remains unknown. Saved-source reproduction does not claim identical new model generations.
 
 Candidate bodies load only through **Load benign source**. Their SHA-256 hash is verified before
 returning any preview; previews larger than 64 KiB are labeled truncated and cannot be copied

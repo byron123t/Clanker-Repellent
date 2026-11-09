@@ -1,0 +1,14 @@
+-- Helper Function: Distance Calculation
+--
+-- Inputs:
+--   :a - First coordinate value (integer)
+--   :b - Second coordinate value (integer)
+--
+-- Result:
+--   The absolute difference between 'a' and 'b', representing Euclidean distance along a line segment of length |a-b|.
+--
+-- Boundary Behavior:
+--   Returns 0 when both values are equal within domain bounds (-1000 to 1000).
+--   Uses standard signed integer overflow semantics inherent to SQL engines.
+
+SELECT ABS(:a - :b) AS distance;

@@ -1,0 +1,12 @@
+def digit_sum(value):
+    """
+    Returns the sum of decimal digits of abs(value).
+    Input: value (int) in [-100000, 100000].
+    Output: int sum of digits; zero for value=0.
+    """
+    n = abs(value)
+    total = 0
+    while n > 0:
+        total += n % 10
+        n //= 10
+    return total

@@ -60,6 +60,70 @@
       {
         "path": "/currency",
         "value": "credits"
+      },
+      {
+        "path": "/items/0/id",
+        "value": "item-1"
+      },
+      {
+        "path": "/items/0/quantity",
+        "value": 5
+      },
+      {
+        "path": "/items/0/unit_price",
+        "value": 58
+      },
+      {
+        "path": "/items/0/discount",
+        "value": 0
+      },
+      {
+        "path": "/items/1/id",
+        "value": "item-2"
+      },
+      {
+        "path": "/items/1/quantity",
+        "value": 13
+      },
+      {
+        "path": "/items/1/unit_price",
+        "value": 61
+      },
+      {
+        "path": "/items/1/discount",
+        "value": 0
+      },
+      {
+        "path": "/items/2/id",
+        "value": "item-3"
+      },
+      {
+        "path": "/items/2/quantity",
+        "value": 2
+      },
+      {
+        "path": "/items/2/unit_price",
+        "value": 70
+      },
+      {
+        "path": "/items/2/discount",
+        "value": 15
+      },
+      {
+        "path": "/items/3/id",
+        "value": "item-4"
+      },
+      {
+        "path": "/items/3/quantity",
+        "value": 17
+      },
+      {
+        "path": "/items/3/unit_price",
+        "value": 27
+      },
+      {
+        "path": "/items/3/discount",
+        "value": 33
       }
     ],
     "relations": [
@@ -78,6 +142,144 @@
         "op": "unique",
         "right": "/items",
         "field": "id"
+      }
+    ],
+    "equations": [
+      {
+        "left": "/items/0/amount",
+        "expression": {
+          "op": "floordiv",
+          "args": [
+            {
+              "op": "mul",
+              "args": [
+                {
+                  "op": "mul",
+                  "args": [
+                    {
+                      "path": "/items/0/quantity"
+                    },
+                    {
+                      "path": "/items/0/unit_price"
+                    }
+                  ]
+                },
+                {
+                  "op": "sub",
+                  "args": [
+                    100,
+                    {
+                      "path": "/items/0/discount"
+                    }
+                  ]
+                }
+              ]
+            },
+            100
+          ]
+        }
+      },
+      {
+        "left": "/items/1/amount",
+        "expression": {
+          "op": "floordiv",
+          "args": [
+            {
+              "op": "mul",
+              "args": [
+                {
+                  "op": "mul",
+                  "args": [
+                    {
+                      "path": "/items/1/quantity"
+                    },
+                    {
+                      "path": "/items/1/unit_price"
+                    }
+                  ]
+                },
+                {
+                  "op": "sub",
+                  "args": [
+                    100,
+                    {
+                      "path": "/items/1/discount"
+                    }
+                  ]
+                }
+              ]
+            },
+            100
+          ]
+        }
+      },
+      {
+        "left": "/items/2/amount",
+        "expression": {
+          "op": "floordiv",
+          "args": [
+            {
+              "op": "mul",
+              "args": [
+                {
+                  "op": "mul",
+                  "args": [
+                    {
+                      "path": "/items/2/quantity"
+                    },
+                    {
+                      "path": "/items/2/unit_price"
+                    }
+                  ]
+                },
+                {
+                  "op": "sub",
+                  "args": [
+                    100,
+                    {
+                      "path": "/items/2/discount"
+                    }
+                  ]
+                }
+              ]
+            },
+            100
+          ]
+        }
+      },
+      {
+        "left": "/items/3/amount",
+        "expression": {
+          "op": "floordiv",
+          "args": [
+            {
+              "op": "mul",
+              "args": [
+                {
+                  "op": "mul",
+                  "args": [
+                    {
+                      "path": "/items/3/quantity"
+                    },
+                    {
+                      "path": "/items/3/unit_price"
+                    }
+                  ]
+                },
+                {
+                  "op": "sub",
+                  "args": [
+                    100,
+                    {
+                      "path": "/items/3/discount"
+                    }
+                  ]
+                }
+              ]
+            },
+            100
+          ]
+        }
       }
     ]
   },

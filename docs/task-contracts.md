@@ -60,14 +60,28 @@ JSON, HTTP, and `binary-info` use a `document` object with:
 - `equals`: exact type-sensitive values at JSON pointers, such as `{"path":"/currency","value":"credits"}`.
 - `relations`: `count`, `sum`, or `unique` over an array. `left` and `right` are JSON pointers;
   `field` optionally selects a member of each array entry for sums or uniqueness checks.
+- `equations`: integer calculations over JSON pointers. For example,
+  `{"left":"/amount","expression":{"op":"mul","args":[{"path":"/quantity"},{"path":"/unit_price"}]}}`.
+  Expressions nest binary `add`, `sub`, `mul`, `floordiv`, `mod`, `min`, and `max` operations;
+  leaves are integer constants or `{"path":"/field"}` references. Division floors toward
+  negative infinity. Division by zero, missing values, and non-integer values fail the check.
+  There is no executable expression language or callback. Rules are limited to 128 equations,
+  depth 12, 8,192 evaluation steps, and magnitude at most 2^127 for every value/intermediate.
+
+Use `equals` to preserve supplied inputs and `equations` to check derived fields. A sum check
+alone cannot detect a consistently wrong item amount and total. Equations express the requested
+calculation without supplying a precomputed answer to the generator.
 
 An HTTP contract can require a status and headers through
 `"http":{"status":200,"headers":{"X-Example-Id":"catalog"}}`. Existing exact-byte
 framing checks remain required. No response is sent over the network.
 
 HTML uses `html.required_ids` and `html.table` with `columns`, `row_count`, and optional
-exact `rows`. Column order, dimensions, IDs, and ARIA references are checked. Provide
-`rows` when cell values must match; dimensions alone cannot verify arithmetic.
+exact `rows`. Column order, dimensions, IDs, and ARIA references are checked. The table also
+accepts `equals` and `equations`: pointers address data rows and columns, excluding the header
+(for example `/0/2`). Equations require canonical decimal integer text in referenced cells;
+units, decimal points, and leading zeros are rejected. Preserve input cells with `equals`, then
+check computed cells with `equations`. Dimensions alone cannot verify arithmetic.
 
 Unknown keywords, incompatible fields, malformed types, duplicate parameter names, excessive
 nesting, and oversized contracts are rejected before inference. Contracts are limited to

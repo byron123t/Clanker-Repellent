@@ -1,0 +1,5 @@
+-- Compute the absolute difference between two integer inputs :a and :b.
+-- Inputs :a and :b are integers in [-1000, 1000].
+-- Result: distance = |:a - :b|, an integer in [0, 2000].
+-- Edge cases: both equal => 0; maximum difference when one is -1000 and the other 1000 => 2000.
+SELECT ABS(:a - :b) AS distance;

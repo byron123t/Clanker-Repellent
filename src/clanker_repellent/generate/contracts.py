@@ -18,6 +18,72 @@ from .sql_structure import inspect_sql, _code, _PURE_FUNCTIONS
 LANGUAGES = {'python', 'sql', 'llvm', 'json', 'http', 'binary-info', 'html'}
 IDENTIFIER = re.compile(r'[A-Za-z_][A-Za-z_0-9]*\Z')
 TYPES = {'object', 'array', 'string', 'integer', 'number', 'boolean', 'null'}
+ARITHMETIC = {'add', 'sub', 'mul', 'floordiv', 'mod', 'min', 'max'}
+
+
+def _expression(value, depth=0):
+    if depth > 12:
+        raise ValueError('Arithmetic expressions exceed 12 levels.')
+    if type(value) is int and abs(value) <= 2**127:
+        return
+    if isinstance(value, dict) and set(value) == {'path'}:
+        _pointer(value['path'])
+        return
+    _keys(value, {'op', 'args'}, {'op', 'args'})
+    if (not isinstance(value['op'], str) or value['op'] not in ARITHMETIC
+            or not isinstance(value['args'], list) or len(value['args']) != 2):
+        raise ValueError('Arithmetic requires a supported binary operation.')
+    for item in value['args']:
+        _expression(item, depth+1)
+
+
+def _rules(contract):
+    for field in ('equals', 'equations'):
+        if not isinstance(contract.get(field, []), list) or len(contract.get(field, [])) > 128:
+            raise ValueError('Document rules must be bounded lists.')
+    for rule in contract.get('equals', []):
+        _keys(rule, {'path', 'value'}, {'path', 'value'})
+        _pointer(rule['path'])
+    for rule in contract.get('equations', []):
+        _keys(rule, {'left', 'expression'}, {'left', 'expression'})
+        _pointer(rule['left'])
+        _expression(rule['expression'])
+
+
+def _check_rules(document, contract, *, text_integers=False):
+    for rule in contract.get('equals', []):
+        if not _same(_at(document, rule['path']), rule['value']):
+            raise ValueError('Document value differs at '+rule['path'])
+    budget = [8192]
+    def integer(value):
+        if text_integers and isinstance(value, str) and len(value) <= 40 and re.fullmatch(r'0|-?[1-9][0-9]*', value):
+            value = int(value)
+        if type(value) is not int or abs(value) > 2**127:
+            raise ValueError('Arithmetic requires bounded integers (not Boolean or decimal values).')
+        return value
+    def evaluate(expr):
+        budget[0] -= 1
+        if budget[0] < 0:
+            raise ValueError('Arithmetic rule step budget exceeded.')
+        if type(expr) is int:
+            return integer(expr)
+        if 'path' in expr:
+            return integer(_at(document, expr['path']))
+        a, b = (evaluate(item) for item in expr['args'])
+        op = expr['op']
+        if op == 'add': result = a+b
+        elif op == 'sub': result = a-b
+        elif op == 'mul': result = a*b
+        elif op == 'floordiv': result = a//b
+        elif op == 'mod': result = a%b
+        elif op == 'min': result = min(a,b)
+        else: result = max(a,b)
+        return integer(result)
+    for rule in contract.get('equations', []):
+        expected = evaluate(rule['expression'])
+        actual = integer(_at(document, rule['left']))
+        if actual != expected:
+            raise ValueError('Arithmetic differs at '+rule['left']+': expected '+str(expected)+', got '+str(actual))
 
 
 def _keys(value, allowed, required=()):
@@ -115,7 +181,8 @@ def _validate_contract(value):
                         raise ValueError('LLVM examples must match signed integer widths (Boolean for i1).')
     if language in {'json','binary-info','http'}:
         document = value.get('document')
-        _keys(document, {'shape','equals','relations'}, {'shape'})
+        _keys(document, {'shape','equals','relations','equations'}, {'shape'})
+        _rules(document)
         _shape(document['shape'])
         if document['shape']['type'] != 'object':
             raise ValueError('Document contracts require an object at the root.')
@@ -153,7 +220,8 @@ def _validate_contract(value):
         _keys(html, {'required_ids','table'}, {'table'})
         if 'required_ids' in html:
             _strings(html['required_ids'])
-        table = html['table']; _keys(table, {'columns','row_count','rows'}, {'columns','row_count'})
+        table = html['table']; _keys(table, {'columns','row_count','rows','equals','equations'}, {'columns','row_count'})
+        _rules(table)
         _strings(table['columns'], limit=32)
         if type(table['row_count']) is not int or not 1 <= table['row_count'] <= 512:
             raise ValueError('HTML table row_count must be in 1..512.')
@@ -229,9 +297,7 @@ def _check_shape(item, shape, path='$'):
 
 def _check_document(document, contract):
     _check_shape(document,contract['shape'])
-    for rule in contract.get('equals',[]):
-        if not _same(_at(document,rule['path']),rule['value']):
-            raise ValueError('Document value differs at '+rule['path'])
+    _check_rules(document, contract)
     for rule in contract.get('relations',[]):
         left = _at(document,rule['left']) if rule['op']!='unique' else None
         right = _at(document,rule['right'])
@@ -284,6 +350,7 @@ def check_contract(source, contract):
             if not rows or rows[0]!=table['columns']: raise ValueError('HTML column names or order differ from contract')
             if len(rows)-1!=table['row_count'] or any(len(row)!=len(table['columns']) for row in rows[1:]): raise ValueError('HTML table dimensions differ from contract')
             if 'rows' in table and rows[1:]!=table['rows']: raise ValueError('HTML table cells differ from contract')
+            _check_rules(rows[1:], table, text_integers=True)
             metrics['rows']=len(rows)-1
         else:
             function = contract['function']

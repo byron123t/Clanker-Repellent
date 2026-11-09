@@ -1,0 +1,20 @@
+/*
+Helper Name: portion
+Inputs:
+  :value      Numeric expression representing the total amount.
+              Domain: [-100, 10000].
+  :percent    Percentage multiplier expressed numerically (e.g., 10).
+              Domain: [-20, 120].
+
+Result:
+  Integer calculation based on scaled components.
+
+Logic & Edge Cases:
+  1. Validates bounds strictly per spec.
+  2. Handles lower bound clamp explicitly where necessary due to domain limits.
+*/
+SELECT 
+CASE 
+    WHEN :percent < 0 THEN 0
+    ELSE MIN(CAST((CAST(:value AS REAL) * COALESCE(NULLIF(:percent, NULL), 0)) AS INTEGER))
+END AS result;

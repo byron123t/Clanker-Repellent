@@ -392,6 +392,30 @@
             {
               "path": "/currency",
               "value": "credits"
+            },
+            {
+              "path": "/items/0/id",
+              "value": "item-1"
+            },
+            {
+              "path": "/items/0/quantity",
+              "value": 0
+            },
+            {
+              "path": "/items/0/unit_price",
+              "value": 28
+            },
+            {
+              "path": "/items/1/id",
+              "value": "item-2"
+            },
+            {
+              "path": "/items/1/quantity",
+              "value": 1
+            },
+            {
+              "path": "/items/1/unit_price",
+              "value": 76
             }
           ],
           "relations": [
@@ -410,6 +434,36 @@
               "op": "unique",
               "right": "/items",
               "field": "id"
+            }
+          ],
+          "equations": [
+            {
+              "left": "/items/0/amount",
+              "expression": {
+                "op": "mul",
+                "args": [
+                  {
+                    "path": "/items/0/quantity"
+                  },
+                  {
+                    "path": "/items/0/unit_price"
+                  }
+                ]
+              }
+            },
+            {
+              "left": "/items/1/amount",
+              "expression": {
+                "op": "mul",
+                "args": [
+                  {
+                    "path": "/items/1/quantity"
+                  },
+                  {
+                    "path": "/items/1/unit_price"
+                  }
+                ]
+              }
             }
           ]
         }
@@ -518,6 +572,126 @@
             {
               "path": "/currency",
               "value": "credits"
+            },
+            {
+              "path": "/groups/0/id",
+              "value": "group-1"
+            },
+            {
+              "path": "/groups/0/tax_percent",
+              "value": 5
+            },
+            {
+              "path": "/groups/0/items/0/id",
+              "value": "item-1"
+            },
+            {
+              "path": "/groups/0/items/0/quantity",
+              "value": 7
+            },
+            {
+              "path": "/groups/0/items/0/unit_price",
+              "value": 64
+            },
+            {
+              "path": "/groups/0/items/0/discount",
+              "value": 0
+            },
+            {
+              "path": "/groups/0/items/1/id",
+              "value": "item-2"
+            },
+            {
+              "path": "/groups/0/items/1/quantity",
+              "value": 13
+            },
+            {
+              "path": "/groups/0/items/1/unit_price",
+              "value": 21
+            },
+            {
+              "path": "/groups/0/items/1/discount",
+              "value": 33
+            },
+            {
+              "path": "/groups/1/id",
+              "value": "group-2"
+            },
+            {
+              "path": "/groups/1/tax_percent",
+              "value": 9
+            },
+            {
+              "path": "/groups/1/items/0/id",
+              "value": "item-1"
+            },
+            {
+              "path": "/groups/1/items/0/quantity",
+              "value": 7
+            },
+            {
+              "path": "/groups/1/items/0/unit_price",
+              "value": 73
+            },
+            {
+              "path": "/groups/1/items/0/discount",
+              "value": 15
+            },
+            {
+              "path": "/groups/1/items/1/id",
+              "value": "item-2"
+            },
+            {
+              "path": "/groups/1/items/1/quantity",
+              "value": 8
+            },
+            {
+              "path": "/groups/1/items/1/unit_price",
+              "value": 91
+            },
+            {
+              "path": "/groups/1/items/1/discount",
+              "value": 15
+            },
+            {
+              "path": "/groups/2/id",
+              "value": "group-3"
+            },
+            {
+              "path": "/groups/2/tax_percent",
+              "value": 13
+            },
+            {
+              "path": "/groups/2/items/0/id",
+              "value": "item-1"
+            },
+            {
+              "path": "/groups/2/items/0/quantity",
+              "value": 13
+            },
+            {
+              "path": "/groups/2/items/0/unit_price",
+              "value": 3
+            },
+            {
+              "path": "/groups/2/items/0/discount",
+              "value": 15
+            },
+            {
+              "path": "/groups/2/items/1/id",
+              "value": "item-2"
+            },
+            {
+              "path": "/groups/2/items/1/quantity",
+              "value": 17
+            },
+            {
+              "path": "/groups/2/items/1/unit_price",
+              "value": 38
+            },
+            {
+              "path": "/groups/2/items/1/discount",
+              "value": 0
             }
           ],
           "relations": [
@@ -554,6 +728,314 @@
               "op": "unique",
               "right": "/groups",
               "field": "id"
+            }
+          ],
+          "equations": [
+            {
+              "left": "/groups/0/items/0/amount",
+              "expression": {
+                "op": "floordiv",
+                "args": [
+                  {
+                    "op": "mul",
+                    "args": [
+                      {
+                        "op": "mul",
+                        "args": [
+                          {
+                            "path": "/groups/0/items/0/quantity"
+                          },
+                          {
+                            "path": "/groups/0/items/0/unit_price"
+                          }
+                        ]
+                      },
+                      {
+                        "op": "sub",
+                        "args": [
+                          100,
+                          {
+                            "path": "/groups/0/items/0/discount"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  100
+                ]
+              }
+            },
+            {
+              "left": "/groups/0/items/1/amount",
+              "expression": {
+                "op": "floordiv",
+                "args": [
+                  {
+                    "op": "mul",
+                    "args": [
+                      {
+                        "op": "mul",
+                        "args": [
+                          {
+                            "path": "/groups/0/items/1/quantity"
+                          },
+                          {
+                            "path": "/groups/0/items/1/unit_price"
+                          }
+                        ]
+                      },
+                      {
+                        "op": "sub",
+                        "args": [
+                          100,
+                          {
+                            "path": "/groups/0/items/1/discount"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  100
+                ]
+              }
+            },
+            {
+              "left": "/groups/0/tax",
+              "expression": {
+                "op": "floordiv",
+                "args": [
+                  {
+                    "op": "mul",
+                    "args": [
+                      {
+                        "path": "/groups/0/subtotal"
+                      },
+                      {
+                        "path": "/groups/0/tax_percent"
+                      }
+                    ]
+                  },
+                  100
+                ]
+              }
+            },
+            {
+              "left": "/groups/0/total",
+              "expression": {
+                "op": "add",
+                "args": [
+                  {
+                    "path": "/groups/0/subtotal"
+                  },
+                  {
+                    "path": "/groups/0/tax"
+                  }
+                ]
+              }
+            },
+            {
+              "left": "/groups/1/items/0/amount",
+              "expression": {
+                "op": "floordiv",
+                "args": [
+                  {
+                    "op": "mul",
+                    "args": [
+                      {
+                        "op": "mul",
+                        "args": [
+                          {
+                            "path": "/groups/1/items/0/quantity"
+                          },
+                          {
+                            "path": "/groups/1/items/0/unit_price"
+                          }
+                        ]
+                      },
+                      {
+                        "op": "sub",
+                        "args": [
+                          100,
+                          {
+                            "path": "/groups/1/items/0/discount"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  100
+                ]
+              }
+            },
+            {
+              "left": "/groups/1/items/1/amount",
+              "expression": {
+                "op": "floordiv",
+                "args": [
+                  {
+                    "op": "mul",
+                    "args": [
+                      {
+                        "op": "mul",
+                        "args": [
+                          {
+                            "path": "/groups/1/items/1/quantity"
+                          },
+                          {
+                            "path": "/groups/1/items/1/unit_price"
+                          }
+                        ]
+                      },
+                      {
+                        "op": "sub",
+                        "args": [
+                          100,
+                          {
+                            "path": "/groups/1/items/1/discount"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  100
+                ]
+              }
+            },
+            {
+              "left": "/groups/1/tax",
+              "expression": {
+                "op": "floordiv",
+                "args": [
+                  {
+                    "op": "mul",
+                    "args": [
+                      {
+                        "path": "/groups/1/subtotal"
+                      },
+                      {
+                        "path": "/groups/1/tax_percent"
+                      }
+                    ]
+                  },
+                  100
+                ]
+              }
+            },
+            {
+              "left": "/groups/1/total",
+              "expression": {
+                "op": "add",
+                "args": [
+                  {
+                    "path": "/groups/1/subtotal"
+                  },
+                  {
+                    "path": "/groups/1/tax"
+                  }
+                ]
+              }
+            },
+            {
+              "left": "/groups/2/items/0/amount",
+              "expression": {
+                "op": "floordiv",
+                "args": [
+                  {
+                    "op": "mul",
+                    "args": [
+                      {
+                        "op": "mul",
+                        "args": [
+                          {
+                            "path": "/groups/2/items/0/quantity"
+                          },
+                          {
+                            "path": "/groups/2/items/0/unit_price"
+                          }
+                        ]
+                      },
+                      {
+                        "op": "sub",
+                        "args": [
+                          100,
+                          {
+                            "path": "/groups/2/items/0/discount"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  100
+                ]
+              }
+            },
+            {
+              "left": "/groups/2/items/1/amount",
+              "expression": {
+                "op": "floordiv",
+                "args": [
+                  {
+                    "op": "mul",
+                    "args": [
+                      {
+                        "op": "mul",
+                        "args": [
+                          {
+                            "path": "/groups/2/items/1/quantity"
+                          },
+                          {
+                            "path": "/groups/2/items/1/unit_price"
+                          }
+                        ]
+                      },
+                      {
+                        "op": "sub",
+                        "args": [
+                          100,
+                          {
+                            "path": "/groups/2/items/1/discount"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  100
+                ]
+              }
+            },
+            {
+              "left": "/groups/2/tax",
+              "expression": {
+                "op": "floordiv",
+                "args": [
+                  {
+                    "op": "mul",
+                    "args": [
+                      {
+                        "path": "/groups/2/subtotal"
+                      },
+                      {
+                        "path": "/groups/2/tax_percent"
+                      }
+                    ]
+                  },
+                  100
+                ]
+              }
+            },
+            {
+              "left": "/groups/2/total",
+              "expression": {
+                "op": "add",
+                "args": [
+                  {
+                    "path": "/groups/2/subtotal"
+                  },
+                  {
+                    "path": "/groups/2/tax"
+                  }
+                ]
+              }
             }
           ]
         }
@@ -628,6 +1110,70 @@
             {
               "path": "/currency",
               "value": "credits"
+            },
+            {
+              "path": "/items/0/id",
+              "value": "item-1"
+            },
+            {
+              "path": "/items/0/quantity",
+              "value": 5
+            },
+            {
+              "path": "/items/0/unit_price",
+              "value": 58
+            },
+            {
+              "path": "/items/0/discount",
+              "value": 0
+            },
+            {
+              "path": "/items/1/id",
+              "value": "item-2"
+            },
+            {
+              "path": "/items/1/quantity",
+              "value": 13
+            },
+            {
+              "path": "/items/1/unit_price",
+              "value": 61
+            },
+            {
+              "path": "/items/1/discount",
+              "value": 0
+            },
+            {
+              "path": "/items/2/id",
+              "value": "item-3"
+            },
+            {
+              "path": "/items/2/quantity",
+              "value": 2
+            },
+            {
+              "path": "/items/2/unit_price",
+              "value": 70
+            },
+            {
+              "path": "/items/2/discount",
+              "value": 15
+            },
+            {
+              "path": "/items/3/id",
+              "value": "item-4"
+            },
+            {
+              "path": "/items/3/quantity",
+              "value": 17
+            },
+            {
+              "path": "/items/3/unit_price",
+              "value": 27
+            },
+            {
+              "path": "/items/3/discount",
+              "value": 33
             }
           ],
           "relations": [
@@ -646,6 +1192,144 @@
               "op": "unique",
               "right": "/items",
               "field": "id"
+            }
+          ],
+          "equations": [
+            {
+              "left": "/items/0/amount",
+              "expression": {
+                "op": "floordiv",
+                "args": [
+                  {
+                    "op": "mul",
+                    "args": [
+                      {
+                        "op": "mul",
+                        "args": [
+                          {
+                            "path": "/items/0/quantity"
+                          },
+                          {
+                            "path": "/items/0/unit_price"
+                          }
+                        ]
+                      },
+                      {
+                        "op": "sub",
+                        "args": [
+                          100,
+                          {
+                            "path": "/items/0/discount"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  100
+                ]
+              }
+            },
+            {
+              "left": "/items/1/amount",
+              "expression": {
+                "op": "floordiv",
+                "args": [
+                  {
+                    "op": "mul",
+                    "args": [
+                      {
+                        "op": "mul",
+                        "args": [
+                          {
+                            "path": "/items/1/quantity"
+                          },
+                          {
+                            "path": "/items/1/unit_price"
+                          }
+                        ]
+                      },
+                      {
+                        "op": "sub",
+                        "args": [
+                          100,
+                          {
+                            "path": "/items/1/discount"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  100
+                ]
+              }
+            },
+            {
+              "left": "/items/2/amount",
+              "expression": {
+                "op": "floordiv",
+                "args": [
+                  {
+                    "op": "mul",
+                    "args": [
+                      {
+                        "op": "mul",
+                        "args": [
+                          {
+                            "path": "/items/2/quantity"
+                          },
+                          {
+                            "path": "/items/2/unit_price"
+                          }
+                        ]
+                      },
+                      {
+                        "op": "sub",
+                        "args": [
+                          100,
+                          {
+                            "path": "/items/2/discount"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  100
+                ]
+              }
+            },
+            {
+              "left": "/items/3/amount",
+              "expression": {
+                "op": "floordiv",
+                "args": [
+                  {
+                    "op": "mul",
+                    "args": [
+                      {
+                        "op": "mul",
+                        "args": [
+                          {
+                            "path": "/items/3/quantity"
+                          },
+                          {
+                            "path": "/items/3/unit_price"
+                          }
+                        ]
+                      },
+                      {
+                        "op": "sub",
+                        "args": [
+                          100,
+                          {
+                            "path": "/items/3/discount"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  100
+                ]
+              }
             }
           ]
         },
@@ -830,7 +1514,211 @@
               "Discount",
               "Amount"
             ],
-            "row_count": 4
+            "row_count": 4,
+            "equals": [
+              {
+                "path": "/0/0",
+                "value": "entry-1"
+              },
+              {
+                "path": "/0/1",
+                "value": "2"
+              },
+              {
+                "path": "/0/2",
+                "value": "7"
+              },
+              {
+                "path": "/0/3",
+                "value": "0"
+              },
+              {
+                "path": "/1/0",
+                "value": "entry-2"
+              },
+              {
+                "path": "/1/1",
+                "value": "3"
+              },
+              {
+                "path": "/1/2",
+                "value": "20"
+              },
+              {
+                "path": "/1/3",
+                "value": "7"
+              },
+              {
+                "path": "/2/0",
+                "value": "entry-3"
+              },
+              {
+                "path": "/2/1",
+                "value": "4"
+              },
+              {
+                "path": "/2/2",
+                "value": "33"
+              },
+              {
+                "path": "/2/3",
+                "value": "14"
+              },
+              {
+                "path": "/3/0",
+                "value": "entry-4"
+              },
+              {
+                "path": "/3/1",
+                "value": "5"
+              },
+              {
+                "path": "/3/2",
+                "value": "46"
+              },
+              {
+                "path": "/3/3",
+                "value": "21"
+              }
+            ],
+            "equations": [
+              {
+                "left": "/0/4",
+                "expression": {
+                  "op": "floordiv",
+                  "args": [
+                    {
+                      "op": "mul",
+                      "args": [
+                        {
+                          "op": "mul",
+                          "args": [
+                            {
+                              "path": "/0/1"
+                            },
+                            {
+                              "path": "/0/2"
+                            }
+                          ]
+                        },
+                        {
+                          "op": "sub",
+                          "args": [
+                            100,
+                            {
+                              "path": "/0/3"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    100
+                  ]
+                }
+              },
+              {
+                "left": "/1/4",
+                "expression": {
+                  "op": "floordiv",
+                  "args": [
+                    {
+                      "op": "mul",
+                      "args": [
+                        {
+                          "op": "mul",
+                          "args": [
+                            {
+                              "path": "/1/1"
+                            },
+                            {
+                              "path": "/1/2"
+                            }
+                          ]
+                        },
+                        {
+                          "op": "sub",
+                          "args": [
+                            100,
+                            {
+                              "path": "/1/3"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    100
+                  ]
+                }
+              },
+              {
+                "left": "/2/4",
+                "expression": {
+                  "op": "floordiv",
+                  "args": [
+                    {
+                      "op": "mul",
+                      "args": [
+                        {
+                          "op": "mul",
+                          "args": [
+                            {
+                              "path": "/2/1"
+                            },
+                            {
+                              "path": "/2/2"
+                            }
+                          ]
+                        },
+                        {
+                          "op": "sub",
+                          "args": [
+                            100,
+                            {
+                              "path": "/2/3"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    100
+                  ]
+                }
+              },
+              {
+                "left": "/3/4",
+                "expression": {
+                  "op": "floordiv",
+                  "args": [
+                    {
+                      "op": "mul",
+                      "args": [
+                        {
+                          "op": "mul",
+                          "args": [
+                            {
+                              "path": "/3/1"
+                            },
+                            {
+                              "path": "/3/2"
+                            }
+                          ]
+                        },
+                        {
+                          "op": "sub",
+                          "args": [
+                            100,
+                            {
+                              "path": "/3/3"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    100
+                  ]
+                }
+              }
+            ]
           }
         }
       }
@@ -1485,6 +2373,30 @@
             {
               "path": "/currency",
               "value": "credits"
+            },
+            {
+              "path": "/items/0/id",
+              "value": "item-1"
+            },
+            {
+              "path": "/items/0/quantity",
+              "value": 3
+            },
+            {
+              "path": "/items/0/unit_price",
+              "value": 63
+            },
+            {
+              "path": "/items/1/id",
+              "value": "item-2"
+            },
+            {
+              "path": "/items/1/quantity",
+              "value": 17
+            },
+            {
+              "path": "/items/1/unit_price",
+              "value": 85
             }
           ],
           "relations": [
@@ -1503,6 +2415,36 @@
               "op": "unique",
               "right": "/items",
               "field": "id"
+            }
+          ],
+          "equations": [
+            {
+              "left": "/items/0/amount",
+              "expression": {
+                "op": "mul",
+                "args": [
+                  {
+                    "path": "/items/0/quantity"
+                  },
+                  {
+                    "path": "/items/0/unit_price"
+                  }
+                ]
+              }
+            },
+            {
+              "left": "/items/1/amount",
+              "expression": {
+                "op": "mul",
+                "args": [
+                  {
+                    "path": "/items/1/quantity"
+                  },
+                  {
+                    "path": "/items/1/unit_price"
+                  }
+                ]
+              }
             }
           ]
         }
@@ -1577,6 +2519,70 @@
             {
               "path": "/currency",
               "value": "credits"
+            },
+            {
+              "path": "/items/0/id",
+              "value": "item-1"
+            },
+            {
+              "path": "/items/0/quantity",
+              "value": 12
+            },
+            {
+              "path": "/items/0/unit_price",
+              "value": 20
+            },
+            {
+              "path": "/items/0/discount",
+              "value": 7
+            },
+            {
+              "path": "/items/1/id",
+              "value": "item-2"
+            },
+            {
+              "path": "/items/1/quantity",
+              "value": 16
+            },
+            {
+              "path": "/items/1/unit_price",
+              "value": 53
+            },
+            {
+              "path": "/items/1/discount",
+              "value": 7
+            },
+            {
+              "path": "/items/2/id",
+              "value": "item-3"
+            },
+            {
+              "path": "/items/2/quantity",
+              "value": 6
+            },
+            {
+              "path": "/items/2/unit_price",
+              "value": 25
+            },
+            {
+              "path": "/items/2/discount",
+              "value": 33
+            },
+            {
+              "path": "/items/3/id",
+              "value": "item-4"
+            },
+            {
+              "path": "/items/3/quantity",
+              "value": 3
+            },
+            {
+              "path": "/items/3/unit_price",
+              "value": 47
+            },
+            {
+              "path": "/items/3/discount",
+              "value": 33
             }
           ],
           "relations": [
@@ -1595,6 +2601,144 @@
               "op": "unique",
               "right": "/items",
               "field": "id"
+            }
+          ],
+          "equations": [
+            {
+              "left": "/items/0/amount",
+              "expression": {
+                "op": "floordiv",
+                "args": [
+                  {
+                    "op": "mul",
+                    "args": [
+                      {
+                        "op": "mul",
+                        "args": [
+                          {
+                            "path": "/items/0/quantity"
+                          },
+                          {
+                            "path": "/items/0/unit_price"
+                          }
+                        ]
+                      },
+                      {
+                        "op": "sub",
+                        "args": [
+                          100,
+                          {
+                            "path": "/items/0/discount"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  100
+                ]
+              }
+            },
+            {
+              "left": "/items/1/amount",
+              "expression": {
+                "op": "floordiv",
+                "args": [
+                  {
+                    "op": "mul",
+                    "args": [
+                      {
+                        "op": "mul",
+                        "args": [
+                          {
+                            "path": "/items/1/quantity"
+                          },
+                          {
+                            "path": "/items/1/unit_price"
+                          }
+                        ]
+                      },
+                      {
+                        "op": "sub",
+                        "args": [
+                          100,
+                          {
+                            "path": "/items/1/discount"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  100
+                ]
+              }
+            },
+            {
+              "left": "/items/2/amount",
+              "expression": {
+                "op": "floordiv",
+                "args": [
+                  {
+                    "op": "mul",
+                    "args": [
+                      {
+                        "op": "mul",
+                        "args": [
+                          {
+                            "path": "/items/2/quantity"
+                          },
+                          {
+                            "path": "/items/2/unit_price"
+                          }
+                        ]
+                      },
+                      {
+                        "op": "sub",
+                        "args": [
+                          100,
+                          {
+                            "path": "/items/2/discount"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  100
+                ]
+              }
+            },
+            {
+              "left": "/items/3/amount",
+              "expression": {
+                "op": "floordiv",
+                "args": [
+                  {
+                    "op": "mul",
+                    "args": [
+                      {
+                        "op": "mul",
+                        "args": [
+                          {
+                            "path": "/items/3/quantity"
+                          },
+                          {
+                            "path": "/items/3/unit_price"
+                          }
+                        ]
+                      },
+                      {
+                        "op": "sub",
+                        "args": [
+                          100,
+                          {
+                            "path": "/items/3/discount"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  100
+                ]
+              }
             }
           ]
         }
@@ -1703,6 +2847,126 @@
             {
               "path": "/currency",
               "value": "credits"
+            },
+            {
+              "path": "/groups/0/id",
+              "value": "group-1"
+            },
+            {
+              "path": "/groups/0/tax_percent",
+              "value": 5
+            },
+            {
+              "path": "/groups/0/items/0/id",
+              "value": "item-1"
+            },
+            {
+              "path": "/groups/0/items/0/quantity",
+              "value": 6
+            },
+            {
+              "path": "/groups/0/items/0/unit_price",
+              "value": 31
+            },
+            {
+              "path": "/groups/0/items/0/discount",
+              "value": 7
+            },
+            {
+              "path": "/groups/0/items/1/id",
+              "value": "item-2"
+            },
+            {
+              "path": "/groups/0/items/1/quantity",
+              "value": 16
+            },
+            {
+              "path": "/groups/0/items/1/unit_price",
+              "value": 39
+            },
+            {
+              "path": "/groups/0/items/1/discount",
+              "value": 7
+            },
+            {
+              "path": "/groups/1/id",
+              "value": "group-2"
+            },
+            {
+              "path": "/groups/1/tax_percent",
+              "value": 9
+            },
+            {
+              "path": "/groups/1/items/0/id",
+              "value": "item-1"
+            },
+            {
+              "path": "/groups/1/items/0/quantity",
+              "value": 17
+            },
+            {
+              "path": "/groups/1/items/0/unit_price",
+              "value": 65
+            },
+            {
+              "path": "/groups/1/items/0/discount",
+              "value": 15
+            },
+            {
+              "path": "/groups/1/items/1/id",
+              "value": "item-2"
+            },
+            {
+              "path": "/groups/1/items/1/quantity",
+              "value": 9
+            },
+            {
+              "path": "/groups/1/items/1/unit_price",
+              "value": 40
+            },
+            {
+              "path": "/groups/1/items/1/discount",
+              "value": 33
+            },
+            {
+              "path": "/groups/2/id",
+              "value": "group-3"
+            },
+            {
+              "path": "/groups/2/tax_percent",
+              "value": 13
+            },
+            {
+              "path": "/groups/2/items/0/id",
+              "value": "item-1"
+            },
+            {
+              "path": "/groups/2/items/0/quantity",
+              "value": 3
+            },
+            {
+              "path": "/groups/2/items/0/unit_price",
+              "value": 17
+            },
+            {
+              "path": "/groups/2/items/0/discount",
+              "value": 0
+            },
+            {
+              "path": "/groups/2/items/1/id",
+              "value": "item-2"
+            },
+            {
+              "path": "/groups/2/items/1/quantity",
+              "value": 17
+            },
+            {
+              "path": "/groups/2/items/1/unit_price",
+              "value": 43
+            },
+            {
+              "path": "/groups/2/items/1/discount",
+              "value": 7
             }
           ],
           "relations": [
@@ -1739,6 +3003,314 @@
               "op": "unique",
               "right": "/groups",
               "field": "id"
+            }
+          ],
+          "equations": [
+            {
+              "left": "/groups/0/items/0/amount",
+              "expression": {
+                "op": "floordiv",
+                "args": [
+                  {
+                    "op": "mul",
+                    "args": [
+                      {
+                        "op": "mul",
+                        "args": [
+                          {
+                            "path": "/groups/0/items/0/quantity"
+                          },
+                          {
+                            "path": "/groups/0/items/0/unit_price"
+                          }
+                        ]
+                      },
+                      {
+                        "op": "sub",
+                        "args": [
+                          100,
+                          {
+                            "path": "/groups/0/items/0/discount"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  100
+                ]
+              }
+            },
+            {
+              "left": "/groups/0/items/1/amount",
+              "expression": {
+                "op": "floordiv",
+                "args": [
+                  {
+                    "op": "mul",
+                    "args": [
+                      {
+                        "op": "mul",
+                        "args": [
+                          {
+                            "path": "/groups/0/items/1/quantity"
+                          },
+                          {
+                            "path": "/groups/0/items/1/unit_price"
+                          }
+                        ]
+                      },
+                      {
+                        "op": "sub",
+                        "args": [
+                          100,
+                          {
+                            "path": "/groups/0/items/1/discount"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  100
+                ]
+              }
+            },
+            {
+              "left": "/groups/0/tax",
+              "expression": {
+                "op": "floordiv",
+                "args": [
+                  {
+                    "op": "mul",
+                    "args": [
+                      {
+                        "path": "/groups/0/subtotal"
+                      },
+                      {
+                        "path": "/groups/0/tax_percent"
+                      }
+                    ]
+                  },
+                  100
+                ]
+              }
+            },
+            {
+              "left": "/groups/0/total",
+              "expression": {
+                "op": "add",
+                "args": [
+                  {
+                    "path": "/groups/0/subtotal"
+                  },
+                  {
+                    "path": "/groups/0/tax"
+                  }
+                ]
+              }
+            },
+            {
+              "left": "/groups/1/items/0/amount",
+              "expression": {
+                "op": "floordiv",
+                "args": [
+                  {
+                    "op": "mul",
+                    "args": [
+                      {
+                        "op": "mul",
+                        "args": [
+                          {
+                            "path": "/groups/1/items/0/quantity"
+                          },
+                          {
+                            "path": "/groups/1/items/0/unit_price"
+                          }
+                        ]
+                      },
+                      {
+                        "op": "sub",
+                        "args": [
+                          100,
+                          {
+                            "path": "/groups/1/items/0/discount"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  100
+                ]
+              }
+            },
+            {
+              "left": "/groups/1/items/1/amount",
+              "expression": {
+                "op": "floordiv",
+                "args": [
+                  {
+                    "op": "mul",
+                    "args": [
+                      {
+                        "op": "mul",
+                        "args": [
+                          {
+                            "path": "/groups/1/items/1/quantity"
+                          },
+                          {
+                            "path": "/groups/1/items/1/unit_price"
+                          }
+                        ]
+                      },
+                      {
+                        "op": "sub",
+                        "args": [
+                          100,
+                          {
+                            "path": "/groups/1/items/1/discount"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  100
+                ]
+              }
+            },
+            {
+              "left": "/groups/1/tax",
+              "expression": {
+                "op": "floordiv",
+                "args": [
+                  {
+                    "op": "mul",
+                    "args": [
+                      {
+                        "path": "/groups/1/subtotal"
+                      },
+                      {
+                        "path": "/groups/1/tax_percent"
+                      }
+                    ]
+                  },
+                  100
+                ]
+              }
+            },
+            {
+              "left": "/groups/1/total",
+              "expression": {
+                "op": "add",
+                "args": [
+                  {
+                    "path": "/groups/1/subtotal"
+                  },
+                  {
+                    "path": "/groups/1/tax"
+                  }
+                ]
+              }
+            },
+            {
+              "left": "/groups/2/items/0/amount",
+              "expression": {
+                "op": "floordiv",
+                "args": [
+                  {
+                    "op": "mul",
+                    "args": [
+                      {
+                        "op": "mul",
+                        "args": [
+                          {
+                            "path": "/groups/2/items/0/quantity"
+                          },
+                          {
+                            "path": "/groups/2/items/0/unit_price"
+                          }
+                        ]
+                      },
+                      {
+                        "op": "sub",
+                        "args": [
+                          100,
+                          {
+                            "path": "/groups/2/items/0/discount"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  100
+                ]
+              }
+            },
+            {
+              "left": "/groups/2/items/1/amount",
+              "expression": {
+                "op": "floordiv",
+                "args": [
+                  {
+                    "op": "mul",
+                    "args": [
+                      {
+                        "op": "mul",
+                        "args": [
+                          {
+                            "path": "/groups/2/items/1/quantity"
+                          },
+                          {
+                            "path": "/groups/2/items/1/unit_price"
+                          }
+                        ]
+                      },
+                      {
+                        "op": "sub",
+                        "args": [
+                          100,
+                          {
+                            "path": "/groups/2/items/1/discount"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  100
+                ]
+              }
+            },
+            {
+              "left": "/groups/2/tax",
+              "expression": {
+                "op": "floordiv",
+                "args": [
+                  {
+                    "op": "mul",
+                    "args": [
+                      {
+                        "path": "/groups/2/subtotal"
+                      },
+                      {
+                        "path": "/groups/2/tax_percent"
+                      }
+                    ]
+                  },
+                  100
+                ]
+              }
+            },
+            {
+              "left": "/groups/2/total",
+              "expression": {
+                "op": "add",
+                "args": [
+                  {
+                    "path": "/groups/2/subtotal"
+                  },
+                  {
+                    "path": "/groups/2/tax"
+                  }
+                ]
+              }
             }
           ]
         }
@@ -1809,6 +3381,30 @@
             {
               "path": "/currency",
               "value": "credits"
+            },
+            {
+              "path": "/items/0/id",
+              "value": "item-1"
+            },
+            {
+              "path": "/items/0/quantity",
+              "value": 14
+            },
+            {
+              "path": "/items/0/unit_price",
+              "value": 81
+            },
+            {
+              "path": "/items/1/id",
+              "value": "item-2"
+            },
+            {
+              "path": "/items/1/quantity",
+              "value": 11
+            },
+            {
+              "path": "/items/1/unit_price",
+              "value": 73
             }
           ],
           "relations": [
@@ -1827,6 +3423,36 @@
               "op": "unique",
               "right": "/items",
               "field": "id"
+            }
+          ],
+          "equations": [
+            {
+              "left": "/items/0/amount",
+              "expression": {
+                "op": "mul",
+                "args": [
+                  {
+                    "path": "/items/0/quantity"
+                  },
+                  {
+                    "path": "/items/0/unit_price"
+                  }
+                ]
+              }
+            },
+            {
+              "left": "/items/1/amount",
+              "expression": {
+                "op": "mul",
+                "args": [
+                  {
+                    "path": "/items/1/quantity"
+                  },
+                  {
+                    "path": "/items/1/unit_price"
+                  }
+                ]
+              }
             }
           ]
         },
@@ -1907,6 +3533,70 @@
             {
               "path": "/currency",
               "value": "credits"
+            },
+            {
+              "path": "/items/0/id",
+              "value": "item-1"
+            },
+            {
+              "path": "/items/0/quantity",
+              "value": 12
+            },
+            {
+              "path": "/items/0/unit_price",
+              "value": 8
+            },
+            {
+              "path": "/items/0/discount",
+              "value": 33
+            },
+            {
+              "path": "/items/1/id",
+              "value": "item-2"
+            },
+            {
+              "path": "/items/1/quantity",
+              "value": 17
+            },
+            {
+              "path": "/items/1/unit_price",
+              "value": 25
+            },
+            {
+              "path": "/items/1/discount",
+              "value": 15
+            },
+            {
+              "path": "/items/2/id",
+              "value": "item-3"
+            },
+            {
+              "path": "/items/2/quantity",
+              "value": 3
+            },
+            {
+              "path": "/items/2/unit_price",
+              "value": 58
+            },
+            {
+              "path": "/items/2/discount",
+              "value": 15
+            },
+            {
+              "path": "/items/3/id",
+              "value": "item-4"
+            },
+            {
+              "path": "/items/3/quantity",
+              "value": 10
+            },
+            {
+              "path": "/items/3/unit_price",
+              "value": 39
+            },
+            {
+              "path": "/items/3/discount",
+              "value": 33
             }
           ],
           "relations": [
@@ -1925,6 +3615,144 @@
               "op": "unique",
               "right": "/items",
               "field": "id"
+            }
+          ],
+          "equations": [
+            {
+              "left": "/items/0/amount",
+              "expression": {
+                "op": "floordiv",
+                "args": [
+                  {
+                    "op": "mul",
+                    "args": [
+                      {
+                        "op": "mul",
+                        "args": [
+                          {
+                            "path": "/items/0/quantity"
+                          },
+                          {
+                            "path": "/items/0/unit_price"
+                          }
+                        ]
+                      },
+                      {
+                        "op": "sub",
+                        "args": [
+                          100,
+                          {
+                            "path": "/items/0/discount"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  100
+                ]
+              }
+            },
+            {
+              "left": "/items/1/amount",
+              "expression": {
+                "op": "floordiv",
+                "args": [
+                  {
+                    "op": "mul",
+                    "args": [
+                      {
+                        "op": "mul",
+                        "args": [
+                          {
+                            "path": "/items/1/quantity"
+                          },
+                          {
+                            "path": "/items/1/unit_price"
+                          }
+                        ]
+                      },
+                      {
+                        "op": "sub",
+                        "args": [
+                          100,
+                          {
+                            "path": "/items/1/discount"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  100
+                ]
+              }
+            },
+            {
+              "left": "/items/2/amount",
+              "expression": {
+                "op": "floordiv",
+                "args": [
+                  {
+                    "op": "mul",
+                    "args": [
+                      {
+                        "op": "mul",
+                        "args": [
+                          {
+                            "path": "/items/2/quantity"
+                          },
+                          {
+                            "path": "/items/2/unit_price"
+                          }
+                        ]
+                      },
+                      {
+                        "op": "sub",
+                        "args": [
+                          100,
+                          {
+                            "path": "/items/2/discount"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  100
+                ]
+              }
+            },
+            {
+              "left": "/items/3/amount",
+              "expression": {
+                "op": "floordiv",
+                "args": [
+                  {
+                    "op": "mul",
+                    "args": [
+                      {
+                        "op": "mul",
+                        "args": [
+                          {
+                            "path": "/items/3/quantity"
+                          },
+                          {
+                            "path": "/items/3/unit_price"
+                          }
+                        ]
+                      },
+                      {
+                        "op": "sub",
+                        "args": [
+                          100,
+                          {
+                            "path": "/items/3/discount"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  100
+                ]
+              }
             }
           ]
         },
@@ -2039,6 +3867,126 @@
             {
               "path": "/currency",
               "value": "credits"
+            },
+            {
+              "path": "/groups/0/id",
+              "value": "group-1"
+            },
+            {
+              "path": "/groups/0/tax_percent",
+              "value": 5
+            },
+            {
+              "path": "/groups/0/items/0/id",
+              "value": "item-1"
+            },
+            {
+              "path": "/groups/0/items/0/quantity",
+              "value": 2
+            },
+            {
+              "path": "/groups/0/items/0/unit_price",
+              "value": 4
+            },
+            {
+              "path": "/groups/0/items/0/discount",
+              "value": 33
+            },
+            {
+              "path": "/groups/0/items/1/id",
+              "value": "item-2"
+            },
+            {
+              "path": "/groups/0/items/1/quantity",
+              "value": 16
+            },
+            {
+              "path": "/groups/0/items/1/unit_price",
+              "value": 70
+            },
+            {
+              "path": "/groups/0/items/1/discount",
+              "value": 0
+            },
+            {
+              "path": "/groups/1/id",
+              "value": "group-2"
+            },
+            {
+              "path": "/groups/1/tax_percent",
+              "value": 9
+            },
+            {
+              "path": "/groups/1/items/0/id",
+              "value": "item-1"
+            },
+            {
+              "path": "/groups/1/items/0/quantity",
+              "value": 5
+            },
+            {
+              "path": "/groups/1/items/0/unit_price",
+              "value": 67
+            },
+            {
+              "path": "/groups/1/items/0/discount",
+              "value": 7
+            },
+            {
+              "path": "/groups/1/items/1/id",
+              "value": "item-2"
+            },
+            {
+              "path": "/groups/1/items/1/quantity",
+              "value": 7
+            },
+            {
+              "path": "/groups/1/items/1/unit_price",
+              "value": 9
+            },
+            {
+              "path": "/groups/1/items/1/discount",
+              "value": 33
+            },
+            {
+              "path": "/groups/2/id",
+              "value": "group-3"
+            },
+            {
+              "path": "/groups/2/tax_percent",
+              "value": 13
+            },
+            {
+              "path": "/groups/2/items/0/id",
+              "value": "item-1"
+            },
+            {
+              "path": "/groups/2/items/0/quantity",
+              "value": 14
+            },
+            {
+              "path": "/groups/2/items/0/unit_price",
+              "value": 42
+            },
+            {
+              "path": "/groups/2/items/0/discount",
+              "value": 0
+            },
+            {
+              "path": "/groups/2/items/1/id",
+              "value": "item-2"
+            },
+            {
+              "path": "/groups/2/items/1/quantity",
+              "value": 16
+            },
+            {
+              "path": "/groups/2/items/1/unit_price",
+              "value": 65
+            },
+            {
+              "path": "/groups/2/items/1/discount",
+              "value": 33
             }
           ],
           "relations": [
@@ -2075,6 +4023,314 @@
               "op": "unique",
               "right": "/groups",
               "field": "id"
+            }
+          ],
+          "equations": [
+            {
+              "left": "/groups/0/items/0/amount",
+              "expression": {
+                "op": "floordiv",
+                "args": [
+                  {
+                    "op": "mul",
+                    "args": [
+                      {
+                        "op": "mul",
+                        "args": [
+                          {
+                            "path": "/groups/0/items/0/quantity"
+                          },
+                          {
+                            "path": "/groups/0/items/0/unit_price"
+                          }
+                        ]
+                      },
+                      {
+                        "op": "sub",
+                        "args": [
+                          100,
+                          {
+                            "path": "/groups/0/items/0/discount"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  100
+                ]
+              }
+            },
+            {
+              "left": "/groups/0/items/1/amount",
+              "expression": {
+                "op": "floordiv",
+                "args": [
+                  {
+                    "op": "mul",
+                    "args": [
+                      {
+                        "op": "mul",
+                        "args": [
+                          {
+                            "path": "/groups/0/items/1/quantity"
+                          },
+                          {
+                            "path": "/groups/0/items/1/unit_price"
+                          }
+                        ]
+                      },
+                      {
+                        "op": "sub",
+                        "args": [
+                          100,
+                          {
+                            "path": "/groups/0/items/1/discount"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  100
+                ]
+              }
+            },
+            {
+              "left": "/groups/0/tax",
+              "expression": {
+                "op": "floordiv",
+                "args": [
+                  {
+                    "op": "mul",
+                    "args": [
+                      {
+                        "path": "/groups/0/subtotal"
+                      },
+                      {
+                        "path": "/groups/0/tax_percent"
+                      }
+                    ]
+                  },
+                  100
+                ]
+              }
+            },
+            {
+              "left": "/groups/0/total",
+              "expression": {
+                "op": "add",
+                "args": [
+                  {
+                    "path": "/groups/0/subtotal"
+                  },
+                  {
+                    "path": "/groups/0/tax"
+                  }
+                ]
+              }
+            },
+            {
+              "left": "/groups/1/items/0/amount",
+              "expression": {
+                "op": "floordiv",
+                "args": [
+                  {
+                    "op": "mul",
+                    "args": [
+                      {
+                        "op": "mul",
+                        "args": [
+                          {
+                            "path": "/groups/1/items/0/quantity"
+                          },
+                          {
+                            "path": "/groups/1/items/0/unit_price"
+                          }
+                        ]
+                      },
+                      {
+                        "op": "sub",
+                        "args": [
+                          100,
+                          {
+                            "path": "/groups/1/items/0/discount"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  100
+                ]
+              }
+            },
+            {
+              "left": "/groups/1/items/1/amount",
+              "expression": {
+                "op": "floordiv",
+                "args": [
+                  {
+                    "op": "mul",
+                    "args": [
+                      {
+                        "op": "mul",
+                        "args": [
+                          {
+                            "path": "/groups/1/items/1/quantity"
+                          },
+                          {
+                            "path": "/groups/1/items/1/unit_price"
+                          }
+                        ]
+                      },
+                      {
+                        "op": "sub",
+                        "args": [
+                          100,
+                          {
+                            "path": "/groups/1/items/1/discount"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  100
+                ]
+              }
+            },
+            {
+              "left": "/groups/1/tax",
+              "expression": {
+                "op": "floordiv",
+                "args": [
+                  {
+                    "op": "mul",
+                    "args": [
+                      {
+                        "path": "/groups/1/subtotal"
+                      },
+                      {
+                        "path": "/groups/1/tax_percent"
+                      }
+                    ]
+                  },
+                  100
+                ]
+              }
+            },
+            {
+              "left": "/groups/1/total",
+              "expression": {
+                "op": "add",
+                "args": [
+                  {
+                    "path": "/groups/1/subtotal"
+                  },
+                  {
+                    "path": "/groups/1/tax"
+                  }
+                ]
+              }
+            },
+            {
+              "left": "/groups/2/items/0/amount",
+              "expression": {
+                "op": "floordiv",
+                "args": [
+                  {
+                    "op": "mul",
+                    "args": [
+                      {
+                        "op": "mul",
+                        "args": [
+                          {
+                            "path": "/groups/2/items/0/quantity"
+                          },
+                          {
+                            "path": "/groups/2/items/0/unit_price"
+                          }
+                        ]
+                      },
+                      {
+                        "op": "sub",
+                        "args": [
+                          100,
+                          {
+                            "path": "/groups/2/items/0/discount"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  100
+                ]
+              }
+            },
+            {
+              "left": "/groups/2/items/1/amount",
+              "expression": {
+                "op": "floordiv",
+                "args": [
+                  {
+                    "op": "mul",
+                    "args": [
+                      {
+                        "op": "mul",
+                        "args": [
+                          {
+                            "path": "/groups/2/items/1/quantity"
+                          },
+                          {
+                            "path": "/groups/2/items/1/unit_price"
+                          }
+                        ]
+                      },
+                      {
+                        "op": "sub",
+                        "args": [
+                          100,
+                          {
+                            "path": "/groups/2/items/1/discount"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  100
+                ]
+              }
+            },
+            {
+              "left": "/groups/2/tax",
+              "expression": {
+                "op": "floordiv",
+                "args": [
+                  {
+                    "op": "mul",
+                    "args": [
+                      {
+                        "path": "/groups/2/subtotal"
+                      },
+                      {
+                        "path": "/groups/2/tax_percent"
+                      }
+                    ]
+                  },
+                  100
+                ]
+              }
+            },
+            {
+              "left": "/groups/2/total",
+              "expression": {
+                "op": "add",
+                "args": [
+                  {
+                    "path": "/groups/2/subtotal"
+                  },
+                  {
+                    "path": "/groups/2/tax"
+                  }
+                ]
+              }
             }
           ]
         },
@@ -2590,7 +4846,63 @@
               "Unit price",
               "Amount"
             ],
-            "row_count": 2
+            "row_count": 2,
+            "equals": [
+              {
+                "path": "/0/0",
+                "value": "entry-1"
+              },
+              {
+                "path": "/0/1",
+                "value": "2"
+              },
+              {
+                "path": "/0/2",
+                "value": "7"
+              },
+              {
+                "path": "/1/0",
+                "value": "entry-2"
+              },
+              {
+                "path": "/1/1",
+                "value": "3"
+              },
+              {
+                "path": "/1/2",
+                "value": "20"
+              }
+            ],
+            "equations": [
+              {
+                "left": "/0/3",
+                "expression": {
+                  "op": "mul",
+                  "args": [
+                    {
+                      "path": "/0/1"
+                    },
+                    {
+                      "path": "/0/2"
+                    }
+                  ]
+                }
+              },
+              {
+                "left": "/1/3",
+                "expression": {
+                  "op": "mul",
+                  "args": [
+                    {
+                      "path": "/1/1"
+                    },
+                    {
+                      "path": "/1/2"
+                    }
+                  ]
+                }
+              }
+            ]
           }
         }
       }
@@ -2617,7 +4929,211 @@
               "Discount",
               "Amount"
             ],
-            "row_count": 4
+            "row_count": 4,
+            "equals": [
+              {
+                "path": "/0/0",
+                "value": "entry-1"
+              },
+              {
+                "path": "/0/1",
+                "value": "2"
+              },
+              {
+                "path": "/0/2",
+                "value": "7"
+              },
+              {
+                "path": "/0/3",
+                "value": "0"
+              },
+              {
+                "path": "/1/0",
+                "value": "entry-2"
+              },
+              {
+                "path": "/1/1",
+                "value": "3"
+              },
+              {
+                "path": "/1/2",
+                "value": "20"
+              },
+              {
+                "path": "/1/3",
+                "value": "7"
+              },
+              {
+                "path": "/2/0",
+                "value": "entry-3"
+              },
+              {
+                "path": "/2/1",
+                "value": "4"
+              },
+              {
+                "path": "/2/2",
+                "value": "33"
+              },
+              {
+                "path": "/2/3",
+                "value": "14"
+              },
+              {
+                "path": "/3/0",
+                "value": "entry-4"
+              },
+              {
+                "path": "/3/1",
+                "value": "5"
+              },
+              {
+                "path": "/3/2",
+                "value": "46"
+              },
+              {
+                "path": "/3/3",
+                "value": "21"
+              }
+            ],
+            "equations": [
+              {
+                "left": "/0/4",
+                "expression": {
+                  "op": "floordiv",
+                  "args": [
+                    {
+                      "op": "mul",
+                      "args": [
+                        {
+                          "op": "mul",
+                          "args": [
+                            {
+                              "path": "/0/1"
+                            },
+                            {
+                              "path": "/0/2"
+                            }
+                          ]
+                        },
+                        {
+                          "op": "sub",
+                          "args": [
+                            100,
+                            {
+                              "path": "/0/3"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    100
+                  ]
+                }
+              },
+              {
+                "left": "/1/4",
+                "expression": {
+                  "op": "floordiv",
+                  "args": [
+                    {
+                      "op": "mul",
+                      "args": [
+                        {
+                          "op": "mul",
+                          "args": [
+                            {
+                              "path": "/1/1"
+                            },
+                            {
+                              "path": "/1/2"
+                            }
+                          ]
+                        },
+                        {
+                          "op": "sub",
+                          "args": [
+                            100,
+                            {
+                              "path": "/1/3"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    100
+                  ]
+                }
+              },
+              {
+                "left": "/2/4",
+                "expression": {
+                  "op": "floordiv",
+                  "args": [
+                    {
+                      "op": "mul",
+                      "args": [
+                        {
+                          "op": "mul",
+                          "args": [
+                            {
+                              "path": "/2/1"
+                            },
+                            {
+                              "path": "/2/2"
+                            }
+                          ]
+                        },
+                        {
+                          "op": "sub",
+                          "args": [
+                            100,
+                            {
+                              "path": "/2/3"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    100
+                  ]
+                }
+              },
+              {
+                "left": "/3/4",
+                "expression": {
+                  "op": "floordiv",
+                  "args": [
+                    {
+                      "op": "mul",
+                      "args": [
+                        {
+                          "op": "mul",
+                          "args": [
+                            {
+                              "path": "/3/1"
+                            },
+                            {
+                              "path": "/3/2"
+                            }
+                          ]
+                        },
+                        {
+                          "op": "sub",
+                          "args": [
+                            100,
+                            {
+                              "path": "/3/3"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    100
+                  ]
+                }
+              }
+            ]
           }
         }
       }
@@ -2644,7 +5160,311 @@
               "Discount",
               "Amount"
             ],
-            "row_count": 6
+            "row_count": 6,
+            "equals": [
+              {
+                "path": "/0/0",
+                "value": "entry-1"
+              },
+              {
+                "path": "/0/1",
+                "value": "2"
+              },
+              {
+                "path": "/0/2",
+                "value": "7"
+              },
+              {
+                "path": "/0/3",
+                "value": "0"
+              },
+              {
+                "path": "/1/0",
+                "value": "entry-2"
+              },
+              {
+                "path": "/1/1",
+                "value": "3"
+              },
+              {
+                "path": "/1/2",
+                "value": "20"
+              },
+              {
+                "path": "/1/3",
+                "value": "7"
+              },
+              {
+                "path": "/2/0",
+                "value": "entry-3"
+              },
+              {
+                "path": "/2/1",
+                "value": "4"
+              },
+              {
+                "path": "/2/2",
+                "value": "33"
+              },
+              {
+                "path": "/2/3",
+                "value": "14"
+              },
+              {
+                "path": "/3/0",
+                "value": "entry-4"
+              },
+              {
+                "path": "/3/1",
+                "value": "5"
+              },
+              {
+                "path": "/3/2",
+                "value": "46"
+              },
+              {
+                "path": "/3/3",
+                "value": "21"
+              },
+              {
+                "path": "/4/0",
+                "value": "entry-5"
+              },
+              {
+                "path": "/4/1",
+                "value": "6"
+              },
+              {
+                "path": "/4/2",
+                "value": "59"
+              },
+              {
+                "path": "/4/3",
+                "value": "28"
+              },
+              {
+                "path": "/5/0",
+                "value": "entry-6"
+              },
+              {
+                "path": "/5/1",
+                "value": "7"
+              },
+              {
+                "path": "/5/2",
+                "value": "72"
+              },
+              {
+                "path": "/5/3",
+                "value": "0"
+              }
+            ],
+            "equations": [
+              {
+                "left": "/0/4",
+                "expression": {
+                  "op": "floordiv",
+                  "args": [
+                    {
+                      "op": "mul",
+                      "args": [
+                        {
+                          "op": "mul",
+                          "args": [
+                            {
+                              "path": "/0/1"
+                            },
+                            {
+                              "path": "/0/2"
+                            }
+                          ]
+                        },
+                        {
+                          "op": "sub",
+                          "args": [
+                            100,
+                            {
+                              "path": "/0/3"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    100
+                  ]
+                }
+              },
+              {
+                "left": "/1/4",
+                "expression": {
+                  "op": "floordiv",
+                  "args": [
+                    {
+                      "op": "mul",
+                      "args": [
+                        {
+                          "op": "mul",
+                          "args": [
+                            {
+                              "path": "/1/1"
+                            },
+                            {
+                              "path": "/1/2"
+                            }
+                          ]
+                        },
+                        {
+                          "op": "sub",
+                          "args": [
+                            100,
+                            {
+                              "path": "/1/3"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    100
+                  ]
+                }
+              },
+              {
+                "left": "/2/4",
+                "expression": {
+                  "op": "floordiv",
+                  "args": [
+                    {
+                      "op": "mul",
+                      "args": [
+                        {
+                          "op": "mul",
+                          "args": [
+                            {
+                              "path": "/2/1"
+                            },
+                            {
+                              "path": "/2/2"
+                            }
+                          ]
+                        },
+                        {
+                          "op": "sub",
+                          "args": [
+                            100,
+                            {
+                              "path": "/2/3"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    100
+                  ]
+                }
+              },
+              {
+                "left": "/3/4",
+                "expression": {
+                  "op": "floordiv",
+                  "args": [
+                    {
+                      "op": "mul",
+                      "args": [
+                        {
+                          "op": "mul",
+                          "args": [
+                            {
+                              "path": "/3/1"
+                            },
+                            {
+                              "path": "/3/2"
+                            }
+                          ]
+                        },
+                        {
+                          "op": "sub",
+                          "args": [
+                            100,
+                            {
+                              "path": "/3/3"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    100
+                  ]
+                }
+              },
+              {
+                "left": "/4/4",
+                "expression": {
+                  "op": "floordiv",
+                  "args": [
+                    {
+                      "op": "mul",
+                      "args": [
+                        {
+                          "op": "mul",
+                          "args": [
+                            {
+                              "path": "/4/1"
+                            },
+                            {
+                              "path": "/4/2"
+                            }
+                          ]
+                        },
+                        {
+                          "op": "sub",
+                          "args": [
+                            100,
+                            {
+                              "path": "/4/3"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    100
+                  ]
+                }
+              },
+              {
+                "left": "/5/4",
+                "expression": {
+                  "op": "floordiv",
+                  "args": [
+                    {
+                      "op": "mul",
+                      "args": [
+                        {
+                          "op": "mul",
+                          "args": [
+                            {
+                              "path": "/5/1"
+                            },
+                            {
+                              "path": "/5/2"
+                            }
+                          ]
+                        },
+                        {
+                          "op": "sub",
+                          "args": [
+                            100,
+                            {
+                              "path": "/5/3"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    100
+                  ]
+                }
+              }
+            ]
           }
         }
       }

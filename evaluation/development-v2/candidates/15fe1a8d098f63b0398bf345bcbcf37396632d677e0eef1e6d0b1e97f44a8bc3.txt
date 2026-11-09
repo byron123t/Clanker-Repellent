@@ -1,0 +1,4 @@
+-- Compute absolute difference between two integer inputs :a and :b
+-- Returns 0 when inputs are equal, positive integer otherwise
+-- Inputs are integers in [-1000, 1000]; result is non-negative integer
+SELECT ABS(:a - :b) AS distance;

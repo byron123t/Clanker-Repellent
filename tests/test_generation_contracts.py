@@ -136,6 +136,48 @@ entry:
         self.assertFalse(check_contract(source.replace('<td>4','<td>5'),contract)['passed'])
         self.assertFalse(check_contract(source.replace('<section ','<section aria-labelledby="missing" '),contract)['passed'])
 
+    def test_arithmetic_catches_consistently_wrong_document_and_preserves_inputs(self):
+        contract={'schema_version':1,'language':'json','document':{'shape':{'type':'object'},
+            'equals':[{'path':'/input','value':7}], 'equations':[
+                {'left':'/amount','expression':{'op':'floordiv','args':[{'op':'mul','args':[{'path':'/input'},85]},100]}},
+                {'left':'/total','expression':{'op':'add','args':[{'path':'/amount'},3]}}]}}
+        for value,passed in [({'input':7,'amount':5,'total':8},True),
+                             ({'input':7,'amount':6,'total':9},False),
+                             ({'input':8,'amount':6,'total':9},False),
+                             ({'input':7,'amount':True,'total':4},False)]:
+            self.assertEqual(check_contract(json.dumps(value),contract)['passed'],passed)
+        for expr in [{'op':'floordiv','args':[1,0]}, {'op':'mul','args':[2**127,2]}, {'path':'/missing'}]:
+            changed=copy.deepcopy(contract); changed['document']['equations'][0]['expression']=expr
+            self.assertFalse(check_contract('{"input":7,"amount":5,"total":8}',changed)['passed'])
+        for expr in [True, 2**128, {'op':'pow','args':[2,30]}, {'op':'add','args':[1]}, {'path':'/~2'}]:
+            changed=copy.deepcopy(contract); changed['document']['equations'][0]['expression']=expr
+            with self.assertRaises(ValueError): validate_contract(changed)
+
+    def test_html_numeric_equations_use_canonical_integer_cells(self):
+        contract={'schema_version':1,'language':'html','html':{'table':{'columns':['Input','Result'],'row_count':1,
+            'equals':[{'path':'/0/0','value':'-3'}],
+            'equations':[{'left':'/0/1','expression':{'op':'floordiv','args':[{'path':'/0/0'},2]}}]}}}
+        source='<table><tr><th>Input</th><th>Result</th></tr><tr><td>-3</td><td>{}</td></tr></table>'
+        for value,passed in [('-2',True),('-1',False),('-02',False),('-2.0',False),('-2 credits',False)]:
+            self.assertEqual(check_contract(source.format(value),contract)['passed'],passed)
+
+    def test_arithmetic_expression_depth_and_total_work_are_bounded(self):
+        expression=1
+        for _ in range(14): expression={'op':'add','args':[expression,0]}
+        contract={'schema_version':1,'language':'json','document':{'shape':{'type':'object'},
+            'equations':[{'left':'/result','expression':expression}]}}
+        with self.assertRaisesRegex(ValueError,'12 levels'): validate_contract(contract)
+        expression=1
+        for _ in range(7): expression={'op':'add','args':[expression,expression]}
+        contract['document']['equations']=[{'left':'/result','expression':expression}]*9
+        # 9 * 255 nodes stays below the shared evaluation budget.
+        self.assertTrue(check_contract('{"result":128}',contract)['passed'])
+        contract['document']['equations']*=4
+        # Size bound or execution bound must reject large rule sets.
+        try: result=check_contract('{"result":128}',contract)
+        except ValueError: pass
+        else: self.assertFalse(result['passed'])
+
     def test_unknown_inapplicable_and_unbounded_contracts_are_errors(self):
         for change in [{'unknown':True},{'language':'javascript'},{'schema_version':True},{'http':{'status':200}},
                        {'examples':[]},{'function':{'name':'x','parameters':['v','v']}}]:

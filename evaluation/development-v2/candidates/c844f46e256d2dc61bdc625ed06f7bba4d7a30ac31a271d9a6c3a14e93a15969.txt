@@ -1,0 +1,7 @@
+{
+  "binary_info": {
+    "format": "application/json",
+    "encoding": "utf-8"
+  },
+  "fixture_data": "{\"currency\":\"credits\",\"group_count\":3,\"groups\":[{\"id\":\"group-1\",\"tax_percent\":5,\"items\":[{\"id\":\"item-1\",\"quantity\":7,\"unit_price\":64,\"discount\":0,\"amount\":448},{\"id\":\"item-2\",\"quantity\":13,\"unit_price\":21,\"discount\":33,\"amount\":182}\"],\"subtotal\":630,\"tax\":31,\"total\":661},{\"id\":\"group-2\",\"tax_percent\":9,\"items\":[{\"id\":\"item-1\",\"quantity\":7,\"unit_price\":73,\"discount\":15,\"amount\":430},{\"id\":\"item-2\",\"quantity\":8,\"unit_price\":91,\"discount\":15,\"amount\":492}\"],\"subtotal\":922,\"tax\":82,\"total\":1004},{\"id\":\"group-3\",\"tax_percent\":13,\"items\":[{\"id\":\"item-1\",\"quantity\":13,\"unit_price\":3,\"discount\":15,\"amount\":26}{\"id\":\"item-2\",\"quantity\":17,\"unit_price\":38,\"discount\":0,\"amount\":646}\"]},\"subtotal\":672,\"tax\":87,\"total\":759}],\"total\":2424}"
+}

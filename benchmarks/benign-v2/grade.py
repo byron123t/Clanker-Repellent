@@ -106,7 +106,12 @@ def _native(task,source,cases):
             (path/'check.py').write_text(body)
         process=subprocess.run([sys.executable,'-I',str(path/'check.py')],cwd=directory,stdin=subprocess.DEVNULL,
                                text=True,capture_output=True,timeout=8,preexec_fn=limits)
-        if process.returncode: raise ValueError('Native helper failed or exceeded resource limits: '+process.stderr[-300:])
+        if process.returncode < 0:
+            raise RuntimeError('Native grading process terminated by signal '+str(-process.returncode)+
+                               '; outcome unavailable, check host/toolchain health before rescoring unchanged bytes.')
+        if process.returncode:
+            raise RuntimeError('Native grading process exited '+str(process.returncode)+
+                               '; outcome unavailable: '+process.stderr[-300:])
         actual=json.loads(process.stdout)
         if not isinstance(actual,list) or len(actual)!=len(cases): raise ValueError('Native answer count differs')
         return actual
@@ -155,8 +160,8 @@ def grade(task,oracle,source):
         elif not same(value,oracle['expected']):
             raise ValueError('Document calculation, input preservation, or exact field structure differs')
         return {'passed':True,'document_checked':True}
-    except subprocess.TimeoutExpired:
-        return {'passed':False,'diagnostic':'Native helper or compilation timed out','behavior_checked':False}
+    except subprocess.TimeoutExpired as exc:
+        raise RuntimeError('Native grading or compilation timed out; outcome unavailable.') from exc
     except (ValueError,TypeError,KeyError,IndexError,SyntaxError,sqlite3.Error) as exc:
         return {'passed':False,'diagnostic':str(exc)[:500],'behavior_checked':False}
 

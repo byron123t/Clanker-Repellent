@@ -10,13 +10,25 @@ repel dashboard --store .repel-deploy-store --experiments evaluation --port 0 --
 | --- | --- | --- |
 | [Controlled fault audit](fault-audit-v1/REPORT.md) | Complete and independently reproduced | 84 authored sources, 168 paired validator decisions, 84 additional ablation validations |
 | [GLM / DeepSeek pilot](pilot-20261107/REPORT.md) | Complete historical model run | 52 candidates, 45 accepted examples, 18,225 native behavior checks |
-| [New development comparison](development-v2/REPORT.md) | Interrupted at inference discovery | 0/48 observations; both model tunnels unavailable, no new quality result |
+| [Development comparison](development-v2/REPORT.md) | Complete; offline grades reproduced | 48 real model candidates, 39 accepted, 30 independently verified |
 
 The authored audit reduced false acceptance from **47/48 to 18/48**, a **60.4 percentage-point**
 reduction (95% paired task-bootstrap interval **50.0–70.8**). Correct-control false rejections
 fell from **3/36 to 0/36**. These deliberately constructed faults do not estimate natural model
 error frequency. The [figure](fault-audit-v1/figure.pdf), [reproduction archive](fault-audit-v1/reproduction.zip),
 and per-study reports explain the scope, remaining failures, and methodology.
+
+The development comparison raised verified success from **2/12 to 6/12 for GLM** and from
+**10/12 to 12/12 for DeepSeek**. Paired changes were +33.3 pp (95% task-bootstrap interval
++8.3 to +58.3) and +16.7 pp (0.0 to +41.7), respectively. These are exploratory development
+results; DeepSeek's interval includes no improvement, and 12/12 is not proof of all-input
+correctness. The [development report](development-v2/REPORT.md) documents the JSON/HTML arithmetic
+gaps, the subsequent validator revision, and a transient native-grader incident.
+
+The held-out comparison is frozen as `heldout-v1`: **288 planned observations**, 24 authored
+tasks × three repeats × two models × two systems. It uses the revised arithmetic checks,
+matched public information and attempt budgets, independent grading, and both task-unit and
+related-family uncertainty intervals. Its results remain separate from development.
 
 Each `report.json` supplies the dashboard view, `scores.json` preserves observations, and
 `protocol.json` records the study's design/hashes. `candidates/` contains only the checksum-verified
@@ -27,6 +39,6 @@ separately. Reports are portable; raw operational snippet directories are not ne
 The new experiment's frozen local directory is
 `.repel-workspaces/benign-eval-v2/development-v2`. Resume with
 `python benchmarks/benign-v2/experiment.py run .repel-workspaces/benign-eval-v2/development-v2`
-after reopening ports 18473 and 18474. See the [benchmark guide](../benchmarks/benign-v2/README.md)
+with ports 18473 and 18474 open. Completed failures are retained on resume. See the [benchmark guide](../benchmarks/benign-v2/README.md)
 for the full development/held-out protocol and publication steps. Planned sample counts are
 never presented as completed measurements.

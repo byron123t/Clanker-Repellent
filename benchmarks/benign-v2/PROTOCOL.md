@@ -14,6 +14,14 @@ The baseline is commit `65d5cb357140d2c76808f254c7d2a4b6d95f3f31`. The enhanced 
 version-1 contract implementation. Each study copies both engines, the runner, task corpus,
 and private grading fixtures into its own directory and records their SHA-256 hashes.
 
+The selected intervention adds bounded integer document/table equations and explicit preservation
+of supplied input fields. This revision was motivated by the development-v2 GLM nested-JSON
+candidate: it passed aggregate consistency checks but contained wrong per-item arithmetic.
+The original development snapshot and outcomes remain unchanged. Revised public contracts
+state formulas and copy only supplied inputs, never the private calculated answers; both arms
+receive those same revised contracts. All 36 reference controls passed the revision before
+held-out collection. No held-out model output informed this change.
+
 There are 12 development tasks and 24 held-out task/format units. The held-out suite has
 eight units per complexity level: elementary boundary/shape requirements, compositional
 arithmetic and structured records, and loops or multi-stage/nested calculations. Formats are
@@ -43,6 +51,11 @@ attempt count, false acceptance (accepted but not verified), and each failure ca
 reported separately. A filter-only ablation re-scores baseline outputs with the public contract
 without generating replacements. This ablation can improve accepted-output precision by rejection;
 it is not an end-to-end repair run and must not be described as one.
+
+Provider-reported input/output tokens and inference latency are descriptive secondary measures,
+summed across every attempt, including rejections and token-limit stops. Missing usage remains
+unknown. Filter-only reuses baseline inference cost. These observations do not establish a
+causal efficiency ranking across the two differently served models.
 
 Each numeric unit has three public examples and 320 private test inputs. Private inputs exclude
 public examples and combine deterministic boundary combinations with seeded samples from the
@@ -76,11 +89,23 @@ ranking, general code safety, or compilation/decompilation retention from this n
 Do not tune on held-out outputs or selectively reroll failed candidates. Exploratory breakdowns
 are labeled as such; no favorable subset replaces the registered primary outcome.
 
+Held-out tasks are new instances, not entirely new algorithm families. In particular,
+JSON/HTTP calculations share a catalog family at each level and HTML tables share a family.
+As a pre-collection sensitivity analysis, also resample whole authored `family` clusters
+with all their tasks, arms, and replicates retained (10,000 draws, seed 20261109). Each draw's
+rate weights all sampled candidate cells equally; report this interval separately from the
+primary task-unit interval. The number of private input checks is never an inferential sample size.
+
 The worker verifies model identity on discovery and every response. It stores each request and
 response as explicitly benign trace data, plus generation manifests and final records. Completed
 failures remain in the denominator. Infrastructure interruptions stop that model queue and are
 reported as missing/incomplete, not as model errors. Exact replay of saved requests can recover
 an interrupted job; a request mismatch stops recovery instead of silently changing the protocol.
+Native grader signal terminations and compiler/child timeouts also stop scoring as infrastructure
+errors. They are not wrong-answer outcomes. After checking host/toolchain health, re-score the
+unchanged saved candidates; do not repeat inference to replace them. This classification was
+added after an interim development grading invocation abruptly failed on an unchanged LLVM
+minimum helper that passed earlier and in 12 immediate repetitions (323 cases each).
 
 Methodological motivation: [EvalPlus](https://arxiv.org/abs/2305.01210) shows why stronger tests can
 expose errors missed by small test suites. [LiveCodeBench](https://arxiv.org/abs/2403.07974) motivates

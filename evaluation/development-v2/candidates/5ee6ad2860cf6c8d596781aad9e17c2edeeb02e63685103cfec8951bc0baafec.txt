@@ -1,0 +1,12 @@
+; within: returns true iff lower <= value <= upper (signed i32)
+; inputs: value, lower, upper (all i32)
+; if lower > upper, reversed bounds return false
+define i1 @within(i32 %value, i32 %lower, i32 %upper) {
+; check lower <= value
+  %lower_le_value = icmp sle i32 %lower, %value
+; check value <= upper
+  %value_le_upper = icmp sle i32 %value, %upper
+; combine both conditions
+  %result = and i1 %lower_le_value, %value_le_upper
+  ret i1 %result
+}

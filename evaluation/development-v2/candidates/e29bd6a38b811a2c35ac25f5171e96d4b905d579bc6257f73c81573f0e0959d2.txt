@@ -1,0 +1,12 @@
+; within: returns i1 true iff lower <= value <= upper, else false.
+; All inputs are i32 in [-100000, 100000].
+; If lower > upper, the range is empty, so result is false.
+define i1 @within(i32 %value, i32 %lower, i32 %upper) {
+  ; Check lower <= value
+  %ge_lower = icmp sge i32 %value, %lower
+  ; Check value <= upper
+  %le_upper = icmp sle i32 %value, %upper
+  ; Combine: true only if both conditions hold
+  %result = and i1 %ge_lower, %le_upper
+  ret i1 %result
+}

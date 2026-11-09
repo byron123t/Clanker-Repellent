@@ -56,6 +56,30 @@
       {
         "path": "/currency",
         "value": "credits"
+      },
+      {
+        "path": "/items/0/id",
+        "value": "item-1"
+      },
+      {
+        "path": "/items/0/quantity",
+        "value": 0
+      },
+      {
+        "path": "/items/0/unit_price",
+        "value": 28
+      },
+      {
+        "path": "/items/1/id",
+        "value": "item-2"
+      },
+      {
+        "path": "/items/1/quantity",
+        "value": 1
+      },
+      {
+        "path": "/items/1/unit_price",
+        "value": 76
       }
     ],
     "relations": [
@@ -74,6 +98,36 @@
         "op": "unique",
         "right": "/items",
         "field": "id"
+      }
+    ],
+    "equations": [
+      {
+        "left": "/items/0/amount",
+        "expression": {
+          "op": "mul",
+          "args": [
+            {
+              "path": "/items/0/quantity"
+            },
+            {
+              "path": "/items/0/unit_price"
+            }
+          ]
+        }
+      },
+      {
+        "left": "/items/1/amount",
+        "expression": {
+          "op": "mul",
+          "args": [
+            {
+              "path": "/items/1/quantity"
+            },
+            {
+              "path": "/items/1/unit_price"
+            }
+          ]
+        }
       }
     ]
   }

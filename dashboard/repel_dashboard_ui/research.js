@@ -72,6 +72,7 @@
       entry.append(node("span","",audit ? "Paired reduction in false acceptance" : `${modelName(effect.model)} · paired change`),node("strong","",`${effect.difference>=0 ? "+" : ""}${(100*effect.difference).toFixed(1)} pp`),
         node("p","",`95% CI ${(100*effect.ci95[0]).toFixed(1)} to ${(100*effect.ci95[1]).toFixed(1)} pp · ${effect.paired_tasks} task clusters`));
       if (effect.ci95[0]<=0 && effect.ci95[1]>=0) entry.append(node("p","study-quiet","The interval includes no improvement."));
+      if (effect.family_ci95) entry.append(node("p","study-quiet",`Related-family sensitivity: ${(100*effect.family_ci95[0]).toFixed(1)} to ${(100*effect.family_ci95[1]).toFixed(1)} pp · ${effect.family_clusters} families.`));
       return entry;
     }));
     const findings = study.findings || [study.state==="complete" ? "All planned observations are recorded. Inspect differences by task and format below." : "This study is incomplete. Missing observations are not model failures.",
@@ -83,6 +84,14 @@
       header.append(...["System","Faults accepted","Controls rejected"].map((text)=>node("th","",text))); head.append(header);
       for (const row of study.ablations) { const entry=node("tr"); entry.append(node("td","",armName(row.arm)),node("td","study-numeric",`${row.false_acceptance}/${row.faults}`),node("td","study-numeric",`${row.false_rejection}/${row.controls}`)); body.append(entry); }
       table.append(head,body); ablations.append(node("h4","","Mechanism check · post hoc"),node("p","study-quiet","Same sources. No additional tasks or model generation. Both error columns: lower is better."),table);
+    }
+    const costs=$("study-costs"), costRows=study.metrics.filter((row)=>row.arm!=="filter-only" && typeof row.inference_seconds==="number");
+    costs.hidden=!costRows.length; costs.replaceChildren();
+    if (costRows.length) {
+      const table=node("table","study-metrics-table"), head=node("thead"), header=node("tr"), body=node("tbody");
+      header.append(...["Model / system","Input tokens","Output tokens","Minutes","Limit stops"].map((text)=>node("th","",text))); head.append(header);
+      for (const row of costRows) { const entry=node("tr"); entry.append(node("td","",label(row)),node("td","study-numeric",count(row.prompt_tokens)),node("td","study-numeric",count(row.completion_tokens)),node("td","study-numeric",(row.inference_seconds/60).toFixed(1)),node("td","study-numeric",count(row.length_stops))); body.append(entry); }
+      table.append(head,body); costs.append(node("h4","","Observed inference cost"),node("p","study-quiet","All attempts included. Server-reported tokens and elapsed inference time; hardware and load are uncontrolled. Filter-only reuses baseline inference."),table);
     }
   }
   function renderBreakdown() {
@@ -107,7 +116,7 @@
     $("study-case-diagnostic").textContent=item.diagnostic || (item.strict_pass===true ? "The candidate passed all registered independent checks." : item.accepted ? "Validation passed. Review the independent checks and documentation notes." : `Generation ended with ${item.status}. No accepted source was saved.`);
     $("study-task-text").textContent=item.prompt || "See the frozen protocol for this task.";
     $("study-contract").textContent=item.public_contract ? JSON.stringify(item.public_contract,null,2) : "The pilot did not use explicit task contracts.";
-    $("study-checks").textContent=JSON.stringify(item.validation ? {independent_grade:item.grade,validation:item.validation} : item.grade||{},null,2);
+    $("study-checks").textContent=JSON.stringify({independent_grade:item.grade||{},...(item.validation ? {validation:item.validation} : {}),...(item.attempt_checks ? {attempt_checks:item.attempt_checks,resources:item.resources} : {})},null,2);
     $("study-code").hidden=true; $("study-code").textContent=""; $("study-code-meta").textContent="";
     $("study-load-source").disabled=!item.source_sha256; $("study-copy-source").disabled=true;
     for (const button of $("study-cases").querySelectorAll("button")) { button.classList.toggle("selected",button.dataset.id===item.id); button.setAttribute("aria-pressed",String(button.dataset.id===item.id)); }

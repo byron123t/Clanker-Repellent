@@ -1,0 +1,8 @@
+-- Compute portion = clamp(value, 0) * clamp(percent, 0, 100) // 100
+-- Inputs: :value (any integer), :percent (any integer)
+-- Result: integer portion, with value clamped to >=0 and percent clamped to 0..100
+SELECT
+    (CASE WHEN :value < 0 THEN 0 ELSE :value END) *
+    (CASE WHEN :percent < 0 THEN 0
+          WHEN :percent > 100 THEN 100
+          ELSE :percent END) / 100 AS portion;
