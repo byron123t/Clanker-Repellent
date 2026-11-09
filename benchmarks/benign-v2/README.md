@@ -156,3 +156,19 @@ operation matching. It retains the documentation in the accepted artifact and co
 checking actual code and all text for the existing content rules. Tests cover Unicode, CRLF,
 code following a docstring on the same line, and end-to-end benign generation. This is a
 post-freeze correction, not a revision or reclassification of the registered study outcomes.
+
+The separate post hoc GLM diagnostic screens its complete 144-candidate grid and revalidates
+only the final saved Python attempts rejected by the benign operation checks. Four baseline
+attempts pass updated validation: three pass every independent check, and one is incorrect.
+Two contract-arm attempts clear the operation check but still fail subsequent validation.
+All six case outcomes reproduce exactly with the saved engine in the clean environment.
+These are validation counterfactuals, not extra generations or an estimate of a new retry
+pipeline's yield. The original held-out counts stay unchanged.
+
+`audit_rejections.py STUDY FRESH_OUTPUT --models glm` creates this diagnostic with a snapshot
+of the current validator. After both model grids complete, omit `--models` to include both.
+For offline reproduction, run the saved script against the original study/archive with
+`--engine ORIGINAL_AUDIT/engine --verify-against ORIGINAL_AUDIT/report.json`, using a fresh
+output directory. The matching proof can be attached by passing `--rejection-audit DIR` to
+the publication finalizer, with the proof saved as `DIR/reproduction-check.json`.
+The finalizer checks both the diagnostic snapshots and their original study evidence.

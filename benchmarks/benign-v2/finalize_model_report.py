@@ -19,7 +19,48 @@ def verified_outcomes(verification,report):
             and verification.get('protocol_sha256')==report['provenance']['protocol_sha256'])
 
 
-def finalize(directory,clean_verification=None,serving_metadata=()):
+def diagnostic_evidence(directory,report):
+    directory=Path(directory).resolve()
+    result=json.loads((directory/'report.json').read_text())
+    design=json.loads((directory/'protocol.json').read_text())
+    proof=json.loads((directory/'reproduction-check.json').read_text())
+    protocol_sha=report['provenance']['protocol_sha256']
+    if (result.get('benign') is not True or result.get('post_hoc') is not True or result.get('state')!='complete'
+            or result.get('repeated_inference') is not False or result.get('primary_results_changed') is not False
+            or result.get('source_protocol_sha256')!=protocol_sha or design.get('benign') is not True
+            or design.get('source_protocol_sha256')!=protocol_sha
+            or proof.get('benign') is not True or proof.get('reproduced') is not True
+            or proof.get('exact_case_agreement') is not True or proof.get('cases')!=len(result['cases'])
+            or proof.get('source_protocol_sha256')!=protocol_sha or proof.get('repeated_inference') is not False):
+        raise ValueError('Post hoc diagnostic must match the study and reproduce exactly')
+    digest=lambda path: hashlib.sha256(path.read_bytes()).hexdigest()
+    if (result['protocol_sha256']!=digest(directory/'protocol.json')
+            or proof['report_sha256']!=digest(directory/'report.json')):
+        raise ValueError('Diagnostic verification hashes differ')
+    members={'report.json':digest(directory/'report.json'),'protocol.json':digest(directory/'protocol.json'),
+             'reproduction-check.json':digest(directory/'reproduction-check.json'),**design['snapshot']}
+    for case in result['cases']:
+        if case.get('benign') is not True: raise ValueError('Nonbenign diagnostic case')
+        relative=Path(case['source_path'])
+        if relative.is_absolute() or '..' in relative.parts: raise ValueError('Unsafe diagnostic path')
+        (directory/relative).resolve().relative_to(directory)
+        members[case['source_path']]=case['source_sha256']
+        metadata=Path(case['source_path']).with_suffix('.meta.json')
+        members[str(metadata)]=digest(directory/metadata)
+    contents={}
+    for name,expected in members.items():
+        relative=Path(name); path=directory/relative
+        if relative.is_absolute() or '..' in relative.parts or path.is_symlink(): raise ValueError('Unsafe diagnostic path')
+        path.resolve().relative_to(directory)
+        data=path.read_bytes()
+        if hashlib.sha256(data).hexdigest()!=expected: raise ValueError('Diagnostic evidence changed: '+name)
+        contents['publication/rejection-audit/'+name]=data
+    summary={key:result[key] for key in ['benign','post_hoc','scope','source_protocol_sha256','groups','primary_results_changed','repeated_inference']}
+    summary['offline_verification']=proof
+    return contents,summary,design['evidence']
+
+
+def finalize(directory,clean_verification=None,serving_metadata=(),rejection_audit=None):
     report=json.loads((directory/'report.json').read_text())
     if report.get('benign') is not True or report['state']!='complete' or report['stage'] not in {'development','heldout'}:
         raise ValueError('Only complete benign model studies')
@@ -39,6 +80,8 @@ def finalize(directory,clean_verification=None,serving_metadata=()):
         if entry.get('benign') is not True or not entry.get('recorded_at') or not entry.get('scope'):
             raise ValueError('Serving metadata must be explicitly benign, timestamped, and scoped')
         if entry not in serving: serving.append(entry)
+    diagnostic=None
+    if rejection_audit is not None: diagnostic=diagnostic_evidence(rejection_audit,report)
     primary=json.dumps({k:report[k] for k in ['counts','metrics','effects','groups','cases']},sort_keys=True)
     environment={'benign':True,'recorded_at':datetime.now(timezone.utc).isoformat(),
         'scope':'Local offline grading/verification host; remote inference hardware and model weights are not independently verified.',
@@ -55,6 +98,14 @@ def finalize(directory,clean_verification=None,serving_metadata=()):
     if serving:
         additions.append({'title':'Observed serving configuration','body':'The archive contains timestamped, read-only API identity and serving metadata collected during this study. These are server self-reports, not independently verified weight hashes or evidence that configuration remained unchanged for every request. Backend, quantization, hardware, and load differences prevent a model-only speed comparison.'})
         report['provenance']['serving_metadata']=serving
+    summary=diagnostic[1] if diagnostic else report['provenance'].get('posthoc_rejection_audit')
+    if summary:
+        details=' '.join(row['model']+' / '+row['arm']+': '+str(row['terminal_rejections'])+' final policy rejections, '
+            +str(row['validation_passed'])+' passing updated validation, '+str(row['verified'])+' independently verified, '
+            +str(row['newly_accepted_incorrect'])+' newly accepted but incorrect.' for row in summary['groups'])
+        additions.append({'title':'Post hoc rejection diagnostic','body':summary['scope']+' '+details+
+            ' The diagnostic reproduced exactly offline. It does not estimate the yield of a fresh generation run or changed earlier retries. Its source snapshot and reproduction evidence are in publication/rejection-audit/ in the archive.'})
+        report['provenance']['posthoc_rejection_audit']=summary
     titles={item['title'] for item in additions}
     report['methodology']=[item for item in report['methodology'] if item['title'] not in titles]+additions
     with zipfile.ZipFile(directory/'reproduction.zip') as archive:
@@ -65,6 +116,12 @@ def finalize(directory,clean_verification=None,serving_metadata=()):
             if hashlib.sha256(data).hexdigest()!=manifest['files'][name]: raise ValueError('Archive evidence changed: '+name)
     if hashlib.sha256(contents['protocol.json']).hexdigest()!=report['provenance']['protocol_sha256']:
         raise ValueError('Archive and report protocol differ')
+    if diagnostic:
+        diagnostic_files,_,original_evidence=diagnostic
+        for name,expected in original_evidence.items():
+            if name not in contents or hashlib.sha256(contents[name]).hexdigest()!=expected:
+                raise ValueError('Diagnostic used different original evidence: '+name)
+        contents.update(diagnostic_files)
     contents['publication/environment.json']=(json.dumps(environment,indent=2)+'\n').encode()
     contents['publication/offline-verification.json']=(json.dumps(verification,indent=2)+'\n').encode()
     if clean: contents['publication/clean-environment-verification.json']=(json.dumps(clean,indent=2)+'\n').encode()
@@ -106,5 +163,6 @@ if __name__=='__main__':
     parser.add_argument('directory',type=Path)
     parser.add_argument('--clean-verification',type=Path)
     parser.add_argument('--serving-metadata',type=Path,action='append',default=[])
+    parser.add_argument('--rejection-audit',type=Path)
     args=parser.parse_args()
-    finalize(args.directory.resolve(),args.clean_verification,args.serving_metadata)
+    finalize(args.directory.resolve(),args.clean_verification,args.serving_metadata,args.rejection_audit)

@@ -73,5 +73,36 @@ class PublicationTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,'Archive evidence changed'): self.finalize()
         self.assertEqual((self.root/'reproduction.zip').read_bytes(),original)
 
+    def test_posthoc_addendum_preserves_original_results_and_requires_matching_proof(self):
+        folder=self.root/'diagnostic'; folder.mkdir()
+        digest=lambda path: hashlib.sha256(path.read_bytes()).hexdigest()
+        (folder/'audit.py').write_text('# Synthetic test artifact\n')
+        (folder/'case.py').write_text('# Authored synthetic source\n')
+        (folder/'case.meta.json').write_text('{"benign":true}\n')
+        design={'benign':True,'source_protocol_sha256':self.sha,'snapshot':{'audit.py':digest(folder/'audit.py')},
+                'evidence':{'protocol.json':self.sha}}
+        (folder/'protocol.json').write_text(json.dumps(design))
+        result={'benign':True,'post_hoc':True,'state':'complete','source_protocol_sha256':self.sha,
+            'repeated_inference':False,'primary_results_changed':False,'scope':'Synthetic test diagnostic.',
+            'protocol_sha256':digest(folder/'protocol.json'),'groups':[{'model':'fixture','arm':'baseline',
+                'terminal_rejections':1,'validation_passed':1,'verified':1,'newly_accepted_incorrect':0}],
+            'cases':[{'benign':True,'source_path':'case.py','source_sha256':digest(folder/'case.py')}]}
+        (folder/'report.json').write_text(json.dumps(result))
+        proof={'benign':True,'reproduced':True,'exact_case_agreement':True,'cases':1,'source_protocol_sha256':self.sha,
+               'repeated_inference':False,'report_sha256':digest(folder/'report.json')}
+        (folder/'reproduction-check.json').write_text(json.dumps(proof))
+        self.finalize(rejection_audit=folder)
+        current=json.loads((self.root/'report.json').read_text())
+        self.assertEqual(current['counts'],self.report['counts'])
+        self.assertTrue(current['provenance']['posthoc_rejection_audit']['post_hoc'])
+        with zipfile.ZipFile(self.root/'reproduction.zip') as archive:
+            self.assertEqual(archive.read('publication/rejection-audit/case.py'),(folder/'case.py').read_bytes())
+        self.finalize()
+        self.assertIn('Synthetic test diagnostic.',(self.root/'REPORT.md').read_text())
+        before=(self.root/'reproduction.zip').read_bytes()
+        proof['report_sha256']='wrong'; (folder/'reproduction-check.json').write_text(json.dumps(proof))
+        with self.assertRaisesRegex(ValueError,'verification hashes'): self.finalize(rejection_audit=folder)
+        self.assertEqual((self.root/'reproduction.zip').read_bytes(),before)
+
 
 if __name__=='__main__': unittest.main()
