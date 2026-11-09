@@ -131,3 +131,13 @@ Resource tables sum provider-reported prompt/output tokens and inference seconds
 attempt, including rejections and token-limit stops. Unknown usage is not replaced with zero.
 The related-family interval accompanies the task-unit interval because some format instances
 share calculation templates. Both uncertainty methods are specified before held-out collection.
+
+## Production changes after the held-out freeze
+
+A separate hand-written regression check found that the bounded Python interpreter ignored
+definition-time annotations. A helper with `value: MissingType` could pass its public examples
+but fail at definition time. The live validator now rejects unresolved/computed annotations
+and compiles its AST without execution to check Python control-flow rules. Ten authored
+expressions over 49 integer/Boolean input pairs also agree with native Python values and types.
+These are software regression checks, not model observations. Frozen study engines remain
+unchanged; the held-out results do not measure this later fix.

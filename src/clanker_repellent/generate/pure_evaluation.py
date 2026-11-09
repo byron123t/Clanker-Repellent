@@ -50,6 +50,18 @@ class IntegerProgram:
             raise ValueError('Use at most 16 distinct integer parameters.')
         if parameters is not None and self.names != parameters:
             raise ValueError('Parameter order/names must be: ' + ', '.join(parameters))
+        annotations=[arg.annotation for arg in args.posonlyargs + args.args]+[self.function.returns]
+        for annotation in annotations:
+            if annotation is not None and not (
+                    isinstance(annotation,ast.Name) and annotation.id in {'int','bool'}
+                    or isinstance(annotation,ast.Constant) and isinstance(annotation.value,str)):
+                raise ValueError('Integer helper annotations must be int, bool, or quoted text; definition-time computations and unresolved names are unsupported.')
+        try:
+            # Parsing alone accepts e.g. an unreachable break outside any loop.
+            # Compile for Python's scope/control-flow rules, without executing code.
+            compile(tree,'<integer-helper>','exec',dont_inherit=True)
+        except (SyntaxError,ValueError,RecursionError):
+            raise ValueError('Use valid Python scope and control flow in the integer helper.') from None
         for node in nodes:
             if (isinstance(node, ast.Name) and isinstance(node.ctx, ast.Store) and node.id in {'abs', 'min', 'max'}
                     or self.function.name in {'abs', 'min', 'max'} or set(self.names) & {'abs', 'min', 'max'}):

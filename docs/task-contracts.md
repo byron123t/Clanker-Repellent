@@ -38,6 +38,10 @@ the generated function. Supported constructs are scalar integer/Boolean locals, 
 `+ - * // %`, Boolean expressions, conditionals, `while`, `break`/`continue`, flat tuple
 assignment, and `abs`/`min`/`max`. There are limits on source size, AST nodes, steps, and values.
 Unsupported constructs fail the contract rather than being silently treated as correct.
+Optional annotations may use `int`, `bool`, or quoted text. Unresolved names and computations
+in annotations are rejected because they can fail when Python defines the helper, even when
+its body passes every example. Python scope/control-flow rules are checked by compilation
+without executing the function.
 
 SQL uses the same `function`/`examples` fields. The function name is the result alias and
 parameters are named `:parameters`. SQL predicates expect integer `0`/`1`. Unlike the default

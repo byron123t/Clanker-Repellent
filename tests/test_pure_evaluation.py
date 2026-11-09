@@ -1,6 +1,6 @@
 import unittest
 
-from clanker_repellent.generate.pure_evaluation import evaluate_predicate
+from clanker_repellent.generate.pure_evaluation import IntegerProgram,evaluate_predicate
 
 
 class PureEvaluationTests(unittest.TestCase):
@@ -27,6 +27,37 @@ class PureEvaluationTests(unittest.TestCase):
                        'def valid(value):\n    return 1']:
             with self.subTest(source=source), self.assertRaises(ValueError):
                 evaluate_predicate(source, 'valid', [2])
+
+    def test_definition_time_annotations_and_invalid_control_flow_are_rejected(self):
+        for signature in ['value: MissingType','value: abs(unknown)','value: 10 // 0']:
+            with self.subTest(signature=signature), self.assertRaisesRegex(ValueError,'annotations'):
+                IntegerProgram('def increment('+signature+') -> int:\n    return value + 1','increment')
+        with self.assertRaisesRegex(ValueError,'annotations'):
+            IntegerProgram('def increment(value) -> Unknown:\n    return value + 1','increment')
+        with self.assertRaisesRegex(ValueError,'control flow'):
+            IntegerProgram('def increment(value):\n    if False:\n        break\n    return value + 1','increment')
+        for signature in ['value', 'value: int', 'value: "ExternalInteger"']:
+            source='def increment('+signature+') -> "int":\n    return value + 1'
+            self.assertEqual(IntegerProgram(source,'increment').evaluate([2]),3)
+
+    def test_authored_expressions_agree_with_native_python_values_and_types(self):
+        # Only fixed, hand-written expressions execute here; never model output.
+        expressions=['left and right','left or right','left // right if right else 0',
+                     'left % right if right else 0','left < right < 3',
+                     'min(left,right)','max(left,right)','abs(left) + -right',
+                     '(left or right) and (right or left)','not left']
+        for expression in expressions:
+            source='def authored(left, right):\n    return '+expression
+            namespace={}
+            exec(compile(source,'<authored-test>','exec'),namespace)
+            program=IntegerProgram(source,'authored')
+            for left in [-7,-1,0,1,7,False,True]:
+                for right in [-3,-1,0,1,3,False,True]:
+                    with self.subTest(expression=expression,left=left,right=right):
+                        expected=namespace['authored'](left,right)
+                        actual=program.evaluate([left,right])
+                        self.assertIs(type(actual),type(expected))
+                        self.assertEqual(actual,expected)
 
 
 if __name__ == '__main__':
