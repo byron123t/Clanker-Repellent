@@ -1,0 +1,120 @@
+{
+  "schema_version": 1,
+  "language": "ini",
+  "document": {
+    "shape": {
+      "type": "object",
+      "required": [
+        "record0",
+        "record1"
+      ],
+      "additional_properties": false,
+      "properties": {
+        "record0": {
+          "type": "object",
+          "required": [
+            "sku",
+            "quantity",
+            "unit_cents",
+            "total_cents"
+          ],
+          "additional_properties": false,
+          "properties": {
+            "sku": {
+              "type": "string"
+            },
+            "quantity": {
+              "type": "string"
+            },
+            "unit_cents": {
+              "type": "string"
+            },
+            "total_cents": {
+              "type": "string"
+            }
+          }
+        },
+        "record1": {
+          "type": "object",
+          "required": [
+            "sku",
+            "quantity",
+            "unit_cents",
+            "total_cents"
+          ],
+          "additional_properties": false,
+          "properties": {
+            "sku": {
+              "type": "string"
+            },
+            "quantity": {
+              "type": "string"
+            },
+            "unit_cents": {
+              "type": "string"
+            },
+            "total_cents": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "equals": [
+      {
+        "path": "/record0/sku",
+        "value": "A"
+      },
+      {
+        "path": "/record0/quantity",
+        "value": "3"
+      },
+      {
+        "path": "/record0/unit_cents",
+        "value": "125"
+      },
+      {
+        "path": "/record1/sku",
+        "value": "B"
+      },
+      {
+        "path": "/record1/quantity",
+        "value": "2"
+      },
+      {
+        "path": "/record1/unit_cents",
+        "value": "240"
+      }
+    ],
+    "equations": [
+      {
+        "left": "/record0/total_cents",
+        "expression": {
+          "op": "mul",
+          "args": [
+            {
+              "path": "/record0/quantity"
+            },
+            {
+              "path": "/record0/unit_cents"
+            }
+          ]
+        }
+      },
+      {
+        "left": "/record1/total_cents",
+        "expression": {
+          "op": "mul",
+          "args": [
+            {
+              "path": "/record1/quantity"
+            },
+            {
+              "path": "/record1/unit_cents"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

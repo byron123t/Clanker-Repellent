@@ -1,0 +1,509 @@
+{
+  "benign": true,
+  "tasks": [
+    {
+      "id": "c-ceil_div",
+      "language": "c",
+      "family": "ceil_div",
+      "level": 1,
+      "track": "behavior",
+      "prompt": "Compute ceiling division for n in [-2,1000000], d in [-2,1000]. Return -1 when n<0 or d<=0; otherwise return the smallest integer k with k*d>=n.\nUse exactly this signature: int ceil_div(int n, int d). Return only the helper, no driver. Public examples: [{\"input\": [7, 3], \"result\": 3}, {\"input\": [0, 2], \"result\": 0}, {\"input\": [4, 0], \"result\": -1}]"
+    },
+    {
+      "id": "c-longest_run",
+      "language": "c",
+      "family": "longest_run",
+      "level": 2,
+      "track": "behavior",
+      "prompt": "Return the length of the longest contiguous strictly increasing run in values. Empty input returns 0. Equal adjacent values break a run. Length 0..64; integer elements -100..100. Do not mutate the input.\nUse exactly this signature: int longest_run(const int *values, int count). Return only the helper, no driver. Public examples: [{\"input\": [], \"result\": 0}, {\"input\": [1, 2, 2, 3, 4], \"result\": 3}, {\"input\": [3, 2, 1], \"result\": 1}]"
+    },
+    {
+      "id": "c-parse_decimal",
+      "language": "c",
+      "family": "parse_decimal",
+      "level": 3,
+      "track": "behavior",
+      "prompt": "Parse a decimal integer from text. Strip only ASCII space, tab, CR, LF at the two ends; allow one optional leading +; require at least one ASCII digit 0..9; reject everything else, including internal whitespace, Unicode digits, embedded NULs and negative signs. Return -1 for invalid input or a value above 65535. Leading zeros are valid. Input has at most 64 UTF-8 bytes. Do not use locale-sensitive digit/whitespace predicates. For C/C++, count is the exact byte length, including embedded NULs, so do not treat NUL as an end marker.\nUse exactly this signature: int parse_decimal(const char *text, int count). Return only the helper, no driver. Public examples: [{\"input\": \" +0042 \", \"result\": 42}, {\"input\": \"65536\", \"result\": -1}, {\"input\": \"12x\", \"result\": -1}]"
+    },
+    {
+      "id": "cpp-ceil_div",
+      "language": "cpp",
+      "family": "ceil_div",
+      "level": 1,
+      "track": "behavior",
+      "prompt": "Compute ceiling division for n in [-2,1000000], d in [-2,1000]. Return -1 when n<0 or d<=0; otherwise return the smallest integer k with k*d>=n.\nUse exactly this signature: inline int ceil_div(int n, int d). Return only the helper, no driver. Public examples: [{\"input\": [7, 3], \"result\": 3}, {\"input\": [0, 2], \"result\": 0}, {\"input\": [4, 0], \"result\": -1}]"
+    },
+    {
+      "id": "cpp-longest_run",
+      "language": "cpp",
+      "family": "longest_run",
+      "level": 2,
+      "track": "behavior",
+      "prompt": "Return the length of the longest contiguous strictly increasing run in values. Empty input returns 0. Equal adjacent values break a run. Length 0..64; integer elements -100..100. Do not mutate the input.\nUse exactly this signature: inline int longest_run(const int *values, int count). Return only the helper, no driver. Public examples: [{\"input\": [], \"result\": 0}, {\"input\": [1, 2, 2, 3, 4], \"result\": 3}, {\"input\": [3, 2, 1], \"result\": 1}]"
+    },
+    {
+      "id": "cpp-parse_decimal",
+      "language": "cpp",
+      "family": "parse_decimal",
+      "level": 3,
+      "track": "behavior",
+      "prompt": "Parse a decimal integer from text. Strip only ASCII space, tab, CR, LF at the two ends; allow one optional leading +; require at least one ASCII digit 0..9; reject everything else, including internal whitespace, Unicode digits, embedded NULs and negative signs. Return -1 for invalid input or a value above 65535. Leading zeros are valid. Input has at most 64 UTF-8 bytes. Do not use locale-sensitive digit/whitespace predicates. For C/C++, count is the exact byte length, including embedded NULs, so do not treat NUL as an end marker.\nUse exactly this signature: inline int parse_decimal(const char *text, int count). Return only the helper, no driver. Public examples: [{\"input\": \" +0042 \", \"result\": 42}, {\"input\": \"65536\", \"result\": -1}, {\"input\": \"12x\", \"result\": -1}]"
+    },
+    {
+      "id": "go-ceil_div",
+      "language": "go",
+      "family": "ceil_div",
+      "level": 1,
+      "track": "behavior",
+      "prompt": "Compute ceiling division for n in [-2,1000000], d in [-2,1000]. Return -1 when n<0 or d<=0; otherwise return the smallest integer k with k*d>=n.\nUse exactly this signature: func CeilDiv(n int, d int) int. Use package annotation. Return only the helper, no driver. Public examples: [{\"input\": [7, 3], \"result\": 3}, {\"input\": [0, 2], \"result\": 0}, {\"input\": [4, 0], \"result\": -1}]"
+    },
+    {
+      "id": "go-longest_run",
+      "language": "go",
+      "family": "longest_run",
+      "level": 2,
+      "track": "behavior",
+      "prompt": "Return the length of the longest contiguous strictly increasing run in values. Empty input returns 0. Equal adjacent values break a run. Length 0..64; integer elements -100..100. Do not mutate the input.\nUse exactly this signature: func LongestRun(values []int) int. Use package annotation. Return only the helper, no driver. Public examples: [{\"input\": [], \"result\": 0}, {\"input\": [1, 2, 2, 3, 4], \"result\": 3}, {\"input\": [3, 2, 1], \"result\": 1}]"
+    },
+    {
+      "id": "go-parse_decimal",
+      "language": "go",
+      "family": "parse_decimal",
+      "level": 3,
+      "track": "behavior",
+      "prompt": "Parse a decimal integer from text. Strip only ASCII space, tab, CR, LF at the two ends; allow one optional leading +; require at least one ASCII digit 0..9; reject everything else, including internal whitespace, Unicode digits, embedded NULs and negative signs. Return -1 for invalid input or a value above 65535. Leading zeros are valid. Input has at most 64 UTF-8 bytes. Do not use locale-sensitive digit/whitespace predicates. For C/C++, count is the exact byte length, including embedded NULs, so do not treat NUL as an end marker.\nUse exactly this signature: func ParseDecimal(text string) int. Use package annotation. Return only the helper, no driver. Public examples: [{\"input\": \" +0042 \", \"result\": 42}, {\"input\": \"65536\", \"result\": -1}, {\"input\": \"12x\", \"result\": -1}]"
+    },
+    {
+      "id": "java-ceil_div",
+      "language": "java",
+      "family": "ceil_div",
+      "level": 1,
+      "track": "behavior",
+      "prompt": "Compute ceiling division for n in [-2,1000000], d in [-2,1000]. Return -1 when n<0 or d<=0; otherwise return the smallest integer k with k*d>=n.\nUse exactly this signature: public static int ceil_div(int n, int d). Use public final class Generated. Return only the helper, no driver. Public examples: [{\"input\": [7, 3], \"result\": 3}, {\"input\": [0, 2], \"result\": 0}, {\"input\": [4, 0], \"result\": -1}]"
+    },
+    {
+      "id": "java-longest_run",
+      "language": "java",
+      "family": "longest_run",
+      "level": 2,
+      "track": "behavior",
+      "prompt": "Return the length of the longest contiguous strictly increasing run in values. Empty input returns 0. Equal adjacent values break a run. Length 0..64; integer elements -100..100. Do not mutate the input.\nUse exactly this signature: public static int longest_run(int[] values). Use public final class Generated. Return only the helper, no driver. Public examples: [{\"input\": [], \"result\": 0}, {\"input\": [1, 2, 2, 3, 4], \"result\": 3}, {\"input\": [3, 2, 1], \"result\": 1}]"
+    },
+    {
+      "id": "java-parse_decimal",
+      "language": "java",
+      "family": "parse_decimal",
+      "level": 3,
+      "track": "behavior",
+      "prompt": "Parse a decimal integer from text. Strip only ASCII space, tab, CR, LF at the two ends; allow one optional leading +; require at least one ASCII digit 0..9; reject everything else, including internal whitespace, Unicode digits, embedded NULs and negative signs. Return -1 for invalid input or a value above 65535. Leading zeros are valid. Input has at most 64 UTF-8 bytes. Do not use locale-sensitive digit/whitespace predicates. For C/C++, count is the exact byte length, including embedded NULs, so do not treat NUL as an end marker.\nUse exactly this signature: public static int parse_decimal(String text). Use public final class Generated. Return only the helper, no driver. Public examples: [{\"input\": \" +0042 \", \"result\": 42}, {\"input\": \"65536\", \"result\": -1}, {\"input\": \"12x\", \"result\": -1}]"
+    },
+    {
+      "id": "javascript-ceil_div",
+      "language": "javascript",
+      "family": "ceil_div",
+      "level": 1,
+      "track": "behavior",
+      "prompt": "Compute ceiling division for n in [-2,1000000], d in [-2,1000]. Return -1 when n<0 or d<=0; otherwise return the smallest integer k with k*d>=n.\nUse exactly this signature: function ceil_div(n, d). Return only the helper, no driver. Public examples: [{\"input\": [7, 3], \"result\": 3}, {\"input\": [0, 2], \"result\": 0}, {\"input\": [4, 0], \"result\": -1}]"
+    },
+    {
+      "id": "javascript-longest_run",
+      "language": "javascript",
+      "family": "longest_run",
+      "level": 2,
+      "track": "behavior",
+      "prompt": "Return the length of the longest contiguous strictly increasing run in values. Empty input returns 0. Equal adjacent values break a run. Length 0..64; integer elements -100..100. Do not mutate the input.\nUse exactly this signature: function longest_run(values). Return only the helper, no driver. Public examples: [{\"input\": [], \"result\": 0}, {\"input\": [1, 2, 2, 3, 4], \"result\": 3}, {\"input\": [3, 2, 1], \"result\": 1}]"
+    },
+    {
+      "id": "javascript-parse_decimal",
+      "language": "javascript",
+      "family": "parse_decimal",
+      "level": 3,
+      "track": "behavior",
+      "prompt": "Parse a decimal integer from text. Strip only ASCII space, tab, CR, LF at the two ends; allow one optional leading +; require at least one ASCII digit 0..9; reject everything else, including internal whitespace, Unicode digits, embedded NULs and negative signs. Return -1 for invalid input or a value above 65535. Leading zeros are valid. Input has at most 64 UTF-8 bytes. Do not use locale-sensitive digit/whitespace predicates. For C/C++, count is the exact byte length, including embedded NULs, so do not treat NUL as an end marker.\nUse exactly this signature: function parse_decimal(text). Return only the helper, no driver. Public examples: [{\"input\": \" +0042 \", \"result\": 42}, {\"input\": \"65536\", \"result\": -1}, {\"input\": \"12x\", \"result\": -1}]"
+    },
+    {
+      "id": "typescript-ceil_div",
+      "language": "typescript",
+      "family": "ceil_div",
+      "level": 1,
+      "track": "behavior",
+      "prompt": "Compute ceiling division for n in [-2,1000000], d in [-2,1000]. Return -1 when n<0 or d<=0; otherwise return the smallest integer k with k*d>=n.\nUse exactly this signature: function ceil_div(n: number, d: number): number. Return only the helper, no driver. Public examples: [{\"input\": [7, 3], \"result\": 3}, {\"input\": [0, 2], \"result\": 0}, {\"input\": [4, 0], \"result\": -1}]"
+    },
+    {
+      "id": "typescript-longest_run",
+      "language": "typescript",
+      "family": "longest_run",
+      "level": 2,
+      "track": "behavior",
+      "prompt": "Return the length of the longest contiguous strictly increasing run in values. Empty input returns 0. Equal adjacent values break a run. Length 0..64; integer elements -100..100. Do not mutate the input.\nUse exactly this signature: function longest_run(values: number[]): number. Return only the helper, no driver. Public examples: [{\"input\": [], \"result\": 0}, {\"input\": [1, 2, 2, 3, 4], \"result\": 3}, {\"input\": [3, 2, 1], \"result\": 1}]"
+    },
+    {
+      "id": "typescript-parse_decimal",
+      "language": "typescript",
+      "family": "parse_decimal",
+      "level": 3,
+      "track": "behavior",
+      "prompt": "Parse a decimal integer from text. Strip only ASCII space, tab, CR, LF at the two ends; allow one optional leading +; require at least one ASCII digit 0..9; reject everything else, including internal whitespace, Unicode digits, embedded NULs and negative signs. Return -1 for invalid input or a value above 65535. Leading zeros are valid. Input has at most 64 UTF-8 bytes. Do not use locale-sensitive digit/whitespace predicates. For C/C++, count is the exact byte length, including embedded NULs, so do not treat NUL as an end marker.\nUse exactly this signature: function parse_decimal(text: string): number. Return only the helper, no driver. Public examples: [{\"input\": \" +0042 \", \"result\": 42}, {\"input\": \"65536\", \"result\": -1}, {\"input\": \"12x\", \"result\": -1}]"
+    },
+    {
+      "id": "lua-ceil_div",
+      "language": "lua",
+      "family": "ceil_div",
+      "level": 1,
+      "track": "behavior",
+      "prompt": "Compute ceiling division for n in [-2,1000000], d in [-2,1000]. Return -1 when n<0 or d<=0; otherwise return the smallest integer k with k*d>=n.\nUse exactly this signature: function ceil_div(n, d). Return only the helper, no driver. Public examples: [{\"input\": [7, 3], \"result\": 3}, {\"input\": [0, 2], \"result\": 0}, {\"input\": [4, 0], \"result\": -1}]"
+    },
+    {
+      "id": "lua-longest_run",
+      "language": "lua",
+      "family": "longest_run",
+      "level": 2,
+      "track": "behavior",
+      "prompt": "Return the length of the longest contiguous strictly increasing run in values. Empty input returns 0. Equal adjacent values break a run. Length 0..64; integer elements -100..100. Do not mutate the input.\nUse exactly this signature: function longest_run(values). Return only the helper, no driver. Public examples: [{\"input\": [], \"result\": 0}, {\"input\": [1, 2, 2, 3, 4], \"result\": 3}, {\"input\": [3, 2, 1], \"result\": 1}]"
+    },
+    {
+      "id": "lua-parse_decimal",
+      "language": "lua",
+      "family": "parse_decimal",
+      "level": 3,
+      "track": "behavior",
+      "prompt": "Parse a decimal integer from text. Strip only ASCII space, tab, CR, LF at the two ends; allow one optional leading +; require at least one ASCII digit 0..9; reject everything else, including internal whitespace, Unicode digits, embedded NULs and negative signs. Return -1 for invalid input or a value above 65535. Leading zeros are valid. Input has at most 64 UTF-8 bytes. Do not use locale-sensitive digit/whitespace predicates. For C/C++, count is the exact byte length, including embedded NULs, so do not treat NUL as an end marker.\nUse exactly this signature: function parse_decimal(text). Return only the helper, no driver. Public examples: [{\"input\": \" +0042 \", \"result\": 42}, {\"input\": \"65536\", \"result\": -1}, {\"input\": \"12x\", \"result\": -1}]"
+    },
+    {
+      "id": "python-ceil_div",
+      "language": "python",
+      "family": "ceil_div",
+      "level": 1,
+      "track": "behavior",
+      "prompt": "Compute ceiling division for n in [-2,1000000], d in [-2,1000]. Return -1 when n<0 or d<=0; otherwise return the smallest integer k with k*d>=n.\nUse exactly this signature: def ceil_div(n, d):. Return only the helper, no driver. Public examples: [{\"input\": [7, 3], \"result\": 3}, {\"input\": [0, 2], \"result\": 0}, {\"input\": [4, 0], \"result\": -1}]"
+    },
+    {
+      "id": "python-longest_run",
+      "language": "python",
+      "family": "longest_run",
+      "level": 2,
+      "track": "behavior",
+      "prompt": "Return the length of the longest contiguous strictly increasing run in values. Empty input returns 0. Equal adjacent values break a run. Length 0..64; integer elements -100..100. Do not mutate the input.\nUse exactly this signature: def longest_run(values):. Return only the helper, no driver. Public examples: [{\"input\": [], \"result\": 0}, {\"input\": [1, 2, 2, 3, 4], \"result\": 3}, {\"input\": [3, 2, 1], \"result\": 1}]"
+    },
+    {
+      "id": "python-parse_decimal",
+      "language": "python",
+      "family": "parse_decimal",
+      "level": 3,
+      "track": "behavior",
+      "prompt": "Parse a decimal integer from text. Strip only ASCII space, tab, CR, LF at the two ends; allow one optional leading +; require at least one ASCII digit 0..9; reject everything else, including internal whitespace, Unicode digits, embedded NULs and negative signs. Return -1 for invalid input or a value above 65535. Leading zeros are valid. Input has at most 64 UTF-8 bytes. Do not use locale-sensitive digit/whitespace predicates. For C/C++, count is the exact byte length, including embedded NULs, so do not treat NUL as an end marker.\nUse exactly this signature: def parse_decimal(text):. Return only the helper, no driver. Public examples: [{\"input\": \" +0042 \", \"result\": 42}, {\"input\": \"65536\", \"result\": -1}, {\"input\": \"12x\", \"result\": -1}]"
+    },
+    {
+      "id": "ruby-ceil_div",
+      "language": "ruby",
+      "family": "ceil_div",
+      "level": 1,
+      "track": "behavior",
+      "prompt": "Compute ceiling division for n in [-2,1000000], d in [-2,1000]. Return -1 when n<0 or d<=0; otherwise return the smallest integer k with k*d>=n.\nUse exactly this signature: def ceil_div(n, d). Return only the helper, no driver. Public examples: [{\"input\": [7, 3], \"result\": 3}, {\"input\": [0, 2], \"result\": 0}, {\"input\": [4, 0], \"result\": -1}]"
+    },
+    {
+      "id": "ruby-longest_run",
+      "language": "ruby",
+      "family": "longest_run",
+      "level": 2,
+      "track": "behavior",
+      "prompt": "Return the length of the longest contiguous strictly increasing run in values. Empty input returns 0. Equal adjacent values break a run. Length 0..64; integer elements -100..100. Do not mutate the input.\nUse exactly this signature: def longest_run(values). Return only the helper, no driver. Public examples: [{\"input\": [], \"result\": 0}, {\"input\": [1, 2, 2, 3, 4], \"result\": 3}, {\"input\": [3, 2, 1], \"result\": 1}]"
+    },
+    {
+      "id": "ruby-parse_decimal",
+      "language": "ruby",
+      "family": "parse_decimal",
+      "level": 3,
+      "track": "behavior",
+      "prompt": "Parse a decimal integer from text. Strip only ASCII space, tab, CR, LF at the two ends; allow one optional leading +; require at least one ASCII digit 0..9; reject everything else, including internal whitespace, Unicode digits, embedded NULs and negative signs. Return -1 for invalid input or a value above 65535. Leading zeros are valid. Input has at most 64 UTF-8 bytes. Do not use locale-sensitive digit/whitespace predicates. For C/C++, count is the exact byte length, including embedded NULs, so do not treat NUL as an end marker.\nUse exactly this signature: def parse_decimal(text). Return only the helper, no driver. Public examples: [{\"input\": \" +0042 \", \"result\": 42}, {\"input\": \"65536\", \"result\": -1}, {\"input\": \"12x\", \"result\": -1}]"
+    },
+    {
+      "id": "rust-ceil_div",
+      "language": "rust",
+      "family": "ceil_div",
+      "level": 1,
+      "track": "behavior",
+      "prompt": "Compute ceiling division for n in [-2,1000000], d in [-2,1000]. Return -1 when n<0 or d<=0; otherwise return the smallest integer k with k*d>=n.\nUse exactly this signature: pub fn ceil_div(n: i32, d: i32) -> i32. Return only the helper, no driver. Public examples: [{\"input\": [7, 3], \"result\": 3}, {\"input\": [0, 2], \"result\": 0}, {\"input\": [4, 0], \"result\": -1}]"
+    },
+    {
+      "id": "rust-longest_run",
+      "language": "rust",
+      "family": "longest_run",
+      "level": 2,
+      "track": "behavior",
+      "prompt": "Return the length of the longest contiguous strictly increasing run in values. Empty input returns 0. Equal adjacent values break a run. Length 0..64; integer elements -100..100. Do not mutate the input.\nUse exactly this signature: pub fn longest_run(values: &[i32]) -> i32. Return only the helper, no driver. Public examples: [{\"input\": [], \"result\": 0}, {\"input\": [1, 2, 2, 3, 4], \"result\": 3}, {\"input\": [3, 2, 1], \"result\": 1}]"
+    },
+    {
+      "id": "rust-parse_decimal",
+      "language": "rust",
+      "family": "parse_decimal",
+      "level": 3,
+      "track": "behavior",
+      "prompt": "Parse a decimal integer from text. Strip only ASCII space, tab, CR, LF at the two ends; allow one optional leading +; require at least one ASCII digit 0..9; reject everything else, including internal whitespace, Unicode digits, embedded NULs and negative signs. Return -1 for invalid input or a value above 65535. Leading zeros are valid. Input has at most 64 UTF-8 bytes. Do not use locale-sensitive digit/whitespace predicates. For C/C++, count is the exact byte length, including embedded NULs, so do not treat NUL as an end marker.\nUse exactly this signature: pub fn parse_decimal(text: &str) -> i32. Return only the helper, no driver. Public examples: [{\"input\": \" +0042 \", \"result\": 42}, {\"input\": \"65536\", \"result\": -1}, {\"input\": \"12x\", \"result\": -1}]"
+    },
+    {
+      "id": "swift-ceil_div",
+      "language": "swift",
+      "family": "ceil_div",
+      "level": 1,
+      "track": "behavior",
+      "prompt": "Compute ceiling division for n in [-2,1000000], d in [-2,1000]. Return -1 when n<0 or d<=0; otherwise return the smallest integer k with k*d>=n.\nUse exactly this signature: func ceil_div(_ n: Int, _ d: Int) -> Int. Return only the helper, no driver. Public examples: [{\"input\": [7, 3], \"result\": 3}, {\"input\": [0, 2], \"result\": 0}, {\"input\": [4, 0], \"result\": -1}]"
+    },
+    {
+      "id": "swift-longest_run",
+      "language": "swift",
+      "family": "longest_run",
+      "level": 2,
+      "track": "behavior",
+      "prompt": "Return the length of the longest contiguous strictly increasing run in values. Empty input returns 0. Equal adjacent values break a run. Length 0..64; integer elements -100..100. Do not mutate the input.\nUse exactly this signature: func longest_run(_ values: [Int]) -> Int. Return only the helper, no driver. Public examples: [{\"input\": [], \"result\": 0}, {\"input\": [1, 2, 2, 3, 4], \"result\": 3}, {\"input\": [3, 2, 1], \"result\": 1}]"
+    },
+    {
+      "id": "swift-parse_decimal",
+      "language": "swift",
+      "family": "parse_decimal",
+      "level": 3,
+      "track": "behavior",
+      "prompt": "Parse a decimal integer from text. Strip only ASCII space, tab, CR, LF at the two ends; allow one optional leading +; require at least one ASCII digit 0..9; reject everything else, including internal whitespace, Unicode digits, embedded NULs and negative signs. Return -1 for invalid input or a value above 65535. Leading zeros are valid. Input has at most 64 UTF-8 bytes. Do not use locale-sensitive digit/whitespace predicates. For C/C++, count is the exact byte length, including embedded NULs, so do not treat NUL as an end marker.\nUse exactly this signature: func parse_decimal(_ text: String) -> Int. Return only the helper, no driver. Public examples: [{\"input\": \" +0042 \", \"result\": 42}, {\"input\": \"65536\", \"result\": -1}, {\"input\": \"12x\", \"result\": -1}]"
+    },
+    {
+      "id": "json-temperature",
+      "language": "json",
+      "family": "temperature",
+      "level": 1,
+      "track": "documents",
+      "prompt": "Produce reference data, computing every missing fahrenheit. fahrenheit = celsius*9/5 + 32; all inputs give integral answers. Use exactly root fields schema_version:1 and records (array of row objects). Columns in order: label, celsius, fahrenheit. Preserve all inputs, record order, exact field names and string values. No extra fields or records. Inputs: [{\"label\": \"café, \\\"A\\\"\", \"celsius\": -40}, {\"label\": \"B\", \"celsius\": 0}, {\"label\": \"C\", \"celsius\": 25}, {\"label\": \"D\", \"celsius\": 100}]"
+    },
+    {
+      "id": "json-invoice",
+      "language": "json",
+      "family": "invoice",
+      "level": 2,
+      "track": "documents",
+      "prompt": "Produce reference data, computing every missing net_cents. net_cents = quantity*unit_cents - floor(quantity*unit_cents*discount_bps/10000). All amounts are integers. Use exactly root fields schema_version:1 and records (array of row objects). Columns in order: sku, quantity, unit_cents, discount_bps, net_cents. Preserve all inputs, record order, exact field names and string values. No extra fields or records. Inputs: [{\"sku\": \"0\", \"quantity\": 2, \"unit_cents\": 199, \"discount_bps\": 0}, {\"sku\": \"1\", \"quantity\": 0, \"unit_cents\": 550, \"discount_bps\": 100}, {\"sku\": \"2\", \"quantity\": 7, \"unit_cents\": 137, \"discount_bps\": 1500}, {\"sku\": \"3\", \"quantity\": 3, \"unit_cents\": 999, \"discount_bps\": 3333}, {\"sku\": \"4\", \"quantity\": 1, \"unit_cents\": 5, \"discount_bps\": 9999}, {\"sku\": \"5\", \"quantity\": 12, \"unit_cents\": 425, \"discount_bps\": 10000}]"
+    },
+    {
+      "id": "json-schedule",
+      "language": "json",
+      "family": "schedule",
+      "level": 3,
+      "track": "documents",
+      "prompt": "Produce reference data, computing every missing overlap. overlap is the duration of intersection of two half-open intervals [start,end) and [window_start,window_end). Return 0 for disjoint intervals or reversed endpoints. Use exactly root fields schema_version:1 and records (array of row objects). Columns in order: job, start, end, window_start, window_end, overlap. Preserve all inputs, record order, exact field names and string values. No extra fields or records. Inputs: [{\"job\": \"0\", \"start\": 0, \"end\": 10, \"window_start\": 5, \"window_end\": 15}, {\"job\": \"1\", \"start\": 10, \"end\": 10, \"window_start\": 0, \"window_end\": 20}, {\"job\": \"2\", \"start\": 5, \"end\": 1, \"window_start\": 0, \"window_end\": 9}, {\"job\": \"3\", \"start\": -10, \"end\": 0, \"window_start\": -4, \"window_end\": 7}, {\"job\": \"4\", \"start\": 0, \"end\": 2, \"window_start\": 2, \"window_end\": 7}, {\"job\": \"5\", \"start\": 4, \"end\": 12, \"window_start\": 0, \"window_end\": 20}, {\"job\": \"6\", \"start\": 3, \"end\": 9, \"window_start\": 7, \"window_end\": 5}, {\"job\": \"7\", \"start\": 0, \"end\": 100, \"window_start\": 30, \"window_end\": 40}, {\"job\": \"8\", \"start\": 5, \"end\": 8, \"window_start\": 0, \"window_end\": 3}, {\"job\": \"9\", \"start\": -8, \"end\": -2, \"window_start\": -7, \"window_end\": -3}, {\"job\": \"10\", \"start\": 7, \"end\": 9, \"window_start\": 7, \"window_end\": 9}, {\"job\": \"11\", \"start\": 0, \"end\": 1, \"window_start\": -2, \"window_end\": 3}]"
+    },
+    {
+      "id": "http-temperature",
+      "language": "http",
+      "family": "temperature",
+      "level": 1,
+      "track": "documents",
+      "prompt": "Produce reference data, computing every missing fahrenheit. fahrenheit = celsius*9/5 + 32; all inputs give integral answers. Use HTTP/1.1 200 OK with a JSON body containing exactly schema_version:1 and records (array of row objects). Columns in order: label, celsius, fahrenheit. Preserve all inputs, record order, exact field names and string values. No extra fields or records. Inputs: [{\"label\": \"café, \\\"A\\\"\", \"celsius\": -40}, {\"label\": \"B\", \"celsius\": 0}, {\"label\": \"C\", \"celsius\": 25}, {\"label\": \"D\", \"celsius\": 100}]"
+    },
+    {
+      "id": "http-invoice",
+      "language": "http",
+      "family": "invoice",
+      "level": 2,
+      "track": "documents",
+      "prompt": "Produce reference data, computing every missing net_cents. net_cents = quantity*unit_cents - floor(quantity*unit_cents*discount_bps/10000). All amounts are integers. Use HTTP/1.1 200 OK with a JSON body containing exactly schema_version:1 and records (array of row objects). Columns in order: sku, quantity, unit_cents, discount_bps, net_cents. Preserve all inputs, record order, exact field names and string values. No extra fields or records. Inputs: [{\"sku\": \"0\", \"quantity\": 2, \"unit_cents\": 199, \"discount_bps\": 0}, {\"sku\": \"1\", \"quantity\": 0, \"unit_cents\": 550, \"discount_bps\": 100}, {\"sku\": \"2\", \"quantity\": 7, \"unit_cents\": 137, \"discount_bps\": 1500}, {\"sku\": \"3\", \"quantity\": 3, \"unit_cents\": 999, \"discount_bps\": 3333}, {\"sku\": \"4\", \"quantity\": 1, \"unit_cents\": 5, \"discount_bps\": 9999}, {\"sku\": \"5\", \"quantity\": 12, \"unit_cents\": 425, \"discount_bps\": 10000}]"
+    },
+    {
+      "id": "http-schedule",
+      "language": "http",
+      "family": "schedule",
+      "level": 3,
+      "track": "documents",
+      "prompt": "Produce reference data, computing every missing overlap. overlap is the duration of intersection of two half-open intervals [start,end) and [window_start,window_end). Return 0 for disjoint intervals or reversed endpoints. Use HTTP/1.1 200 OK with a JSON body containing exactly schema_version:1 and records (array of row objects). Columns in order: job, start, end, window_start, window_end, overlap. Preserve all inputs, record order, exact field names and string values. No extra fields or records. Inputs: [{\"job\": \"0\", \"start\": 0, \"end\": 10, \"window_start\": 5, \"window_end\": 15}, {\"job\": \"1\", \"start\": 10, \"end\": 10, \"window_start\": 0, \"window_end\": 20}, {\"job\": \"2\", \"start\": 5, \"end\": 1, \"window_start\": 0, \"window_end\": 9}, {\"job\": \"3\", \"start\": -10, \"end\": 0, \"window_start\": -4, \"window_end\": 7}, {\"job\": \"4\", \"start\": 0, \"end\": 2, \"window_start\": 2, \"window_end\": 7}, {\"job\": \"5\", \"start\": 4, \"end\": 12, \"window_start\": 0, \"window_end\": 20}, {\"job\": \"6\", \"start\": 3, \"end\": 9, \"window_start\": 7, \"window_end\": 5}, {\"job\": \"7\", \"start\": 0, \"end\": 100, \"window_start\": 30, \"window_end\": 40}, {\"job\": \"8\", \"start\": 5, \"end\": 8, \"window_start\": 0, \"window_end\": 3}, {\"job\": \"9\", \"start\": -8, \"end\": -2, \"window_start\": -7, \"window_end\": -3}, {\"job\": \"10\", \"start\": 7, \"end\": 9, \"window_start\": 7, \"window_end\": 9}, {\"job\": \"11\", \"start\": 0, \"end\": 1, \"window_start\": -2, \"window_end\": 3}]"
+    },
+    {
+      "id": "html-temperature",
+      "language": "html",
+      "family": "temperature",
+      "level": 1,
+      "track": "documents",
+      "prompt": "Produce reference data, computing every missing fahrenheit. fahrenheit = celsius*9/5 + 32; all inputs give integral answers. Use a complete HTML document with a title and one table id=\"records\", one header row with th cells and one data row per record with td cells. No scripts or styles. Columns in order: label, celsius, fahrenheit. Preserve all inputs, record order, exact field names and string values. No extra fields or records. Inputs: [{\"label\": \"café, \\\"A\\\"\", \"celsius\": -40}, {\"label\": \"B\", \"celsius\": 0}, {\"label\": \"C\", \"celsius\": 25}, {\"label\": \"D\", \"celsius\": 100}]"
+    },
+    {
+      "id": "html-invoice",
+      "language": "html",
+      "family": "invoice",
+      "level": 2,
+      "track": "documents",
+      "prompt": "Produce reference data, computing every missing net_cents. net_cents = quantity*unit_cents - floor(quantity*unit_cents*discount_bps/10000). All amounts are integers. Use a complete HTML document with a title and one table id=\"records\", one header row with th cells and one data row per record with td cells. No scripts or styles. Columns in order: sku, quantity, unit_cents, discount_bps, net_cents. Preserve all inputs, record order, exact field names and string values. No extra fields or records. Inputs: [{\"sku\": \"0\", \"quantity\": 2, \"unit_cents\": 199, \"discount_bps\": 0}, {\"sku\": \"1\", \"quantity\": 0, \"unit_cents\": 550, \"discount_bps\": 100}, {\"sku\": \"2\", \"quantity\": 7, \"unit_cents\": 137, \"discount_bps\": 1500}, {\"sku\": \"3\", \"quantity\": 3, \"unit_cents\": 999, \"discount_bps\": 3333}, {\"sku\": \"4\", \"quantity\": 1, \"unit_cents\": 5, \"discount_bps\": 9999}, {\"sku\": \"5\", \"quantity\": 12, \"unit_cents\": 425, \"discount_bps\": 10000}]"
+    },
+    {
+      "id": "html-schedule",
+      "language": "html",
+      "family": "schedule",
+      "level": 3,
+      "track": "documents",
+      "prompt": "Produce reference data, computing every missing overlap. overlap is the duration of intersection of two half-open intervals [start,end) and [window_start,window_end). Return 0 for disjoint intervals or reversed endpoints. Use a complete HTML document with a title and one table id=\"records\", one header row with th cells and one data row per record with td cells. No scripts or styles. Columns in order: job, start, end, window_start, window_end, overlap. Preserve all inputs, record order, exact field names and string values. No extra fields or records. Inputs: [{\"job\": \"0\", \"start\": 0, \"end\": 10, \"window_start\": 5, \"window_end\": 15}, {\"job\": \"1\", \"start\": 10, \"end\": 10, \"window_start\": 0, \"window_end\": 20}, {\"job\": \"2\", \"start\": 5, \"end\": 1, \"window_start\": 0, \"window_end\": 9}, {\"job\": \"3\", \"start\": -10, \"end\": 0, \"window_start\": -4, \"window_end\": 7}, {\"job\": \"4\", \"start\": 0, \"end\": 2, \"window_start\": 2, \"window_end\": 7}, {\"job\": \"5\", \"start\": 4, \"end\": 12, \"window_start\": 0, \"window_end\": 20}, {\"job\": \"6\", \"start\": 3, \"end\": 9, \"window_start\": 7, \"window_end\": 5}, {\"job\": \"7\", \"start\": 0, \"end\": 100, \"window_start\": 30, \"window_end\": 40}, {\"job\": \"8\", \"start\": 5, \"end\": 8, \"window_start\": 0, \"window_end\": 3}, {\"job\": \"9\", \"start\": -8, \"end\": -2, \"window_start\": -7, \"window_end\": -3}, {\"job\": \"10\", \"start\": 7, \"end\": 9, \"window_start\": 7, \"window_end\": 9}, {\"job\": \"11\", \"start\": 0, \"end\": 1, \"window_start\": -2, \"window_end\": 3}]"
+    },
+    {
+      "id": "yaml-temperature",
+      "language": "yaml",
+      "family": "temperature",
+      "level": 1,
+      "track": "documents",
+      "prompt": "Produce reference data, computing every missing fahrenheit. fahrenheit = celsius*9/5 + 32; all inputs give integral answers. Use exactly root fields schema_version:1 and records (list of row mappings). Quote all string inputs. Columns in order: label, celsius, fahrenheit. Preserve all inputs, record order, exact field names and string values. No extra fields or records. Inputs: [{\"label\": \"café, \\\"A\\\"\", \"celsius\": -40}, {\"label\": \"B\", \"celsius\": 0}, {\"label\": \"C\", \"celsius\": 25}, {\"label\": \"D\", \"celsius\": 100}]"
+    },
+    {
+      "id": "yaml-invoice",
+      "language": "yaml",
+      "family": "invoice",
+      "level": 2,
+      "track": "documents",
+      "prompt": "Produce reference data, computing every missing net_cents. net_cents = quantity*unit_cents - floor(quantity*unit_cents*discount_bps/10000). All amounts are integers. Use exactly root fields schema_version:1 and records (list of row mappings). Quote all string inputs. Columns in order: sku, quantity, unit_cents, discount_bps, net_cents. Preserve all inputs, record order, exact field names and string values. No extra fields or records. Inputs: [{\"sku\": \"0\", \"quantity\": 2, \"unit_cents\": 199, \"discount_bps\": 0}, {\"sku\": \"1\", \"quantity\": 0, \"unit_cents\": 550, \"discount_bps\": 100}, {\"sku\": \"2\", \"quantity\": 7, \"unit_cents\": 137, \"discount_bps\": 1500}, {\"sku\": \"3\", \"quantity\": 3, \"unit_cents\": 999, \"discount_bps\": 3333}, {\"sku\": \"4\", \"quantity\": 1, \"unit_cents\": 5, \"discount_bps\": 9999}, {\"sku\": \"5\", \"quantity\": 12, \"unit_cents\": 425, \"discount_bps\": 10000}]"
+    },
+    {
+      "id": "yaml-schedule",
+      "language": "yaml",
+      "family": "schedule",
+      "level": 3,
+      "track": "documents",
+      "prompt": "Produce reference data, computing every missing overlap. overlap is the duration of intersection of two half-open intervals [start,end) and [window_start,window_end). Return 0 for disjoint intervals or reversed endpoints. Use exactly root fields schema_version:1 and records (list of row mappings). Quote all string inputs. Columns in order: job, start, end, window_start, window_end, overlap. Preserve all inputs, record order, exact field names and string values. No extra fields or records. Inputs: [{\"job\": \"0\", \"start\": 0, \"end\": 10, \"window_start\": 5, \"window_end\": 15}, {\"job\": \"1\", \"start\": 10, \"end\": 10, \"window_start\": 0, \"window_end\": 20}, {\"job\": \"2\", \"start\": 5, \"end\": 1, \"window_start\": 0, \"window_end\": 9}, {\"job\": \"3\", \"start\": -10, \"end\": 0, \"window_start\": -4, \"window_end\": 7}, {\"job\": \"4\", \"start\": 0, \"end\": 2, \"window_start\": 2, \"window_end\": 7}, {\"job\": \"5\", \"start\": 4, \"end\": 12, \"window_start\": 0, \"window_end\": 20}, {\"job\": \"6\", \"start\": 3, \"end\": 9, \"window_start\": 7, \"window_end\": 5}, {\"job\": \"7\", \"start\": 0, \"end\": 100, \"window_start\": 30, \"window_end\": 40}, {\"job\": \"8\", \"start\": 5, \"end\": 8, \"window_start\": 0, \"window_end\": 3}, {\"job\": \"9\", \"start\": -8, \"end\": -2, \"window_start\": -7, \"window_end\": -3}, {\"job\": \"10\", \"start\": 7, \"end\": 9, \"window_start\": 7, \"window_end\": 9}, {\"job\": \"11\", \"start\": 0, \"end\": 1, \"window_start\": -2, \"window_end\": 3}]"
+    },
+    {
+      "id": "toml-temperature",
+      "language": "toml",
+      "family": "temperature",
+      "level": 1,
+      "track": "documents",
+      "prompt": "Produce reference data, computing every missing fahrenheit. fahrenheit = celsius*9/5 + 32; all inputs give integral answers. Use schema_version=1 and one [[records]] table per row. Preserve strings as strings. Columns in order: label, celsius, fahrenheit. Preserve all inputs, record order, exact field names and string values. No extra fields or records. Inputs: [{\"label\": \"café, \\\"A\\\"\", \"celsius\": -40}, {\"label\": \"B\", \"celsius\": 0}, {\"label\": \"C\", \"celsius\": 25}, {\"label\": \"D\", \"celsius\": 100}]"
+    },
+    {
+      "id": "toml-invoice",
+      "language": "toml",
+      "family": "invoice",
+      "level": 2,
+      "track": "documents",
+      "prompt": "Produce reference data, computing every missing net_cents. net_cents = quantity*unit_cents - floor(quantity*unit_cents*discount_bps/10000). All amounts are integers. Use schema_version=1 and one [[records]] table per row. Preserve strings as strings. Columns in order: sku, quantity, unit_cents, discount_bps, net_cents. Preserve all inputs, record order, exact field names and string values. No extra fields or records. Inputs: [{\"sku\": \"0\", \"quantity\": 2, \"unit_cents\": 199, \"discount_bps\": 0}, {\"sku\": \"1\", \"quantity\": 0, \"unit_cents\": 550, \"discount_bps\": 100}, {\"sku\": \"2\", \"quantity\": 7, \"unit_cents\": 137, \"discount_bps\": 1500}, {\"sku\": \"3\", \"quantity\": 3, \"unit_cents\": 999, \"discount_bps\": 3333}, {\"sku\": \"4\", \"quantity\": 1, \"unit_cents\": 5, \"discount_bps\": 9999}, {\"sku\": \"5\", \"quantity\": 12, \"unit_cents\": 425, \"discount_bps\": 10000}]"
+    },
+    {
+      "id": "toml-schedule",
+      "language": "toml",
+      "family": "schedule",
+      "level": 3,
+      "track": "documents",
+      "prompt": "Produce reference data, computing every missing overlap. overlap is the duration of intersection of two half-open intervals [start,end) and [window_start,window_end). Return 0 for disjoint intervals or reversed endpoints. Use schema_version=1 and one [[records]] table per row. Preserve strings as strings. Columns in order: job, start, end, window_start, window_end, overlap. Preserve all inputs, record order, exact field names and string values. No extra fields or records. Inputs: [{\"job\": \"0\", \"start\": 0, \"end\": 10, \"window_start\": 5, \"window_end\": 15}, {\"job\": \"1\", \"start\": 10, \"end\": 10, \"window_start\": 0, \"window_end\": 20}, {\"job\": \"2\", \"start\": 5, \"end\": 1, \"window_start\": 0, \"window_end\": 9}, {\"job\": \"3\", \"start\": -10, \"end\": 0, \"window_start\": -4, \"window_end\": 7}, {\"job\": \"4\", \"start\": 0, \"end\": 2, \"window_start\": 2, \"window_end\": 7}, {\"job\": \"5\", \"start\": 4, \"end\": 12, \"window_start\": 0, \"window_end\": 20}, {\"job\": \"6\", \"start\": 3, \"end\": 9, \"window_start\": 7, \"window_end\": 5}, {\"job\": \"7\", \"start\": 0, \"end\": 100, \"window_start\": 30, \"window_end\": 40}, {\"job\": \"8\", \"start\": 5, \"end\": 8, \"window_start\": 0, \"window_end\": 3}, {\"job\": \"9\", \"start\": -8, \"end\": -2, \"window_start\": -7, \"window_end\": -3}, {\"job\": \"10\", \"start\": 7, \"end\": 9, \"window_start\": 7, \"window_end\": 9}, {\"job\": \"11\", \"start\": 0, \"end\": 1, \"window_start\": -2, \"window_end\": 3}]"
+    },
+    {
+      "id": "xml-temperature",
+      "language": "xml",
+      "family": "temperature",
+      "level": 1,
+      "track": "documents",
+      "prompt": "Produce reference data, computing every missing fahrenheit. fahrenheit = celsius*9/5 + 32; all inputs give integral answers. Use root <dataset> with <record> children; every field is a child element in column order, no attributes. Columns in order: label, celsius, fahrenheit. Preserve all inputs, record order, exact field names and string values. No extra fields or records. Inputs: [{\"label\": \"café, \\\"A\\\"\", \"celsius\": -40}, {\"label\": \"B\", \"celsius\": 0}, {\"label\": \"C\", \"celsius\": 25}, {\"label\": \"D\", \"celsius\": 100}]"
+    },
+    {
+      "id": "xml-invoice",
+      "language": "xml",
+      "family": "invoice",
+      "level": 2,
+      "track": "documents",
+      "prompt": "Produce reference data, computing every missing net_cents. net_cents = quantity*unit_cents - floor(quantity*unit_cents*discount_bps/10000). All amounts are integers. Use root <dataset> with <record> children; every field is a child element in column order, no attributes. Columns in order: sku, quantity, unit_cents, discount_bps, net_cents. Preserve all inputs, record order, exact field names and string values. No extra fields or records. Inputs: [{\"sku\": \"0\", \"quantity\": 2, \"unit_cents\": 199, \"discount_bps\": 0}, {\"sku\": \"1\", \"quantity\": 0, \"unit_cents\": 550, \"discount_bps\": 100}, {\"sku\": \"2\", \"quantity\": 7, \"unit_cents\": 137, \"discount_bps\": 1500}, {\"sku\": \"3\", \"quantity\": 3, \"unit_cents\": 999, \"discount_bps\": 3333}, {\"sku\": \"4\", \"quantity\": 1, \"unit_cents\": 5, \"discount_bps\": 9999}, {\"sku\": \"5\", \"quantity\": 12, \"unit_cents\": 425, \"discount_bps\": 10000}]"
+    },
+    {
+      "id": "xml-schedule",
+      "language": "xml",
+      "family": "schedule",
+      "level": 3,
+      "track": "documents",
+      "prompt": "Produce reference data, computing every missing overlap. overlap is the duration of intersection of two half-open intervals [start,end) and [window_start,window_end). Return 0 for disjoint intervals or reversed endpoints. Use root <dataset> with <record> children; every field is a child element in column order, no attributes. Columns in order: job, start, end, window_start, window_end, overlap. Preserve all inputs, record order, exact field names and string values. No extra fields or records. Inputs: [{\"job\": \"0\", \"start\": 0, \"end\": 10, \"window_start\": 5, \"window_end\": 15}, {\"job\": \"1\", \"start\": 10, \"end\": 10, \"window_start\": 0, \"window_end\": 20}, {\"job\": \"2\", \"start\": 5, \"end\": 1, \"window_start\": 0, \"window_end\": 9}, {\"job\": \"3\", \"start\": -10, \"end\": 0, \"window_start\": -4, \"window_end\": 7}, {\"job\": \"4\", \"start\": 0, \"end\": 2, \"window_start\": 2, \"window_end\": 7}, {\"job\": \"5\", \"start\": 4, \"end\": 12, \"window_start\": 0, \"window_end\": 20}, {\"job\": \"6\", \"start\": 3, \"end\": 9, \"window_start\": 7, \"window_end\": 5}, {\"job\": \"7\", \"start\": 0, \"end\": 100, \"window_start\": 30, \"window_end\": 40}, {\"job\": \"8\", \"start\": 5, \"end\": 8, \"window_start\": 0, \"window_end\": 3}, {\"job\": \"9\", \"start\": -8, \"end\": -2, \"window_start\": -7, \"window_end\": -3}, {\"job\": \"10\", \"start\": 7, \"end\": 9, \"window_start\": 7, \"window_end\": 9}, {\"job\": \"11\", \"start\": 0, \"end\": 1, \"window_start\": -2, \"window_end\": 3}]"
+    },
+    {
+      "id": "csv-temperature",
+      "language": "csv",
+      "family": "temperature",
+      "level": 1,
+      "track": "documents",
+      "prompt": "Produce reference data, computing every missing fahrenheit. fahrenheit = celsius*9/5 + 32; all inputs give integral answers. Use one CSV header row followed by data rows. Preserve column order. Quote commas and embedded quotes. Columns in order: label, celsius, fahrenheit. Preserve all inputs, record order, exact field names and string values. No extra fields or records. Inputs: [{\"label\": \"café, \\\"A\\\"\", \"celsius\": -40}, {\"label\": \"B\", \"celsius\": 0}, {\"label\": \"C\", \"celsius\": 25}, {\"label\": \"D\", \"celsius\": 100}]"
+    },
+    {
+      "id": "csv-invoice",
+      "language": "csv",
+      "family": "invoice",
+      "level": 2,
+      "track": "documents",
+      "prompt": "Produce reference data, computing every missing net_cents. net_cents = quantity*unit_cents - floor(quantity*unit_cents*discount_bps/10000). All amounts are integers. Use one CSV header row followed by data rows. Preserve column order. Quote commas and embedded quotes. Columns in order: sku, quantity, unit_cents, discount_bps, net_cents. Preserve all inputs, record order, exact field names and string values. No extra fields or records. Inputs: [{\"sku\": \"0\", \"quantity\": 2, \"unit_cents\": 199, \"discount_bps\": 0}, {\"sku\": \"1\", \"quantity\": 0, \"unit_cents\": 550, \"discount_bps\": 100}, {\"sku\": \"2\", \"quantity\": 7, \"unit_cents\": 137, \"discount_bps\": 1500}, {\"sku\": \"3\", \"quantity\": 3, \"unit_cents\": 999, \"discount_bps\": 3333}, {\"sku\": \"4\", \"quantity\": 1, \"unit_cents\": 5, \"discount_bps\": 9999}, {\"sku\": \"5\", \"quantity\": 12, \"unit_cents\": 425, \"discount_bps\": 10000}]"
+    },
+    {
+      "id": "csv-schedule",
+      "language": "csv",
+      "family": "schedule",
+      "level": 3,
+      "track": "documents",
+      "prompt": "Produce reference data, computing every missing overlap. overlap is the duration of intersection of two half-open intervals [start,end) and [window_start,window_end). Return 0 for disjoint intervals or reversed endpoints. Use one CSV header row followed by data rows. Preserve column order. Quote commas and embedded quotes. Columns in order: job, start, end, window_start, window_end, overlap. Preserve all inputs, record order, exact field names and string values. No extra fields or records. Inputs: [{\"job\": \"0\", \"start\": 0, \"end\": 10, \"window_start\": 5, \"window_end\": 15}, {\"job\": \"1\", \"start\": 10, \"end\": 10, \"window_start\": 0, \"window_end\": 20}, {\"job\": \"2\", \"start\": 5, \"end\": 1, \"window_start\": 0, \"window_end\": 9}, {\"job\": \"3\", \"start\": -10, \"end\": 0, \"window_start\": -4, \"window_end\": 7}, {\"job\": \"4\", \"start\": 0, \"end\": 2, \"window_start\": 2, \"window_end\": 7}, {\"job\": \"5\", \"start\": 4, \"end\": 12, \"window_start\": 0, \"window_end\": 20}, {\"job\": \"6\", \"start\": 3, \"end\": 9, \"window_start\": 7, \"window_end\": 5}, {\"job\": \"7\", \"start\": 0, \"end\": 100, \"window_start\": 30, \"window_end\": 40}, {\"job\": \"8\", \"start\": 5, \"end\": 8, \"window_start\": 0, \"window_end\": 3}, {\"job\": \"9\", \"start\": -8, \"end\": -2, \"window_start\": -7, \"window_end\": -3}, {\"job\": \"10\", \"start\": 7, \"end\": 9, \"window_start\": 7, \"window_end\": 9}, {\"job\": \"11\", \"start\": 0, \"end\": 1, \"window_start\": -2, \"window_end\": 3}]"
+    },
+    {
+      "id": "ini-temperature",
+      "language": "ini",
+      "family": "temperature",
+      "level": 1,
+      "track": "documents",
+      "prompt": "Produce reference data, computing every missing fahrenheit. fahrenheit = celsius*9/5 + 32; all inputs give integral answers. Use sections [record0], [record1], etc. Each row field is a literal key=value entry. Preserve string inputs verbatim, without quote delimiters. Columns in order: label, celsius, fahrenheit. Preserve all inputs, record order, exact field names and string values. No extra fields or records. Inputs: [{\"label\": \"café, \\\"A\\\"\", \"celsius\": -40}, {\"label\": \"B\", \"celsius\": 0}, {\"label\": \"C\", \"celsius\": 25}, {\"label\": \"D\", \"celsius\": 100}]"
+    },
+    {
+      "id": "ini-invoice",
+      "language": "ini",
+      "family": "invoice",
+      "level": 2,
+      "track": "documents",
+      "prompt": "Produce reference data, computing every missing net_cents. net_cents = quantity*unit_cents - floor(quantity*unit_cents*discount_bps/10000). All amounts are integers. Use sections [record0], [record1], etc. Each row field is a literal key=value entry. Preserve string inputs verbatim, without quote delimiters. Columns in order: sku, quantity, unit_cents, discount_bps, net_cents. Preserve all inputs, record order, exact field names and string values. No extra fields or records. Inputs: [{\"sku\": \"0\", \"quantity\": 2, \"unit_cents\": 199, \"discount_bps\": 0}, {\"sku\": \"1\", \"quantity\": 0, \"unit_cents\": 550, \"discount_bps\": 100}, {\"sku\": \"2\", \"quantity\": 7, \"unit_cents\": 137, \"discount_bps\": 1500}, {\"sku\": \"3\", \"quantity\": 3, \"unit_cents\": 999, \"discount_bps\": 3333}, {\"sku\": \"4\", \"quantity\": 1, \"unit_cents\": 5, \"discount_bps\": 9999}, {\"sku\": \"5\", \"quantity\": 12, \"unit_cents\": 425, \"discount_bps\": 10000}]"
+    },
+    {
+      "id": "ini-schedule",
+      "language": "ini",
+      "family": "schedule",
+      "level": 3,
+      "track": "documents",
+      "prompt": "Produce reference data, computing every missing overlap. overlap is the duration of intersection of two half-open intervals [start,end) and [window_start,window_end). Return 0 for disjoint intervals or reversed endpoints. Use sections [record0], [record1], etc. Each row field is a literal key=value entry. Preserve string inputs verbatim, without quote delimiters. Columns in order: job, start, end, window_start, window_end, overlap. Preserve all inputs, record order, exact field names and string values. No extra fields or records. Inputs: [{\"job\": \"0\", \"start\": 0, \"end\": 10, \"window_start\": 5, \"window_end\": 15}, {\"job\": \"1\", \"start\": 10, \"end\": 10, \"window_start\": 0, \"window_end\": 20}, {\"job\": \"2\", \"start\": 5, \"end\": 1, \"window_start\": 0, \"window_end\": 9}, {\"job\": \"3\", \"start\": -10, \"end\": 0, \"window_start\": -4, \"window_end\": 7}, {\"job\": \"4\", \"start\": 0, \"end\": 2, \"window_start\": 2, \"window_end\": 7}, {\"job\": \"5\", \"start\": 4, \"end\": 12, \"window_start\": 0, \"window_end\": 20}, {\"job\": \"6\", \"start\": 3, \"end\": 9, \"window_start\": 7, \"window_end\": 5}, {\"job\": \"7\", \"start\": 0, \"end\": 100, \"window_start\": 30, \"window_end\": 40}, {\"job\": \"8\", \"start\": 5, \"end\": 8, \"window_start\": 0, \"window_end\": 3}, {\"job\": \"9\", \"start\": -8, \"end\": -2, \"window_start\": -7, \"window_end\": -3}, {\"job\": \"10\", \"start\": 7, \"end\": 9, \"window_start\": 7, \"window_end\": 9}, {\"job\": \"11\", \"start\": 0, \"end\": 1, \"window_start\": -2, \"window_end\": 3}]"
+    },
+    {
+      "id": "binary-info-elf",
+      "language": "binary-info",
+      "family": "binary-graph",
+      "level": 3,
+      "track": "documents",
+      "prompt": "Describe a logical ELF component for riscv64. Use exactly the following sections, symbols, strings and ordering. This describes metadata, not actual executable offsets or bytes. {\"schema_version\": 1, \"format\": \"ELF\", \"architecture\": \"riscv64\", \"sections\": [{\"name\": \"code\", \"kind\": \"code\"}, {\"name\": \"constants\", \"kind\": \"data\"}, {\"name\": \"descriptors\", \"kind\": \"metadata\"}], \"symbols\": [{\"name\": \"parse_decimal\", \"kind\": \"function\", \"section\": \"code\"}, {\"name\": \"longest_run\", \"kind\": \"function\", \"section\": \"code\"}, {\"name\": \"limit\", \"kind\": \"object\", \"section\": \"constants\"}, {\"name\": \"api_version\", \"kind\": \"object\", \"section\": \"descriptors\"}], \"strings\": [\"Bounded decimal parser\", \"Increasing-run helper\"]}"
+    },
+    {
+      "id": "binary-info-pe",
+      "language": "binary-info",
+      "family": "binary-graph",
+      "level": 3,
+      "track": "documents",
+      "prompt": "Describe a logical PE component for aarch64. Use exactly the following sections, symbols, strings and ordering. This describes metadata, not actual executable offsets or bytes. {\"schema_version\": 1, \"format\": \"PE\", \"architecture\": \"aarch64\", \"sections\": [{\"name\": \"code\", \"kind\": \"code\"}, {\"name\": \"constants\", \"kind\": \"data\"}, {\"name\": \"descriptors\", \"kind\": \"metadata\"}], \"symbols\": [{\"name\": \"parse_decimal\", \"kind\": \"function\", \"section\": \"code\"}, {\"name\": \"longest_run\", \"kind\": \"function\", \"section\": \"code\"}, {\"name\": \"limit\", \"kind\": \"object\", \"section\": \"constants\"}, {\"name\": \"api_version\", \"kind\": \"object\", \"section\": \"descriptors\"}], \"strings\": [\"Bounded decimal parser\", \"Increasing-run helper\"]}"
+    },
+    {
+      "id": "binary-info-mach-o",
+      "language": "binary-info",
+      "family": "binary-graph",
+      "level": 3,
+      "track": "documents",
+      "prompt": "Describe a logical Mach-O component for x86_64. Use exactly the following sections, symbols, strings and ordering. This describes metadata, not actual executable offsets or bytes. {\"schema_version\": 1, \"format\": \"Mach-O\", \"architecture\": \"x86_64\", \"sections\": [{\"name\": \"code\", \"kind\": \"code\"}, {\"name\": \"constants\", \"kind\": \"data\"}, {\"name\": \"descriptors\", \"kind\": \"metadata\"}], \"symbols\": [{\"name\": \"parse_decimal\", \"kind\": \"function\", \"section\": \"code\"}, {\"name\": \"longest_run\", \"kind\": \"function\", \"section\": \"code\"}, {\"name\": \"limit\", \"kind\": \"object\", \"section\": \"constants\"}, {\"name\": \"api_version\", \"kind\": \"object\", \"section\": \"descriptors\"}], \"strings\": [\"Bounded decimal parser\", \"Increasing-run helper\"]}"
+    },
+    {
+      "id": "binary-info-jvm",
+      "language": "binary-info",
+      "family": "binary-graph",
+      "level": 3,
+      "track": "documents",
+      "prompt": "Describe a logical JVM component for jvm. Use exactly the following sections, symbols, strings and ordering. This describes metadata, not actual executable offsets or bytes. {\"schema_version\": 1, \"format\": \"JVM\", \"architecture\": \"jvm\", \"sections\": [{\"name\": \"code\", \"kind\": \"code\"}, {\"name\": \"constants\", \"kind\": \"data\"}, {\"name\": \"descriptors\", \"kind\": \"metadata\"}], \"symbols\": [{\"name\": \"parse_decimal\", \"kind\": \"function\", \"section\": \"code\"}, {\"name\": \"longest_run\", \"kind\": \"function\", \"section\": \"code\"}, {\"name\": \"limit\", \"kind\": \"object\", \"section\": \"constants\"}, {\"name\": \"api_version\", \"kind\": \"object\", \"section\": \"descriptors\"}], \"strings\": [\"Bounded decimal parser\", \"Increasing-run helper\"]}"
+    },
+    {
+      "id": "binary-info-clr",
+      "language": "binary-info",
+      "family": "binary-graph",
+      "level": 3,
+      "track": "documents",
+      "prompt": "Describe a logical CLR component for cil. Use exactly the following sections, symbols, strings and ordering. This describes metadata, not actual executable offsets or bytes. {\"schema_version\": 1, \"format\": \"CLR\", \"architecture\": \"cil\", \"sections\": [{\"name\": \"code\", \"kind\": \"code\"}, {\"name\": \"constants\", \"kind\": \"data\"}, {\"name\": \"descriptors\", \"kind\": \"metadata\"}], \"symbols\": [{\"name\": \"parse_decimal\", \"kind\": \"function\", \"section\": \"code\"}, {\"name\": \"longest_run\", \"kind\": \"function\", \"section\": \"code\"}, {\"name\": \"limit\", \"kind\": \"object\", \"section\": \"constants\"}, {\"name\": \"api_version\", \"kind\": \"object\", \"section\": \"descriptors\"}], \"strings\": [\"Bounded decimal parser\", \"Increasing-run helper\"]}"
+    },
+    {
+      "id": "binary-info-wasm",
+      "language": "binary-info",
+      "family": "binary-graph",
+      "level": 3,
+      "track": "documents",
+      "prompt": "Describe a logical Wasm component for wasm64. Use exactly the following sections, symbols, strings and ordering. This describes metadata, not actual executable offsets or bytes. {\"schema_version\": 1, \"format\": \"Wasm\", \"architecture\": \"wasm64\", \"sections\": [{\"name\": \"code\", \"kind\": \"code\"}, {\"name\": \"constants\", \"kind\": \"data\"}, {\"name\": \"descriptors\", \"kind\": \"metadata\"}], \"symbols\": [{\"name\": \"parse_decimal\", \"kind\": \"function\", \"section\": \"code\"}, {\"name\": \"longest_run\", \"kind\": \"function\", \"section\": \"code\"}, {\"name\": \"limit\", \"kind\": \"object\", \"section\": \"constants\"}, {\"name\": \"api_version\", \"kind\": \"object\", \"section\": \"descriptors\"}], \"strings\": [\"Bounded decimal parser\", \"Increasing-run helper\"]}"
+    }
+  ]
+}

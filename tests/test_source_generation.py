@@ -190,21 +190,27 @@ class TaggedExtractionTests(unittest.TestCase):
                 with self.assertRaises(ExtractionError):
                     extract_code_snippet(response)
 
-    def test_normalizes_serialized_quotes_and_line_breaks_inside_code_block(self):
+    def test_serialized_string_adapter_is_explicit_and_does_not_guess_at_raw_code(self):
         source = 'if False:\n    text = "value"'
         escaped = r'if False:\n    text = \"value\"'
 
-        self.assertEqual(extract_code_snippet(code_block(escaped)), source + "\n")
+        self.assertEqual(extract_code_snippet(code_block(escaped)), escaped + "\n")
         self.assertEqual(
-            extract_code_snippet(code_block(json.dumps(source))),
+            extract_code_snippet(code_block(json.dumps(source)), normalize_escapes=True),
             source + "\n",
         )
+        self.assertEqual(extract_code_snippet(code_block(json.dumps(source))), json.dumps(source) + "\n")
 
-    def test_normalizes_escaped_line_breaks_without_escaped_quotes(self):
+    def test_literal_escapes_are_preserved_inside_source(self):
         self.assertEqual(
             extract_code_snippet(code_block(r"if False:\n    pass")),
-            "if False:\n    pass\n",
+            r"if False:\n    pass"+"\n",
         )
+        for source in [r'''function whitespace(text) { return text === '\n' || text === '\t'; }''',
+                       r'''def path(text): return text.replace("\\", "/")''',
+                       r'''const pattern = /\r?\n/; const quote = "say \"hello\"";''']:
+            with self.subTest(source=source):
+                self.assertEqual(extract_code_snippet(code_block(source)), source+'\n')
 
 
 class StaticValidationTests(unittest.TestCase):

@@ -116,6 +116,56 @@ def _parameters(group: Group, language: str):
     return names
 
 
+def _controlled_accumulators(items, language, dependent):
+    """Recognize Go/Lua self-updates inside input-dependent control blocks.
+
+    Preserve block boundaries: an unrelated conditional elsewhere must not turn
+    an unconditional constant counter into a qualifying helper. This remains a
+    shape heuristic, not a proof of runtime dependence or correctness.
+    """
+    tokens = []
+    def visit(nodes):
+        for item in nodes:
+            if isinstance(item, Group):
+                if item.opener == '{': tokens.append('{')
+                visit(item.items)
+                if item.opener == '{': tokens.append('}')
+            elif item.kind == 'code' or item.kind == 'number':
+                tokens.append(item.value)
+    visit(items)
+    stack = []
+    statement = []
+    found = set()
+
+    def flush():
+        if not any(stack): return
+        for i, value in enumerate(statement):
+            if i and value == '=':
+                name = statement[i-1]; rhs = statement[i+1:]
+                if name.isidentifier() and name in rhs and any(op in rhs for op in ['+', '-', '*', '/', '%']):
+                    found.add(name)
+            if i and value in ['+', '-'] and i+1 < len(statement) and statement[i+1] == value:
+                if statement[i-1].isidentifier(): found.add(statement[i-1])
+
+    for token in tokens:
+        opening = token == '{' if language == 'go' else token in {'then', 'do'}
+        closing = token == '}' if language == 'go' else token == 'end'
+        if opening:
+            controlled = bool(set(statement) & dependent) and any(word in statement for word in ['if', 'for', 'while'])
+            flush(); stack.append(controlled); statement = []
+        elif closing:
+            flush(); statement = []
+            if stack: stack.pop()
+        elif token == 'else':
+            flush(); statement = []
+        elif token in {';', '\n'}:
+            flush(); statement = []
+        else:
+            statement.append(token)
+    flush()
+    return found
+
+
 def _token_metrics(source: str, language: str) -> Dict[str, int]:
     nodes = _groups(_lex(source, language))
     functions = []
@@ -170,6 +220,10 @@ def _token_metrics(source: str, language: str) -> Dict[str, int]:
 
         for _ in range(len(statements) + 1):
             previous = (len(dependent), len(transformed))
+            if language in {'go', 'lua'}:
+                controlled = _controlled_accumulators(body, language, dependent)
+                dependent.update(controlled)
+                transformed.update(controlled)
             for statement in statements:
                 for i, atom in enumerate(statement):
                     if _is(atom, "=") and i and _word(statement[i - 1]):

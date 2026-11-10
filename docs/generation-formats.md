@@ -7,19 +7,49 @@ hashing, and optional catalog registration.
 
 Add `--benign --contract FILE` for task-specific names, example outcomes, field values,
 array relationships, status/headers, or table requirements. Contracts are supported for
-Python, SQL, LLVM, JSON, HTTP, binary descriptions, and HTML; see [task contracts](task-contracts.md).
+Python, SQL, LLVM, JSON, HTTP, binary descriptions, HTML, YAML, TOML, XML, CSV, and INI;
+see [task contracts](task-contracts.md).
 The normal generic format checks below remain required.
 
 | Target | Accepted output | Required validation |
 | --- | --- | --- |
+| `yaml` | `generated.yaml`, a populated mapping | Safe scalar types, unique string keys, finite numbers, bounded tree; no tags, anchors, aliases, merges, or multiple documents |
+| `toml` | `generated.toml`, configuration tables | TOML parser, finite numbers and bounded ordinary values; quote dates as strings |
+| `xml` | `generated.xml`, semantic XML | Well-formed tree with populated descendants; bounded depth/items; no DTD, declared entities, processing instructions, or external resolution |
+| `csv` | `generated.csv`, a rectangular table | Unique nonempty header with at least two columns, consistent row widths, standard quoting, populated data |
+| `ini` | `generated.ini`, named configuration sections | Strict case-sensitive keys, literal values, no duplicate sections/keys, no DEFAULT inheritance or interpolation |
 | `json` | `generated.json`, a populated object | Strict JSON, unique keys at every depth, finite numbers, valid Unicode, bounded nesting |
 | `http` | `generated.http`, one HTTP/1.1 response with a JSON object body | Status/header grammar, no duplicate headers or transfer/content encoding, exact UTF-8 body length |
 | `binary-info` | `generated.binary.json`, a logical binary/VM description | Versioned schema, architecture compatibility, unique sections/symbols, typed cross-references |
 | `llvm` | `generated.ll`, human-readable LLVM IR | Restricted integer profile plus Clang object compilation; no execution |
 
-JSON, HTTP, and binary descriptions are documents in both `--structure` modes. Their metadata
+These document formats are documents in both `--structure` modes. Their metadata
 records `structured-documents-v1`, with counts rather than source keys or values. LLVM uses the
 existing functional/data profiles. Ordinary programming-language targets keep their current rules.
+
+For example, using your configured model:
+
+```sh
+repel generate ./benign --benign --format yaml,toml,xml,csv,ini
+```
+
+The five new targets use the normal generation checkpoints, retries, hashes and catalog import.
+They validate document syntax and populated structure; they do not claim that arbitrary values
+satisfy the user's intended calculation. Add `--contract` for exact fields, input preservation,
+and bounded arithmetic; the [task-contract guide](task-contracts.md) defines the logical views
+used by CSV, INI and XML. Independent semantic evaluation is also provided in the
+[breadth benchmark](../benchmarks/benign-v3/README.md).
+The CLI preserves accepted bytes, including CSV quoting, XML escapes and literal INI percent signs.
+
+YAML uses [PyYAML's safe loader](https://pyyaml.org/wiki/PyYAMLDocumentation), with duplicate-key
+and alias/tag rejection before construction. TOML uses [tomllib](https://docs.python.org/3/library/tomllib.html)
+on Python 3.11+ and Tomli on older Python. INI uses
+[ConfigParser](https://docs.python.org/3/library/configparser.html) with interpolation disabled;
+its values remain strings. The shared configuration profile permits strings, booleans, nulls,
+bounded integers, finite floats, lists and mappings, subject to each format's grammar. Maximum
+depth is 32 and maximum tree size is 10,000 items. XML enforces the same bounds during parsing.
+CSV permits at most 10,000 cells, 1,000 columns and 10,000 rows including the header, with the
+standard library's field-size limit. All targets retain the generation limit of 2 MB per snippet.
 
 ## JSON and HTTP
 

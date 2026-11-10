@@ -3,9 +3,9 @@
 (() => {
   let study = null, selected = null, source = null, epoch = 0, loading = false;
   const modelName = (value) => ({glm: "GLM", deepseek: "DeepSeek", authored: "Authored corpus"}[value] || value);
-  const armName = (value) => ({baseline: "Baseline", contract: "Task contracts", "structure-fix":"Structure fix only", "filter-only": "Filter only", original: "Original CLI"}[value] || value);
+  const armName = (value) => ({baseline: "Baseline", contract: "Task contracts", "structure-fix":"Structure fix only", "filter-only": "Filter only", original: "Original CLI", current: "Frozen CLI"}[value] || value);
   const rate = (value) => typeof value === "number" && Number.isFinite(value) ? `${(value * 100).toFixed(1)}%` : "—";
-  const color = (row) => row.arm === "contract" || row.arm === "original" && row.model === "deepseek" ? "#c4ed8b" : "#94aac8";
+  const color = (row) => row.arm === "contract" || ["original","current"].includes(row.arm) && row.model === "deepseek" ? "#c4ed8b" : "#94aac8";
   const count = (value) => typeof value === "number" ? new Intl.NumberFormat().format(value) : "—";
   const label = (row) => row.model==="authored" ? armName(row.arm) : `${modelName(row.model)} · ${armName(row.arm)}`;
   const failure = (item) => study?.stage === "audit" ? item.accepted === item.known_fault : !item.accepted || item.strict_pass === false || !!item.diagnostic;
@@ -17,15 +17,16 @@
     return element;
   }
   function drawChart() {
-    const pilot = study.stage === "pilot", audit = study.stage === "audit";
+    const pilot = study.stage === "pilot", audit = study.stage === "audit", breadth = study.stage === "breadth";
     const rows = study.metrics.filter((row) => row.arm !== "filter-only");
-    $("study-chart-title").textContent = pilot ? "Validation acceptance" : audit ? "Faulty candidates accepted" : "Verified success, with uncertainty";
+    $("study-chart-title").textContent = pilot ? "Validation acceptance" : audit ? "Faulty candidates accepted" : breadth ? "Verified across languages and formats" : "Verified success, with uncertainty";
     $("study-chart-note").textContent = pilot ? "Exploratory pilot. This chart measures validation acceptance, not overall correctness."
       : audit ? "Lower is better. 48 fixed faults per system; 95% intervals resample 12 task clusters."
       : "Accepted and correct on every independent check. Whiskers show 95% task-bootstrap intervals.";
+    if (breadth) $("study-chart-note").textContent="Accepted and passing every registered check. Descriptive results: shared task families and one replicate; no population interval or causal ranking.";
     if (!study.counts.completed) $("study-chart-note").textContent="No completed model outputs yet. Planned observations are not results; missing data are not failures.";
     else if (!pilot && !audit && study.state!=="complete") $("study-chart-note").textContent="Interim results from scored observations. Model queues may be unbalanced; intervals require a complete paired model grid. Avoid ranking models from this partial sample.";
-    const legend = pilot ? [{model:"glm", arm:"original", name:"GLM"}, {model:"deepseek",arm:"original",name:"DeepSeek"}]
+    const legend = breadth ? study.design.models.map((model)=>({model,arm:"current",name:modelName(model)})) : pilot ? [{model:"glm", arm:"original", name:"GLM"}, {model:"deepseek",arm:"original",name:"DeepSeek"}]
       : [{arm:"baseline",name:"Baseline"},{arm:"contract",name:"Task contracts"}];
     $("study-legend").replaceChildren(...legend.map((entry) => { const item = node("span", "", entry.name); const mark = node("i"); mark.style.background = color(entry); item.prepend(mark); return item; }));
     const width = 810, left = 220, right = 725, height = 82 + rows.length * 52;
@@ -55,7 +56,7 @@
   function renderStats() {
     const audit=study.stage==="audit";
     const entries = [[audit ? "Validator evaluations" : study.stage==="pilot" ? "Completed candidates" : "Scored candidates",`${count(study.counts.completed)} / ${count(study.counts.planned)}`,audit ? "84 identical sources, paired across systems" : "Planned denominator retained"],
-      [study.stage==="pilot" ? "Task / format units" : "Task clusters",count(study.design.tasks),audit ? "7 fixed variants per development task" : `${study.design.replicates} replicate${study.design.replicates===1 ? "" : "s"} per task / system`],
+      [["pilot","breadth"].includes(study.stage) ? "Task / format units" : "Task clusters",count(study.design.tasks),audit ? "7 fixed variants per development task" : study.stage==="breadth" ? `${study.design.families} shared families · one replicate` : `${study.design.replicates} replicate${study.design.replicates===1 ? "" : "s"} per task / system`],
       [audit ? "Authored faulty sources" : "Validation accepted",count(audit ? study.counts.faults : study.counts.accepted),audit ? `${study.counts.controls} correct controls scored separately` : "Acceptance and correctness are separate"],
       [study.stage==="pilot" ? "Behavior checks" : "Private behavior checks",count(study.counts.hidden_checks),"Checks are not independent task samples"]];
     $("study-stats").replaceChildren(...entries.map(([title,value,note]) => { const block=node("div","study-stat"); block.append(node("span","",title),node("strong","",value),node("p","",note)); return block; }));
@@ -150,6 +151,33 @@
       const link=node("a","",`${reference.title} ↗`); link.href=url.href; link.target="_blank"; link.rel="noopener noreferrer"; return [link];
     }));
   }
+  function renderIntegration() {
+    let panel=$("study-integration");
+    if (!panel) {
+      panel=node("article","study-panel study-integration"); panel.id="study-integration";
+      document.querySelector(".study-method-grid").before(panel);
+    }
+    panel.replaceChildren(); panel.hidden=!study.integration;
+    if (!study.integration) return;
+    const evidence=study.integration, heading=node("div","study-panel-heading"), text=node("div");
+    text.append(node("div","eyebrow","PINNED CODEBASES / CONSUMER INTERFACES"),node("h3","","Where the files were exercised"),
+      node("p","",`${evidence.passed}/${evidence.total} recorded integrations passed. Interface compatibility is separate from task correctness.`));
+    heading.append(text); panel.append(heading);
+    const grid=node("div","study-repository-grid");
+    for (const repository of evidence.repositories) {
+      const entries=evidence.outcomes.filter((item)=>item.repository===repository.id), passed=entries.filter((item)=>item.passed).length;
+      const card=node("section","study-repository"), title=node("div","study-repository-title");
+      title.append(node("h4","",repository.id),node("span","study-tag",repository.release));
+      const size=node("p","study-repository-size"); size.append(node("strong","",count(repository.inventory.source_lines)),document.createTextNode(" source lines"));
+      const rateLabel=node("p","study-repository-result",`${passed}/${entries.length} consumer checks passed`);
+      const failedSemantics=entries.filter((entry)=>!entry.semantic_grade_passed).length;
+      card.append(title,size,node("p","study-quiet",`${count(repository.inventory.tracked_files)} tracked files · ${count(repository.inventory.source_files)} source files`),
+        node("p","",repository.interface),rateLabel,node("p","study-quiet",`Declared build/tests: ${repository.passed ? "passed" : "failed"} · tracked source: ${repository.source_unchanged ? "unchanged" : "changed"}`));
+      if (failedSemantics) card.append(node("p","study-quiet",`${failedSemantics} included file${failedSemantics===1 ? "" : "s"} failed independent semantic checks; compatibility does not correct those results.`));
+      card.append(node("code","study-repository-commit",repository.revision)); grid.append(card);
+    }
+    panel.append(grid,node("p","study-quiet","Sizes are measured physical source lines, including comments and blank lines. These tests cover the named interfaces; they do not measure arbitrary placement or whole-repository coverage."));
+  }
   async function load(identity) {
     const request=++epoch;
     try {
@@ -158,7 +186,7 @@
       if (report.benign!==true) throw new Error("This view accepts explicitly benign experiment reports only.");
       study=report; selected=null; source=null; error(""); $("study-body").hidden=false; $("study-empty").hidden=true;
       $("study-title").textContent=study.title; $("study-badge").textContent=`${study.stage} · ${study.state}`;
-      $("study-subtitle").textContent=`${study.design.formats.length} formats · ${study.design.tasks} task units · recorded ${new Date(study.created_at).toLocaleDateString([], {month:"long",day:"numeric",year:"numeric"})}`;
+      $("study-subtitle").textContent=`${study.design.formats.length} formats · ${study.design.tasks} task units · recorded ${new Date(study.created_at||study.updated_at).toLocaleDateString([], {month:"long",day:"numeric",year:"numeric"})}`;
       $("study-source").textContent=!study.counts.completed ? "Awaiting inference · no generated outputs" : study.stage==="audit" ? "Authored fault study · no model generation" : `Measured benign outputs · scored snapshot ${new Date(study.updated_at).toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"})} · unchanged accepted source`;
       const sliceTitle=document.querySelector(".study-slices h3"), sliceNote=document.querySelector(".study-slices .study-panel-heading p");
       sliceTitle.textContent=study.stage==="audit" ? "Where faults remain undetected" : "Where the system succeeds";
@@ -167,9 +195,11 @@
       $("study-figure").hidden=!study.provenance.figure_sha256?.["figure.pdf"];
       options($("study-model"),[["","All models"],...study.design.models.map((model)=>[model,modelName(model)])],"");
       options($("study-arm"),[["","All systems"],...study.design.arms.filter((arm)=>arm!=="filter-only").map((arm)=>[arm,armName(arm)])],"");
+      const dimensions=[...new Set((study.groups||[]).map((group)=>group.dimension))];
+      options($("study-group"),dimensions.map((value)=>[value,({level:"Complexity",language:"Format",family:"Task family",track:"Evaluation track"}[value]||value)]),dimensions.includes($("study-group").value) ? $("study-group").value : dimensions[0]);
       $("study-search").value=""; $("study-verdict").value="";
       $("study-case-content").hidden=true; $("study-selection-note").hidden=false;
-      renderStats(); drawChart(); renderMetrics(); renderBreakdown(); renderCases(); renderMethod(); renderVisibility();
+      renderStats(); drawChart(); renderMetrics(); renderBreakdown(); renderCases(); renderMethod(); renderIntegration(); renderVisibility();
     } catch (problem) { if (request===epoch) error(problem.message); }
   }
   async function refresh() {

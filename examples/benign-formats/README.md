@@ -18,6 +18,8 @@ An existing run cannot be resumed with a different model.
 More exercises:
 
 - `catalog-response.txt`: JSON and HTTP data consistency (`total_count` equals the book count).
+- `invoice-records.txt`: try `--format yaml,toml,xml,csv,ini` for native configuration, markup,
+  and tabular records with integer calculations. Syntax acceptance is separate from correct totals.
 - `pe-description.txt`, `macho-description.txt`, `jvm-description.txt`, `clr-description.txt`:
   select `--language binary-info` and review format/architecture/section/symbol consistency.
 - `clamp-helper.txt`: select `--language llvm`; test both ordinary and reversed bounds after review.

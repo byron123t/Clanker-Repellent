@@ -57,7 +57,7 @@ The normal Clang compilation check still runs. Generation never loads the result
 
 ## Documents and tables
 
-JSON, HTTP, and `binary-info` use a `document` object with:
+JSON, HTTP, `binary-info`, YAML, TOML, CSV, INI, and XML use a `document` object with:
 
 - `shape`: `type`, `required`, `properties`, `additional_properties`, `items`, `min_items`,
   `max_items`, and `enum`. This is a bounded Repel schema, **not full JSON Schema**.
@@ -75,6 +75,31 @@ JSON, HTTP, and `binary-info` use a `document` object with:
 Use `equals` to preserve supplied inputs and `equations` to check derived fields. A sum check
 alone cannot detect a consistently wrong item amount and total. Equations express the requested
 calculation without supplying a precomputed answer to the generator.
+
+Configuration and markup contracts use these logical views. These are check representations;
+the generated file remains in its requested native format.
+
+| Format | Pointer root | Numeric equations |
+| --- | --- | --- |
+| YAML / TOML | The parsed mapping and native scalar types | Integer values, as for JSON |
+| INI | Section name → case-sensitive key → literal string | Canonical decimal integer strings |
+| CSV | `columns`: ordered header strings; `records`: row objects keyed by column name, with string values | Canonical decimal integer strings |
+| XML | Root node with `tag`, `attributes`, `text`, `tail`, and `children`; child nodes use the same shape | Canonical decimal integer text |
+
+XML `text` and `tail` trim surrounding formatting whitespace for checks; internal whitespace is
+retained. Saved XML bytes are unchanged. Namespaced element/attribute names use
+`{namespace}local` notation. XML parsing rejects DTDs, declared entities, and processing
+instructions before constructing the check tree. For CSV/INI/XML, `equals` remains type-sensitive
+and therefore expects strings for textual values. Only `equations` interprets numeric strings;
+`sum` and `count` relations retain their ordinary native-number requirements. Use array shape
+bounds and explicit equations when working with textual tables.
+
+```sh
+repel generate examples/benign-contracts/invoice.txt --benign --contract examples/benign-contracts/invoice.csv.contract.json
+```
+
+Equivalent authored invoice contracts are provided for YAML, TOML, INI and XML. They preserve
+inputs and constrain calculated amounts without giving the final amounts as examples.
 
 An HTTP contract can require a status and headers through
 `"http":{"status":200,"headers":{"X-Example-Id":"catalog"}}`. Existing exact-byte
@@ -100,6 +125,6 @@ and use independent tests for evaluation. The [controlled fault study](../evalua
 includes these failures instead of hiding them. The [evaluation protocol](../benchmarks/benign-v2/PROTOCOL.md)
 keeps private grading separate from generation acceptance.
 
-Examples for all seven supported contract formats are in
+Examples for all twelve supported contract formats are in
 [`examples/benign-contracts/`](../examples/benign-contracts/README.md). They are authored task
 specifications, not model outputs.

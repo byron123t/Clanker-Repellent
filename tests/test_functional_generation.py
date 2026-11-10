@@ -28,6 +28,31 @@ EXAMPLES = {
 
 
 class FunctionalGenerationTests(unittest.TestCase):
+    def test_legacy_incomplete_runs_do_not_mix_extraction_profiles(self):
+        import json
+        provider=mock.Mock(spec=['complete'])
+        provider.complete.return_value={'response_text':'incomplete','finish_reason':'length'}
+        with tempfile.TemporaryDirectory() as directory:
+            output=Path(directory)/'run'
+            arguments=dict(provider=provider,model='test',payload='Count newline characters',targets=select_languages(['python']),
+                output_dir=output,benign=True,structure_profile=FUNCTIONAL_PROFILE,retries=0)
+            generate_source_run(**arguments)
+            manifest=output/'manifest.json'; old=json.loads(manifest.read_text())
+            old['settings'].pop('extraction_profile'); manifest.write_text(json.dumps(old)); before=manifest.read_bytes()
+            provider.reset_mock()
+            with self.assertRaisesRegex(ValueError,'source-extraction rules changed'):
+                generate_source_run(**arguments)
+            provider.complete.assert_not_called(); self.assertEqual(manifest.read_bytes(),before)
+    def test_benign_generation_preserves_literal_whitespace_escapes(self):
+        source='def newline_count(text):\n    return text.count("\\n") + text.count("\\t")\n'
+        provider=mock.Mock(spec=['complete'])
+        provider.complete.return_value={'response_text':'```python\n'+source+'```','finish_reason':'stop'}
+        with tempfile.TemporaryDirectory() as directory:
+            output=Path(directory)/'run'
+            run=generate_source_run(provider=provider,model='test',payload='Count newline and tab characters',
+                targets=select_languages(['python']),output_dir=output,benign=True,structure_profile=FUNCTIONAL_PROFILE,retries=0)
+            self.assertEqual(run['summary']['status'],'passed')
+            self.assertEqual((output/'python/generated.py').read_bytes(),source.encode())
     def test_runtime_policy_ignores_comment_prose_but_checks_code(self):
         self.assertIsNone(benign_policy_error('# Returns an exit status.\n' + EXAMPLES['bash'], language='bash'))
         self.assertIsNotNone(benign_policy_error('in_range() { exit 1; }', language='bash'))
@@ -78,6 +103,22 @@ class FunctionalGenerationTests(unittest.TestCase):
         for language, source in examples:
             with self.subTest(language=language, source=source):
                 self.assertEqual(functional_metrics(language, source)["qualifying_functions"], 0)
+
+    def test_go_and_lua_accumulators_track_control_block_dependence(self):
+        examples = {
+            'go': 'package annotation\nfunc Count(values []int) int {\n result := 0\n for i := 0; i < len(values); i++ {\n if values[i] > 0 {\n result++\n }\n }\n return result\n}\n',
+            'lua': 'function count(values)\nlocal result=0\nfor i=1,#values do\nif values[i]>0 then\nresult=result+1\nend\nend\nreturn result\nend\n',
+        }
+        for language, source in examples.items():
+            with self.subTest(language=language):
+                self.assertEqual(functional_metrics(language, source)['qualifying_functions'], 1)
+        unrelated = {
+            'go': 'package annotation\nfunc Constant(value int) int {\n result := 0\n if value > 0 {\n unused := 1\n _ = unused\n }\n result++\n return result\n}\n',
+            'lua': 'function constant(value)\nlocal result=0\nif value>0 then\nlocal unused=1\nend\nresult=result+1\nreturn result\nend\n',
+        }
+        for language, source in unrelated.items():
+            with self.subTest(language=language):
+                self.assertEqual(functional_metrics(language, source)['qualifying_functions'], 0)
 
     def test_comments_and_string_contents_cannot_supply_function_bodies(self):
         for language, source in EXAMPLES.items():

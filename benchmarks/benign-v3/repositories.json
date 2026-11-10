@@ -1,0 +1,8 @@
+{
+  "benign": true,
+  "repositories": [
+    {"id":"cjson","url":"https://github.com/DaveGamble/cJSON.git","revision":"c859b25da02955fef659d658b8f324b5cde87be3","release":"v1.7.19","flags":["-DBUILD_SHARED_LIBS=OFF","-DENABLE_CJSON_TEST=ON"],"formats":["json"],"interface":"cJSON parse and serialize, exact semantic comparison"},
+    {"id":"zlib","url":"https://github.com/madler/zlib.git","revision":"51b7f2abdade71cd9bb0e7a373ef2610ec6f9daf","release":"v1.3.1","flags":["-DZLIB_BUILD_EXAMPLES=ON"],"formats":["yaml","toml","xml","csv","ini"],"interface":"Pinned minigzip compress/decompress with exact byte equality"},
+    {"id":"curl","url":"https://github.com/curl/curl.git","revision":"7eb8c048470ed2cc14dca75be9c1cdae7ac8498b","release":"curl-8_10_1","flags":["-DBUILD_SHARED_LIBS=OFF","-DBUILD_STATIC_LIBS=ON","-DBUILD_STATIC_CURL=ON","-DCURL_ENABLE_SSL=OFF","-DHTTP_ONLY=ON","-DBUILD_TESTING=ON","-DCURL_USE_LIBPSL=OFF","-DCURL_USE_LIBSSH2=OFF","-DUSE_LIBIDN2=OFF","-DCURL_USE_LIBSSH=OFF"],"formats":["http"],"unit_targets":["unit1300","unit1309","unit1602","unit1603","unit1607"],"interface":"Pinned curl executable consumes exact fixture response from an authored loopback-only server"}
+  ]
+}

@@ -51,6 +51,16 @@ async function main() {
         assert.equal(await page.locator(".study-slice").count(),report.design.formats.length);
       }
       if (report.stage === "pilot") assert.match(await page.locator("#study-chart-note").innerText(),/not overall correctness/);
+      assert.doesNotMatch(await page.locator("#study-subtitle").innerText(),/Invalid Date/);
+      if (report.stage === "breadth") {
+        assert.match(await page.locator("#study-chart-note").innerText(),/no population interval/);
+        assert.equal(await page.locator(".study-repository").count(),report.integration.repositories.length);
+        assert.match(await page.locator("#study-integration").innerText(),new RegExp(`${report.integration.passed}/${report.integration.total}`));
+        await page.locator("#study-group").selectOption("family");
+        assert.equal(await page.locator(".study-slice").count(),report.design.families);
+        await page.locator("#study-group").selectOption("track");
+        assert.equal(await page.locator(".study-slice").count(),2);
+      }
       await page.locator("#study-search").fill("__no_such_task__");
       assert.equal(await page.locator("#study-cases button").count(),0);
       assert.equal(await page.locator("#study-case-content").isVisible(),false,"Zero matches must clear stale selected evidence.");
@@ -82,7 +92,7 @@ async function main() {
     const figureDownload = await figurePending; assert.equal(await figureDownload.failure(),null);
     const figure = await fs.readFile(await figureDownload.path());
     assert.equal(createHash("sha256").update(figure).digest("hex"),audit.provenance.figure_sha256["figure.pdf"]);
-    const measured=catalog.studies.find(item=>item.stage==="heldout") || catalog.studies.find(item=>item.stage==="development");
+    const measured=catalog.studies.find(item=>item.stage==="breadth") || catalog.studies.find(item=>item.stage==="heldout") || catalog.studies.find(item=>item.stage==="development");
     if (measured) {
       await page.locator("#study-select").selectOption(measured.id);
       await page.waitForFunction(id => window.RepelResearch?.current()?.id === id,measured.id);

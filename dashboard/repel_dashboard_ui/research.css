@@ -104,3 +104,13 @@
 .study-ablations { padding: 24px 0 0; border-top: 1px solid var(--border, #263347); margin-top: 24px; overflow-x: auto; }
 .study-ablations h4, .study-ablations > p { margin: 0 24px 12px; }
 .study-ablations table { width: 100%; }
+.study-integration { margin-top: 24px; margin-bottom: 24px; }
+.study-repository-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 28px; margin: 26px 0; }
+.study-repository { min-width: 0; padding-top: 18px; border-top: 1px solid #2a3545; }
+.study-repository-title { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+.study-repository-title h4 { margin: 0; font-size: 18px; }
+.study-repository-size { margin: 22px 0 4px; color: #93a2b6; font-size: 12px; }
+.study-repository-size strong { font-size: 31px; font-weight: 500; color: #e8edf5; font-variant-numeric: tabular-nums; margin-right: 5px; }
+.study-repository-result { color: #c4ed8b; font-variant-numeric: tabular-nums; }
+.study-repository-commit { display: block; margin-top: 18px; font-size: 10px; color: #8291a6; overflow-wrap: anywhere; }
+@media (max-width: 850px) { .study-repository-grid { grid-template-columns: 1fr; gap: 20px; } }

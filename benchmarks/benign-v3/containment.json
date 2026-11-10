@@ -1,0 +1,16 @@
+{
+  "benign": true,
+  "passed": true,
+  "checks": [
+    "home directory read denied",
+    "write outside temporary directory denied",
+    "loopback network denied"
+  ],
+  "result": {
+    "ok": true,
+    "reason": null,
+    "returncode": 0,
+    "output": "[True, True, True]\n",
+    "diagnostic": ""
+  }
+}

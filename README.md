@@ -438,8 +438,8 @@ CTEs and stored functions. For the range-helper task, the query accepts `:value`
 and `:upper` and returns `1` or `0` as `in_range`. SQL needs no external database server.
 Java requires a working `javac` on `PATH`; the macOS launcher alone is not a JDK.
 
-`--format` is an alias for `--language`; `--list-formats` lists all 18 targets. The new document
-targets are `json`, `http` (a single JSON HTTP response), and `binary-info` (logical ELF, PE,
+`--format` is an alias for `--language`; `--list-formats` lists all 23 targets. The document
+targets include `yaml`, `toml`, `xml`, `csv`, `ini`, `json`, `http` (a single JSON HTTP response), and `binary-info` (logical ELF, PE,
 Mach-O, JVM, CLR, or Wasm metadata). They require populated structured documents in either
 structure mode. `llvm` produces real textual integer LLVM IR and requires Clang to compile it;
 generation does not execute it. See [format contracts and limits](docs/generation-formats.md)
@@ -459,6 +459,11 @@ checked on resume. See the [recorded evaluation](benchmarks/benign-v2/README.md)
 uncertainties, and limitations. Document/table contracts can preserve input values and check bounded
 integer equations, including per-item calculations that aggregate totals alone would miss.
 
+The [breadth evaluation](benchmarks/benign-v3/README.md) adds 63 task-format units across 11
+programming languages, eight document formats, six binary metadata families, and pinned cJSON,
+zlib and curl consumer integrations. Its protocol keeps native behavior, document semantics,
+and interface compatibility separate; it does not pool outcomes with earlier studies.
+
 Python uses AST checks; HTML uses a parsed element tree; SQL uses prepared-query checks;
 other languages use tokenized declaration checks alongside their native
 parsers/compilers. This is a structural minimum, not a measure of a snippet's usefulness.
@@ -468,6 +473,13 @@ validation status; choose a new output directory for generation under these rule
 Go and Rust candidates are formatted with `gofmt`/`rustfmt` before validation; formatting status is
 recorded per attempt. Benign code checks ignore ordinary comments while retaining preprocessor
 directives and harmful-content checks.
+
+Fenced source escapes are preserved: literal `\n`, `\t`, quotes, paths and regular-expression
+escapes are language syntax. Malformed serialized source receives ordinary validation feedback
+rather than blanket escape replacement. Go/Rust formatting and HTTP framing remain explicit
+pipeline steps recorded in each generation manifest.
+Runs record `fenced-source-verbatim-v2`; use a new output directory for incomplete runs created
+under older extraction rules, so successful earlier artifacts and new attempts are not mixed.
 
 `testpayload-functional.txt` defines a benign inclusive integer range-check task with boundary,
 negative, equal-bound, and reversed-bound behavior. After generating it, the independent Python

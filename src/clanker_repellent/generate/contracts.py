@@ -11,11 +11,13 @@ import sqlite3
 from pathlib import Path
 
 from .document_formats import strict_json, _http_parts, binary_metrics
+from .tabular_formats import TARGETS as TABULAR_TARGETS, contract_document
 from .integer_ir import IntegerIR, INSTRUCTIONS
 from .pure_evaluation import IntegerProgram
 from .sql_structure import inspect_sql, _code, _PURE_FUNCTIONS
 
-LANGUAGES = {'python', 'sql', 'llvm', 'json', 'http', 'binary-info', 'html'}
+DOCUMENT_LANGUAGES = {'json', 'http', 'binary-info'} | TABULAR_TARGETS
+LANGUAGES = {'python', 'sql', 'llvm', 'html'} | DOCUMENT_LANGUAGES
 IDENTIFIER = re.compile(r'[A-Za-z_][A-Za-z_0-9]*\Z')
 TYPES = {'object', 'array', 'string', 'integer', 'number', 'boolean', 'null'}
 ARITHMETIC = {'add', 'sub', 'mul', 'floordiv', 'mod', 'min', 'max'}
@@ -144,7 +146,8 @@ def _validate_contract(value):
         raise ValueError('Unsupported contract version or language.')
     language = value['language']
     applicable = {'python':{'function','examples'}, 'sql':{'function','examples'}, 'llvm':{'function','examples','llvm'},
-                  'json':{'document'}, 'binary-info':{'document'}, 'http':{'document','http'}, 'html':{'html'}}[language]
+                  'json':{'document'}, 'binary-info':{'document'}, 'http':{'document','http'}, 'html':{'html'},
+                  **{target:{'document'} for target in TABULAR_TARGETS}}[language]
     if set(value)-{'schema_version','language'}-applicable:
         raise ValueError('Contract fields are incompatible with the selected language.')
     if language in {'python','sql','llvm'}:
@@ -179,7 +182,7 @@ def _validate_contract(value):
                     bits=int(kind[1:])
                     if (type(item) is not bool if bits==1 else type(item) is not int or not -(2**(bits-1))<=item<2**(bits-1)):
                         raise ValueError('LLVM examples must match signed integer widths (Boolean for i1).')
-    if language in {'json','binary-info','http'}:
+    if language in DOCUMENT_LANGUAGES:
         document = value.get('document')
         _keys(document, {'shape','equals','relations','equations'}, {'shape'})
         _rules(document)
@@ -295,9 +298,9 @@ def _check_shape(item, shape, path='$'):
             for index,value in enumerate(item): _check_shape(value,shape['items'],path+'/'+str(index))
 
 
-def _check_document(document, contract):
+def _check_document(document, contract, *, text_integers=False):
     _check_shape(document,contract['shape'])
-    _check_rules(document, contract)
+    _check_rules(document, contract, text_integers=text_integers)
     for rule in contract.get('relations',[]):
         left = _at(document,rule['left']) if rule['op']!='unique' else None
         right = _at(document,rule['right'])
@@ -321,7 +324,7 @@ def check_contract(source, contract):
     language = contract['language']
     metrics = {'contract_sha256':contract_digest(contract),'examples':0}
     try:
-        if language in {'json','http','binary-info'}:
+        if language in DOCUMENT_LANGUAGES:
             if language=='http':
                 status,headers,body,_ = _http_parts(source)
                 required = contract.get('http',{})
@@ -330,10 +333,12 @@ def check_contract(source, contract):
                 for key,value in required.get('headers',{}).items():
                     if actual.get(key.lower()) != value: raise ValueError('HTTP header differs: '+key)
                 document = strict_json(body)
+            elif language in TABULAR_TARGETS:
+                document = contract_document(language, source)
             else:
                 if language=='binary-info': binary_metrics(source)
                 document = strict_json(source)
-            _check_document(document,contract['document'])
+            _check_document(document,contract['document'],text_integers=language in {'csv','ini','xml'})
         elif language=='html':
             import html5lib
             root = html5lib.parse(source,namespaceHTMLElements=False)

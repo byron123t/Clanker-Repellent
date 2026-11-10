@@ -1,0 +1,108 @@
+{
+  "schema_version": 1,
+  "language": "yaml",
+  "document": {
+    "shape": {
+      "type": "object",
+      "required": [
+        "schema_version",
+        "records"
+      ],
+      "additional_properties": false,
+      "properties": {
+        "schema_version": {
+          "type": "integer"
+        },
+        "records": {
+          "type": "array",
+          "min_items": 2,
+          "max_items": 2,
+          "items": {
+            "type": "object",
+            "required": [
+              "sku",
+              "quantity",
+              "unit_cents",
+              "total_cents"
+            ],
+            "additional_properties": false,
+            "properties": {
+              "sku": {
+                "type": "string"
+              },
+              "quantity": {
+                "type": "integer"
+              },
+              "unit_cents": {
+                "type": "integer"
+              },
+              "total_cents": {
+                "type": "integer"
+              }
+            }
+          }
+        }
+      }
+    },
+    "equals": [
+      {
+        "path": "/schema_version",
+        "value": 1
+      },
+      {
+        "path": "/records/0/sku",
+        "value": "A"
+      },
+      {
+        "path": "/records/0/quantity",
+        "value": 3
+      },
+      {
+        "path": "/records/0/unit_cents",
+        "value": 125
+      },
+      {
+        "path": "/records/1/sku",
+        "value": "B"
+      },
+      {
+        "path": "/records/1/quantity",
+        "value": 2
+      },
+      {
+        "path": "/records/1/unit_cents",
+        "value": 240
+      }
+    ],
+    "equations": [
+      {
+        "left": "/records/0/total_cents",
+        "expression": {
+          "op": "mul",
+          "args": [
+            {
+              "path": "/records/0/quantity"
+            },
+            {
+              "path": "/records/0/unit_cents"
+            }
+          ]
+        }
+      },
+      {
+        "left": "/records/1/total_cents",
+        "expression": {
+          "op": "mul",
+          "args": [
+            {
+              "path": "/records/1/quantity"
+            },
+            {
+              "path": "/records/1/unit_cents"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

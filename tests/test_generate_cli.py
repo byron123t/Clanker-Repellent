@@ -80,7 +80,7 @@ class GenerateCliTests(unittest.TestCase):
 
         self.assertEqual(status, 0)
         languages = output.getvalue().splitlines()
-        self.assertEqual(len(languages), 18)
+        self.assertEqual(len(languages), 23)
         self.assertIn("json\tgenerated.json", languages)
         self.assertIn("http\tgenerated.http", languages)
         self.assertIn("binary-info\tgenerated.binary.json", languages)

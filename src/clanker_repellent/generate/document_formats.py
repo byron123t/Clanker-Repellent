@@ -2,10 +2,12 @@
 import json
 import math
 import re
+from .tabular_formats import TARGETS as TABULAR_TARGETS, HINTS as TABULAR_HINTS, metrics as tabular_metrics
 
 
-DOCUMENT_TARGETS = {"json", "http", "binary-info"}
+DOCUMENT_TARGETS = {"json", "http", "binary-info"} | TABULAR_TARGETS
 HINTS = {
+    **TABULAR_HINTS,
     "json": "Return a JSON object with at least two populated named fields. Use meaningful records, examples, or configuration data; no comments, duplicate keys, NaN, or Infinity.",
     "http": "Return one HTTP/1.1 response with a JSON object body (at least two populated fields). Use status 200, 201, 202, 400, 404, 409, 422, 500, or 503. Include Content-Type: application/json, optional ordinary headers, then a blank line and the JSON body. Omit Content-Length: the tool computes UTF-8 bytes. No transfer/content encoding, cookies, credentials, or multiple messages.",
     "binary-info": 'Return a JSON symbolic binary description using exactly schema_version: 1, format, architecture, sections, symbols, strings. format is ELF, PE, Mach-O, JVM, CLR, or Wasm. architecture is x86, x86_64, aarch64, riscv64 for ELF; x86, x86_64, aarch64 for PE; x86_64 or aarch64 for Mach-O; jvm for JVM; cil for CLR; wasm32 or wasm64 for Wasm. sections is at least two objects {"name": "...", "kind": "code|data|metadata"}. symbols is at least two objects {"name": "...", "kind": "function|object", "section": "existing section name"}. Function symbols refer to code sections; objects refer to data/metadata. strings is at least one plain descriptive string. Use unique names. This is a logical description, not a claim of actual offsets, sizes, disassembly, or loadable executable bytes. No extra fields or encoded machine code.',
@@ -179,4 +181,6 @@ def http_metrics(source):
 
 
 def document_metrics(language, source):
+    if language in TABULAR_TARGETS:
+        return tabular_metrics(language, source)
     return {"json": json_metrics, "http": http_metrics, "binary-info": binary_metrics}[language](source)

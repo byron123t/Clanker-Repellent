@@ -21,11 +21,13 @@ from typing import Any, Callable, Dict, Iterable, List, Optional, Sequence, Tupl
 from .structure import LANGUAGE_HINTS, STRUCTURE_PROFILE, structure_metrics
 from .functional_structure import FUNCTIONAL_HINTS, FUNCTIONAL_PROFILE, functional_metrics
 from .document_formats import DOCUMENT_TARGETS, HINTS as DOCUMENT_HINTS, SYSTEM_PROMPT as DOCUMENT_PROMPT, document_metrics, normalize_http
+from .tabular_formats import CONTRACT_HINTS as DOCUMENT_CONTRACT_HINTS
 from .llvm_structure import SYSTEM_PROMPT as LLVM_PROMPT, llvm_metrics
 from .contracts import check_contract, validate_contract, contract_digest
 
 
 DEFAULT_MAX_TOKENS = 8192
+EXTRACTION_PROFILE = "fenced-source-verbatim-v2"
 MAX_PAYLOAD_BYTES = 1_000_000
 MAX_SNIPPET_BYTES = 2_000_000
 LANGUAGE_ORDER = (
@@ -33,9 +35,11 @@ LANGUAGE_ORDER = (
     "binary-info",
     "c",
     "cpp",
+    "csv",
     "go",
     "html",
     "http",
+    "ini",
     "java",
     "javascript",
     "json",
@@ -46,7 +50,10 @@ LANGUAGE_ORDER = (
     "rust",
     "sql",
     "swift",
+    "toml",
     "typescript",
+    "xml",
+    "yaml",
 )
 LANGUAGES = set(LANGUAGE_ORDER)
 LANGUAGE_OUTPUT_FILENAMES = {
@@ -54,9 +61,11 @@ LANGUAGE_OUTPUT_FILENAMES = {
     "binary-info": "generated.binary.json",
     "c": "generated.c",
     "cpp": "generated.cpp",
+    "csv": "generated.csv",
     "go": "generated.go",
     "html": "generated.html",
     "http": "generated.http",
+    "ini": "generated.ini",
     "java": "Generated.java",
     "javascript": "generated.js",
     "json": "generated.json",
@@ -67,7 +76,10 @@ LANGUAGE_OUTPUT_FILENAMES = {
     "rust": "generated.rs",
     "sql": "generated.sql",
     "swift": "generated.swift",
+    "toml": "generated.toml",
     "typescript": "generated.ts",
+    "xml": "generated.xml",
+    "yaml": "generated.yaml",
 }
 
 
@@ -255,7 +267,11 @@ def _sha256_text(value: str) -> str:
 
 
 def _normalize_escaped_source(snippet: str) -> str:
-    """Decode escaped line breaks and quotes inside an extracted code block."""
+    """Explicit legacy adapter for a complete serialized string, never raw code.
+
+    A backslash inside source is language syntax. Blanket replacement corrupts
+    string literals, regular expressions, paths, and whitespace classifiers.
+    """
 
     candidate = snippet.strip()
     has_escaped_quote = r'\"' in candidate or r"\'" in candidate
@@ -270,14 +286,7 @@ def _normalize_escaped_source(snippet: str) -> str:
         if isinstance(decoded, str):
             return decoded
 
-    return (
-        snippet.replace(r"\r\n", "\n")
-        .replace(r"\n", "\n")
-        .replace(r"\r", "\r")
-        .replace(r"\t", "\t")
-        .replace(r'\"', '"')
-        .replace(r"\'", "'")
-    )
+    return snippet
 
 
 def _read_utf8(path: Path, *, label: str, maximum_bytes: int) -> str:
@@ -336,6 +345,8 @@ def build_generation_messages(
         if not benign or contract.get('language') != target.language:
             raise ValueError('Task contracts require benign generation in the matching language.')
         request['task_contract'] = contract
+        if target.language in DOCUMENT_CONTRACT_HINTS:
+            request['contract_representation'] = DOCUMENT_CONTRACT_HINTS[target.language]
         request['contract_instructions'] = (
             'Implement the task exactly: preserve the contracted names, parameter order, fields, types, '
             'and instruction restrictions. Public examples are checks, not a complete specification; '
@@ -430,7 +441,7 @@ def print_llm_output(
     print(json.dumps(output, ensure_ascii=False, indent=2), flush=True)
 
 
-def extract_code_snippet(response: str, *, normalize_escapes: bool = True) -> str:
+def extract_code_snippet(response: str, *, normalize_escapes: bool = False) -> str:
     """Extract the first Markdown-fenced source block and ignore surrounding response text."""
 
     lines = response.splitlines(keepends=True)
@@ -681,6 +692,9 @@ def _document_checks(language: str, snippet: str) -> List[Dict[str, Any]]:
     status, diagnostic, metrics = "passed", "", {}
     try:
         metrics = llvm_metrics(snippet) if language == "llvm" else document_metrics(language, snippet)
+    except ImportError:
+        status = "error"
+        diagnostic = "Install project dependencies: the required document parser is unavailable."
     except (ValueError, RecursionError) as exc:
         status = "failed"
         diagnostic = str(exc) if isinstance(exc, ValueError) else "Document exceeds the supported nesting limit."
@@ -1211,8 +1225,10 @@ def toolchain_inventory(
     inventory = []
     for language in languages:
         if language in DOCUMENT_TARGETS | {"llvm"}:
+            parser = {"yaml": "yaml", "toml": "tomllib" if importlib.util.find_spec("tomllib") else "tomli"}.get(language)
             inventory.append({"language": language, "check": language.replace("-", "_") + "_profile",
-                              "kind": "parser+structure", "required": True, "tool": "builtin-profile", "available": True})
+                              "kind": "parser+structure", "required": True, "tool": parser or "builtin-profile",
+                              "available": parser is None or importlib.util.find_spec(parser) is not None})
         if language == "sql":
             inventory.append({"language": language, "check": "sql_prepare", "kind": "parser+read-only-query",
                               "required": True, "tool": "sqlite3-builtin",
@@ -1470,6 +1486,8 @@ def generate_source_run(
             raise error(
                 f"all requested languages are already successfully generated: {destination}"
             )
+        if (prior.get("settings") or {}).get("extraction_profile") != EXTRACTION_PROFILE:
+            raise ValueError("generation source-extraction rules changed; choose a new --output-dir to preserve the original run")
 
         # Preserve successful records and replace only the selected failed/partial records.
         pending_languages = {target.language for target in pending}
@@ -1496,6 +1514,7 @@ def generate_source_run(
                 "show_content": show_content,
                 "no_thinking": no_thinking,
                 "structure_profile": structure_profile,
+                "extraction_profile": EXTRACTION_PROFILE,
             }
         )
         run["settings"] = settings
@@ -1523,6 +1542,7 @@ def generate_source_run(
                 "show_content": show_content,
                 "no_thinking": no_thinking,
                 "structure_profile": structure_profile,
+                "extraction_profile": EXTRACTION_PROFILE,
             },
             "candidates": [],
         }
@@ -1637,7 +1657,7 @@ def generate_source_run(
                     record["attempts"].append(attempt)
                     previous_response, retry_error = None, last_error
                     continue
-                snippet = extract_code_snippet(response, normalize_escapes=target.language not in DOCUMENT_TARGETS | {"llvm"})
+                snippet = extract_code_snippet(response)
                 if benign:
                     policy_error = benign_policy_error(snippet, language=target.language)
                     if policy_error:
