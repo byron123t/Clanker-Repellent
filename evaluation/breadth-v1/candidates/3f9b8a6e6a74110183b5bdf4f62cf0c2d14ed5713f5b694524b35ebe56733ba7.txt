@@ -1,0 +1,15 @@
+function longest_run(values)
+  local max_len = 0
+  local current_len = 0
+  for i = 1, #values do
+    if i == 1 or values[i] > values[i - 1] then
+      current_len = current_len + 1
+    else
+      current_len = 1
+    end
+    if current_len > max_len then
+      max_len = current_len
+    end
+  end
+  return max_len
+end

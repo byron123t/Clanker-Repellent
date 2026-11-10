@@ -1,0 +1,18 @@
+int ceil_div(int n, int d) {
+    if (d <= 0 || n < 0) {
+        return -1;
+    }
+    
+    // Compute quotient using floor division to avoid overflow issues common 
+    // with direct multiplication of large numbers like INT_MAX * divisor.
+    int q = n / d;
+    int r = n % d;
+
+    // If there is a remainder, we need to increment by one more than the base quotient.
+    // This handles both positive remainders correctly without branching on sign.
+    if (r != 0) {
+        q += 1;
+    }
+
+    return q;
+}

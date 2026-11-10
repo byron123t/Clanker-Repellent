@@ -1,0 +1,6 @@
+func ceil_div(_ n: Int, _ d: Int) -> Int {
+    // Return -1 for invalid inputs: n negative or d non-positive
+    guard n >= 0, d > 0 else { return -1 }
+    // Compute ceiling division: (n + d - 1) / d
+    return (n + d - 1) / d
+}

@@ -1,0 +1,19 @@
+[record0]
+label=café, "A"
+celsius=-40
+fahrenheit=-40
+
+[record1]
+label=B
+celsius=0
+fahrenheit=32
+
+[record2]
+label=C
+celsius=25
+fahrenheit=77
+
+[record3]
+label=D
+celsius=100
+fahrenheit=212

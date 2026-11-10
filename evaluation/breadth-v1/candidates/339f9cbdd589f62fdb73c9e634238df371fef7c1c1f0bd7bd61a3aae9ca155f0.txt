@@ -1,0 +1,28 @@
+def ceil_div(n, d):
+    """
+    Computes the ceiling of the exact rational number n/d.
+
+    Args:
+        n (int): An integer dividend.
+        d (int): A positive integer divisor.
+
+    Returns:
+        int: The smallest integer k such that k * d >= n if both arguments satisfy constraints;
+             otherwise, returns -1 to indicate invalid conditions where either 
+             n < 0 or d <= 0 is true.
+    """
+    # Boundary case handling per specification
+    if n < 0 or d <= 0:
+        return -1
+    
+    # Compute quotient using floor division // which truncates towards negative infinity
+    q = n // d
+    
+    # Check remainder to determine rounding direction without floating-point operations
+    r = n % d
+    
+    # If there's a non-zero remainder, we need to increment the quotient by 1
+    if r != 0:
+        return q + 1
+        
+    return q

@@ -1,0 +1,79 @@
+def parse_decimal(text):
+    """
+    Parses a strictly formatted unsigned decimal integer (max 16-bit) from a string.
+
+    Args:
+        text (str): A string containing up to 64 UTF-8 encoded characters.
+
+    Returns:
+        int: The parsed positive integer if successful within range [0, 65535];
+             otherwise -1 indicating failure.
+    """
+    # Initialize variables based on constraints
+    max_value = 65535
+    min_digits_required = 1
+    
+    i = 0
+    n = len(text)
+    
+    # Check bounds first before iterating over indices
+    if n > 64:
+        return -1
+        
+    # --- Parse Optional Sign ---
+    sign_multiplier = 1
+    if i < n and text[i] == '+':
+        sign_multiplier = 1
+        i += 1
+    elif i < n and text[i] == '-': 
+        # Requirement allows *one* optional leading '+' but implies rejection of '-' explicitly later?
+        # "allow one optional leading +" -> Rejecting "-" makes sense given context.
+        pass 
+    
+    # Ensure we have consumed all allowed prefix chars (+/-). If next char isn't start of number, fail immediately.
+    if i >= n or not ('0' <= text[i] <= '9'):
+         return -1
+
+    num = 0
+    while i < n:
+        c = text[i]
+        
+        # Validate character type using direct comparison per requirements
+        if '0' <= c <= '9':
+            digit_val = ord(c) - ord('0')
+            
+            # Overflow check against maximum representable limit
+            # We need to ensure current_num * 10 + new_digit does not exceed MAX_VALUE
+            # This handles both overflow beyond Python's arbitrary precision logic implicitly
+            
+            # Optimization: Early exit if exceeding limits without full multiplication chain risk
+            if num > (max_value // 10):
+                return -1
+                
+            candidate_next = num * 10 + digit_val
+            if candidate_next > max_value:
+                 return -1
+            
+            num = candidate_next
+            i += 1
+         
+        # Any other character encountered means parsing failed
+        else:
+             
+            break
+            
+    # Validation Logic Summary:
+    # 1. At least one digit was processed? Yes, loop starts after checking existence.
+    # 2. Did we consume entire buffer successfully? Loop breaks early on non-digit.
+    # 3. Is there any trailing garbage like spaces/tabs/newlines? Handled by `else` branch returning None (-1).
+    
+    # Final validation checks
+    success = False
+    if i == n:
+        # Successfully iterated through whole string consuming only digits
+        success = True
+        
+    if success:
+        return num
+    else:
+        return -1

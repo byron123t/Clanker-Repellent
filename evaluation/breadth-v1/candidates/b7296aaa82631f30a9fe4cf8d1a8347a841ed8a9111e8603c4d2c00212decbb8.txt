@@ -1,0 +1,13 @@
+inline int longest_run(const int *values, int count) {
+    if (count <= 0) return 0;
+    int max_len = 1, cur_len = 1;
+    for (int i = 1; i < count; ++i) {
+        if (values[i] > values[i - 1]) {
+            ++cur_len;
+            if (cur_len > max_len) max_len = cur_len;
+        } else {
+            cur_len = 1;
+        }
+    }
+    return max_len;
+}

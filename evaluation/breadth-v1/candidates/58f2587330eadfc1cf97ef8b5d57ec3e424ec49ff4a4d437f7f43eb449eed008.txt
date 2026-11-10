@@ -1,0 +1,18 @@
+pub fn longest_run(values: &[i32]) -> i32 {
+    if values.is_empty() {
+        return 0;
+    }
+    let mut max_len = 1;
+    let mut current_len = 1;
+    for i in 1..values.len() {
+        if values[i] > values[i - 1] {
+            current_len += 1;
+            if current_len > max_len {
+                max_len = current_len;
+            }
+        } else {
+            current_len = 1;
+        }
+    }
+    max_len
+}

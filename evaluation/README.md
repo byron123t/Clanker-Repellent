@@ -8,10 +8,37 @@ repel dashboard --store .repel-deploy-store --experiments evaluation --port 0 --
 
 | Study | Status | Evidence |
 | --- | --- | --- |
+| [Language, format, and codebase breadth](breadth-v1/REPORT.md) | Complete; archive reproduced in a separate Python environment | 126 model candidates across 20 targets; 91 accepted, 55 independently verified; 33 pinned-project consumer checks |
 | [Controlled fault audit](fault-audit-v1/REPORT.md) | Complete and independently reproduced | 84 authored sources, 168 paired validator decisions, 84 additional ablation validations |
 | [GLM / DeepSeek pilot](pilot-20261107/REPORT.md) | Complete historical model run | 52 candidates, 45 accepted examples, 18,225 native behavior checks |
 | [Development comparison](development-v2/REPORT.md) | Complete; offline grades reproduced | 48 real model candidates, 39 accepted, 30 independently verified |
 | [Held-out comparison](heldout-v1/REPORT.md) | Complete; all 288 outcomes reproduced, including in a clean environment | 214 accepted, 173 verified; 28,160 private numeric checks |
+
+The breadth extension uses **63 task-format units × two models**, with one replicate. Eleven
+programming languages share three behavioral families; eight document formats share three
+data-transformation families; six binary metadata graphs use the `binary-info` target. Those
+seven shared families are not 63 independent algorithms. DeepSeek verified **37/63** and GLM
+**18/63** in the frozen pipeline; no population interval or causal ranking is claimed.
+
+The study exposed an extraction defect that corrupted literal source escapes. The updated CLI
+preserves them. On identical authored controls, verified full-pipeline results rise from
+**56/63 to 63/63**. A separate offline audit of ten changed complete first responses recovers
+**six verified outputs**, with no model requests or revised retry trajectory. Frozen model
+outcomes remain unchanged. All 91 accepted primary grades and both audits reproduce exactly
+from the published archive in a separate Python environment on the same host/toolchains.
+
+Pinned cJSON, zlib and curl builds span **23,143–316,202 physical source lines**. All **33/33**
+selected consumer checks pass. A separate authored annotation check restores all three tracked
+source trees and snapshotted executables exactly. Notes survive stripping in two executables;
+zlib's note resides in its linked shared library, where a separate stripping check recovers it.
+These are specific interfaces and six explicit placement files, not full-repository coverage
+or decompilation evidence. See the [examples](breadth-v1/EXAMPLES.md), [figure](breadth-v1/figure.pdf),
+and [reproduction archive](breadth-v1/reproduction.zip).
+
+The [new-format contract examples](../examples/benign-formats/contract-smoke-20261110/README.md)
+are a separate ten-run smoke check: DeepSeek verifies 5/5 and GLM 2/5; the other three GLM
+outputs are rejected. They exercise one small public invoice contract in YAML/TOML/XML/CSV/INI,
+and are not pooled with the primary studies.
 
 The completed held-out comparison uses 24 authored tasks × three repeats × two models × two
 systems. The primary result is verified output per planned candidate:

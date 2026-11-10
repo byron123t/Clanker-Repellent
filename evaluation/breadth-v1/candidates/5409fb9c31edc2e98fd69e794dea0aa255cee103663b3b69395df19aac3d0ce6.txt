@@ -1,0 +1,6 @@
+function ceil_div(n, d)
+    if n < 0 or d <= 0 then
+        return -1
+    end
+    return math.floor((n + d - 1) / d)
+end

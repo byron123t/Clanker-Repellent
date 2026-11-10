@@ -1,0 +1,38 @@
+{
+  "schema_version": "1",
+  "records": [
+    {
+      "overlap": "5"
+    },
+    {
+      "overlap": "0"
+    },
+    {
+      "overlap": "0"
+    },
+    {
+      "overlap": "4"
+    },
+    {
+      "overlap": "0"
+    },
+    {
+      "overlap": "16"
+    },
+    {
+      "overlap": "0"
+    },
+    {
+      "overlap": "10"
+    },
+    {
+      "overlap": "0"
+    },
+    {
+      "overlap": "0"
+    },
+    {
+      "overlap": "2"
+    }
+  ]
+}

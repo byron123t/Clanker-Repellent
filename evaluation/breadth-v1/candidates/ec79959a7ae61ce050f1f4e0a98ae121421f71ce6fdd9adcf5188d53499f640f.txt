@@ -1,0 +1,24 @@
+package mathutil // Package annotation required.
+
+// CeilDiv computes the ceiling of the quotient (n / d).
+//
+// Parameters:
+//   - n: An integer dividend which may be negative within range [-2147483648, 2000000].
+//   - d: A positive divisor greater than zero to avoid overflow during multiplication by two.
+//
+// Returns:
+//   - If `d` is less than or equal to zero, or if `n` is strictly less than zero, returns -1.
+//   - Otherwise, returns the smallest integer `k` such that `k * d >= n`.
+func CeilDiv(n int, d int) int {
+	// Boundary case handling per specification.
+	if d <= 0 || n < 0 {
+		return -1
+	}
+
+	// Compute ceil_div = floor((n + d - 1) / d)
+	// This avoids potential overflow from computing 'quotient' first on large integers.
+	q := (n + d - 1) / d
+
+	// Explicitly cast q to match expected output type before returning.
+	return int(q)
+}

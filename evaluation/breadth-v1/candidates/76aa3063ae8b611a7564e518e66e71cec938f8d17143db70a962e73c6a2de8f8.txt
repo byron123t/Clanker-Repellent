@@ -1,0 +1,19 @@
+public final class Generated {
+    /**
+     * Computes the ceiling of the division between two integers using standard mathematical rules:
+     *
+     * <p>Given dividend {@code n} (in range [-2, 1000000]) and divisor {@code d}
+     * (in range [-2, 1000]), calculates the smallest integer {@code k} such that
+     * {@code k * d >= n}.
+     */
+    public static int ceil_div(int n, int d) {
+        // Boundary case handling based on problem constraints.
+        if (d <= 0 || n < 0) {
+            return -1;
+        }
+
+        // Standard formula to compute ceiling(n / d).
+        // This handles both positive remainders correctly without floating-point operations.
+        return ((n + d - 1) / d);
+    }
+}

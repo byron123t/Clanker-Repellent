@@ -1,0 +1,5 @@
+label,celsius,fahrenheit
+"café, ""A""",-40,-40
+B,0,32
+C,25,77
+D,100,212

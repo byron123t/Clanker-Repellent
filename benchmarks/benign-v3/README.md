@@ -1,6 +1,6 @@
 # Benign breadth study
 
-This extension preserves all earlier studies. It measures the current generator across
+This extension preserves all earlier studies. It measures the frozen generator across
 63 task-format units and two live local models, with one replicate and at most two attempts.
 The unit count is **not** a count of independent algorithms: seven families are reused.
 No population confidence intervals or causal improvement claim are planned.
@@ -64,3 +64,40 @@ Extraction verifies the published archive hash, exact member inventory, every me
 path safety and size bounds before writing anything. Reproduction uses the frozen grader and
 never calls a model. The separate `audit_extraction.py` compares original versus literal-preserving
 extraction on changed, complete first responses only, with no revised model requests or retries.
+
+The published archive includes `publication/audit_controls.py` and
+`publication/audit_extraction.py`. From an extracted archive, reproduce the separate audits
+into new directories:
+
+```sh
+python EXTRACTED/publication/audit_controls.py EXTRACTED EXTRACTED/supplement/updated-engine /tmp/breadth-controls --compare EXTRACTED/supplement/control-audit/report.json
+python EXTRACTED/publication/audit_extraction.py EXTRACTED /tmp/breadth-extraction --compare EXTRACTED/supplement/extraction-audit/report.json
+```
+
+The controls audit runs identical authored responses through two archived engines in separate
+processes and recomputes every accepted native/document grade. It does not contact a model.
+The extraction audit holds the frozen validators and grader constant and changes only how
+literal source escapes are preserved. Both are post hoc mechanism checks, separate from the
+primary 126 observations. The updated snapshot is identified by its complete Python-source hash.
+
+`finish.py STUDY_ROOT EXPORT --clean-python CLEAN_PYTHON --wait` waits for the registered
+model runner, then performs consumer integration, offline regrading, publication, fresh
+checksum-gated archive extraction, and exact reproduction of primary grades and both audits.
+It never starts or retries inference. Interrupted queues stop publication. Clean reproduction
+uses a separate Python environment on the same host and native toolchains; it is not an
+independent team's replication. `progress.py STUDY_ROOT EXPORT --watch` exposes completed
+observations while clearly marking the incomplete grid and withholding final artifacts.
+
+An additional authored lifecycle check uses `retention_check.py` in fresh local clones of
+the pinned projects. It places one benign note in six explicit C files, rebuilds and runs the
+declared upstream tests, strips one executable per project, verifies recovery, and restores
+all tracked sources plus the three snapshotted executables byte-for-byte using the central
+journal. The zlib executable links a shared library: its executable-only failure remains in
+the report, alongside a separate `strip -x` library diagnostic. This check is auxiliary,
+does not measure decompiler output or full-repository coverage, and is not part of the clean
+primary-grade/control-audit reproduction. Its script, note, metadata and build logs are archived.
+
+`smoke_contracts.py OUTPUT --endpoint http://127.0.0.1:18474/v1` runs the five new public
+invoice contracts against a local endpoint. Use `18473` for DeepSeek. These are small auxiliary
+example checks with independent exact parsing, not a causal comparison or part of the frozen
+primary grid. All generation uses `benign=True`; only those artifacts are inspected.

@@ -1,0 +1,31 @@
+{
+  "binary_info": {
+    "format": "JSON",
+    "encoding": "UTF-8"
+  },
+  "task_data": {
+    "schema_version": "1",
+    "records": [
+      {
+        "label": "\"café, \\'A\\'\"",
+        "celsius": "-40",
+        "fahrenheit": "-40"
+      },
+      {
+        "label": "B",
+        "celsius": "0",
+        "fahrenheit": "32"
+      },
+      {
+        "label": "C",
+        "celsius": "25",
+        "fahrenheit": "77"
+      },
+      {
+        "label": "D",
+        "celsius": "100",
+        "fahrenheit": "212"
+      }
+    ]
+  }
+}

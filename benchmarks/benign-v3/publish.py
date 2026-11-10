@@ -5,7 +5,10 @@ import hashlib
 import json
 from pathlib import Path
 import shutil
+import sys
 import zipfile
+if (Path(__file__).resolve().parent.parent/'runner').is_dir():
+    sys.path.insert(0,str(Path(__file__).resolve().parent.parent/'runner'))
 from experiment import digest,save,verify
 
 
@@ -20,10 +23,21 @@ def metrics(cases,model):
 
 
 def validate_record(record,manifest,task,route):
+    if type(record.get('accepted')) is not bool or type(record.get('strict_pass')) is not bool:
+        raise ValueError('Recorded decisions must be Boolean')
     if (manifest.get('settings',{}).get('mode')!='benign' or manifest.get('model')!=route['id']
             or len(manifest.get('candidates',[]))!=1):
         raise ValueError('Generation provenance differs')
     candidate=manifest['candidates'][0]
+    if type(candidate.get('accepted')) is not bool:
+        raise ValueError('Manifest acceptance must be Boolean')
+    if any(record.get(key)!=task[key] for key in ['family','level','track']):
+        raise ValueError('Recorded task grouping differs from the frozen design')
+    prompt=task['prompt'].encode()
+    if manifest.get('payload')!={'sha256':hashlib.sha256(prompt).hexdigest(),'bytes':len(prompt)}:
+        raise ValueError('Manifest task text differs from the frozen task')
+    if record.get('arm')!='current' or record.get('trial')!=0:
+        raise ValueError('Recorded arm or replicate differs from the frozen design')
     for key in ['accepted','status','candidate']:
         if record.get(key)!=candidate.get(key): raise ValueError('Record disagrees with manifest: '+key)
     if record['language']!=task['language'] or candidate['language']!=task['language']:
@@ -36,6 +50,7 @@ def validate_record(record,manifest,task,route):
 
 
 def publish(root,output):
+    from evidence import enrich,markdown
     protocol=verify(root); tasks={t['id']:t for t in json.loads((root/'tasks.json').read_text())['tasks']}; cases=[]
     output.mkdir(parents=True,exist_ok=True); (output/'candidates').mkdir(exist_ok=True)
     for model in protocol['models']:
@@ -49,6 +64,9 @@ def publish(root,output):
             case_id=hashlib.sha256((digest(root/'protocol.json')+':'+model+':'+identity).encode()).hexdigest()
             case={k:record[k] for k in ['model','task','language','family','level','track','arm','trial','accepted','strict_pass','grade','status','attempts','attempt_outcomes']}
             case.update(id=case_id,prompt=tasks[identity]['prompt'],source_sha256=None)
+            case['attempt_checks']=[{'attempt':a['attempt'],'status':a['status'],'finish_reason':a.get('response',{}).get('finish_reason'),
+                                    'checks':a.get('validation',{}).get('checks',[]),'formatting':a.get('formatting')}
+                                   for a in manifest_candidate['attempts']]
             if record['accepted']:
                 candidate=record['candidate']; path=directory/'generation'/candidate['relative_path']; path.resolve().relative_to((directory/'generation').resolve())
                 if path.is_symlink() or digest(path)!=candidate['sha256']: raise ValueError('Candidate hash differs')
@@ -84,6 +102,12 @@ def publish(root,output):
     actual_integrations={(row['repository'],row['model'],row['task'],row['source_sha256']) for row in integration['outcomes']}
     if actual_integrations!=expected_integrations or len(integration['outcomes'])!=len(expected_integrations):
         raise ValueError('Integration grid is incomplete or duplicated')
+    for repository in integration['repositories']:
+        for step in repository['steps']:
+            path=root/'integration/logs'/repository['id']/step['log']
+            path.resolve().relative_to((root/'integration/logs').resolve())
+            if path.is_symlink() or digest(path)!=step['log_sha256']:
+                raise ValueError('Pinned build log is missing or changed')
     save(output/'scores.json',{'benign':True,'protocol_sha256':digest(root/'protocol.json'),'cases':cases})
     shutil.copyfile(root/'protocol.json',output/'protocol.json')
     groups=[]
@@ -100,7 +124,7 @@ def publish(root,output):
                 {'title':'Frozen breadth design','body':'63 task-format units × two live model endpoints × one replicate = 126 generations. Eleven source languages share three behavioral families; eight document formats share three transformation tasks; six binary descriptions check typed metadata graphs. Tasks, private expected values, engine and runner hashes were frozen before inference.'},
                 {'title':'Equal attempt budget','body':'Both models use 8,192 output tokens, temperature 0.2, top_p 0.8, no-thinking requested, and at most two attempts. One serial queue per model, queues concurrent. Retries receive only CLI acceptance diagnostics. Completed failures are retained; infrastructure interruptions are separate. Requested seeds are recorded but backend determinism is not independently verified.'},
                 {'title':'Behavior, semantics, and acceptance','body':'Accepted helpers are compiled or interpreted by native toolchains in restricted subprocesses. Ceiling division, increasing contiguous runs, and bounded ASCII decimal parsing include empty, invalid, boundary, Unicode, embedded-NUL and deterministic randomized inputs. Documents must preserve exact inputs and compute correct temperature, invoice, and schedule results. Private expected outputs never enter model requests. Generic CLI acceptance does not imply these task-specific checks passed.'},
-                {'title':'Reference controls and containment','body':'All 63 authored correct controls passed before freezing. Native processes deny network, home reads except the Python runtime, and writes outside temporary work directories, with CPU, file-size and wall-time limits. Three denial probes passed. These controls reduce harness errors; they do not prove the absence of every grader bug.'},
+                {'title':'Reference controls and containment','body':'All 63 authored correct controls passed direct validation and independent grading before freezing. Those controls did not exercise extraction; the later full-pipeline audit is reported separately. Native processes deny network, home reads except the Python runtime, and writes outside temporary work directories, with CPU, file-size and wall-time limits. Three denial probes passed.'},
                 {'title':'Pinned repository interfaces','body':'Clean cJSON, zlib and curl releases are built from exact commits. cJSON consumes every accepted JSON candidate; zlib round-trips every accepted YAML/TOML/XML/CSV/INI candidate; curl consumes every accepted HTTP response over an authored loopback server. Selection includes semantically failing accepted files. Upstream tests and consumer results are recorded separately. Tracked source hashes are verified unchanged.'},
                 {'title':'Reproduction','body':'Every accepted candidate was regraded from unchanged bytes without model inference, with exact per-case agreement. The downloadable archive includes frozen runner, engine, tasks, private oracles, requests/responses, manifests, source files, toolchain versions and SHA-256 inventory. Rebuilding the upstream projects requires their public pinned revisions; native reproduction currently requires macOS and the listed toolchains.'}],
             'limitations':protocol['limitations']+['No baseline arm: this extension measures current-system breadth and does not estimate improvement over the earlier study. Studies are not pooled.',
@@ -114,6 +138,7 @@ def publish(root,output):
                           'reproduction':proof,'environment':json.loads((root/'environment.json').read_text())}}
     report['findings']=[f"{row['model']}: {row['verified']}/{row['n']} candidates passed every registered check; {row['accepted']} passed CLI acceptance." for row in report['metrics']]
     report['findings'].append(f"{integration['passed']}/{integration['total']} selected consumer integrations passed. This measures compatibility of specific interfaces, separately from semantic correctness.")
+    enrich(report,root,protocol)
     text='# Benign breadth evaluation\n\n'+'\n\n'.join(report['findings'])+'\n\n'
     text+='| Model | Accepted | Verified | Accepted but not verified | Attempts |\n| --- | --- | --- | --- | --- |\n'
     for row in report['metrics']: text+=f"| {row['model']} | {row['accepted']}/{row['n']} | {row['verified']}/{row['n']} | {row['false_acceptance']} | {row['attempts']} |\n"
@@ -121,9 +146,11 @@ def publish(root,output):
     text+='\n\n## Repository sizes\n\n| Repository | Tracked files | Source lines | Commit |\n| --- | --- | --- | --- |\n'
     for row in integration['repositories']: text+=f"| {row['id']} | {row['inventory']['tracked_files']} | {row['inventory']['source_lines']} | {row['revision']} |\n"
     text+='\nSource lines count physical lines in the registered C/C++/Python/Perl/shell/CMake extensions; comments and blank lines are included.\n\n## Limitations\n\n'+'\n'.join('- '+s for s in report['limitations'])+'\n'
+    text+=markdown(report)
     (output/'REPORT.md').write_text(text)
     archive=output/'reproduction.zip'
-    files=[p for p in root.rglob('*') if p.is_file() and not p.is_symlink() and '__pycache__' not in p.parts and p.suffix not in {'.pyc','.log'}
+    files=[p for p in root.rglob('*') if p.is_file() and not p.is_symlink() and '__pycache__' not in p.parts and p.suffix!='.pyc'
+           and (p.suffix!='.log' or root/'integration/logs' in p.parents or root/'supplement/retention' in p.parents)
            and not (p.parent==root/'integration' and p.name=='json-consumer')]
     members={str(p.relative_to(root)):digest(p) for p in files}
     with zipfile.ZipFile(archive,'w',zipfile.ZIP_DEFLATED) as bundle:
@@ -132,7 +159,7 @@ def publish(root,output):
         # changing the frozen generation engine, grader, or experimental outcomes.
         name='publication/publish.py'; data=Path(__file__).read_bytes(); bundle.writestr(name,data)
         members[name]=hashlib.sha256(data).hexdigest()
-        for extra in ['reproduce.py','audit_extraction.py','plot.py']:
+        for extra in ['reproduce.py','audit_extraction.py','audit_controls.py','evidence.py','retention_check.py','plot.py']:
             path=Path(__file__).parent/extra; name='publication/'+extra; data=path.read_bytes()
             bundle.writestr(name,data); members[name]=hashlib.sha256(data).hexdigest()
         bundle.writestr('ARTIFACTS.json',json.dumps({'benign':True,'files':members},indent=2)+'\n')

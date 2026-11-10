@@ -1,0 +1,22 @@
+<dataset>
+  <record>
+    <label>café, &quot;A&quot;</label>
+    <celsius>-40</celsius>
+    <fahrenheit>-40</fahrenheit>
+  </record>
+  <record>
+    <label>B</label>
+    <celsius>0</celsius>
+    <fahrenheit>32</fahrenheit>
+  </record>
+  <record>
+    <label>C</label>
+    <celsius>25</celsius>
+    <fahrenheit>77</fahrenheit>
+  </record>
+  <record>
+    <label>D</label>
+    <celsius>100</celsius>
+    <fahrenheit>212</fahrenheit>
+  </record>
+</dataset>

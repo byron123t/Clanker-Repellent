@@ -1,0 +1,10 @@
+schema_version: 1
+records:
+- sku: A
+  quantity: 3
+  unit_cents: 125
+  total_cents: 375
+- sku: B
+  quantity: 2
+  unit_cents: 240
+  total_cents: 480

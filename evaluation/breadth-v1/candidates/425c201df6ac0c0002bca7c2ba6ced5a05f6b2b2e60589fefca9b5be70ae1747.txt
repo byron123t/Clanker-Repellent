@@ -1,0 +1,23 @@
+function ceil_div(n, d) {
+    // Input validation:
+    // Returns -1 if numerator is negative (as per spec)
+    // OR denominator is non-positive to avoid undefined behavior of / operator on zero/negative divisors.
+    if (n < 0 || d <= 0) {
+        return -1;
+    }
+
+    // Compute quotient using floor division logic adjusted for positive numbers.
+    // Math.floor((a + b - 1) / b) effectively rounds up any remainder case except exact multiples.
+
+    const q = Math.floor((n + d - 1) / d);
+    
+    // Ensure we handle edge cases where floating-point rounding might be slightly off 
+    // due to large integers by verifying against direct multiplication.
+    let result = q * d;
+
+    while (result < n) {
+      result += d;
+    }
+  
+    return result;
+}

@@ -1,0 +1,35 @@
+func longest_run(_ values: [Int]) -> Int {
+    // Input validation to handle edge case where array is empty
+    if values.isEmpty {
+        return 0
+    }
+    
+    var max_length = 1
+    var current_length = 1
+    
+    // Iterate through the list starting from the second element
+    for i in 1..<values.count {
+        let previous_value = values[i-1]
+        let current_value = values[i]
+        
+        // Check if the sequence is strictly increasing (current > previous)
+        if current_value > previous_value {
+            current_length += 1
+            
+            // Update maximum length found so far
+            if current_length > max_length {
+                max_length = current_length
+                
+                // Optimization: If we reach the theoretical upper bound, stop early
+                if max_length == 65 || max_length >= values.count {
+                    break
+                }
+            }
+        } else {
+            // Reset current run length when non-increasing step occurs
+            current_length = 1
+        }
+    }
+    
+    return max_length
+}

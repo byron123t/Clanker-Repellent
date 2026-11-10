@@ -1,0 +1,28 @@
+function longest_run(values)
+    local max_length = 0
+    if #values == 0 then 
+        return 0 
+    end
+    
+    -- Initialize current run length to start counting from first element
+    local current_len = 1 
+    
+    for i = 2, #values do
+        if values[i] > values[i-1] then
+            current_len = current_len + 1
+        else
+            -- Run ended by equal or decreasing sequence
+            if current_len > max_length then
+                max_length = current_len
+            end
+            current_len = 1
+        end
+    end
+    
+    -- Check final segment after loop completes
+    if current_len > max_length then
+        max_length = current_len
+    end
+    
+    return math.min(max_length, 64)
+end

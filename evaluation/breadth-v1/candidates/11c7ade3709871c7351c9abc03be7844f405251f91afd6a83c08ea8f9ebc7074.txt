@@ -1,0 +1,4 @@
+def ceil_div(n, d)
+  return -1 if n < 0 || d <= 0
+  (n + d - 1) / d
+end

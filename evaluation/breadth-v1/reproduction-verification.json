@@ -1,0 +1,22 @@
+{
+  "benign": true,
+  "passed": true,
+  "archive_sha256": "f02070ea1a6e319f90ee86616945ddb69dcf174dea3dc4f6b65b0c08f4d2a1fb",
+  "protocol_sha256": "2237fb47ebab16f4bc689d16ad758e60ac28b4cd5979635376250bbcfc23315c",
+  "accepted_candidates": 91,
+  "primary_grade_proof_sha256": "8a4ac9e4fe5b571cf83613cb49e56b42e0a16850815faf1a2cdd202b58a78916",
+  "extraction_audit_matched": true,
+  "control_audit_matched": true,
+  "inference_requests": 0,
+  "python": "3.9.15 | packaged by conda-forge | (main, Nov 22 2022, 08:48:25) \n[Clang 14.0.6 ]",
+  "packages": [
+    "html5lib==1.1",
+    "Pygments==2.21.0",
+    "PyYAML==6.0.3",
+    "six==1.17.0",
+    "tomli==2.5.0",
+    "webencodings==0.5.1"
+  ],
+  "scope": "Fresh checksum-verified archive extraction, separate Python environment, same host and native toolchains.",
+  "created_at": "2026-11-10T20:11:52.441383+00:00"
+}

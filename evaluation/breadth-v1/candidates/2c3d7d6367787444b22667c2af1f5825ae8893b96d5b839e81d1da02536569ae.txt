@@ -1,0 +1,12 @@
+function ceil_div(n: number, d: number): number {
+    // Input validation: handle invalid divisor (d <= 0) or negative numerator (n < 0)
+    if (d <= 0 || n < 0) {
+        return -1;
+    }
+
+    // Compute quotient floor via truncation towards zero to avoid floating-point errors
+    const q = Math.trunc(n / d);
+    
+    // Ceiling is achieved by adding 1 unless there's exact divisibility
+    return ((q * d === n)) ? q : q + 1;
+}

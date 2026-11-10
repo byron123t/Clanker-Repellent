@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Reference Data</title>
+</head>
+<body>
+
+<section aria-labelledby="report-heading" class="container">
+
+<h1 id="report-heading">Financial Records Reference Table</h1>
+
+<table id="records">
+<thead>
+<tr>
+<th scope="col">sku</th>
+<th scope="col">quantity</th>
+<th scope="col">unit_cents</th>
+<th scope="col">discount_bps</th>
+<th scope="col">net_cents</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>2</td>
+<td>199</td>
+<td>0</td>
+<td><span>&lt;</span>= (200) * (-)</td>
+</tr>
+<tr>
+<td>1</td>
+<td>0</td>
+<td>550</td>
+<td>100</td>
+<td>(110000 / 10k) -> 11 |&lt;&nbsp;(500 + 50)&nbsp;-&nbsp;55&nbsp;=&nbsp;495</td>
+</tr>
+<tr>
+<td>2</td>
+<td>7</td>
+<td>137</td>
+<td>1500</td>
+<td>(959900 / 15k) -> 63 |(700)*(-)<br/>Net:&nbsp;<span>&lt;</span>;=...<sup>*</sup></td>
+</tr>
+<tr>
+<td>3</td>
+<td>3</td>
+<td>999</td>
+<td>3333</td>
+<td>(29973)/33<br/><em>Note:</em>&nbsp;floor(...)=89|...</td>
+</tr>
+<tr>
+<td>4</td>
+<td>1</td>
+<td>5</td>
+<td>9999</td>
+<td>(59+? ) ... </td>
+</tr>
+<tr>
+<td>5</td>
+<td>12</td>
+<td>425</td>
+<td>10000</td>
+<td>(6300)-(&lt;)=-?</td>
+</tr>
+</tbody>
+</table>
+
+
+<p>This is an example description.</p>
+
+
+
+<ul role="list">
+<li>List Item One</li>
+<li>List Item Two</li>
+</ul>
+
+</section><!-- End Container -->
+
+</body>
+</html>

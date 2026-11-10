@@ -1,0 +1,40 @@
+func parse_decimal(_ text: String) -> Int {
+    let bytes = Array(text.utf8)
+    let n = bytes.count
+    guard n > 0 else { return -1 }
+    
+    var i = 0
+    // strip leading ASCII whitespace: space, tab, CR, LF
+    while i < n, bytes[i] == 32 || bytes[i] == 9 || bytes[i] == 10 || bytes[i] == 13 {
+        i += 1
+    }
+    // strip trailing ASCII whitespace
+    var j = n
+    while j > i, bytes[j-1] == 32 || bytes[j-1] == 9 || bytes[j-1] == 10 || bytes[j-1] == 13 {
+        j -= 1
+    }
+    guard j > i else { return -1 }
+    
+    // optional leading '+'
+    if bytes[i] == 43 { // '+'
+        i += 1
+        guard i < j else { return -1 }
+    }
+    
+    // require at least one ASCII digit
+    guard i < j, bytes[i] >= 48, bytes[i] <= 57 else { return -1 }
+    
+    var value: Int = 0
+    while i < j {
+        let byte = bytes[i]
+        guard byte >= 48, byte <= 57 else { return -1 }
+        let digit = Int(byte - 48)
+        // check overflow beyond 65535
+        if value > 6553 || (value == 6553 && digit > 6) {
+            return -1
+        }
+        value = value * 10 + digit
+        i += 1
+    }
+    return value
+}

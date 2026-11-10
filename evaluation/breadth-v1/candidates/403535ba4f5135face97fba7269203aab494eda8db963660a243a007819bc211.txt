@@ -1,0 +1,17 @@
+inline int ceil_div(int n, int d) {
+    if (d <= 0 || n < 0) {
+        return -1;
+    }
+    
+    // Compute quotient using floor division to avoid overflow issues 
+    // common with direct multiplication of large numbers like INT_MAX * divisor.
+    const int q = n / d;
+
+    // If there is any remainder from the exact division, we need another step up by +1.
+    // This handles both positive remainders and negative results due to truncation towards zero.
+    if ((q * d != n)) {
+        return q + 1;
+    }
+    
+    return q;
+}

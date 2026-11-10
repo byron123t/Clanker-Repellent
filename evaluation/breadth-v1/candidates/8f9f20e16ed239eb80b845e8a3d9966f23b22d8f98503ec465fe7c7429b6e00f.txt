@@ -1,0 +1,21 @@
+pub fn longest_run(values: &[i32]) -> i32 {
+    if values.is_empty() {
+        return 0;
+    }
+
+    let mut max_length = 1;
+    let mut current_length = 1;
+
+    // Iterate through pairs to compare neighbors without bounds checking overhead on each step
+    for window in values.windows(2) {
+        match (window[0] < window[1]).then(|| true).unwrap_or(false) {
+            true => current_length += 1,
+            false => {
+                max_length = std::cmp::max(max_length, current_length);
+                current_length = 1;
+            }
+        };
+    }
+
+    std::cmp::max(max_length, current_length)
+}

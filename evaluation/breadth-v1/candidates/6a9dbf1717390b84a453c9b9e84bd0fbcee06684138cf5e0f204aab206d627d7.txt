@@ -1,0 +1,17 @@
+pub fn ceil_div(n: i32, d: i32) -> i32 {
+    // Returns -1 if either divisor is non-positive to avoid undefined behavior of signed division by zero.
+    let (dividend, divisor) = match (d > 0).then_some((n.abs(), d)) {
+        Some(pair) => pair,
+        None => return -1,
+    };
+
+    // Computes quotient using floor division on absolute values.
+    let q = dividend / divisor;
+
+    // Checks remainder to determine rounding up.
+    if dividend % divisor == 0 {
+        q
+    } else {
+        q + 1
+    }
+}

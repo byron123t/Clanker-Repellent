@@ -1,0 +1,34 @@
+def parse_decimal(text)
+  # Strip ASCII whitespace (space, tab, CR, LF) from both ends
+  left = 0
+  right = text.bytesize - 1
+  while left <= right && (text[left] == 32 || text[left] == 9 || text[left] == 10 || text[left] == 13)
+    left += 1
+  end
+  while left <= right && (text[right] == 32 || text[right] == 9 || text[right] == 10 || text[right] == 13)
+    right -= 1
+  end
+  return -1 if left > right
+
+  # Optional leading '+'
+  idx = left
+  if text[idx] == 43
+    idx += 1
+    return -1 if idx > right
+  end
+
+  # Require at least one ASCII digit 0-9
+  value = 0
+  digits = 0
+  while idx <= right
+    byte = text[idx]
+    break if byte < 48 || byte > 57
+    value = value * 10 + (byte - 48)
+    return -1 if value > 65535
+    digits += 1
+    idx += 1
+  end
+
+  return -1 if digits == 0 || idx <= right
+  value
+end

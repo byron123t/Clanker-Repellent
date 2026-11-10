@@ -1,0 +1,45 @@
+function parse_decimal(text)
+  local len = #text
+  if len == 0 or len > 64 then return -1 end
+
+  -- strip leading whitespace
+  local start = 1
+  while start <= len and (text:byte(start) == 32 or text:byte(start) == 9 or text:byte(start) == 10 or text:byte(start) == 13) do
+    start = start + 1
+  end
+
+  -- strip trailing whitespace
+  local finish = len
+  while finish >= start and (text:byte(finish) == 32 or text:byte(finish) == 9 or text:byte(finish) == 10 or text:byte(finish) == 13) do
+    finish = finish - 1
+  end
+
+  if start > finish then return -1 end
+
+  local pos = start
+  local ch = text:byte(pos)
+
+  -- optional leading '+'
+  if ch == 43 then
+    pos = pos + 1
+    if pos > finish then return -1 end
+    ch = text:byte(pos)
+  end
+
+  -- require at least one digit
+  if ch < 48 or ch > 57 then return -1 end
+
+  local value = 0
+  while pos <= finish do
+    local digit = text:byte(pos)
+    if digit >= 48 and digit <= 57 then
+      value = value * 10 + (digit - 48)
+      if value > 65535 then return -1 end
+      pos = pos + 1
+    else
+      return -1
+    end
+  end
+
+  return value
+end

@@ -1,0 +1,28 @@
+function longest_run(values) {
+    if (!values || !Array.isArray(values)) {
+        return 0;
+    }
+    
+    let max_length = 0;
+    let current_length = 0;
+
+    // Iterate through each element to find runs
+    for (let i = 0; i < values.length; i++) {
+        const prev_val = i > 0 ? values[i - 1] : undefined;
+        
+        // Check strict inequality to determine start/end of a run
+        if (prev_val === undefined || values[i] > prev_val) {
+            current_length++;
+            
+            // Update maximum found so far
+            if (current_length > max_length) {
+                max_length = current_length;
+            }
+        } else {
+            // Reset counter when sequence breaks
+            current_length = 1;
+        }
+    }
+
+    return max_length;
+}

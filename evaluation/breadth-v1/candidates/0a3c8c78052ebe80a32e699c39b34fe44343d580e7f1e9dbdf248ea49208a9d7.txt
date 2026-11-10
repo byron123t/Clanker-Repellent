@@ -1,0 +1,29 @@
+function longest_run(values: number[]): number {
+    if (values.length === 0) {
+        return 0;
+    }
+
+    let max_length = 1;
+    let current_length = 1;
+
+    // Iterate through the array starting from the second element to compare with its predecessor
+    for (let i = 1; i < values.length; ++i) {
+        const prev_val = values[i-1];
+        const curr_val = values[i];
+
+        if (curr_val > prev_val) {
+            // Current sequence is still strictly increasing
+            current_length += 1;
+            
+            // Update maximum found so far
+            if (current_length > max_length) {
+                max_length = current_length;
+            }
+        } else {
+            // Sequence broken by equal or decreasing value; reset counter
+            current_length = 1;
+        }
+    }
+
+    return max_length;
+}

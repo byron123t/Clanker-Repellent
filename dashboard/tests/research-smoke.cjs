@@ -54,8 +54,20 @@ async function main() {
       assert.doesNotMatch(await page.locator("#study-subtitle").innerText(),/Invalid Date/);
       if (report.stage === "breadth") {
         assert.match(await page.locator("#study-chart-note").innerText(),/no population interval/);
-        assert.equal(await page.locator(".study-repository").count(),report.integration.repositories.length);
-        assert.match(await page.locator("#study-integration").innerText(),new RegExp(`${report.integration.passed}/${report.integration.total}`));
+        if (report.integration) {
+          assert.equal(await page.locator("#study-integration .study-repository").count(),report.integration.repositories.length);
+          assert.match(await page.locator("#study-integration").innerText(),new RegExp(`${report.integration.passed}/${report.integration.total}`));
+        } else assert.equal(await page.locator("#study-integration").isVisible(),false);
+        if (report.retention) {
+          assert.equal(await page.locator(".study-retention tbody tr").count(),report.retention.outcomes.length);
+          assert.match(await page.locator(".study-retention").innerText(),/original failure remains/);
+        }
+        if (report.diagnostics) {
+          assert.equal(await page.locator("#study-diagnostics").isVisible(),true);
+          assert.equal(await page.locator("#study-diagnostics tbody tr").count(),2);
+          assert.equal(await page.locator(".study-audit-cases li").count(),report.diagnostics.extraction.cases.length);
+          assert.match(await page.locator("#study-diagnostics").innerText(),/frozen model-study results above remain unchanged/);
+        } else assert.equal(await page.locator("#study-diagnostics").isVisible(),false);
         await page.locator("#study-group").selectOption("family");
         assert.equal(await page.locator(".study-slice").count(),report.design.families);
         await page.locator("#study-group").selectOption("track");

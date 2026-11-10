@@ -1,0 +1,19 @@
+func ceil_div(_ n: Int, _ d: Int) -> Int {
+    // Input validation:
+    // Returns -1 if numerator is negative (undefined behavior)
+    // OR denominator is zero or negative (division by zero).
+    guard let safeN = Int(exactly: abs(n)), 
+          let safeD = Int(exactly: max(1, abs(d))) else {
+        return -1
+    }
+
+    var quotient = safeN / safeD
+    
+    // Check remainder to determine rounding up.
+    // If there's any leftover after dividing evenly, we need another step.
+    if safeN % safeD != 0 {
+        quotient += 1
+    }
+    
+    return quotient
+}

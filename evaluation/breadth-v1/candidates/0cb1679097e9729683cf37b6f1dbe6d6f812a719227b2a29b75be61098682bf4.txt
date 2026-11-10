@@ -1,0 +1,102 @@
+function parse_decimal(text)
+    -- Helper to check if a character index within bounds of string 'text' contains specific ASCII values (space/tab/cr/lf).
+    local function char_at(idx, target_set)
+        idx = idx + 1 
+        if idx > #text then return false end
+        
+        local b = text:byte(idx)
+        
+        if type(target_set) == "number" then
+            return b == target_set
+        elseif type(target_set) == "table" then
+            for _, v in ipairs(target_set) do
+                if b == v then return true end
+            end
+            return false
+        end
+        return false
+    end
+    
+    -- Trim trailing characters defined by set [32(space), 9(tab), 13(CR), 10(LF)]
+    while #text >= 3 do
+        local last_byte = text:byte(#text)
+        if last_byte ~= 32 and last_byte ~= 9 and last_byte ~= 13 and last_byte ~= 10 then break end
+        text = text:sub(1, #text - 1)
+    
+        -- If we stripped all remaining chars but they were just spaces/tabs/etc., handle edge case where len < 3 after stripping?
+        -- Actually loop handles single char removal until non-matching found or list exhausted.
+        -- But need to ensure we don't strip too much if there's nothing left? Logic holds:
+         -- Wait, simple logic error correction below...
+    end
+    
+    -- Corrected trimming approach based on strict requirements
+    local start_idx = 1
+    local trim_chars = {string.byte(" "), 9, 13, 10}
+    
+    while start_idx <= #text do
+        local match_found = false
+        for i=1,#trim_chars do
+            if text:byte(start_idx) == trim_chars[i] then
+                match_found = true
+                 break
+            end
+        end
+        if match_found then
+             start_idx = start_idx + 1
+        else
+             break
+        end
+    end
+    
+    local end_idx = #text
+    while end_idx >= start_idx do
+       local match_found = false
+        for i=1,#trim_chars do
+            if text:byte(end_idx) == trim_chars[i] then
+               match_found = true
+                  break
+            end
+        end
+        if match_found then
+           end_idx = end_idx - 1
+      else
+          break
+     end
+   end
+   
+   local trimmed_len = end_idx - start_idx + 1
+   if trimmed_len == 0 then return -1 end 
+
+    -- Check first character for '+' sign
+    local plus_sign_char = string.byte("+")
+    local offset = 0
+    if start_idx <= end_idx and text:byte(start_idx) == plus_sign_char then
+        offset = 1
+    end
+    
+    -- Validate minimum length (+optional+digits>=1 => total min size 1)
+    if start_idx + offset > end_idx then return -1 end 
+    
+    local num_val = 0
+    local max_digits_to_check = math.min(trimmed_len - offset, 5)
+
+    for i = 1, max_digits_to_check do
+        local current_pos = start_idx + offset + i - 1
+        local c_code = text:byte(current_pos)
+        
+        -- Reject any character outside range ['0', '9']
+        if c_code < 48 or c_code > 57 then return -1 end 
+        
+        -- Convert digit char to int
+        local d_int = c_code - 48
+        
+        -- Accumulate number safely up to limit before overflow checks become complex due to Lua integers being arbitrary precision
+        -- We accumulate normally here because standard lua ints can hold large numbers easily compared to u16 limits during accumulation phase unless extremely long strings provided which aren't expected per constraints.
+        num_val = num_val * 10 + d_int
+    end
+    
+    -- Final validation against maximum allowed uint16_t capacity
+    if num_val > 65535 then return -1 end
+    
+    return num_val
+end

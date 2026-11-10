@@ -1,0 +1,4 @@
+inline int ceil_div(int n, int d) {
+    if (n < 0 || d <= 0) return -1;
+    return (n + d - 1) / d;
+}

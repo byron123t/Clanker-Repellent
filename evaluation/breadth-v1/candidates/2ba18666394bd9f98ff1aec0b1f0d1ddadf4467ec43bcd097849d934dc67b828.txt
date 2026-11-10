@@ -1,0 +1,15 @@
+HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 588
+
+{
+  "schema_version": 1,
+  "records": [
+    {"sku": "0", "quantity": 2, "unit_cents": 199, "discount_bps": 0, "net_cents": 398},
+    {"sku": "1", "quantity": 0, "unit_cents": 550, "discount_bps": 100, "net_cents": 0},
+    {"sku": "2", "quantity": 7, "unit_cents": 137, "discount_bps": 1500, "net_cents": 816},
+    {"sku": "3", "quantity": 3, "unit_cents": 999, "discount_bps": 3333, "net_cents": 1997},
+    {"sku": "4", "quantity": 1, "unit_cents": 5, "discount_bps": 9999, "net_cents": 0},
+    {"sku": "5", "quantity": 12, "unit_cents": 425, "discount_bps": 10000, "net_cents": 0}
+  ]
+}

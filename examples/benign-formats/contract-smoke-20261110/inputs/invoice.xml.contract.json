@@ -1,0 +1,205 @@
+{
+  "schema_version": 1,
+  "language": "xml",
+  "document": {
+    "shape": {
+      "type": "object",
+      "required": [
+        "tag",
+        "attributes",
+        "text",
+        "tail",
+        "children"
+      ],
+      "additional_properties": false,
+      "properties": {
+        "tag": {
+          "type": "string"
+        },
+        "attributes": {
+          "type": "object",
+          "additional_properties": false,
+          "properties": {}
+        },
+        "text": {
+          "type": "string"
+        },
+        "tail": {
+          "type": "string"
+        },
+        "children": {
+          "type": "array",
+          "min_items": 2,
+          "max_items": 2,
+          "items": {
+            "type": "object",
+            "required": [
+              "tag",
+              "attributes",
+              "text",
+              "tail",
+              "children"
+            ],
+            "additional_properties": false,
+            "properties": {
+              "tag": {
+                "type": "string"
+              },
+              "attributes": {
+                "type": "object",
+                "additional_properties": false,
+                "properties": {}
+              },
+              "text": {
+                "type": "string"
+              },
+              "tail": {
+                "type": "string"
+              },
+              "children": {
+                "type": "array",
+                "min_items": 4,
+                "max_items": 4,
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "tag",
+                    "attributes",
+                    "text",
+                    "tail",
+                    "children"
+                  ],
+                  "additional_properties": false,
+                  "properties": {
+                    "tag": {
+                      "type": "string"
+                    },
+                    "attributes": {
+                      "type": "object",
+                      "additional_properties": false,
+                      "properties": {}
+                    },
+                    "text": {
+                      "type": "string"
+                    },
+                    "tail": {
+                      "type": "string"
+                    },
+                    "children": {
+                      "type": "array",
+                      "max_items": 0
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "equals": [
+      {
+        "path": "/tag",
+        "value": "invoice"
+      },
+      {
+        "path": "/text",
+        "value": ""
+      },
+      {
+        "path": "/children/0/children/0/text",
+        "value": "A"
+      },
+      {
+        "path": "/children/0/children/1/text",
+        "value": "3"
+      },
+      {
+        "path": "/children/0/children/2/text",
+        "value": "125"
+      },
+      {
+        "path": "/children/0/tag",
+        "value": "record"
+      },
+      {
+        "path": "/children/0/children/0/tag",
+        "value": "sku"
+      },
+      {
+        "path": "/children/0/children/1/tag",
+        "value": "quantity"
+      },
+      {
+        "path": "/children/0/children/2/tag",
+        "value": "unit_cents"
+      },
+      {
+        "path": "/children/0/children/3/tag",
+        "value": "total_cents"
+      },
+      {
+        "path": "/children/1/children/0/text",
+        "value": "B"
+      },
+      {
+        "path": "/children/1/children/1/text",
+        "value": "2"
+      },
+      {
+        "path": "/children/1/children/2/text",
+        "value": "240"
+      },
+      {
+        "path": "/children/1/tag",
+        "value": "record"
+      },
+      {
+        "path": "/children/1/children/0/tag",
+        "value": "sku"
+      },
+      {
+        "path": "/children/1/children/1/tag",
+        "value": "quantity"
+      },
+      {
+        "path": "/children/1/children/2/tag",
+        "value": "unit_cents"
+      },
+      {
+        "path": "/children/1/children/3/tag",
+        "value": "total_cents"
+      }
+    ],
+    "equations": [
+      {
+        "left": "/children/0/children/3/text",
+        "expression": {
+          "op": "mul",
+          "args": [
+            {
+              "path": "/children/0/children/1/text"
+            },
+            {
+              "path": "/children/0/children/2/text"
+            }
+          ]
+        }
+      },
+      {
+        "left": "/children/1/children/3/text",
+        "expression": {
+          "op": "mul",
+          "args": [
+            {
+              "path": "/children/1/children/1/text"
+            },
+            {
+              "path": "/children/1/children/2/text"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,4 @@
+function ceil_div(n: number, d: number): number {
+    if (n < 0 || d <= 0) return -1;
+    return Math.floor((n + d - 1) / d);
+}

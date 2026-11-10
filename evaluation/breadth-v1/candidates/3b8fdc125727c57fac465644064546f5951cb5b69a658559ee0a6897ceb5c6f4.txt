@@ -1,0 +1,20 @@
+public final class Generated {
+    public static int longest_run(int[] values) {
+        if (values == null || values.length == 0) {
+            return 0;
+        }
+        int maxLen = 1;
+        int currentLen = 1;
+        for (int i = 1; i < values.length; i++) {
+            if (values[i] > values[i - 1]) {
+                currentLen++;
+                if (currentLen > maxLen) {
+                    maxLen = currentLen;
+                }
+            } else {
+                currentLen = 1;
+            }
+        }
+        return maxLen;
+    }
+}

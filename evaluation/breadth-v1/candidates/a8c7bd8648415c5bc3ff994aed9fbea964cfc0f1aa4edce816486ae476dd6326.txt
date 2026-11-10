@@ -1,0 +1,31 @@
+def ceil_div(n, d)
+  # Computes ceiling division of two integers.
+  #
+  # Parameters:
+  #   n (Integer): Dividend to be divided by absolute denominator magnitude.
+  #                Valid range provided was roughly [-2e6, 10^6].
+  #   d (Integer): Denominator used to divide 'n'.
+  #                Must be positive for valid calculation logic here.
+  #
+  # Returns:
+  #   Integer: Smallest integer k satisfying k * |d| >= abs(n).
+  #            Returns -1 if either parameter violates constraints.
+  
+  # Boundary case handling per specification requirements.
+  if n < 0 || d <= 0
+    return -1
+  end
+  
+  # Compute quotient using floor division on absolute values.
+  # This handles both even and odd divisors correctly without floating-point errors.
+  q = (-n.abs() / d)
+
+  # Adjust based on remainder presence.
+  # If there's any leftover after dividing evenly, we need another step up.
+  r = (-n.abs()) % d
+  if r > 0
+    q += 1
+  end
+    
+  return q
+end

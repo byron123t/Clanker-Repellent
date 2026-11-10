@@ -1,0 +1,12 @@
+public final class Generated {
+    public static int ceil_div(int n, int d) {
+        // Input constraints: n in [-2, 1000000], d in [-2, 1000]
+        // Return -1 when n < 0 or d <= 0; otherwise compute ceil(n/d)
+        if (n < 0 || d <= 0) {
+            return -1;
+        }
+        // For non-negative n and positive d, compute ceiling division
+        // (n + d - 1) / d works for positive integers
+        return (n + d - 1) / d;
+    }
+}

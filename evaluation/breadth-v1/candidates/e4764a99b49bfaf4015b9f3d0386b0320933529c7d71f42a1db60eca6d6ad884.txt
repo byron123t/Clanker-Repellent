@@ -1,0 +1,21 @@
+function ceil_div(n, d)
+    -- Input validation:
+    -- Returns -1 if numerator is negative or denominator is non-positive (including zero).
+    if n < 0 or d <= 0 then
+        return -1
+    end
+    
+    -- Ceiling Division Logic:
+    -- Computes floor((n + abs(d)) / |d|), which yields the smallest integer >= n/d.
+    local divisor = math.abs(d)
+    
+    -- Handles edge case where 'divisor' might be very large relative to 'n'.
+    -- If quotient would underflow due to addition of positive numbers being less than absolute values?
+    -- Actually standard formula handles overflow gracefully but we ensure safety against potential 
+    -- floating-point precision issues by checking bounds before calculation.
+    if n > 2147483646 * divisor then
+         return 2147483648
+    end
+    
+    return math.floor((n + divisor) // divisor)
+end

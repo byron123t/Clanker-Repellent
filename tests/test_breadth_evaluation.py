@@ -73,16 +73,22 @@ class BreadthEvaluationTests(unittest.TestCase):
     def test_publication_rejects_manifest_record_disagreement(self):
         publisher=module('publish')
         record={'accepted':True,'status':'passed','candidate':{'sha256':'a'*64},'language':'csv','attempts':1,
-                'attempt_outcomes':['passed'],'strict_pass':True,'grade':{'passed':True}}
+                'attempt_outcomes':['passed'],'strict_pass':True,'grade':{'passed':True},
+                'family':'invoice','level':2,'track':'documents','arm':'current','trial':0}
+        task={'language':'csv','family':'invoice','level':2,'track':'documents','prompt':'Authored invoice task'}
         candidate={k:record[k] for k in ['accepted','status','candidate','language']}; candidate['attempts']=[{'status':'passed'}]
-        manifest={'settings':{'mode':'benign'},'model':'test','candidates':[candidate]}
-        publisher.validate_record(record,manifest,{'language':'csv'},{'id':'test'})
-        for key,value in [('accepted',False),('candidate',{'sha256':'b'*64}),('attempts',2),('strict_pass',False),('language','xml')]:
+        manifest={'settings':{'mode':'benign'},'model':'test','candidates':[candidate],
+                  'payload':{'sha256':hashlib.sha256(task['prompt'].encode()).hexdigest(),'bytes':len(task['prompt'])}}
+        publisher.validate_record(record,manifest,task,{'id':'test'})
+        for key,value in [('accepted',False),('candidate',{'sha256':'b'*64}),('attempts',2),('strict_pass',False),('language','xml'),('level',1),('family','other'),('arm','baseline'),('trial',1)]:
             with self.subTest(key=key), self.assertRaises(ValueError):
                 changed=dict(record); changed[key]=value
-                publisher.validate_record(changed,manifest,{'language':'csv'},{'id':'test'})
+                publisher.validate_record(changed,manifest,task,{'id':'test'})
+        manifest['payload']['bytes']+=1
+        with self.assertRaises(ValueError): publisher.validate_record(record,manifest,task,{'id':'test'})
+        manifest['payload']['bytes']-=1
         manifest['settings']['mode']='default'
-        with self.assertRaises(ValueError): publisher.validate_record(record,manifest,{'language':'csv'},{'id':'test'})
+        with self.assertRaises(ValueError): publisher.validate_record(record,manifest,task,{'id':'test'})
 
 
 if __name__=='__main__': unittest.main()

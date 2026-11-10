@@ -25,7 +25,9 @@
       : "Accepted and correct on every independent check. Whiskers show 95% task-bootstrap intervals.";
     if (breadth) $("study-chart-note").textContent="Accepted and passing every registered check. Descriptive results: shared task families and one replicate; no population interval or causal ranking.";
     if (!study.counts.completed) $("study-chart-note").textContent="No completed model outputs yet. Planned observations are not results; missing data are not failures.";
-    else if (!pilot && !audit && study.state!=="complete") $("study-chart-note").textContent="Interim results from scored observations. Model queues may be unbalanced; intervals require a complete paired model grid. Avoid ranking models from this partial sample.";
+    else if (!pilot && !audit && study.state!=="complete") $("study-chart-note").textContent=breadth
+      ? `${study.counts.completed===study.counts.planned ? "Offline reproduction and integration are still pending." : "Incomplete model queues may contain different task subsets; avoid interim rankings."} Descriptive results only; no population interval is planned.`
+      : "Interim results from scored observations. Model queues may be unbalanced; intervals require a complete paired model grid. Avoid ranking models from this partial sample.";
     const legend = breadth ? study.design.models.map((model)=>({model,arm:"current",name:modelName(model)})) : pilot ? [{model:"glm", arm:"original", name:"GLM"}, {model:"deepseek",arm:"original",name:"DeepSeek"}]
       : [{arm:"baseline",name:"Baseline"},{arm:"contract",name:"Task contracts"}];
     $("study-legend").replaceChildren(...legend.map((entry) => { const item = node("span", "", entry.name); const mark = node("i"); mark.style.background = color(entry); item.prepend(mark); return item; }));
@@ -117,7 +119,7 @@
     $("study-case-tags").replaceChildren(node("span","study-tag",modelName(item.model)),node("span","study-tag",armName(item.arm)),node("span","study-tag",item.language),node("span","study-tag",study.stage==="audit" ? item.known_fault ? "Authored fault" : "Correct control" : `${item.attempts} attempt${item.attempts===1 ? "" : "s"}`));
     $("study-case-diagnostic").textContent=item.diagnostic || (item.strict_pass===true ? "The candidate passed all registered independent checks." : item.accepted ? "Validation passed. Review the independent checks and documentation notes." : `Generation ended with ${item.status}. No accepted source was saved.`);
     $("study-task-text").textContent=item.prompt || "See the frozen protocol for this task.";
-    $("study-contract").textContent=item.public_contract ? JSON.stringify(item.public_contract,null,2) : "The pilot did not use explicit task contracts.";
+    $("study-contract").textContent=item.public_contract ? JSON.stringify(item.public_contract,null,2) : "No task contract was supplied for this case. The task specification appears above.";
     $("study-checks").textContent=JSON.stringify({independent_grade:item.grade||{},...(item.validation ? {validation:item.validation} : {}),...(item.attempt_checks ? {attempt_checks:item.attempt_checks,resources:item.resources} : {})},null,2);
     $("study-code").hidden=true; $("study-code").textContent=""; $("study-code-meta").textContent="";
     $("study-load-source").disabled=!item.source_sha256; $("study-copy-source").disabled=true;
@@ -177,6 +179,49 @@
       card.append(node("code","study-repository-commit",repository.revision)); grid.append(card);
     }
     panel.append(grid,node("p","study-quiet","Sizes are measured physical source lines, including comments and blank lines. These tests cover the named interfaces; they do not measure arbitrary placement or whole-repository coverage."));
+    if (study.retention) {
+      const section=node("div","study-retention"), table=node("table","study-metrics-table"), head=node("thead"), title=node("tr"), body=node("tbody");
+      title.append(...["Authored placement","Files","Executable note","Source restored","Binary restored"].map((text)=>node("th","",text))); head.append(title);
+      for (const row of study.retention.outcomes) {
+        const entry=node("tr"); entry.append(node("td","",row.repository),node("td","study-numeric",String(row.selected_files.length)),
+          node("td","",row.retention_verified ? "Recovered" : "Not in executable"),node("td","",row.tracked_sources_restored ? "Exact" : "Mismatch"),
+          node("td","",row.artifact_restored_exactly ? "Exact" : "Mismatch")); body.append(entry);
+      }
+      table.append(head,body); section.append(node("h4","","Annotation retention and exact restoration · separate authored check"),table,
+        node("p","study-quiet","One benign note, six explicit source files, release builds and stripped executables. All three deployments are restored in the central journal. This is a separate lifecycle check, not model-generation evidence or full-repository coverage."));
+      if (study.retention.linkage_diagnostic?.retention_verified) section.append(node("p","study-quiet","zlib links a shared library: its executable-only check reported the note missing. A separate check recovered the note from the linked library after local-symbol stripping. The original failure remains in the table."));
+      panel.append(section);
+    }
+  }
+  function renderDiagnostics() {
+    let panel=$("study-diagnostics");
+    if (!panel) {
+      panel=node("article","study-panel study-diagnostics"); panel.id="study-diagnostics";
+      document.querySelector(".study-method-grid").before(panel);
+    }
+    panel.replaceChildren(); panel.hidden=!study.diagnostics;
+    if (!study.diagnostics) return;
+    const heading=node("div","study-panel-heading"), intro=node("div");
+    intro.append(node("div","eyebrow","POST HOC / NO NEW INFERENCE"),node("h3","","Checking the source-preservation fix"),
+      node("p","","Paired diagnostics use identical saved or authored inputs. The frozen model-study results above remain unchanged."));
+    heading.append(intro); panel.append(heading);
+    const grid=node("div","study-audit-grid"), controls=study.diagnostics.controls, audit=study.diagnostics.extraction;
+    const first=node("section","study-repository"), table=node("table","study-metrics-table"), head=node("thead"), tr=node("tr"), body=node("tbody");
+    tr.append(...["Authored controls","Verified","Preserved"].map((text)=>node("th","",text))); head.append(tr);
+    for (const [arm,name] of [["before","Original pipeline"],["updated","Updated pipeline"]]) {
+      const row=controls.summary[arm], entry=node("tr");
+      entry.append(node("td","",name),node("td","study-numeric",`${row.verified}/${controls.units}`),node("td","study-numeric",`${row.source_unchanged}/${controls.units}`)); body.append(entry);
+    }
+    table.append(head,body); first.append(node("h4","","The complete authored pipeline"),table,
+      node("p","study-quiet",`${count(controls.summary.updated.native_checks)} native assertions in the updated controls, plus all document and metadata checks. Every accepted source was independently regraded.`));
+    const second=node("section","study-repository"), result=node("p","study-repository-result",`${audit.before.verified} → ${audit.preserve_escapes.verified} verified / ${audit.changed_first_responses} changed responses`);
+    second.append(node("h4","","Saved first responses"),result,
+      node("p","",`${audit.screened_completed} screened · ${audit.unchanged_extraction} unchanged · ${audit.excluded_token_limit} token-limit exclusions · ${audit.excluded_unextractable} unextractable.`),
+      node("p","study-quiet","The same frozen validators and grader check both extraction variants. This does not estimate new retries or updated end-to-end generation success."));
+    const details=node("details"), summary=node("summary","","Inspect the paired observations"), list=node("ul","study-audit-cases");
+    for (const entry of audit.cases) list.append(node("li","",`${modelName(entry.model)} · ${entry.task}: ${entry.arms.before.strict_pass ? "verified" : "not verified"} → ${entry.arms.preserve_escapes.strict_pass ? "verified" : "not verified"}`));
+    details.append(summary,list); second.append(details); grid.append(first,second); panel.append(grid);
+    if (study.provenance.clean_reproduction?.passed) panel.append(node("p","study-quiet","Reproduced from the published archive in a separate Python environment: primary grades and both post hoc audits matched. No inference requests."));
   }
   async function load(identity) {
     const request=++epoch;
@@ -199,14 +244,14 @@
       options($("study-group"),dimensions.map((value)=>[value,({level:"Complexity",language:"Format",family:"Task family",track:"Evaluation track"}[value]||value)]),dimensions.includes($("study-group").value) ? $("study-group").value : dimensions[0]);
       $("study-search").value=""; $("study-verdict").value="";
       $("study-case-content").hidden=true; $("study-selection-note").hidden=false;
-      renderStats(); drawChart(); renderMetrics(); renderBreakdown(); renderCases(); renderMethod(); renderIntegration(); renderVisibility();
+      renderStats(); drawChart(); renderMetrics(); renderBreakdown(); renderCases(); renderMethod(); renderIntegration(); renderDiagnostics(); renderVisibility();
     } catch (problem) { if (request===epoch) error(problem.message); }
   }
   async function refresh() {
     if (loading) return; loading=true;
     try {
       const catalog=await api("/api/evaluations");
-      const previous=$("study-select").value;
+      const previous=$("study-select").value || new URLSearchParams(location.search).get("study") || "";
       options($("study-select"),catalog.studies.map((item)=>[item.id,item.title]),previous);
       if (!catalog.studies.length) { $("study-empty").hidden=false; $("study-body").hidden=true; study=null; renderVisibility(); return; }
       if (catalog.errors) error(`${catalog.errors} invalid report(s) were omitted.`);

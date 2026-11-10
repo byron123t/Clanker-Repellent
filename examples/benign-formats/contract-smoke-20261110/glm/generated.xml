@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<invoice>
+  <record>
+    <sku>A</sku>
+    <quantity>3</quantity>
+    <unit_cents>125</unit_cents>
+    <total_cents>375</total_cents>
+  </record>
+  <record>
+    <sku>B</sku>
+    <quantity>2</quantity>
+    <unit_cents>240</unit_cents>
+    <total_cents>480</total_cents>
+  </record>
+</invoice>

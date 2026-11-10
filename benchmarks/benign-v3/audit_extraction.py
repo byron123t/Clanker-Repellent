@@ -8,10 +8,12 @@ import hashlib
 import json
 from pathlib import Path
 import sys
+if (Path(__file__).resolve().parent.parent/'runner').is_dir():
+    sys.path.insert(0,str(Path(__file__).resolve().parent.parent/'runner'))
 from experiment import digest,save,verify
 
 
-def audit(root,output,allow_incomplete=False):
+def audit(root,output,allow_incomplete=False,expected=None):
     protocol=verify(root); sys.path.insert(0,str(root/'engine')); sys.path.insert(0,str(root/'runner'))
     from clanker_repellent.generate import source_generation as generation
     from clanker_repellent.generate.functional_structure import FUNCTIONAL_PROFILE
@@ -68,10 +70,14 @@ def audit(root,output,allow_incomplete=False):
             'method':'Paired offline evaluation of changed complete first responses; identical frozen validators and grader. Preserving escapes is the only intervention. This does not estimate revised retry behavior.'}
     for arm in ['before','preserve_escapes']:
         report[arm]={'accepted':sum(c['arms'][arm]['accepted'] for c in cases),'verified':sum(c['arms'][arm]['strict_pass'] for c in cases)}
+    if expected:
+        from audit_controls import stable
+        if stable(report)!=stable(json.loads(expected.read_text())):
+            raise ValueError('Extraction audit did not reproduce exactly')
     save(output/'report.json',report)
     print(json.dumps({k:v for k,v in report.items() if k!='cases'}),flush=True)
 
 
 if __name__=='__main__':
-    parser=argparse.ArgumentParser(); parser.add_argument('root',type=Path); parser.add_argument('output',type=Path); parser.add_argument('--allow-incomplete',action='store_true'); args=parser.parse_args()
-    audit(args.root.resolve(),args.output.resolve(),args.allow_incomplete)
+    parser=argparse.ArgumentParser(); parser.add_argument('root',type=Path); parser.add_argument('output',type=Path); parser.add_argument('--allow-incomplete',action='store_true'); parser.add_argument('--compare',type=Path); args=parser.parse_args()
+    audit(args.root.resolve(),args.output.resolve(),args.allow_incomplete,args.compare)

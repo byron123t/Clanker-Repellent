@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "format": "CLR",
+  "architecture": "cil",
+  "sections": [
+    {
+      "name": "code",
+      "kind": "code"
+    },
+    {
+      "name": "constants",
+      "kind": "data"
+    },
+    {
+      "name": "descriptors",
+      "kind": "metadata"
+    }
+  ],
+  "symbols": [
+    {
+      "name": "parse_decimal",
+      "kind": "function",
+      "section": "code"
+    },
+    {
+      "name": "longest_run",
+      "kind": "function",
+      "section": "code"
+    },
+    {
+      "name": "limit",
+      "kind": "object",
+      "section": "constants"
+    },
+    {
+      "name": "api_version",
+      "kind": "object",
+      "section": "descriptors"
+    }
+  ],
+  "strings": [
+    "Bounded decimal parser",
+    "Increasing-run helper"
+  ]
+}

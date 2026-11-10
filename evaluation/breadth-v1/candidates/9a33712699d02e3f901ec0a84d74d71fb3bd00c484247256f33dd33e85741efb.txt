@@ -1,0 +1,14 @@
+func longest_run(_ values: [Int]) -> Int {
+    guard !values.isEmpty else { return 0 }
+    var maxLen = 1
+    var currentLen = 1
+    for i in 1..<values.count {
+        if values[i] > values[i-1] {
+            currentLen += 1
+        } else {
+            maxLen = max(maxLen, currentLen)
+            currentLen = 1
+        }
+    }
+    return max(maxLen, currentLen)
+}

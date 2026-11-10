@@ -1,0 +1,181 @@
+{
+  "benign": true,
+  "kind": "auxiliary_new_format_contract_smoke",
+  "date": "2026-11-10",
+  "planned": 10,
+  "completed": 10,
+  "settings": {
+    "max_tokens": 8192,
+    "retries": 1,
+    "temperature": 0.2,
+    "top_p": 0.8,
+    "seed": 20261110,
+    "no_thinking": true
+  },
+  "outcomes": [
+    {
+      "format": "yaml",
+      "accepted": false,
+      "independent_pass": false,
+      "attempts": 2,
+      "status": "failed",
+      "source_sha256": null,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "source": null,
+      "manifest_sha256": "2d44113694e131ce8fba981d732e413f88e0a37cfce8eb9b0490abdc48c4ac24",
+      "attempt_outcomes": [
+        "failed",
+        "failed"
+      ]
+    },
+    {
+      "format": "toml",
+      "accepted": false,
+      "independent_pass": false,
+      "attempts": 2,
+      "status": "failed",
+      "source_sha256": null,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "source": null,
+      "manifest_sha256": "12808dcbbbf3b6519fb7fc09eafa1384699351daa81ab0f505d072518fb8ef45",
+      "attempt_outcomes": [
+        "failed",
+        "failed"
+      ]
+    },
+    {
+      "format": "xml",
+      "accepted": true,
+      "independent_pass": true,
+      "attempts": 2,
+      "status": "passed",
+      "source_sha256": "202322cb67242e56030fd8879dc29bad9ece4d4a3499688694a582be15abe6bc",
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "source": "glm/generated.xml",
+      "manifest_sha256": "0aec18d9b210f112822f4c44519b6d74fef95be999ddbf55e81b490294d8dec4",
+      "attempt_outcomes": [
+        "failed",
+        "passed"
+      ]
+    },
+    {
+      "format": "csv",
+      "accepted": false,
+      "independent_pass": false,
+      "attempts": 2,
+      "status": "failed",
+      "source_sha256": null,
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "source": null,
+      "manifest_sha256": "589c4e96cd79717070c9ef7e96691878101046a09d6fcbcc320c59d04d4ff2ff",
+      "attempt_outcomes": [
+        "failed",
+        "failed"
+      ]
+    },
+    {
+      "format": "ini",
+      "accepted": true,
+      "independent_pass": true,
+      "attempts": 1,
+      "status": "passed",
+      "source_sha256": "4bede432a57faf4d6a261ce74f6be49303826ecd734ed5925a4649e2c4947747",
+      "model": "glm",
+      "model_id": "glm-4.7-flash-abliterated",
+      "source": "glm/generated.ini",
+      "manifest_sha256": "7ca064ebb1e95841888e077e34b91a96e6baccf370ff591429a23d33101afec5",
+      "attempt_outcomes": [
+        "passed"
+      ]
+    },
+    {
+      "format": "yaml",
+      "accepted": true,
+      "independent_pass": true,
+      "attempts": 1,
+      "status": "passed",
+      "source_sha256": "9907e48e110083d2cd116ebdd3de8317a47bbc9aec3605c28f45fc6d81b23922",
+      "model": "deepseek",
+      "model_id": "deepseek-v4-flash-abliterated",
+      "source": "deepseek/generated.yaml",
+      "manifest_sha256": "927ea3f754671d9d7f55093eb05a57b4ce519371717ffb0674d902d1b4ac41ae",
+      "attempt_outcomes": [
+        "passed"
+      ]
+    },
+    {
+      "format": "toml",
+      "accepted": true,
+      "independent_pass": true,
+      "attempts": 2,
+      "status": "passed",
+      "source_sha256": "2672c4c35a07c83f9cd4a2de845482095c04c49a1b54bd5ed07a11f4df504b77",
+      "model": "deepseek",
+      "model_id": "deepseek-v4-flash-abliterated",
+      "source": "deepseek/generated.toml",
+      "manifest_sha256": "26c1e181bc9481db2f69775a95ea3ffffb5f37c6b7e1a648f24289e7475bae6f",
+      "attempt_outcomes": [
+        "failed",
+        "passed"
+      ]
+    },
+    {
+      "format": "xml",
+      "accepted": true,
+      "independent_pass": true,
+      "attempts": 1,
+      "status": "passed",
+      "source_sha256": "94395d2ddca1eaeba28ecc3b5b4d01f9d0cb5bcb97e0a2024aba11cd5ffe6d6c",
+      "model": "deepseek",
+      "model_id": "deepseek-v4-flash-abliterated",
+      "source": "deepseek/generated.xml",
+      "manifest_sha256": "30fda7e2b56c01c85f3ee9defca65fc905a8fa6f804b619faea18abc47aa9695",
+      "attempt_outcomes": [
+        "passed"
+      ]
+    },
+    {
+      "format": "csv",
+      "accepted": true,
+      "independent_pass": true,
+      "attempts": 1,
+      "status": "passed",
+      "source_sha256": "fc38cdb351fe85ab6fe74c254887ebaefb8418b776e63d49a430898dd072685a",
+      "model": "deepseek",
+      "model_id": "deepseek-v4-flash-abliterated",
+      "source": "deepseek/generated.csv",
+      "manifest_sha256": "5a37eee6578a945059e0f5891a2a2e0cadac4595941bbe44ea4b9c351ac5ae0e",
+      "attempt_outcomes": [
+        "passed"
+      ]
+    },
+    {
+      "format": "ini",
+      "accepted": true,
+      "independent_pass": true,
+      "attempts": 1,
+      "status": "passed",
+      "source_sha256": "aa388bd1d453d7872d5dc1c5d78da01e54aaf0dae1029ed2e3369c6622021e1e",
+      "model": "deepseek",
+      "model_id": "deepseek-v4-flash-abliterated",
+      "source": "deepseek/generated.ini",
+      "manifest_sha256": "b659d41421f2eb8e1f5347caf5242f9e9f42dcf3f534742713267f1c9412b778",
+      "attempt_outcomes": [
+        "passed"
+      ]
+    }
+  ],
+  "inputs_sha256": {
+    "invoice.csv.contract.json": "df0f8cd1ff0d4424196433c54f0588821ec5acd7a6a32891cf422ff69d8ff4e0",
+    "invoice.xml.contract.json": "f34fef48dd5fd63affabf84ebe73648c878273d83654e922a164c0c66a5c7d95",
+    "invoice.ini.contract.json": "99e6b63090ac0d72e645955e124c8ad31871f56da53f953827b5cb790417bb7f",
+    "invoice.toml.contract.json": "2d9bd8a3db6b0cf8ebfd2f905dd6d2311939813939bd00bb5c52c1f0e3d991fd",
+    "invoice.yaml.contract.json": "df455e6298db53f208a64d75aa7ca50631a8b108bea146eab47d076bd89fb14f",
+    "invoice.txt": "c2ab54b0d8049f6faf36f1df6c47394961fe58f89829e6530919c29da86f9397"
+  },
+  "scope": "One small invoice task in five formats for each model; public contracts plus independent exact parsing. Separate from the frozen breadth study; not a causal improvement estimate or population comparison."
+}

@@ -1,0 +1,17 @@
+pub fn ceil_div(n: i32, d: i32) -> i32 {
+    if n < 0 || d <= 0 {
+        return -1;
+    }
+    // Compute (n + d - 1) / d for ceiling division, avoiding overflow
+    // by using checked arithmetic; if overflow occurs, return -1.
+    let result = n.checked_div(d).and_then(|_| {
+        let remainder = n.checked_rem(d)?;
+        let quotient = n.checked_div(d)?;
+        if remainder == 0 {
+            Some(quotient)
+        } else {
+            quotient.checked_add(1)
+        }
+    });
+    result.unwrap_or(-1)
+}

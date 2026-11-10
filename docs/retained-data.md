@@ -46,6 +46,13 @@ reference to the data. No format guarantees that a decompiler will display it as
 comments, or that deliberate stripping/repacking will preserve it. Stored notes remain text;
 they do not control how someone uses the software.
 
+Check the artifact that actually contains the modified translation unit. With dynamic linking,
+a note inserted into a library's source may reside in the shipped `.dylib`, `.so`, or `.dll`,
+while the executable contains no copy. Verify that library explicitly. Repeating `--artifact`
+checks each named file independently; it does not combine a package's files into one result.
+The [breadth evaluation](../evaluation/breadth-v1/REPORT.md) records this distinction for zlib,
+including the executable-only failure and the separate shared-library recovery check.
+
 ## Websites and WebGL games
 
 For a JavaScript game such as the horror-game example, target its HTML shell and loaded entry
