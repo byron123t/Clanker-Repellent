@@ -1,0 +1,40 @@
+; LLVM IR piecewise_charge: value, threshold, rate -> i32
+; If value <= 0 or rate <= 0, return 0.
+; Clamp threshold to >= 0.
+; For each unit up to threshold, cost = rate; remaining units cost 2*rate.
+; Inputs: signed i32, all in [-5, 10000].
+define i32 @piecewise_charge(i32 %value, i32 %threshold, i32 %rate) {
+; Check if value <= 0 or rate <= 0 -> return 0
+  %val_le_zero = icmp sle i32 %value, 0
+  %rate_le_zero = icmp sle i32 %rate, 0
+  %early_exit = or i1 %val_le_zero, %rate_le_zero
+  %early_result = select i1 %early_exit, i32 0, i32 1 ; placeholder, will be overwritten
+
+; Clamp threshold to >= 0: max(threshold, 0)
+  %thresh_ge_zero = icmp sgt i32 %threshold, 0
+  %clamped_thresh = select i1 %thresh_ge_zero, i32 %threshold, i32 0
+
+; Compute units above threshold: value - clamped_thresh
+  %above = sub i32 %value, %clamped_thresh
+; If above < 0, then all units are within threshold (or value <=0 already handled)
+  %above_nonneg = icmp sgt i32 %above, 0
+  %above_units = select i1 %above_nonneg, i32 %above, i32 0
+
+; Units within threshold: min(value, clamped_thresh)
+  %within = icmp sgt i32 %value, %clamped_thresh
+  %within_units = select i1 %within, i32 %clamped_thresh, i32 %value
+
+; Cost for within-threshold units: within_units * rate
+  %cost_within = mul i32 %within_units, %rate
+
+; Cost for above-threshold units: above_units * (2 * rate)
+  %double_rate = mul i32 %rate, 2
+  %cost_above = mul i32 %above_units, %double_rate
+
+; Total charge
+  %total = add i32 %cost_within, %cost_above
+
+; Apply early exit: if value<=0 or rate<=0, result is 0
+  %final = select i1 %early_exit, i32 0, i32 %total
+  ret i32 %final
+}

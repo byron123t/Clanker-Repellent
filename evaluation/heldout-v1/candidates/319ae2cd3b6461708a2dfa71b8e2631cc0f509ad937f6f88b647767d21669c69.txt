@@ -1,0 +1,15 @@
+def lattice_steps(a, b):
+    """
+    Return the greatest common divisor of |a| and |b|.
+    Inputs: a, b are integers in [-2147483648, 2147483647].
+    Output: gcd(|a|, |b|) with gcd(0,0)=0.
+    Uses Euclidean algorithm with absolute values.
+    """
+    # Take absolute values; handle negative inputs
+    x = abs(a)
+    y = abs(b)
+    # Euclidean algorithm using while loop
+    while y != 0:
+        # Use tuple unpacking for swap and remainder
+        x, y = y, x % y
+    return x

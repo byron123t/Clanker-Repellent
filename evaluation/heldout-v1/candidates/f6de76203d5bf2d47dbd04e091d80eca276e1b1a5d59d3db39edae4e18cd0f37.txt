@@ -1,0 +1,16 @@
+; LLVM IR helper: distance_to_zero
+; Input: i32 %value (range [-2147483648, 2147483647])
+; Output: i32 absolute value, saturating INT32_MIN to INT32_MAX (2147483647)
+define i32 @distance_to_zero(i32 %value) {
+  ; Check if value is negative
+  %is_negative = icmp slt i32 %value, 0
+  ; Compute negation: sub(0, %value)
+  %negated = sub i32 0, %value
+  ; For INT32_MIN, sub(0, -2147483648) wraps to -2147483648 (same as input)
+  ; Detect overflow: if value == INT32_MIN, negated == value (still negative)
+  %is_min = icmp eq i32 %value, -2147483648
+  ; Saturate: if is_min, return 2147483647; else select positive or negated
+  %positive = select i1 %is_negative, i32 %negated, i32 %value
+  %result = select i1 %is_min, i32 2147483647, i32 %positive
+  ret i32 %result
+}

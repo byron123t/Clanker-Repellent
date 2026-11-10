@@ -1,0 +1,10 @@
+def lattice_steps(a, b):
+    """
+    Return the greatest common divisor of abs(a) and abs(b).
+    gcd(0,0)=0. Inputs are integers in [-2147483648, 2147483647].
+    Uses Euclidean algorithm with absolute values.
+    """
+    a, b = abs(a), abs(b)
+    while b:
+        a, b = b, a % b
+    return a

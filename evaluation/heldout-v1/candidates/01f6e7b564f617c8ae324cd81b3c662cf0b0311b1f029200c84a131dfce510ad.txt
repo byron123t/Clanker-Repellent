@@ -1,0 +1,23 @@
+; LLVM IR bounded_add: clamp inputs to zero, compute min(a+b, cap)
+; Inputs: a (i32), b (i32), cap (i32) each in [-10, 1000000]
+; Returns: i32 = min(max(a,0)+max(b,0), max(cap,0))
+; No branches, only icmp/select/add/ret
+
+define i32 @bounded_add(i32 %a, i32 %b, i32 %cap) {
+; clamp a to zero if negative
+  %a_neg = icmp slt i32 %a, 0
+  %a_clamped = select i1 %a_neg, i32 0, i32 %a
+; clamp b to zero if negative
+  %b_neg = icmp slt i32 %b, 0
+  %b_clamped = select i1 %b_neg, i32 0, i32 %b
+; compute sum of clamped values
+  %sum = add i32 %a_clamped, %b_clamped
+; clamp cap to zero if negative
+  %cap_neg = icmp slt i32 %cap, 0
+  %cap_clamped = select i1 %cap_neg, i32 0, i32 %cap
+; compare sum with clamped cap
+  %sum_gt_cap = icmp sgt i32 %sum, %cap_clamped
+; select min(sum, cap_clamped)
+  %result = select i1 %sum_gt_cap, i32 %cap_clamped, i32 %sum
+  ret i32 %result
+}

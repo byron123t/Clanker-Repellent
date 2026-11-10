@@ -23,6 +23,7 @@ def save(path,value): path.write_text(json.dumps(value,indent=2,allow_nan=False)
 
 
 def selected_records(root,models):
+    if not models or len(set(models))!=len(models): raise ValueError('Select distinct model grids')
     protocol=read(root/'protocol.json')
     if protocol.get('benign') is not True: raise ValueError('Only explicitly benign studies')
     for name,digest in protocol['files'].items():

@@ -1,0 +1,25 @@
+; LLVM IR helper for distance_to_zero: signed i32 abs with saturation.
+; Input: i32 %value in [-2147483648, 2147483647].
+; Output: i32 result = abs(%value), but INT32_MIN maps to 2147483647.
+; Uses only icmp, select, sub, ret.
+
+define i32 @distance_to_zero(i32 %value) {
+entry:
+  ; Compute %neg = -%value (i32 sub 0, %value)
+  %neg = sub i32 0, %value
+  ; Compare %value with %neg to choose the larger (abs) but saturate INT32_MIN.
+  ; If %value == INT32_MIN, then %value < %neg (since %neg = INT32_MIN as well, but sub yields same).
+  ; Actually for INT32_MIN, %neg = INT32_MIN, so %value == %neg. We need to detect that case.
+  ; Use icmp slt: if %value < 0, then %neg is positive (except for INT32_MIN where %neg = INT32_MIN).
+  ; For INT32_MIN, %value < 0, but %neg is also negative (INT32_MIN). So we need to check if %value == INT32_MIN.
+  ; Instead, compute %is_negative = icmp slt %value, 0.
+  %is_negative = icmp slt i32 %value, 0
+  ; Compute %abs_choice = select i1 %is_negative, i32 %neg, i32 %value
+  %abs_choice = select i1 %is_negative, i32 %neg, i32 %value
+  ; Now we need to saturate: if %value == INT32_MIN, then %abs_choice = INT32_MIN (since %neg = INT32_MIN).
+  ; Detect that case: %value == INT32_MIN.
+  %is_min = icmp eq i32 %value, -2147483648
+  ; If %is_min, result = 2147483647, else %abs_choice.
+  %result = select i1 %is_min, i32 2147483647, i32 %abs_choice
+  ret i32 %result
+}

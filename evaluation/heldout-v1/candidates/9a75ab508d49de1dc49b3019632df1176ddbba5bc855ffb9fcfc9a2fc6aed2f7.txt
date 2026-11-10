@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "format": "JVM",
+  "architecture": "jvm",
+  "sections": [
+    {"name": "Code.Numeric", "kind": "code"},
+    {"name": "Code.Validation", "kind": "code"},
+    {"name": "Code.Labels", "kind": "code"},
+    {"name": "Pool.Constants", "kind": "metadata"},
+    {"name": "Pool.Names", "kind": "metadata"},
+    {"name": "Pool.Notes", "kind": "metadata"}
+  ],
+  "symbols": [
+    {"name": "compute_1_1", "kind": "function", "section": "Code.Numeric"},
+    {"name": "compute_1_2", "kind": "function", "section": "Code.Numeric"},
+    {"name": "compute_2_1", "kind": "function", "section": "Code.Validation"},
+    {"name": "compute_2_2", "kind": "function", "section": "Code.Validation"},
+    {"name": "compute_3_1", "kind": "function", "section": "Code.Labels"},
+    {"name": "compute_3_2", "kind": "function", "section": "Code.Labels"},
+    {"name": "description_4_1", "kind": "object", "section": "Pool.Constants"},
+    {"name": "description_4_2", "kind": "object", "section": "Pool.Constants"},
+    {"name": "description_5_1", "kind": "object", "section": "Pool.Names"},
+    {"name": "description_5_2", "kind": "object", "section": "Pool.Names"},
+    {"name": "description_6_1", "kind": "object", "section": "Pool.Notes"},
+    {"name": "description_6_2", "kind": "object", "section": "Pool.Notes"}
+  ],
+  "strings": [
+    "Symbolic JVM artifact with numeric, validation, and label code sections, plus constant, name, and note metadata pools."
+  ]
+}

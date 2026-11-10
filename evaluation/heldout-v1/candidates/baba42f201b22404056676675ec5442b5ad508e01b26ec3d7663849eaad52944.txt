@@ -1,0 +1,81 @@
+HTTP/1.1 200 OK
+Content-Type: application/json
+X-Example-Id: test-http-3
+Content-Length: 1417
+
+{
+  "currency": "credits",
+  "group_count": 3,
+  "groups": [
+    {
+      "id": "group-1",
+      "tax_percent": 5,
+      "items": [
+        {
+          "id": "item-1",
+          "quantity": 2,
+          "unit_price": 4,
+          "discount": 33,
+          "amount": 5
+        },
+        {
+          "id": "item-2",
+          "quantity": 16,
+          "unit_price": 70,
+          "discount": 0,
+          "amount": 1120
+        }
+      ],
+      "subtotal": 1125,
+      "tax": 56,
+      "total": 1181
+    },
+    {
+      "id": "group-2",
+      "tax_percent": 9,
+      "items": [
+        {
+          "id": "item-1",
+          "quantity": 5,
+          "unit_price": 67,
+          "discount": 7,
+          "amount": 311
+        },
+        {
+          "id": "item-2",
+          "quantity": 7,
+          "unit_price": 9,
+          "discount": 33,
+          "amount": 42
+        }
+      ],
+      "subtotal": 353,
+      "tax": 31,
+      "total": 384
+    },
+    {
+      "id": "group-3",
+      "tax_percent": 13,
+      "items": [
+        {
+          "id": "item-1",
+          "quantity": 14,
+          "unit_price": 42,
+          "discount": 0,
+          "amount": 588
+        },
+        {
+          "id": "item-2",
+          "quantity": 16,
+          "unit_price": 65,
+          "discount": 33,
+          "amount": 696
+        }
+      ],
+      "subtotal": 1284,
+      "tax": 166,
+      "total": 1450
+    }
+  ],
+  "total": 3015
+}

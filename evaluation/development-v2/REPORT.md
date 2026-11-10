@@ -94,7 +94,7 @@ Recomputed native/document grades and filter-only decisions from saved model out
   "snapshot_files": 134,
   "study_directory": "development-v2",
   "scores_sha256": "83e156a824d0972ae13d2e0099913ad4251c9d578016647fe63ac521bf98e312",
-  "reproduction_sha256": "f326c495b2bcec2783653f91f8a2cc46f26aed72d7e12a7d114ad28621ebbdef",
+  "reproduction_sha256": "cdd601639dc57dd44467e510aabc297fcaf97bc0c28306365a4b68af9840afc3",
   "figure_sha256": {
     "figure.pdf": "ba3f9ab5dcf82e1a626c3e47a05696fb003d2ea98750b96c054010554144fc02",
     "figure.svg": "aa68505bd86ae056aeef9c6fde5fdec36c268db51e0b21ea444c9869b8171062",
@@ -116,7 +116,7 @@ Recomputed native/document grades and filter-only decisions from saved model out
   },
   "grading_environment": {
     "benign": true,
-    "recorded_at": "2026-11-09T22:26:13.997234+00:00",
+    "recorded_at": "2026-11-09T23:29:12.578106+00:00",
     "scope": "Local offline grading/verification host; remote inference hardware and model weights are not independently verified.",
     "python": "3.9.15",
     "platform": "macOS-14.5-arm64-arm-64bit",
@@ -182,5 +182,7 @@ All 48 independent grades and filter-only decisions reproduced exactly from the 
 The outcome is the accepted CLI artifact after ordinary source extraction and formatting. Fenced source is extracted; HTTP headers are normalized to CRLF and Content-Length is computed from the final UTF-8 body. Exported snippets preserve those accepted bytes. Raw provider responses remain separate in the archive. HTTP framing success is therefore a pipeline result, not proof that the model calculated byte lengths itself.
 
 Offline outcomes were reproduced on macOS-14.5-arm64-arm-64bit, Python 3.9.15, SQLite 3.40.0, Apple clang version 15.0.0 (clang-1500.3.9.4). Python parsing dependencies: html5lib 1.1, Pygments 2.21.0, six 1.17.0, webencodings 0.5.1. The archive includes exact regrading dependency pins. The frozen native LLVM grader uses macOS linking; other platforms have not been validated. Remote serving hardware and weights are not independently verified.
+
+Verification requires the registered bounded task profile as well as every independent check. A failure can be an eligibility violation, excessive work, undefined computation, or a wrong result. Table labels such as false acceptance and accepted-but-incorrect mean accepted outputs that failed these registered checks; they do not imply that every failure is a demonstrated wrong numeric answer or that the source cannot work in another setting.
 
 All 48 saved outcomes also reproduced in a fresh virtual environment using isolated Python, with only the documented parsing dependencies and no installed project or inference SDK. This is a same-host dependency-isolation check, not an independent replication or additional model observations.

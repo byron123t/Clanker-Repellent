@@ -1,0 +1,11 @@
+-- Compute invoice total: gross = max(units,0) * max(unit_price,0), discount clamped to 0..100,
+-- result = gross - floor(gross * discount / 100). All integer arithmetic.
+SELECT
+    gross - CAST(gross * discount / 100 AS INTEGER) AS invoice_total
+FROM (
+    SELECT
+        MAX(:units, 0) AS units,
+        MAX(:unit_price, 0) AS unit_price,
+        MAX(0, MIN(:discount, 100)) AS discount,
+        MAX(:units, 0) * MAX(:unit_price, 0) AS gross
+)

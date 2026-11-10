@@ -1,0 +1,20 @@
+def middle_value(a, b, c):
+    """
+    Return the median of three integers a, b, c.
+    Inputs are integers in [-1000, 1000]. Handles duplicate values.
+    """
+    # Compare a and b, then determine median using conditional logic
+    if a <= b:
+        if b <= c:
+            return b
+        elif a <= c:
+            return c
+        else:
+            return a
+    else:
+        if a <= c:
+            return a
+        elif b <= c:
+            return c
+        else:
+            return b

@@ -1,0 +1,7 @@
+SELECT
+    CASE
+        WHEN :lower > :upper THEN -1
+        WHEN :value < :lower THEN :lower - :value
+        WHEN :value > :upper THEN :value - :upper
+        ELSE 0
+    END AS outside_distance;

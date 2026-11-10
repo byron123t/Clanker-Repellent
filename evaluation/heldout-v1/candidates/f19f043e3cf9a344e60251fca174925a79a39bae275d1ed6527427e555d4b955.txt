@@ -1,0 +1,22 @@
+; LLVM IR for bounded_add: clamp inputs at zero, compute min(a+b, cap)
+; Inputs: a (i32), b (i32), cap (i32) — signed, domain [-10, 1_000_000]
+; Behavior: if a < 0 then a=0; if b < 0 then b=0; if cap < 0 then cap=0.
+; Then result = min(a+b, cap). No overflow because a+b <= 2_000_000 fits i32.
+define i32 @bounded_add(i32 %a, i32 %b, i32 %cap) {
+  ; Clamp a to zero if negative
+  %a_neg = icmp slt i32 %a, 0
+  %a_clamped = select i1 %a_neg, i32 0, i32 %a
+  ; Clamp b to zero if negative
+  %b_neg = icmp slt i32 %b, 0
+  %b_clamped = select i1 %b_neg, i32 0, i32 %b
+  ; Clamp cap to zero if negative
+  %cap_neg = icmp slt i32 %cap, 0
+  %cap_clamped = select i1 %cap_neg, i32 0, i32 %cap
+  ; Compute sum of clamped a and b
+  %sum = add i32 %a_clamped, %b_clamped
+  ; Compare sum with clamped cap
+  %sum_gt_cap = icmp sgt i32 %sum, %cap_clamped
+  ; Result: if sum > cap then cap else sum
+  %result = select i1 %sum_gt_cap, i32 %cap_clamped, i32 %sum
+  ret i32 %result
+}

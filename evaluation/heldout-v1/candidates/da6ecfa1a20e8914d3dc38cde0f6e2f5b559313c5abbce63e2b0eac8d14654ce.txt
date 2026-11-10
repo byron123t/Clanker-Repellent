@@ -1,0 +1,33 @@
+; LLVM IR for piecewise_charge: value, threshold, rate -> i32
+; Inputs: i32 %value, i32 %threshold, i32 %rate
+; Returns 0 if value<=0 or rate<=0.
+; Clamps threshold to >=0.
+; Charges rate per unit up to threshold, then 2*rate for remaining.
+; Uses only icmp, select, add, sub, mul, and, or, xor, ret.
+define i32 @piecewise_charge(i32 %value, i32 %threshold, i32 %rate) {
+; Check if value <= 0 or rate <= 0 -> return 0
+  %v_le0 = icmp sle i32 %value, 0
+  %r_le0 = icmp sle i32 %rate, 0
+  %early_cond = or i1 %v_le0, %r_le0
+  %early_result = select i1 %early_cond, i32 0, i32 1 ; placeholder, will be replaced by final result
+; Clamp threshold to >=0: use max(threshold, 0)
+  %thr_ge0 = icmp sgt i32 %threshold, 0
+  %clamp_thr = select i1 %thr_ge0, i32 %threshold, i32 0
+; Compute actual chargeable value: min(value, threshold) for first part
+  %val_gt_thr = icmp sgt i32 %value, %clamp_thr
+  %first_part = select i1 %val_gt_thr, i32 %clamp_thr, i32 %value
+; First part charge: first_part * rate
+  %charge1 = mul i32 %first_part, %rate
+; Remaining value beyond threshold: max(value - threshold, 0)
+  %excess = sub i32 %value, %clamp_thr
+  %excess_ge0 = icmp sgt i32 %excess, 0
+  %excess_val = select i1 %excess_ge0, i32 %excess, i32 0
+; Second part charge: excess_val * (2 * rate)
+  %double_rate = mul i32 %rate, 2
+  %charge2 = mul i32 %excess_val, %double_rate
+; Total charge
+  %total = add i32 %charge1, %charge2
+; Apply early zero condition: if value<=0 or rate<=0, result 0
+  %final = select i1 %early_cond, i32 0, i32 %total
+  ret i32 %final
+}

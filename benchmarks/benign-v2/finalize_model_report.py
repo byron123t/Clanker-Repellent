@@ -82,6 +82,15 @@ def finalize(directory,clean_verification=None,serving_metadata=(),rejection_aud
         if entry not in serving: serving.append(entry)
     diagnostic=None
     if rejection_audit is not None: diagnostic=diagnostic_evidence(rejection_audit,report)
+    review=report.get('example_review')
+    if review:
+        registered={case['id']:case for case in report['cases']}
+        if review.get('benign') is not True or not review.get('cases'):
+            raise ValueError('Example reviews must identify explicitly benign cases')
+        for case in review['cases']:
+            original=registered.get(case['id'],{})
+            if not original.get('strict_pass') or original.get('source_sha256')!=case.get('source_sha256'):
+                raise ValueError('Example review does not match a verified registered source')
     primary=json.dumps({k:report[k] for k in ['counts','metrics','effects','groups','cases']},sort_keys=True)
     environment={'benign':True,'recorded_at':datetime.now(timezone.utc).isoformat(),
         'scope':'Local offline grading/verification host; remote inference hardware and model weights are not independently verified.',
@@ -90,8 +99,9 @@ def finalize(directory,clean_verification=None,serving_metadata=(),rejection_aud
         'python_packages':{name:version(name) for name in ['html5lib','Pygments','six','webencodings']}}
     requirements=''.join(name+'=='+value+'\n' for name,value in environment['python_packages'].items())
     artifact={'title':'Artifact being graded','body':'The outcome is the accepted CLI artifact after ordinary source extraction and formatting. Fenced source is extracted; HTTP headers are normalized to CRLF and Content-Length is computed from the final UTF-8 body. Exported snippets preserve those accepted bytes. Raw provider responses remain separate in the archive. HTTP framing success is therefore a pipeline result, not proof that the model calculated byte lengths itself.'}
+    verification_scope={'title':'Meaning of verified success','body':'Verification requires the registered bounded task profile as well as every independent check. A failure can be an eligibility violation, excessive work, undefined computation, or a wrong result. Table labels such as false acceptance and accepted-but-incorrect mean accepted outputs that failed these registered checks; they do not imply that every failure is a demonstrated wrong numeric answer or that the source cannot work in another setting.'}
     runtime={'title':'Grading environment','body':'Offline outcomes were reproduced on '+environment['platform']+', Python '+environment['python']+', SQLite '+environment['sqlite']+', '+environment['clang']+'. Python parsing dependencies: '+', '.join(name+' '+value for name,value in environment['python_packages'].items())+'. The archive includes exact regrading dependency pins. The frozen native LLVM grader uses macOS linking; other platforms have not been validated. Remote serving hardware and weights are not independently verified.'}
-    additions=[artifact,runtime]
+    additions=[artifact,runtime,verification_scope]
     if clean:
         additions.append({'title':'Clean dependency reproduction','body':'All '+str(report['counts']['completed'])+' saved outcomes also reproduced in a fresh virtual environment using isolated Python, with only the documented parsing dependencies and no installed project or inference SDK. This is a same-host dependency-isolation check, not an independent replication or additional model observations.'})
         report['provenance']['clean_environment_verification']=clean
@@ -106,6 +116,8 @@ def finalize(directory,clean_verification=None,serving_metadata=(),rejection_aud
         additions.append({'title':'Post hoc rejection diagnostic','body':summary['scope']+' '+details+
             ' The diagnostic reproduced exactly offline. It does not estimate the yield of a fresh generation run or changed earlier retries. Its source snapshot and reproduction evidence are in publication/rejection-audit/ in the archive.'})
         report['provenance']['posthoc_rejection_audit']=summary
+    if review:
+        additions.append({'title':'Manual example review · post hoc','body':review['summary']})
     titles={item['title'] for item in additions}
     report['methodology']=[item for item in report['methodology'] if item['title'] not in titles]+additions
     with zipfile.ZipFile(directory/'reproduction.zip') as archive:
@@ -127,6 +139,16 @@ def finalize(directory,clean_verification=None,serving_metadata=(),rejection_aud
     if clean: contents['publication/clean-environment-verification.json']=(json.dumps(clean,indent=2)+'\n').encode()
     if serving: contents['publication/serving-metadata.json']=(json.dumps(serving,indent=2)+'\n').encode()
     contents['publication/finalize_model_report.py']=Path(__file__).read_bytes()
+    if review:
+        contents['publication/example-review.json']=(json.dumps(review,indent=2)+'\n').encode()
+        index=(directory/'EXAMPLES.md').read_text().replace('[The full report](REPORT.md)','The separately exported full report')
+        contents['publication/EXAMPLES.md']=index.encode()
+        for case in review['cases']:
+            name=case['id']+'.txt'; path=directory/'candidates'/name
+            if Path(name).name!=name or path.is_symlink(): raise ValueError('Unsafe reviewed source path')
+            data=path.read_bytes()
+            if hashlib.sha256(data).hexdigest()!=case['source_sha256']: raise ValueError('Reviewed source changed')
+            contents['publication/candidates/'+name]=data
     contents['requirements-regrade.txt']=requirements.encode()
     contents['REGRADING_ENVIRONMENT.md']=(
         '# Offline regrading\n\nInstall `requirements-regrade.txt` in a Python environment, then run:\n\n'

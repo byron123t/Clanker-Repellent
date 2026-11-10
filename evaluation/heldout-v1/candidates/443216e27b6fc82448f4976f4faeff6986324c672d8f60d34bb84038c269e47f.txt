@@ -1,0 +1,29 @@
+def delivery_cost(weight, zone, priority):
+    """
+    Calculate delivery cost based on weight, zone, and priority.
+
+    Inputs:
+        weight: integer, can be negative or zero (costs 0) or positive (costs based on tiers)
+        zone: integer, must be 0-3 inclusive; otherwise returns -1
+        priority: integer, nonzero adds 7 to cost
+
+    Returns:
+        integer cost or -1 for invalid zone
+    """
+    if zone < 0 or zone > 3:
+        return -1
+
+    if weight <= 0:
+        return 0
+
+    base = 5 + 2 * zone
+    units = weight
+    if units > 10:
+        cost = base + 2 * 10 + 3 * (units - 10)
+    else:
+        cost = base + 2 * units
+
+    if priority != 0:
+        cost += 7
+
+    return cost

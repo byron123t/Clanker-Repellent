@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "format": "PE",
+  "architecture": "aarch64",
+  "sections": [
+    {"name": ".text.core", "kind": "code"},
+    {"name": ".text.math", "kind": "code"},
+    {"name": ".rdata.info", "kind": "data"},
+    {"name": ".rdata.tags", "kind": "data"}
+  ],
+  "symbols": [
+    {"name": "compute_1_1", "kind": "function", "section": ".text.core"},
+    {"name": "compute_2_1", "kind": "function", "section": ".text.math"},
+    {"name": "description_3_1", "kind": "object", "section": ".rdata.info"},
+    {"name": "description_4_1", "kind": "object", "section": ".rdata.tags"}
+  ],
+  "strings": [
+    "Fictional PE artifact for aarch64 with core and math code sections"
+  ]
+}

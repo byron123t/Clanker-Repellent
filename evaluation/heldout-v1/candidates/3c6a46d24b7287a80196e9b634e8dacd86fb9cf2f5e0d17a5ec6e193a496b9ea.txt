@@ -1,0 +1,14 @@
+-- Compute invoice total with clamped inputs and discount subtraction.
+-- Inputs: :units, :unit_price, :discount (may be negative or out of range).
+-- Clamps units and unit_price to >= 0, discount to 0..100.
+-- Returns gross - floor(gross * discount / 100) as integer.
+SELECT
+    MAX(0, :units) * MAX(0, :unit_price) -
+    CAST(
+        (MAX(0, :units) * MAX(0, :unit_price)) *
+        CASE
+            WHEN :discount < 0 THEN 0
+            WHEN :discount > 100 THEN 100
+            ELSE :discount
+        END / 100 AS INTEGER
+    ) AS invoice_total

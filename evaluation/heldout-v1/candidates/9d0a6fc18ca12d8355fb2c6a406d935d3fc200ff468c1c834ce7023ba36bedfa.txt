@@ -1,0 +1,8 @@
+-- Compute invoice_total with clamped inputs and integer-only arithmetic.
+-- Inputs: :units (integer), :unit_price (integer), :discount (integer).
+-- Clamp units and unit_price to >= 0; clamp discount to 0..100.
+-- Result: gross - floor(gross * discount / 100), where gross = units * unit_price.
+-- Edge cases: negative inputs clamped to zero; discount outside 0..100 clamped.
+SELECT
+    (MAX(:units, 0) * MAX(:unit_price, 0)) -
+    ((MAX(:units, 0) * MAX(:unit_price, 0)) * MAX(0, MIN(:discount, 100)) / 100) AS invoice_total

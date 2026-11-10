@@ -1,0 +1,28 @@
+def decimal_checksum(value):
+    """
+    Compute weighted digit sum modulo 10 using alternating weights 3,1,3,1...
+    starting from the least significant decimal digit of abs(value).
+    
+    Input:
+        value: integer in [-2147483648, 2147483647]
+    
+    Returns:
+        integer 0-9: weighted digit sum modulo 10 (0 if value==0)
+    
+    Boundary behavior:
+        - value=0 returns 0 (no digits to process)
+        - negative values use absolute value
+        - digits processed from least significant upward
+    """
+    n = abs(value)
+    weight = 3
+    total = 0
+    while n > 0:
+        digit = n % 10
+        total += digit * weight
+        n //= 10
+        if weight == 3:
+            weight = 1
+        else:
+            weight = 3
+    return total % 10

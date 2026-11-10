@@ -43,6 +43,8 @@ class RejectionAuditTests(unittest.TestCase):
         source,path=audit.response_source(*records[0])
         self.assertEqual(source,self.source); self.assertEqual(path,self.trace_path)
         self.assertEqual(self.trace_path.read_bytes(),before)
+        with self.assertRaisesRegex(ValueError,'distinct model grids'):
+            audit.selected_records(self.root,['fixture','fixture'])
 
     def test_incomplete_grid_or_nonbenign_manifest_is_rejected(self):
         self.protocol['repeats']=2; audit.save(self.root/'protocol.json',self.protocol)

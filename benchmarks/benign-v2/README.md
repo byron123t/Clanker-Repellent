@@ -11,7 +11,7 @@ outputs in these studies are explicitly benign. Operational snippet directories 
 | [November 7 pilot](../../evaluation/pilot-20261107/REPORT.md) | 52 real model candidates, 45 accepted | GLM/DeepSeek acceptance and exploratory quality diagnostics across 18 formats |
 | [Controlled fault audit](../../evaluation/fault-audit-v1/REPORT.md) | 84 fixed sources, two systems; 84 additional ablation validations | False acceptance and false rejection, independently confirmed; no model generation |
 | [Development comparison](../../evaluation/development-v2/REPORT.md) | 48 actual model candidates, 39 accepted, 30 independently verified | Exploratory generation improvement and concrete failure diagnosis; all independent grades reproduced offline |
-| [Held-out comparison, in progress](../../evaluation/heldout-v1/REPORT.md) | GLM's 144/144 candidates complete; DeepSeek collection continues | Frozen 24-task, three-repeat comparison; the dashboard retains the overall 288-candidate denominator |
+| [Held-out comparison](../../evaluation/heldout-v1/REPORT.md) | 288/288 candidates complete; 214 accepted, 173 verified | Frozen 24-task, three-repeat comparison; all outcomes reproduced from the archive, including in a clean environment |
 
 The audit reduces acceptance of authored faults from **47/48 to 18/48**: 60.4 percentage
 points, with a paired task-bootstrap 95% interval of **50.0–70.8 points** over 12 task clusters.
@@ -41,8 +41,15 @@ is `08ddd60dfbd4277c81b04ffaa7cd30ba0ffdbd76da9e9237c3410ee68eb634c1`.
 GLM's completed held-out grid gives **16/72 → 25/72** verified candidates (+12.5 pp;
 95% task-bootstrap interval 0.0 to +26.4 pp; related-family interval −1.6 to +30.4 pp).
 Accepted-but-incorrect candidates fall from **32 to 6**, while acceptance falls from 48 to 31.
-The intervals do not establish a positive generalization effect. These results are reported
-separately from development; the incomplete DeepSeek grid is not used for a model ranking.
+DeepSeek gives **64/72 → 68/72** verified candidates (+5.6 pp; task interval 0.0 to +12.5 pp;
+related-family interval 0.0 to +11.5 pp). Its accepted outputs failing the registered checks
+fall from three to zero. Both primary intervals include no improvement. These results are
+reported separately from development and concern this authored task mix and serving setup.
+All 288 independent grades and filter-only decisions reproduced exactly offline, including
+in the clean environment with no project or inference SDK installed. The archive includes
+the full request/response evidence, toolchain/dependency versions, and server self-reports.
+[Five reviewed examples](../../evaluation/heldout-v1/EXAMPLES.md) illustrate substantive code
+and structured documents, while also documenting remaining code-polish limitations.
 
 ## Reproduce the completed audit
 
@@ -164,6 +171,12 @@ Two contract-arm attempts clear the operation check but still fail subsequent va
 All six case outcomes reproduce exactly with the saved engine in the clean environment.
 These are validation counterfactuals, not extra generations or an estimate of a new retry
 pipeline's yield. The original held-out counts stay unchanged.
+
+After DeepSeek collection completed, the same diagnostic found six additional terminal
+policy rejections, three per arm; all six pass updated validation and the independent checks.
+The complete twelve-case diagnostic reproduced exactly from the downloaded primary archive
+with the saved validator snapshot. Its results, source, and proof are included under
+`publication/rejection-audit/` in the final held-out archive and described on the dashboard.
 
 `audit_rejections.py STUDY FRESH_OUTPUT --models glm` creates this diagnostic with a snapshot
 of the current validator. After both model grids complete, omit `--models` to include both.

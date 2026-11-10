@@ -1,0 +1,13 @@
+-- Compute outside_distance: distance from inclusive range [lower, upper].
+-- Returns 0 if value is within [lower, upper] inclusive.
+-- If lower > upper, returns -1 (reversed bounds).
+-- Otherwise, if value < lower, returns (lower - value).
+-- If value > upper, returns (value - upper).
+-- Inputs: :value, :lower, :upper (integers in [-1000, 1000]).
+SELECT
+  CASE
+    WHEN :lower > :upper THEN -1
+    WHEN :value < :lower THEN (:lower - :value)
+    WHEN :value > :upper THEN (:value - :upper)
+    ELSE 0
+  END AS outside_distance
